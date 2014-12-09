@@ -10,8 +10,11 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-
-Route::get('/', function()
-{
-	return View::make('admin.dashboard');
+/*
+ * Admin Routes
+ */
+Route::group(array('prefix' => 'admin'), function(){
+	Route::get('login', 'AuthController@showLogin');
+	Route::get('/', 'AuthController@showLogin');
+	Route::post('login',['as'=>'admin.login.post','uses'=> 'AuthController@postLogin']);
 });

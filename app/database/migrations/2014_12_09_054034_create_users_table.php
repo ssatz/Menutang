@@ -14,6 +14,7 @@ class CreateUsersTable extends Migration {
 	{
 		Schema::create('users', function(Blueprint $table)
 		{
+			$table->engine = 'InnoDB';
 			$table->bigIncrements('id')->unsigned();
 			$table->string('email')->unique();
 			$table->bigInteger('mobile')->unique();
@@ -21,12 +22,11 @@ class CreateUsersTable extends Migration {
 			$table->string('activation_code')->nullable();
 			$table->timestamp('activated_at')->nullable();
 			$table->timestamp('last_login')->nullable();
-			$table->string('reset_password_code')->nullable();
 			$table->string('first_name')->nullable();
 			$table->string('last_name')->nullable();
-			$table->engine = 'InnoDB';
+			$table->integer('role_id')->unsigned();
+			$table->rememberToken();
 			$table->index('activation_code');
-			$table->index('reset_password_code');
 			$table->timestamps();
 		});
 	}
