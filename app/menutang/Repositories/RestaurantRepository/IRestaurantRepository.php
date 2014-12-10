@@ -8,13 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Services\Validations;
+namespace Repositories\AdminRepository;
 
 
-class UserLoginValidation extends BaseValidator
+interface IAdminRepository
 {
-    public static $rules = [
-        'email' => 'required|email|max:255|unique:users',
-        'password' => 'required',
-    ];
+    public function create(array $data);
+
+    public function findOrFail($id);
 }
