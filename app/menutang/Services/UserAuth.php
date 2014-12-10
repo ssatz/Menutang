@@ -11,28 +11,28 @@
 namespace Services;
 
 
+use Illuminate\Support\Facades\Auth;
 use Repositories\UserRepository\UserRepository;
-use Illuminate\Auth\AuthManager;
 
 
 class UserAuth
 {
 
     protected $userRepository;
-    protected $guard;
 
-    public function __construct(UserRepository $userRepository, AuthManager $guard)
+    public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
-        $this->guard = $guard;
+
     }
 
     public function login($input)
     {
-
-        if ($this->guard->attempt($input)) {
+        if (Auth::user()->attempt($input)) {
             return true;
         }
         return false;
     }
+
+
 }

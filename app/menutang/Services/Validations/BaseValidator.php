@@ -17,10 +17,12 @@ abstract class BaseValidator
     protected $input;
     protected $errors;
     protected $validator;
+
     public function __construct(Factory $validator)
     {
         $this->validator = $validator;
     }
+
     public function with(array $input)
     {
         $this->input = $input;
@@ -29,7 +31,7 @@ abstract class BaseValidator
 
     public function passes()
     {
-        $validation =  $this->validator->make($this->input, static::$rules);
+        $validation = $this->validator->make($this->input, static::$rules);
         if ($validation->passes()) {
             return true;
         }

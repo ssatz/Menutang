@@ -8,6 +8,22 @@
  * file that was distributed with this source code.
  */
 
-class Resturant {
+use Illuminate\Auth\Reminders\RemindableInterface;
+use Illuminate\Auth\Reminders\RemindableTrait;
+use Illuminate\Auth\UserInterface;
+use Illuminate\Auth\UserTrait;
+
+class Resturant extends Eloquent implements UserInterface, RemindableInterface
+{
+
+    use UserTrait, RemindableTrait;
+    protected $table = 'resturants';
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = array('password');
+
 
 }

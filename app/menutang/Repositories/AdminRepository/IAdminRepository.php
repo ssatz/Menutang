@@ -11,6 +11,9 @@
 namespace Repositories\AdminRepository;
 
 
-class IAdminRepository {
+interface IAdminRepository
+{
+    public function create(array $data);
 
+    public function findOrFail($id);
 }

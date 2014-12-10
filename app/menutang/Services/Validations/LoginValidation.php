@@ -11,7 +11,7 @@
 namespace Services\Validations;
 
 
-class AdminLoginValidation extends BaseValidator
+class LoginValidation extends BaseValidator
 {
     public static $rules = [
         'email' => 'required|email|max:255',

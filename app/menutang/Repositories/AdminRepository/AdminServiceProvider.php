@@ -11,6 +11,17 @@
 namespace Repositories\AdminRepository;
 
 
-class AdminServiceProvider {
+use Illuminate\Support\ServiceProvider;
 
+class AdminServiceProvider extends ServiceProvider
+{
+    public function register()
+    {
+        // Bind the user repository interface to our Eloquent-specific implementation
+        // This service provider is called every time the application starts
+        $this->app->bind(
+            'Repositories\AdminRepository\IAdminRepository',
+            'Repositories\AdminRepository\AdminRepository'
+        );
+    }
 }

@@ -8,17 +8,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Repositories\AdminRepository;
+namespace Repositories\RestaurantRepository;
 
 
 use Repositories\BaseRepository;
 use Admin;
 
-class AdminRepository extends BaseRepository implements IAdminRepository
+class  RestaurantRepository extends BaseRepository implements IRestaurantRepository
 {
-    protected $admin;
+    protected $restaurant;
 
-    public function __construct(Admin $admin)
+    public function __construct(Resta $restaurant)
     {
         parent::__construct($admin);
         $this->admin = $admin;

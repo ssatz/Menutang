@@ -12,9 +12,15 @@ class CreateAdminTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('admin', function(Blueprint $table)
+		Schema::create('admins', function(Blueprint $table)
 		{
+			$table->engine = 'InnoDB';
 			$table->increments('id');
+			$table->string('email')->unique();
+			$table->bigInteger('mobile')->unique();
+			$table->string('password');
+			$table->rememberToken();
+			$table->timestamp('last_login')->nullable();
 			$table->timestamps();
 		});
 	}

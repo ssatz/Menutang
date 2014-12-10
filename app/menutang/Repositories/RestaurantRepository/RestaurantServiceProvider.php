@@ -8,20 +8,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Repositories\AdminRepository;
+namespace Repositories\RestaurantRepository;
 
 
 use Illuminate\Support\ServiceProvider;
 
-class AdminServiceProvider extends ServiceProvider
+class RestaurantServiceProvider extends ServiceProvider
 {
     public function register()
     {
         // Bind the user repository interface to our Eloquent-specific implementation
         // This service provider is called every time the application starts
         $this->app->bind(
-            'Repositories\AdminRepository\IAdminRepository',
-            'Repositories\AdminRepository\AdminRepository'
+            'Repositories\RestaurantRepository\IRestaurantRepository',
+            'Repositories\RestaurantRepository\RestaurantRepository'
         );
     }
 }

@@ -12,4 +12,6 @@ interface IuserRepository
 {
 
     public function create(array $data);
+
+    public function findOrFail($id);
 }

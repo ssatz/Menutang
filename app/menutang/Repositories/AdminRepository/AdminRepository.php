@@ -11,6 +11,26 @@
 namespace Repositories\AdminRepository;
 
 
-class AdminRepository {
+use Repositories\BaseRepository;
+use Admin;
 
+class AdminRepository extends BaseRepository implements IAdminRepository
+{
+    protected $admin;
+
+    public function __construct(Admin $admin)
+    {
+        parent::__construct($admin);
+        $this->admin = $admin;
+    }
+
+    public function create(array $data)
+    {
+        return $this->admin->create($data);
+    }
+
+    public function findOrFail($id)
+    {
+        return $this->admin->findOrFail($id);
+    }
 }

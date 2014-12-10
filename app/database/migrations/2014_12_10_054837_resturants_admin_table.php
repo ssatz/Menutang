@@ -14,7 +14,13 @@ class ResturantsAdminTable extends Migration {
 	{
 		Schema::create('resturants', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->engine = 'InnoDB';
+			$table->bigIncrements('id')->unsigned();
+			$table->string('email')->unique();
+			$table->bigInteger('mobile')->unique();
+			$table->string('password');
+			$table->rememberToken();
+			$table->timestamp('last_login')->nullable();
 			$table->timestamps();
 		});
 	}

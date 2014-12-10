@@ -31,12 +31,25 @@
 					<div class="pull-left">
 						<i class="fa fa-lock fa-lg"></i> Login
 					</div>
-
 				</div>
+				@if(Session::has('message'))
+                      <div class="alert alert-success">
+							{{ Session::get('message') }}
+                       </div>
+                @endif
+
+				 @if($errors->has())
+                      <div class="alert alert-danger">
+                         @foreach ($errors->all() as $error)
+                              <p>{{ $error }}</p>
+                         @endforeach
+                      </div>
+                 @endif
+
 				<div class="panel-body">
 					{{ Form::open(array('route' => 'admin.login.post', 'method' =>'POST'))}}
 						<div class="form-group">
-							<label>Username</label>
+							<label>Email</label>
 							<input type="text" placeholder="Email" name="email" class="form-control input-sm bounceIn animation-delay2" >
 						</div>
 						<div class="form-group">
@@ -45,12 +58,11 @@
 						</div>
 						<div class="form-group">
 							<label class="label-checkbox inline">
-								<input type="checkbox" class="regular-checkbox chk-delete" />
+								<input type="checkbox" class="regular-checkbox chk-delete" name="rememer_me" />
 								<span class="custom-checkbox info bounceIn animation-delay4"></span>
 							</label>
 							Remember me
 						</div>
-
 						<!--<div class="seperator"></div>
 						<div class="form-group">
 							Forgot your password?<br/>
@@ -58,7 +70,6 @@
 						</div>-->
 
 						<hr/>
-
 						<!--<button class="btn btn-success btn-sm bounceIn animation-delay5 login-link pull-right"><i class="fa fa-sign-in"></i> Sign in</button>-->
 						<button class="btn btn-success btn-sm bounceIn animation-delay5  pull-right"><i class="fa fa-sign-in"></i> Sign in</button>
 					{{ Form::close() }}

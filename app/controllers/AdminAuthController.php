@@ -8,31 +8,53 @@
  * file that was distributed with this source code.
  */
 
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\View;
 use Services\AdminAuth;
 
-class AuthController extends BaseController {
+class AdminAuthController extends BaseController
+{
 
-    protected $userAuth;
-    public function __construct(AdminAuth $userAuth)
+    protected $adminAuth;
+
+    public function __construct(AdminAuth $adminAuth)
     {
-        $this->userAuth=$userAuth;
+        $this->adminAuth = $adminAuth;
     }
+
+    /* ShowLogin
+     * Here will show the Login page for admin
+     */
     public function showLogin()
     {
-        if($this->userAuth->authCheck()){
-            return 'login';
+        if ($this->adminAuth->authCheck()) {
+            return Redirect::to('dashboard');
         }
-        return  View::make('admin.login');
+        return View::make('admin.login');
     }
 
     public function postLogin()
     {
-
-        $userdata =[
-            'email' 	=> Input::get('email'),
-            'password' 	=> Input::get('password')
+        $userdata = [
+            'email' => Input::get('email'),
+            'password' => Input::get('password')
         ];
-      var_dump( $this->userAuth->login($userdata))  ;
+        if ($this->adminAuth->login($userdata)) {
+            return Redirect::to('dashboard');
+        }
+
+        return Redirect::to('/')->withErrors($this->adminAuth->errors);
+    }
+
+    public function logout()
+    {
+        $this->adminAuth->logout();
+        return Redirect::to('/')->with('message', 'You have been Logged Out');
+    }
+
+    public function dashboard()
+    {
+        return View::make('admin.dashboard');
     }
 }
 

@@ -29,4 +29,9 @@ class UserRepository extends BaseRepository implements IuserRepository
     {
         return $this->user->create($data);
     }
+
+    public function findOrFail($id)
+    {
+        return $this->user->findOrFail($id);
+    }
 }
