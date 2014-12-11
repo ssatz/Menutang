@@ -2,29 +2,29 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Menutang Admin</title>
+    <title>Menutang common</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <!-- Bootstrap core CSS -->
-    <link href="assets/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/common/css/bootstrap.min.css" rel="stylesheet">
 
 	<!-- Font Awesome -->
-	<link href="assets/admin/css/font-awesome.min.css" rel="stylesheet">
+	<link href="assets/common/css/font-awesome.min.css" rel="stylesheet">
 
 	<!-- Pace -->
-	<link href="assets/admin/css/pace.css" rel="stylesheet">
+	<link href="assets/common/css/pace.css" rel="stylesheet">
 
 	<!-- Color box -->
-	<link href="assets/admin/css/colorbox/colorbox.css" rel="stylesheet">
+	<link href="assets/common/css/colorbox/colorbox.css" rel="stylesheet">
 
 	<!-- Morris -->
-	<link href="assets/admin/css/morris.css" rel="stylesheet"/>
+	<link href="assets/common/css/morris.css" rel="stylesheet"/>
 
 	<!-- Perfect -->
-	<link href="assets/admin/css/app.min.css" rel="stylesheet">
-	<link href="assets/admin/css/app-skin.css" rel="stylesheet">
+	<link href="assets/common/css/app.min.css" rel="stylesheet">
+	<link href="assets/common/css/app-skin.css" rel="stylesheet">
 
   </head>
 
@@ -33,7 +33,7 @@
 		<div id="top-nav" class="fixed skin-6">
 			<a href="#" class="brand">
 				<span>Perfect</span>
-				<span class="text-toggle"> Admin</span>
+				<span class="text-toggle"> common</span>
 			</a><!-- /brand -->
 			<button type="button" class="navbar-toggle pull-left" id="sidebarToggle">
 				<span class="icon-bar"></span>
@@ -55,7 +55,7 @@
 						<li><a>You have 4 new unread messages</a></li>
 						<li>
 							<a class="clearfix" href="#">
-								<img src="assets/admin/img/user.jpg" alt="User Avatar">
+								<img src="assets/common/img/user.jpg" alt="User Avatar">
 								<div class="detail">
 									<strong>John Doe</strong>
 									<p class="no-margin">
@@ -67,7 +67,7 @@
 						</li>
 						<li>
 							<a class="clearfix" href="#">
-								<img src="assets/admin/img/user2.jpg" alt="User Avatar">
+								<img src="assets/common/img/user2.jpg" alt="User Avatar">
 								<div class="detail">
 									<strong>Jane Doe</strong>
 									<p class="no-margin">
@@ -79,7 +79,7 @@
 						</li>
 						<li>
 							<a class="clearfix" href="#">
-								<img src="assets/admin/img/user.jpg" alt="User Avatar">
+								<img src="assets/common/img/user.jpg" alt="User Avatar">
 								<div class="detail">
 									<strong>Bill Doe</strong>
 									<p class="no-margin">
@@ -91,7 +91,7 @@
 						</li>
 						<li>
 							<a class="clearfix" href="#">
-								<img src="assets/admin/img/user2.jpg" alt="User Avatar">
+								<img src="assets/common/img/user2.jpg" alt="User Avatar">
 								<div class="detail">
 									<strong>Baby Doe</strong>
 									<p class="no-margin">
@@ -221,7 +221,7 @@
 					<ul class="dropdown-menu">
 						<li>
 							<a class="clearfix" href="#">
-								<img src="assets/admin/img/user.jpg" alt="User Avatar">
+								<img src="assets/common/img/user.jpg" alt="User Avatar">
 								<div class="detail">
 									<strong>John Doe</strong>
 									<p class="grey">John_Doe@email.com</p>
@@ -251,7 +251,7 @@
 					</a>
 				</div><!-- /size-toggle -->
 				<div class="user-block clearfix">
-					<img src="assets/admin/img/user.jpg" alt="User Avatar">
+					<img src="assets/common/img/user.jpg" alt="User Avatar">
 					<div class="detail">
 						<strong>John Doe</strong><span class="badge badge-danger m-left-xs bounceIn animation-delay4">4</span>
 						<ul class="list-inline">
@@ -261,61 +261,61 @@
 					</div>
 				</div><!-- /user-block -->
 			<!-- /main-menu -->
-			@include('...admin.partials.mainmenu')
+			@include('admin._partials.mainmenu')
 			</div><!-- /sidebar-inner -->
 		</aside>
 		<div id="main-container">
-		 @include('...admin.partials.breadcrumb')
-		 @include('...admin.partials.balanceheader')
+		 @include('common._partials.breadcrumb')
+		 @include('common._partials.balanceheader')
          @yield('content')
 
          </div>
-		@include('...admin.partials.footer')
-         @include('...admin.partials.modalpopup')
+		@include('common._partials.footer')
+         @include('common._partials.modalpopup')
 </div><!-- /wrapper -->
 	<a href="" id="scroll-to-top" class="hidden-print"><i class="fa fa-chevron-up"></i></a>
-	@include('...admin.partials.logoutpopup')
+	@include('common._partials.logoutpopup')
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
 
 	<!-- Jquery -->
-	<script src="assets/admin/js/jquery-1.10.2.min.js"></script>
+	<script src="assets/common/js/jquery-1.10.2.min.js"></script>
 
 	<!-- Bootstrap -->
-    <script src="assets/admin/js/bootstrap.min.js"></script>
+    <script src="assets/common/js/bootstrap.min.js"></script>
 
 	<!-- Flot -->
-	<script src='assets/admin/js/jquery.flot.min.js'></script>
+	<script src='assets/common/js/jquery.flot.min.js'></script>
 
 	<!-- Morris -->
-	<script src='assets/admin/js/rapheal.min.js'></script>
-	<script src='assets/admin/js/morris.min.js'></script>
+	<script src='assets/common/js/rapheal.min.js'></script>
+	<script src='assets/common/js/morris.min.js'></script>
 
 	<!-- Colorbox -->
-	<script src='assets/admin/js/jquery.colorbox.min.js'></script>
+	<script src='assets/common/js/jquery.colorbox.min.js'></script>
 
 	<!-- Sparkline -->
-	<script src='assets/admin/js/jquery.sparkline.min.js'></script>
+	<script src='assets/common/js/jquery.sparkline.min.js'></script>
 
 	<!-- Pace -->
-	<script src='assets/admin/js/uncompressed/pace.js'></script>
+	<script src='assets/common/js/uncompressed/pace.js'></script>
 
 	<!-- Popup Overlay -->
-	<script src='assets/admin/js/jquery.popupoverlay.min.js'></script>
+	<script src='assets/common/js/jquery.popupoverlay.min.js'></script>
 
 	<!-- Slimscroll -->
-	<script src='assets/admin/js/jquery.slimscroll.min.js'></script>
+	<script src='assets/common/js/jquery.slimscroll.min.js'></script>
 
 	<!-- Modernizr -->
-	<script src='assets/admin/js/modernizr.min.js'></script>
+	<script src='assets/common/js/modernizr.min.js'></script>
 
 	<!-- Cookie -->
-	<script src='assets/admin/js/jquery.cookie.min.js'></script>
+	<script src='assets/common/js/jquery.cookie.min.js'></script>
 
 	<!-- Perfect -->
-	<!-- <script src="assets/admin/js/app/app_dashboard.js"></script>-->
-	<script src="assets/admin/js/app/app.js"></script>
+	<!-- <script src="assets/common/js/app/app_dashboard.js"></script>-->
+	<script src="assets/common/js/app/app.js"></script>
 
   </body>
 </html>

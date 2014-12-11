@@ -8,13 +8,13 @@
     <meta name="author" content="">
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ URL::asset('assets/admin/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/common/css/bootstrap.min.css') }}" rel="stylesheet">
 
 	<!-- Font Awesome -->
-	<link href="{{ URL::asset('assets/admin/css/font-awesome.min.css') }}" rel="stylesheet">
+	<link href="{{ URL::asset	('assets/common/css/font-awesome.min.css') }}" rel="stylesheet">
 
 	<!-- Perfect -->
-	<link href="{{ URL::asset('assets/admin/css/app.min.css')}}" rel="stylesheet">
+	<link href="{{ URL::asset('assets/common/css/app.min.css')}}" rel="stylesheet">
 
   </head>
 
@@ -22,7 +22,7 @@
 	<div class="login-wrapper">
 		<div class="text-center">
 			<h2 class="fadeInUp animation-delay8" style="font-weight:bold">
-				<span class="text-success">Menutang</span> <span style="color:#ccc; text-shadow:0 1px #fff">Admin</span>
+				<span class="text-success">Menutang</span> <span style="color:#ccc; text-shadow:0 1px #fff">common</span>
 			</h2>
 		</div>
 		<div class="login-widget animation-delay1">
@@ -47,7 +47,7 @@
                  @endif
 
 				<div class="panel-body">
-					{{ Form::open(array('route' => 'admin.login.post', 'method' =>'POST'))}}
+					{{ Form::open(array('route' => 'business.login.post', 'method' =>'POST'))}}
 						<div class="form-group">
 							<label>Email</label>
 							<input type="text" placeholder="Email" name="email" class="form-control input-sm bounceIn animation-delay2" >
@@ -83,27 +83,27 @@
     <!-- Placed at the end of the document so the pages load faster -->
 
     <!-- Jquery -->
-	<script src="assets/admin/js/jquery-1.10.2.min.js"></script>
+	<script src="assets/common/js/jquery-1.10.2.min.js"></script>
 
     <!-- Bootstrap -->
-    <script src="{{ URL::asset('assets/admin/js/bootstrap.min.js')}}"></script>
+    <script src="{{ URL::asset('assets/common/js/bootstrap.min.js')}}"></script>
 
 	<!-- Modernizr -->
-	<script src="{{ URL::asset('assets/admin/js/modernizr.min.js')}}"></script>
+	<script src="{{ URL::asset('assets/common/js/modernizr.min.js')}}"></script>
 
     <!-- Pace -->
-	<script src="{{ URL::asset('assets/admin/js/pace.min.js')}}"></script>
+	<script src="{{ URL::asset('assets/common/js/pace.min.js')}}"></script>
 
 	<!-- Popup Overlay -->
-	<script src="{{ URL::asset('assets/admin/js/jquery.popupoverlay.min.js')}}"></script>
+	<script src="{{ URL::asset('assets/common/js/jquery.popupoverlay.min.js')}}"></script>
 
     <!-- Slimscroll -->
-	<script src="{{ URL::asset('assets/admin/js/jquery.slimscroll.min.js')}}"></script>
+	<script src="{{ URL::asset('assets/common/js/jquery.slimscroll.min.js')}}"></script>
 
 	<!-- Cookie -->
-	<script src="{{ URL::asset('assets/admin/js/jquery.cookie.min.js')}}"></script>
+	<script src="{{ URL::asset('assets/common/js/jquery.cookie.min.js')}}"></script>
 
 	<!-- Perfect -->
-	<script src="{{ URL::asset('assets/admin/js/app/app.js')}}"></script>
+	<script src="{{ URL::asset('assets/common/js/app/app.js')}}"></script>
   </body>
 </html>

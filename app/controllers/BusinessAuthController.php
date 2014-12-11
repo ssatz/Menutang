@@ -8,9 +8,6 @@
  * file that was distributed with this source code.
  */
 
-namespace Services;
-
-
-class RestaurantAuth {
+class BusinessAuthController {
 
 }
