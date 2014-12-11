@@ -5,7 +5,7 @@
 		</div>
 
 		<div class="text-center">
-			{{ HTML::linkRoute('admin.logout', 'Logout', array(), array('class' => 'btn btn-success m-right-sm')) }}
+			{{ HTML::linkRoute('business.logout', 'Logout', array(), array('class' => 'btn btn-success m-right-sm')) }}
 			<a class="btn btn-danger logoutConfirm_close">Cancel</a>
 		</div>
 	</div>

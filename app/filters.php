@@ -90,3 +90,7 @@ Route::filter('auth.admin', function()
 {
 	if (Auth::admin()->guest()) return Redirect::to('/');
 });
+
+Route::filter('auth.businessuser', function () {
+	if (Auth::businessuser()->guest()) return Redirect::to('/');
+});

@@ -13,10 +13,10 @@ return array(
 			'model' => 'User',
 			'table'=>'user'
 		],
-		'resturant' =>[
+		'businessuser' => [
 			'driver' => 'eloquent',
-			'model' => 'Resturant',
-			'table'=>'resturants'
+			'model' => 'BusinessUser',
+			'table' => 'business_user'
 		]
 	],
 

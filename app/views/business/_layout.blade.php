@@ -261,20 +261,20 @@
 					</div>
 				</div><!-- /user-block -->
 			<!-- /main-menu -->
-			@include('admin._partials.mainmenu')
+			@include('business._partials.mainmenu')
 			</div><!-- /sidebar-inner -->
 		</aside>
 		<div id="main-container">
-		 @include('common._partials.breadcrumb')
-		 @include('common._partials.balanceheader')
-         @yield('content')
+		  @include('_commonpartials.breadcrumb')
+         		 @include('business._partials.balanceheader')
+                  @yield('content')
 
          </div>
-		@include('common._partials.footer')
-         @include('common._partials.modalpopup')
+	    @include('_commonpartials.footer')
+             @include('_commonpartials.modalpopup')
 </div><!-- /wrapper -->
 	<a href="" id="scroll-to-top" class="hidden-print"><i class="fa fa-chevron-up"></i></a>
-	@include('common._partials.logoutpopup')
+	@include('business._partials.logoutpopup')
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

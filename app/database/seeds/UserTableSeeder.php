@@ -18,5 +18,10 @@ class UserTableSeeder extends Seeder
             'password' => Hash::make('satdin'),
             'mobile'=>9894331102
         ));
+        $businessuser = BusinessUser::create(array(
+            'email' => 'sathish.thi@live.in',
+            'password' => Hash::make('Satdin123$'),
+            'mobile' => 9894331102
+        ));
     }
 }

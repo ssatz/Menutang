@@ -17,7 +17,7 @@ class BusinessUser extends Eloquent implements UserInterface, RemindableInterfac
 {
 
     use UserTrait, RemindableTrait;
-    protected $table = 'business_user';
+    protected $table = 'business_users';
     /**
      * The attributes excluded from the model's JSON form.
      *

@@ -28,13 +28,15 @@ Route::group(['domain' => 'admin.localhost'], function () {
 
 
 /**
- *  restaurants Routes
+ *  Business Routes
  */
-Route::group(['domain' => 'restaurant.localhost'], function () {
-   Route::get('/',function(){
-      return 'hello';
-   });
-    Route::group(['before' => 'auth.admin'], function () {
-        Route::get('dashboard', ['as' => 'admin.dashboard', 'uses' => 'AdminAuthController@dashboard']);
+Route::group(['domain' => 'business.localhost'], function () {
+    Route::get('login', 'BusinessAuthController@showLogin');
+    Route::get('/', 'BusinessAuthController@showLogin');
+    Route::post('login', ['as' => 'business.login.post', 'uses' => 'BusinessAuthController@postLogin']);
+    Route::get('logout', ['as' => 'business.logout', 'uses' => 'BusinessAuthController@logout']);
+
+    Route::group(['before' => 'auth.businessuser'], function () {
+        Route::get('dashboard', ['as' => 'business.dashboard', 'uses' => 'BusinessAuthController@dashboard']);
     });
 });
