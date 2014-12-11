@@ -3,7 +3,8 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ResturantsAdminTable extends Migration {
+class BusinessUsersTable extends Migration
+{
 
 	/**
 	 * Run the migrations.
@@ -12,7 +13,7 @@ class ResturantsAdminTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('resturants', function(Blueprint $table)
+		Schema::create('business_users', function (Blueprint $table)
 		{
 			$table->engine = 'InnoDB';
 			$table->bigIncrements('id')->unsigned();

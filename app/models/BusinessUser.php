@@ -13,11 +13,11 @@ use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\UserTrait;
 
-class Resturant extends Eloquent implements UserInterface, RemindableInterface
+class BusinessUser extends Eloquent implements UserInterface, RemindableInterface
 {
 
     use UserTrait, RemindableTrait;
-    protected $table = 'resturants';
+    protected $table = 'business_user';
     /**
      * The attributes excluded from the model's JSON form.
      *
