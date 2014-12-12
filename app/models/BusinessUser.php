@@ -25,5 +25,8 @@ class BusinessUser extends Eloquent implements UserInterface, RemindableInterfac
      */
     protected $hidden = array('password');
 
-
+    public function restaurantInfo()
+    {
+        return $this->hasMany('restaurant_info');
+    }
 }

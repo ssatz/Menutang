@@ -11,7 +11,6 @@
 								<span class="menu-hover"></span>
 							</a>
 						</li>
-
 					</ul>
 
 					<div class="alert alert-info">

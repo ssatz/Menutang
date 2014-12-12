@@ -22,9 +22,12 @@ Route::group(['domain' => 'admin.localhost'], function () {
 
     Route::group(['before' => 'auth.admin'], function () {
         Route::get('dashboard', ['as' => 'admin.dashboard', 'uses' => 'AdminAuthController@dashboard']);
+        Route::get('manage-restaurant', ['as' => 'admin.restaurant', 'uses' => 'ManageRestaurantController@showRestaurants']);
+        Route::group(['prefix' => 'manage-restaurant'], function () {
+            Route::get('add', ['as' => 'admin.restaurant.add', 'uses' => 'ManageRestaurantController@addRestaurants']);
+        });
     });
 });
-
 
 
 /**

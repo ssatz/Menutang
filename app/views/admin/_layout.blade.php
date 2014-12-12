@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Menutang common</title>
+    <title>Menutang Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -21,7 +21,8 @@
 
 	<!-- Morris -->
 	<link href="assets/common/css/morris.css" rel="stylesheet"/>
-
+		<!-- Datatable -->
+    <link href="assets/common/css/jquery.dataTables_themeroller.css" rel="stylesheet"
 	<!-- Perfect -->
 	<link href="assets/common/css/app.min.css" rel="stylesheet">
 	<link href="assets/common/css/app-skin.css" rel="stylesheet">
@@ -313,9 +314,32 @@
 	<!-- Cookie -->
 	<script src='assets/common/js/jquery.cookie.min.js'></script>
 
+	<script src='assets/common/js/jquery.dataTables.min.js'></script>
 	<!-- Perfect -->
 	<!-- <script src="assets/common/js/app/app_dashboard.js"></script>-->
 	<script src="assets/common/js/app/app.js"></script>
+	<script>
+	$(function	()	{
+    			$('#dataTable').dataTable( {
+    				"bJQueryUI": true,
+    				"sPaginationType": "full_numbers"
+    			});
 
+    			$('#chk-all').click(function()	{
+    				if($(this).is(':checked'))	{
+    					$('#responsiveTable').find('.chk-row').each(function()	{
+    						$(this).prop('checked', true);
+    						$(this).parent().parent().parent().addClass('selected');
+    					});
+    				}
+    				else	{
+    					$('#responsiveTable').find('.chk-row').each(function()	{
+    						$(this).prop('checked' , false);
+    						$(this).parent().parent().parent().removeClass('selected');
+    					});
+    				}
+    			});
+    		});
+	</script>
   </body>
 </html>

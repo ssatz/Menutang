@@ -12,7 +12,15 @@ namespace Repositories\BusinessUserRepository;
 
 interface IBusinessUserRepository
 {
+    /**
+     * @param array $data
+     * @return mixed
+     */
     public function create(array $data);
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function findOrFail($id);
 }

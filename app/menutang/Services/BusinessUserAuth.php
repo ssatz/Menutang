@@ -11,17 +11,27 @@
 namespace Services;
 
 
-use Repositories\BusinessUserRepository\BusinessUserRepository;
-use Services\Validations\LoginValidation;
 use Illuminate\Support\Facades\Auth;
+use Repositories\BusinessUserRepository\IBusinessUserRepository;
+use Services\Validations\LoginValidation;
+
 
 class BusinessUserAuth
 {
-    protected $businessuserRepository;
-    protected $loginValidation;
+    /**
+     * @var
+     */
     public $errors;
+    /**
+     * @var IBusinessUserRepository
+     */
+    protected $businessuserRepository;
+    /**
+     * @var LoginValidation
+     */
+    protected $loginValidation;
 
-    public function __construct(BusinessUserRepository $businessuserRepository, LoginValidation $loginValidation)
+    public function __construct(IBusinessUserRepository $businessuserRepository, LoginValidation $loginValidation)
     {
         $this->businessuserRepository = $businessuserRepository;
         $this->loginValidation = $loginValidation;
@@ -29,6 +39,10 @@ class BusinessUserAuth
 
     }
 
+    /**
+     * @param $input
+     * @return bool
+     */
     public function login($input)
     {
 
@@ -44,11 +58,17 @@ class BusinessUserAuth
         return false;
     }
 
+    /**
+     *
+     */
     public function  logout()
     {
         Auth::businessuser()->logout();
     }
 
+    /**
+     * @return bool
+     */
     public function authCheck()
     {
         if (Auth::businessuser()->check()) {

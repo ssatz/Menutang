@@ -13,7 +13,15 @@ namespace Repositories\AdminRepository;
 
 interface IAdminRepository
 {
+    /**
+     * @param array $data
+     * @return mixed
+     */
     public function create(array $data);
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function findOrFail($id);
 }

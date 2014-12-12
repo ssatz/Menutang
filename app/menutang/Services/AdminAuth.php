@@ -12,19 +12,19 @@ namespace Services;
 
 
 use Illuminate\Support\Facades\Auth;
-use Repositories\AdminRepository\AdminRepository;
-use Services\Validations\LoginValidation;
 use Illuminate\Support\Facades\Lang;
+use Repositories\AdminRepository\IAdminRepository;
+use Services\Validations\LoginValidation;
 
 
 class AdminAuth
 {
 
+    public $errors;
     protected $adminRepository;
     protected $loginValidation;
-    public $errors;
 
-    public function __construct(AdminRepository $adminRepository, LoginValidation $loginValidation)
+    public function __construct(IAdminRepository $adminRepository, LoginValidation $loginValidation)
     {
         $this->adminRepository = $adminRepository;
         $this->loginValidation = $loginValidation;
@@ -32,6 +32,10 @@ class AdminAuth
 
     }
 
+    /**
+     * @param $input
+     * @return bool
+     */
     public function login($input)
     {
 
@@ -40,18 +44,24 @@ class AdminAuth
             if (Auth::admin()->attempt($input)) {
                 return true;
             }
-            $this->errors =Lang::get('login.login');
+            $this->errors = Lang::get('login.login');
             return false;
         }
         $this->errors = $this->loginValidation->getErrors();
         return false;
     }
 
+    /**
+     * @return Void
+     */
     public function  logout()
     {
         Auth::admin()->logout();
     }
 
+    /**
+     * @return bool
+     */
     public function authCheck()
     {
         if (Auth::admin()->check()) {

@@ -16,19 +16,33 @@ use BusinessUser;
 
 class  BusinessUserRepository extends BaseRepository implements IBusinessUserRepository
 {
+    /**
+     * @var BusinessUser
+     */
     protected $businessUser;
 
+    /**
+     * @param BusinessUser $businessUser
+     */
     public function __construct(BusinessUser $businessUser)
     {
         parent::__construct($businessUser);
         $this->$businessUser = $businessUser;
     }
 
+    /**
+     * @param array $data
+     * @return mixed
+     */
     public function create(array $data)
     {
         return $this->$businessUser->create($data);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function findOrFail($id)
     {
         return $this->$businessUser->findOrFail($id);

@@ -16,19 +16,33 @@ use Admin;
 
 class AdminRepository extends BaseRepository implements IAdminRepository
 {
+    /**
+     * @var Admin
+     */
     protected $admin;
 
+    /**
+     * @param Admin $admin
+     */
     public function __construct(Admin $admin)
     {
         parent::__construct($admin);
         $this->admin = $admin;
     }
 
+    /**
+     * @param array $data
+     * @return mixed
+     */
     public function create(array $data)
     {
         return $this->admin->create($data);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function findOrFail($id)
     {
         return $this->admin->findOrFail($id);
