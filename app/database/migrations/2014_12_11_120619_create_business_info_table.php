@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRestaurantInfoTable extends Migration
+class CreateBusinessInfoTable extends Migration
 {
 
     /**
@@ -13,11 +13,11 @@ class CreateRestaurantInfoTable extends Migration
      */
     public function up()
     {
-        Schema::create('restaurant_info', function (Blueprint $table) {
+        Schema::create('business_info', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned();
-            $table->string('restaurant_name');
-            $table->integer('business_id')->unsigned();
-            $table->decimal('restaurant_budget');
+            $table->string('business_name');
+            $table->integer('business_type_id')->unsigned();
+            $table->decimal('budget');
             $table->decimal('minimum_delivery_amt');
             $table->decimal('minimun_rail_deli_amt');
             $table->decimal('minimum_pickup_amt');
@@ -42,7 +42,7 @@ class CreateRestaurantInfoTable extends Migration
             $table->text('highway_details');
             $table->string('website');
             $table->time('avg_delivery_time');
-            $table->foreign('business_id')->references('id')->on('business');
+            $table->foreign('business_type_id')->references('id')->on('business_type')->onDelete('cascade')->onUpdate('cascade');;
             $table->timestamps();
         });
     }

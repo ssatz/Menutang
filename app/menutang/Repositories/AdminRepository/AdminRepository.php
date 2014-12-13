@@ -29,16 +29,6 @@ class AdminRepository extends BaseRepository implements IAdminRepository
         parent::__construct($admin);
         $this->admin = $admin;
     }
-
-    /**
-     * @param array $data
-     * @return mixed
-     */
-    public function create(array $data)
-    {
-        return $this->admin->create($data);
-    }
-
     /**
      * @param $id
      * @return mixed

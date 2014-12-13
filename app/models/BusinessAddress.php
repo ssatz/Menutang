@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the menutang
  *
@@ -8,14 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Repositories\AdminRepository;
-
-
-interface IAdminRepository
+class BusinessAddress extends Eloquent
 {
     /**
-     * @param $id
+     * @var string
+     */
+    protected $table = 'business_address';
+
+    /**
      * @return mixed
      */
-    public function findOrFail($id);
+    public function businessInfo()
+    {
+        return $this->belongsTo('BusinessInfo');
+    }
 }

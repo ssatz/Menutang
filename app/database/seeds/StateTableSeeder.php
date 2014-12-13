@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-class PaymentsSeeder extends Seeder {
+class StateTableSeeder extends  DatabaseSeeder{
+
     public function run()
     {
-        $business = Payment::create([
-
-            'payment_code' => 'VISA',
-            'payment_description' => 'Visa',
-            'business_info_id'=>1
-        ]);
+        $address = State::create(array(
+            'country_id'=>1,
+            'state_code'=>'TN',
+            'state_description'=>'Tamil Nadu',
+        ));
     }
 }

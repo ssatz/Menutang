@@ -8,14 +8,13 @@
  * file that was distributed with this source code.
  */
 
-class PaymentsSeeder extends Seeder {
+class CountryTableSeeder extends DatabaseSeeder{
     public function run()
     {
-        $business = Payment::create([
-
-            'payment_code' => 'VISA',
-            'payment_description' => 'Visa',
-            'business_info_id'=>1
-        ]);
+        $address = Country::create(array(
+            'country_code'=>'IN',
+            'country_description'=>'INDIA',
+        ));
     }
+
 }

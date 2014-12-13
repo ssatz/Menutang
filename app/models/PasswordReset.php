@@ -11,8 +11,14 @@
 
 class PasswordReset extends Eloquent
 {
+    /**
+     * @var string
+     */
     protected $table = 'password_reset';
 
+    /**
+     * @return mixed
+     */
     public function user()
     {
         return $this->belongsTo('User');

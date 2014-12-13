@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-class RestaurantInfoSeeder extends Seeder
+class BusinessInfoSeeder extends Seeder
 {
     public function run()
     {
-        $restaurant = RestaurantInfo::create([
-                'restaurant_name' => 'Test Restaurant',
-                'business_id' => 1,
-                'restaurant_budget' => 100,
+        $restaurant = BusinessInfo::create([
+                'business_name' => 'Test Restaurant',
+                'business_type_id' => 1,
+                'budget' => 100,
                 'business_users_id' => 1,
 
             ]

@@ -8,12 +8,18 @@
  * file that was distributed with this source code.
  */
 
-class Business extends Eloquent {
+class City extends Eloquent {
 
-    protected $table='business';
-    protected $fillable = array('business_code', 'business_description');
-    public function restaurantInfo()
+    /**
+     * @var string
+     */
+    protected $table='city';
+
+    /**
+     * @return mixed
+     */
+    public function state()
     {
-        return $this->hasMany('RestaurantInfo');
+        return $this->belongsTo('State');
     }
 }

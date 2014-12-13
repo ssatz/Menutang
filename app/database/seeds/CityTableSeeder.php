@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the menutang
  *
@@ -8,14 +9,15 @@
  * file that was distributed with this source code.
  */
 
-class PaymentsSeeder extends Seeder {
+class CityTableSeeder extends DatabaseSeeder
+{
+
     public function run()
     {
-        $business = Payment::create([
-
-            'payment_code' => 'VISA',
-            'payment_description' => 'Visa',
-            'business_info_id'=>1
-        ]);
+        $address = City::create(array(
+            'state_id' => 1,
+            'city_code' => 'ER',
+            'city_description' => 'Erode',
+        ));
     }
 }

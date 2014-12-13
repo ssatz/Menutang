@@ -8,14 +8,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Repositories\AdminRepository;
 
-
-interface IAdminRepository
-{
+class DeliveryArea extends Eloquent {
     /**
-     * @param $id
+     * @var string
+     */
+    protected $table = 'delivery_area';
+
+    /**
      * @return mixed
      */
-    public function findOrFail($id);
+    public function businessInfo()
+    {
+        return $this->belongsTo('BusinessInfo');
+    }
 }

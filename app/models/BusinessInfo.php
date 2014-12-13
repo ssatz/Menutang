@@ -9,27 +9,51 @@
  * file that was distributed with this source code.
  */
 
-class RestaurantInfo extends Eloquent
+/**
+ * Class RestaurantInfo
+ */
+class BusinessInfo extends Eloquent
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'restaurant_info';
+    protected $table = 'business_info';
+    /**
+     * @var array
+     */
     protected $guarded = ['id'];
+
+    /**
+     * @return mixed
+     */
     public function businessUser()
     {
         return $this->belongsTo('BusinessUser', 'business_users_id');
     }
 
+    /**
+     * @return mixed
+     */
     public function payment()
     {
-        return $this->belongsToMany('Payment', 'restaurant_payment','restaurant_id','payment_id');
+        return $this->hasMany('Payment');
     }
 
+    /**
+     * @return mixed
+     */
+    public function deliveryArea()
+    {
+        return $this->hasMany('DeliveryArea');
+    }
+
+    /**
+     * @return mixed
+     */
     public function  business()
     {
-        return $this->belongsTo('Business');
+        return $this->belongsTo('BusinessType');
     }
 }

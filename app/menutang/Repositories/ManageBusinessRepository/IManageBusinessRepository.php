@@ -8,17 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Repositories\ManageRestaurantRepository;
+namespace Repositories\ManageBusinessRepository;
 
 
-interface IManageRestaurantRepository
+interface IManageBusinessRepository
 {
-    /**
-     * @param array $data
-     * @return mixed
-     */
-    public function create(array $data);
-
     /**
      * @param $id
      * @return mixed

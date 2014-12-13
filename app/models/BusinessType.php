@@ -8,22 +8,22 @@
  * file that was distributed with this source code.
  */
 
-class Payment extends Eloquent {
+class BusinessType extends Eloquent {
 
-    /**
-     * @var array
-     */
-    protected $fillable = ['payment_code','payment_description'];
     /**
      * @var string
      */
-    protected $table = 'payments';
+    protected $table='business_type';
+    /**
+     * @var array
+     */
+    protected $fillable = ['business_code', 'business_description'];
 
     /**
      * @return mixed
      */
-    public function businessInfo()
+    public function restaurantInfo()
     {
-        return $this->belongsTo('BusinessInfo');
+        return $this->hasMany('BusinessInfo');
     }
 }

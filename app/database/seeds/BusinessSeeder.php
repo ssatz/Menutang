@@ -12,7 +12,7 @@ class BusinessSeeder extends Seeder {
 
     public function run()
     {
-        $business = Business::create([
+        $business = BusinessType::create([
 
             'business_code' => 'RES',
             'business_type' => 'Restaurant',

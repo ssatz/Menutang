@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRestaurantHoursTable extends Migration
+class CreateBusinessHoursTable extends Migration
 {
 
     /**
@@ -13,13 +13,13 @@ class CreateRestaurantHoursTable extends Migration
      */
     public function up()
     {
-        Schema::create('restaurant_hours', function (Blueprint $table) {
+        Schema::create('business_hours', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('restaurant_id')->unsigned();
+            $table->bigInteger('business_info_id')->unsigned();
             $table->integer('day');
             $table->time('open_time');
             $table->time('close_time');
-            $table->foreign('restaurant_id')->references('id')->on('restaurant_info');
+            $table->foreign('business_info_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -17,6 +17,8 @@ class CreatePaymentsTable extends Migration {
 			$table->increments('id');
 			$table->string('payment_code');
 			$table->string('payment_description');
+			$table->unsignedBigInteger('business_info_id');
+			$table->foreign('business_info_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');
 			$table->timestamps();
 		});
 	}

@@ -38,8 +38,8 @@ class MenutangServiceProvider extends ServiceProvider
             'Repositories\UserRepository\UserRepository'
         );
         $app->bind(
-            'Repositories\ManageRestaurantRepository\IManageRestaurantRepository',
-            'Repositories\ManageRestaurantRepository\ManageRestaurantRepository'
+            'Repositories\ManageBusinessRepository\IManageBusinessRepository',
+            'Repositories\ManageBusinessRepository\ManageBusinessRepository'
         );
         $app->bind(
             'Services\Cache\ICacheService',

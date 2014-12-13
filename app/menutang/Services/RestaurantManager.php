@@ -10,7 +10,7 @@
 
 namespace Services;
 
-use Repositories\ManageRestaurantRepository\IManageRestaurantRepository;
+use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use Services\Cache\ICacheService;
 
 
@@ -20,16 +20,20 @@ class RestaurantManager
     /**
      * @var IManageRestaurantRepository
      */
-    protected $manageRestaurant;
+    protected $manageBusiness;
 
     /**
      * @var ICacheService
      */
     protected $cacheService;
 
-    public function __construct(IManageRestaurantRepository $manageRestaurant, ICacheService $cacheService)
+    /**
+     * @param IManageBusinessRepository $manageRestaurant
+     * @param ICacheService $cacheService
+     */
+    public function __construct(IManageBusinessRepository $manageBusiness, ICacheService $cacheService)
     {
-        $this->manageRestaurant = $manageRestaurant;
+        $this->manageBusiness = $manageBusiness;
         $this->cacheService = $cacheService;
     }
 
@@ -38,16 +42,7 @@ class RestaurantManager
      */
     public function getAllRestaurants()
     {
-        $key = __METHOD__;
-        if ($this->cacheService->has($key))
-        {
-            return $this->cache->get($key);
-        }
-
-        $restaurants = $this->manageRestaurant->getAllRestaurants();
-
-        $this->cache->put($key, $restaurants);
-
+        $restaurants = $this->manageBusiness->getAllRestaurants();
         return $restaurants;
     }
 

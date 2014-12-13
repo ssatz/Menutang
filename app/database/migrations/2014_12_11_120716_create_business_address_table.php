@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRestaurantAddressTable extends Migration
+class CreateBusinessAddressTable extends Migration
 {
 
     /**
@@ -13,16 +13,16 @@ class CreateRestaurantAddressTable extends Migration
      */
     public function up()
     {
-        Schema::create('restaurant_address', function (Blueprint $table) {
+        Schema::create('business_address', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id')->unsigned();
-            $table->bigInteger('restaurant_id')->unsigned();
+            $table->bigInteger('business_info_id')->unsigned();
             $table->integer('city_id')->unsigned();
             $table->text('address_line_1');
             $table->text('address_line_2');
             $table->string('address_landmark');
             $table->string('address_gps_location');
-            $table->foreign('restaurant_id')->references('id')->on('restaurant_info');
+            $table->foreign('business_info_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('city_id')->references('id')->on('city');
             $table->timestamps();
         });

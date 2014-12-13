@@ -20,10 +20,6 @@ class CacheService implements ICacheService
      */
     protected $cache;
 
-    /**
-     * @var string
-     */
-    protected $tag;
 
     /**
      * @var integer
@@ -37,10 +33,9 @@ class CacheService implements ICacheService
      * @param string $tag
      * @param integer $minutes
      */
-    public function __construct(CacheManager $cache, $tag, $minutes = 60)
+    public function __construct(CacheManager $cache, $minutes = 60)
     {
         $this->cache = $cache;
-        $this->tag = $tag;
         $this->minutes = $minutes;
     }
 
@@ -52,7 +47,8 @@ class CacheService implements ICacheService
      */
     public function get($key)
     {
-        return $this->cache->tags($this->tag)->get($key);
+        return $this->cache->get($key);
+
     }
 
     /**
@@ -69,7 +65,7 @@ class CacheService implements ICacheService
             $minutes = $this->minutes;
         }
 
-        return $this->cache->tags($this->tag)->put($key, $value, $minutes);
+        return $this->cache->put($key, $value, $minutes);
     }
 
     /**
@@ -80,7 +76,7 @@ class CacheService implements ICacheService
      */
     public function has($key)
     {
-        return $this->cache->tags($this->tag)->has($key);
+        return $this->cache->has($key);
     }
 
 

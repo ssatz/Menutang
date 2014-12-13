@@ -1,4 +1,5 @@
 <?php namespace Repositories;
+
 /*
  * This file is part of the menutang
  *
@@ -21,4 +22,5 @@ abstract class BaseRepository
     {
         return $this->model->create($data);
     }
+
 }

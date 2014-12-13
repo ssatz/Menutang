@@ -8,13 +8,13 @@
  * file that was distributed with this source code.
  */
 
-use Repositories\ManageRestaurantRepository\ManageRestaurantRepository;
+use Services\RestaurantManager;
 
-class ManageRestaurantController extends BaseController{
+class ManageBusinessController extends BaseController{
 
     protected $manage;
 
-    function __construct(ManageRestaurantRepository $manage)
+    function __construct(RestaurantManager $manage)
     {
         $this->manage = $manage;
     }
@@ -22,7 +22,7 @@ class ManageRestaurantController extends BaseController{
 
     public  function showRestaurants()
     {
-       // return $this->manage->findbyRestaurantId(2);
+       // return $this->manage->getAllRestaurants();
         return View::make('admin.manage_restaurant');
     }
 

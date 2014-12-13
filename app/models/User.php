@@ -23,6 +23,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	protected $hidden = array('password', 'remember_token');
 
+	/**
+	 * @return mixed
+     */
 	public function PasswordReset()
 	{
 		return $this->hasOne('PasswordReset');
