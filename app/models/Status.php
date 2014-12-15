@@ -8,21 +8,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Repositories\ManageBusinessRepository;
-
-
-interface IManageBusinessRepository
-{
+class Status extends Eloquent {
+    /**
+     * @var string
+     */
+    protected $table='status';
 
     /**
      * @return mixed
      */
-    public function getAllBusiness();
-
-    /**
-     * @return mixed
-     */
-    public function totalBusinesscount();
-
-    public function findBusinessBySlug($slug);
+    public function businessInfo()
+    {
+        return$this->belongsTo('BusinessInfo');
+    }
 }

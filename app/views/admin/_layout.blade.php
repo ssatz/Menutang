@@ -8,24 +8,24 @@
     <meta name="author" content="">
 
     <!-- Bootstrap core CSS -->
-    <link href="assets/common/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{asset('assets/common/css/bootstrap.min.css')}}" rel="stylesheet">
 
 	<!-- Font Awesome -->
-	<link href="assets/common/css/font-awesome.min.css" rel="stylesheet">
+	<link href="{{asset('assets/common/css/font-awesome.min.css')}}" rel="stylesheet">
 
 	<!-- Pace -->
-	<link href="assets/common/css/pace.css" rel="stylesheet">
+	<link href="{{asset('assets/common/css/pace.css')}}" rel="stylesheet">
 
 	<!-- Color box -->
-	<link href="assets/common/css/colorbox/colorbox.css" rel="stylesheet">
+	<link href="{{asset('assets/common/css/colorbox/colorbox.css')}}" rel="stylesheet">
 
 	<!-- Morris -->
-	<link href="assets/common/css/morris.css" rel="stylesheet"/>
+	<link href="{{asset('assets/common/css/morris.css')}}" rel="stylesheet"/>
 		<!-- Datatable -->
-    <link href="assets/common/css/jquery.dataTables_themeroller.css" rel="stylesheet"
+    <link href="{{asset('assets/common/css/jquery.dataTables_themeroller.css')}}" rel="stylesheet"
 	<!-- Perfect -->
-	<link href="assets/common/css/app.min.css" rel="stylesheet">
-	<link href="assets/common/css/app-skin.css" rel="stylesheet">
+	<link href="{{asset('assets/common/css/app.min.css')}}" rel="stylesheet">
+	<link href="{{asset('assets/common/css/app-skin.css')}}" rel="stylesheet">
 
   </head>
 
@@ -281,65 +281,42 @@
     <!-- Placed at the end of the document so the pages load faster -->
 
 	<!-- Jquery -->
-	<script src="assets/common/js/jquery-1.10.2.min.js"></script>
+	<script src="{{asset('assets/common/js/jquery-1.10.2.min.js')}}"></script>
 
 	<!-- Bootstrap -->
-    <script src="assets/common/js/bootstrap.min.js"></script>
+    <script src="{{asset('assets/common/js/bootstrap.min.js')}}"></script>
 
 	<!-- Flot -->
-	<script src='assets/common/js/jquery.flot.min.js'></script>
+	<script src='{{asset('assets/common/js/jquery.flot.min.js')}}'></script>
 
 	<!-- Morris -->
-	<script src='assets/common/js/rapheal.min.js'></script>
-	<script src='assets/common/js/morris.min.js'></script>
+	<script src='{{asset('assets/common/js/rapheal.min.js')}}'></script>
+	<script src='{{asset('assets/common/js/morris.min.js')}}'></script>
 
 	<!-- Colorbox -->
-	<script src='assets/common/js/jquery.colorbox.min.js'></script>
+	<script src='{{asset('assets/common/js/jquery.colorbox.min.js')}}'></script>
 
 	<!-- Sparkline -->
-	<script src='assets/common/js/jquery.sparkline.min.js'></script>
+	<script src='{{asset('assets/common/js/jquery.sparkline.min.js')}}'></script>
 
 	<!-- Pace -->
-	<script src='assets/common/js/uncompressed/pace.js'></script>
+	<script src='{{asset('assets/common/js/uncompressed/pace.js')}}'></script>
 
 	<!-- Popup Overlay -->
-	<script src='assets/common/js/jquery.popupoverlay.min.js'></script>
+	<script src='{{asset('assets/common/js/jquery.popupoverlay.min.js')}}'></script>
 
 	<!-- Slimscroll -->
-	<script src='assets/common/js/jquery.slimscroll.min.js'></script>
+	<script src='{{asset('assets/common/js/jquery.slimscroll.min.js')}}'></script>
 
 	<!-- Modernizr -->
-	<script src='assets/common/js/modernizr.min.js'></script>
+	<script src='{{asset('assets/common/js/modernizr.min.js')}}'></script>
 
 	<!-- Cookie -->
-	<script src='assets/common/js/jquery.cookie.min.js'></script>
-
-	<script src='assets/common/js/jquery.dataTables.min.js'></script>
+	<script src='{{asset('assets/common/js/jquery.cookie.min.js')}}'></script>
 	<!-- Perfect -->
 	<!-- <script src="assets/common/js/app/app_dashboard.js"></script>-->
-	<script src="assets/common/js/app/app.js"></script>
-	<script>
-	$(function	()	{
-    			$('#dataTable').dataTable( {
-    				"bJQueryUI": true,
-    				"sPaginationType": "full_numbers"
-    			});
+	<script src="{{asset('assets/common/js/app/app.js')}}"></script>
+	@yield('scripts')
 
-    			$('#chk-all').click(function()	{
-    				if($(this).is(':checked'))	{
-    					$('#responsiveTable').find('.chk-row').each(function()	{
-    						$(this).prop('checked', true);
-    						$(this).parent().parent().parent().addClass('selected');
-    					});
-    				}
-    				else	{
-    					$('#responsiveTable').find('.chk-row').each(function()	{
-    						$(this).prop('checked' , false);
-    						$(this).parent().parent().parent().removeClass('selected');
-    					});
-    				}
-    			});
-    		});
-	</script>
   </body>
 </html>

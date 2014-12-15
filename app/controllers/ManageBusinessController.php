@@ -8,22 +8,34 @@
  * file that was distributed with this source code.
  */
 
-use Services\RestaurantManager;
+use Services\BusinessManager;
 
-class ManageBusinessController extends BaseController{
+
+class ManageBusinessController extends BaseController
+{
 
     protected $manage;
 
-    function __construct(RestaurantManager $manage)
+    function __construct(BusinessManager $manage)
     {
         $this->manage = $manage;
     }
 
 
-    public  function showRestaurants()
+    public function showBusinesses()
     {
-       // return $this->manage->getAllRestaurants();
-        return View::make('admin.manage_restaurant');
+        $data = $this->manage->getAllBusiness();
+        return View::make('admin.manage_business')->withBusiness($data);
+    }
+
+    public function editBusinessInfo($slug)
+    {
+        $businessInfo = $this->manage->editBusiness($slug);
+        if (empty($businessInfo)) {
+            return '404';
+        }
+
+        return View::make('admin.edit_business');
     }
 
     public function addRestaurants()

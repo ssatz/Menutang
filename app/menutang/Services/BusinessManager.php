@@ -14,7 +14,7 @@ use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use Services\Cache\ICacheService;
 
 
-class RestaurantManager
+class BusinessManager
 {
 
     /**
@@ -40,10 +40,16 @@ class RestaurantManager
     /**
      * @return mixed
      */
-    public function getAllRestaurants()
+    public function getAllBusiness()
     {
-        $restaurants = $this->manageBusiness->getAllRestaurants();
+        $restaurants = [];
+        $restaurants[0] = $this->manageBusiness->getAllBusiness();
+        $restaurants[1] = $this->manageBusiness->totalBusinesscount();
         return $restaurants;
     }
 
+    public function editBusiness($slug)
+    {
+        return $this->manageBusiness->findBusinessBySlug($slug);
+    }
 }

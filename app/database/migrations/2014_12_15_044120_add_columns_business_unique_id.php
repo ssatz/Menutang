@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddActiveColumnRestaurantInfo extends Migration {
+class AddColumnsBusinessUniqueId extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -14,8 +14,7 @@ class AddActiveColumnRestaurantInfo extends Migration {
 	{
 		Schema::table('business_info', function(Blueprint $table)
 		{
-
-			$table->boolean("ischeckout_enable");
+			$table->string('business_unique_id');
 		});
 	}
 

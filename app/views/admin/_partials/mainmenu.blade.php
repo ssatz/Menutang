@@ -17,19 +17,15 @@
                         									<i class="fa fa-tag fa-lg"></i>
                         								</span>
                         								<span class="text">
-                        									Manage Restaurant
+                        									Manage Business
                         								</span>
                         								<span class="menu-hover"></span>
                         							</a>
                         							<ul class="submenu">
-                        							<li class="{{Active::action('ManageBusinessController@showRestaurants')}}"><a href="{{  URL::action('ManageBusinessController@showRestaurants')}}"><span class="submenu-label">All Restaurants</span></a></li>
-                        							<li class="{{Active::action('ManageBusinessController@addRestaurants')}}"><a href="{{URL::action('ManageBusinessController@addRestaurants')}}"><span class="submenu-label">Add Restaurant</span></a></li>
+                        							<li class="{{Active::action('ManageBusinessController@showBusinesses')}}"><a href="{{  URL::action('ManageBusinessController@showBusinesses')}}"><span class="submenu-label">All Business</span></a></li>
+                        							<li class="{{Active::action('ManageBusinessController@showBusinesses')}}"><a href="{{URL::action('ManageBusinessController@showBusinesses')}}"><span class="submenu-label">Add Business</span></a></li>
                         							</ul>
                         						</li>
 
 					</ul>
-
-					<div class="alert alert-info">
-						Welcome to Perfect Admin. Do not forget to check all my pages.
-					</div>
 				</div>

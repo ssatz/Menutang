@@ -56,4 +56,9 @@ class BusinessInfo extends Eloquent
     {
         return $this->belongsTo('BusinessType');
     }
+
+    public function status()
+    {
+        return $this->hasOne('Status');
+    }
 }

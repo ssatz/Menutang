@@ -42,7 +42,9 @@ class CreateBusinessInfoTable extends Migration
             $table->text('highway_details');
             $table->string('website');
             $table->time('avg_delivery_time');
-            $table->foreign('business_type_id')->references('id')->on('business_type')->onDelete('cascade')->onUpdate('cascade');;
+            $table->unsignedInteger("status_id");
+            $table->foreign('business_type_id')->references('id')->on('business_type')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('status_id')->references('id')->on('status')->onDelete('cascade')->onUpdate('cascade');;
             $table->timestamps();
         });
     }

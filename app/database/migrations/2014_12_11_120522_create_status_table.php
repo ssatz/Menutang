@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddActiveColumnRestaurantInfo extends Migration {
+class CreateStatusTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,12 @@ class AddActiveColumnRestaurantInfo extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('business_info', function(Blueprint $table)
+		Schema::create('status', function(Blueprint $table)
 		{
-
-			$table->boolean("ischeckout_enable");
+			$table->increments('id');
+			$table->string('status_code');
+			$table->string('status_description');
+			$table->timestamps();
 		});
 	}
 
@@ -26,10 +28,7 @@ class AddActiveColumnRestaurantInfo extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('business_info', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('status');
 	}
 
 }

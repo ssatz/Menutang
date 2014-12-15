@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddActiveColumnRestaurantInfo extends Migration {
+class AddFirstNameLastNameBusinessUsers extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,10 @@ class AddActiveColumnRestaurantInfo extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('business_info', function(Blueprint $table)
+		Schema::table('business_users', function(Blueprint $table)
 		{
-
-			$table->boolean("ischeckout_enable");
+			$table->string('first_name');
+			$table->string('last_name');
 		});
 	}
 
@@ -26,7 +26,7 @@ class AddActiveColumnRestaurantInfo extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('business_info', function(Blueprint $table)
+		Schema::table('business_users', function(Blueprint $table)
 		{
 			//
 		});

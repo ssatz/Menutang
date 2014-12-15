@@ -22,9 +22,10 @@ Route::group(['domain' => 'admin.localhost'], function () {
 
     Route::group(['before' => 'auth.admin'], function () {
         Route::get('dashboard', ['as' => 'admin.dashboard', 'uses' => 'AdminAuthController@dashboard']);
-        Route::get('manage-business', ['as' => 'admin.business', 'uses' => 'ManageBusinessController@showRestaurants']);
+        Route::get('manage-business', ['as' => 'admin.business', 'uses' => 'ManageBusinessController@showBusinesses']);
         Route::group(['prefix' => 'manage-business'], function () {
-            Route::get('add', ['as' => 'admin.business.add', 'uses' => 'ManageBusinessController@addRestaurants']);
+            Route::get('add', ['as' => 'admin.business.add', 'uses' => 'ManageBusinessController@addBusinesses']);
+            Route::any('{businessName?}', ['as'=>'admin.business.edit','uses' =>'ManageBusinessController@editBusinessInfo']);
         });
     });
 });
@@ -46,5 +47,5 @@ Route::group(['domain' => 'business.localhost'], function () {
 // Display all SQL executed in Eloquent
 //Event::listen('illuminate.query', function($query)
 //{
-  //  var_dump($query);
+//    var_dump($query);
 //});
