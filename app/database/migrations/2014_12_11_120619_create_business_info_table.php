@@ -19,7 +19,7 @@ class CreateBusinessInfoTable extends Migration
             $table->integer('business_type_id')->unsigned();
             $table->decimal('budget');
             $table->decimal('minimum_delivery_amt');
-            $table->decimal('minimun_rail_deli_amt');
+            $table->decimal('minimum_rail_deli_amt');
             $table->decimal('minimum_pickup_amt');
             $table->boolean('is_outdoor_catering');
             $table->text('outdoor_catering_comments');

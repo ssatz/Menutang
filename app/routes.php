@@ -11,6 +11,14 @@
 |
 */
 
+/*
+ * 404 Error
+ *
+ */
+App::missing(function ($exception) {
+    return View::make('error404');
+});
+
 /**
  * Admin Routes
  */
@@ -25,8 +33,10 @@ Route::group(['domain' => 'admin.localhost'], function () {
         Route::get('manage-business', ['as' => 'admin.business', 'uses' => 'ManageBusinessController@showBusinesses']);
         Route::group(['prefix' => 'manage-business'], function () {
             Route::get('add', ['as' => 'admin.business.add', 'uses' => 'ManageBusinessController@addBusinesses']);
-            Route::any('{businessName?}', ['as'=>'admin.business.edit','uses' =>'ManageBusinessController@editBusinessInfo']);
         });
+        Route::get('{businessName?}', ['as' => 'admin.business.dashboard', 'uses' => 'ManageBusinessController@businessDashboard']);
+        Route::any('{businessName}/edit', ['as' => 'admin.business.edit', 'uses' => 'ManageBusinessController@editBusinessInfo']);
+        Route::any('{businessName}/delivery-area', ['as' => 'admin.business.deliveryarea', 'uses' => 'ManageBusinessController@deliveryArea']);
     });
 });
 

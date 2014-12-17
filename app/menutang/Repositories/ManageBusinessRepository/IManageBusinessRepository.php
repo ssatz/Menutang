@@ -24,5 +24,16 @@ interface IManageBusinessRepository
      */
     public function totalBusinesscount();
 
+    /**
+     * @param $slug
+     * @return mixed
+     */
     public function findBusinessBySlug($slug);
+
+    /**
+     * @param array $data
+     * @param string $slug
+     * @return mixed
+     */
+    public function update(array $data, $slug);
 }

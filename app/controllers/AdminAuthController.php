@@ -8,8 +8,6 @@
  * file that was distributed with this source code.
  */
 
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\View;
 use Services\AdminAuth;
 
 class AdminAuthController extends BaseController
@@ -54,7 +52,7 @@ class AdminAuthController extends BaseController
 
     public function dashboard()
     {
-        return View::make('admin.dashboard');
+        return View::make('admin.dashboard')->withLayout('admin._layout');
     }
 }
 

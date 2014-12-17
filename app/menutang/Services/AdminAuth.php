@@ -20,10 +20,23 @@ use Services\Validations\LoginValidation;
 class AdminAuth
 {
 
+    /**
+     * @var
+     */
     public $errors;
+    /**
+     * @var IAdminRepository
+     */
     protected $adminRepository;
+    /**
+     * @var LoginValidation
+     */
     protected $loginValidation;
 
+    /**
+     * @param IAdminRepository $adminRepository
+     * @param LoginValidation $loginValidation
+     */
     public function __construct(IAdminRepository $adminRepository, LoginValidation $loginValidation)
     {
         $this->adminRepository = $adminRepository;

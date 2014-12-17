@@ -94,3 +94,5 @@ Route::filter('auth.admin', function()
 Route::filter('auth.businessuser', function () {
 	if (Auth::businessuser()->guest()) return Redirect::to('/');
 });
+
+Route::when('*', 'csrf', ['post', 'put', 'patch', 'delete']);

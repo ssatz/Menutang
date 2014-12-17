@@ -29,7 +29,12 @@
 									<td>{{$businessDetails->ischeckout_enable}}</td>
 									<td>{{$businessDetails->created_at}}</td>
 									<td>{{$businessDetails->status_code}}</td>
-									<td><a href="{{ URL::action('ManageBusinessController@showBusinesses').'/'.$businessDetails->business_slug}}">Edit</a> </td>
+									<td>{{ HTML::link(
+										action('ManageBusinessController@businessDashboard',
+										array($businessDetails->business_slug)),
+										'Edit'
+										)}}
+									</td>
 								</tr>
 						    @endforeach
 							</tbody>

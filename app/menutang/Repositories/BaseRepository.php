@@ -23,4 +23,9 @@ abstract class BaseRepository
         return $this->model->create($data);
     }
 
+    public function update(array $data, $slug)
+    {
+        return $this->model->where('business_slug', '=', $slug)->update($data);
+    }
+
 }

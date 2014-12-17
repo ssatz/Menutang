@@ -262,7 +262,7 @@
 					</div>
 				</div><!-- /user-block -->
 			<!-- /main-menu -->
-			@include('admin._partials.mainmenu')
+				@include('admin._partials.main_menu')
 			</div><!-- /sidebar-inner -->
 		</aside>
 		<div id="main-container">
