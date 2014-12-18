@@ -18,10 +18,6 @@ use Repositories\BaseRepository;
 
 class ManageBusinessRepository extends BaseRepository implements IManageBusinessRepository
 {
-    /**
-     * @var businessInfo
-     */
-    protected $manageBusiness;
 
     /**
      * @var DatabaseManager
@@ -35,7 +31,6 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
     function __construct(BusinessInfo $manageBusiness, DatabaseManager $dbManager)
     {
         parent::__construct($manageBusiness);
-        $this->manageBusiness = $manageBusiness;
         $this->dbManager = $dbManager;
 
     }
@@ -60,8 +55,18 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function findBusinessBySlug($slug)
     {
-        $businessInfo = $this->manageBusiness->where('business_slug', '=', $slug)->first();
+        $businessInfo = $this->model->with('address')->where('business_slug', '=', $slug)->first();
         return $businessInfo;
+    }
+
+    /**
+     * @param array $data
+     * @param string $slug
+     * @return mixed
+     */
+    public function update(array $data, $slug)
+    {
+        return $this->model->where('business_slug', '=', $slug)->update($data);
     }
 
     /**

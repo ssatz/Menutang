@@ -75,9 +75,12 @@ class ManageBusinessController extends BaseController
             return $this->app->abort(404);
         }
         if ($this->request->isMethod('GET')) {
-            return View::make('admin.edit_business')->withBusiness($businessInfo);
+            return View::make('admin.edit_business')->withBusiness($businessInfo)
+                ->withCities($this->manage->getAllCity());
         } else {
-            if ($this->manage->updateBusiness($this->request->except('_token'), $slug)) {
+            $info = ['_token', 'address_line_1', 'address_line_2', 'address_landmark'];
+            $address = ['address_line_1', 'address_line_2', 'address_landmark'];
+            if ($this->manage->updateBusiness($this->request->except($info), $address, $slug)) {
                 return $this->redirector->back()->withMessage($this->translator->get('business.success'));
             }
             return $this->redirector->back()->withErrors($this->manage->errors);

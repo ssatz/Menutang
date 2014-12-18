@@ -13,8 +13,14 @@ use Services\AdminAuth;
 class AdminAuthController extends BaseController
 {
 
+    /**
+     * @var AdminAuth
+     */
     protected $adminAuth;
 
+    /**
+     * @param AdminAuth $adminAuth
+     */
     public function __construct(AdminAuth $adminAuth)
     {
         $this->adminAuth = $adminAuth;
@@ -22,6 +28,9 @@ class AdminAuthController extends BaseController
 
     /* ShowLogin
      * Here will show the Login page for admin
+     */
+    /**
+     * @return mixed
      */
     public function showLogin()
     {
@@ -31,6 +40,9 @@ class AdminAuthController extends BaseController
         return View::make('admin.login');
     }
 
+    /**
+     * @return mixed
+     */
     public function postLogin()
     {
         $userdata = [
@@ -44,16 +56,24 @@ class AdminAuthController extends BaseController
         return Redirect::to('/')->withErrors($this->adminAuth->errors);
     }
 
+    /**
+     * @return mixed
+     */
     public function logout()
     {
         $this->adminAuth->logout();
         return Redirect::to('/')->with('message', 'You have been Logged Out');
     }
 
+    /**
+     * @return mixed
+     */
     public function dashboard()
     {
         return View::make('admin.dashboard')->withLayout('admin._layout');
     }
+
+
 }
 
 

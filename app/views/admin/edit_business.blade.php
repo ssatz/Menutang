@@ -1,12 +1,10 @@
 @extends('admin.business_layout')
 
 @section('content')
-<div class="panel-heading">
-    Business Info
-</div>
+<div class="panel-group" id="accordion">
+<p>
+    @if(Session::has('message'))
 
-<div class="panel-body">
-@if(Session::has('message'))
 <div class="alert alert-success alertCenter">
     {{ Session::get('message') }}
 </div>
@@ -18,8 +16,19 @@
     @endforeach
 </div>
 @endif
+</p>
 {{ Form::open(['url' => action('ManageBusinessController@editBusinessInfo', [$slug]), 'method'
 =>'POST','class'=>'form-horizontal']) }}
+<div class="panel panel-default">
+<div class="panel-heading">
+    <h4 class="panel-title">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+            Business Info
+        </a>
+    </h4>
+</div>
+<div id="collapseOne" class="panel-collapse collapse">
+<div class="panel-body">
 <div class="form-group">
     <label for="inputBusinessID" class="col-lg-2 control-label">Business ID</label>
 
@@ -87,7 +96,7 @@
         </label>
     </div>
 </div>
-<div class="form-group @if($business->is_outdoor_catering==0) displayNone @endif">
+<div class="form-group fa-comment @if($business->is_outdoor_catering==0) displayNone @endif">
     <label class="col-lg-2 control-label">Outdoor Catering Comments</label>
 
     <div class="col-lg-10">
@@ -110,7 +119,7 @@
         </label>
     </div>
 </div>
-<div class="form-group @if($business->is_party_hall==0)  displayNone @endif">
+<div class="form-group  fa-comment @if($business->is_party_hall==0)  displayNone @endif">
     <label class="col-lg-2 control-label">Party Hall Comments</label>
 
     <div class="col-lg-10">
@@ -301,7 +310,7 @@
         </label>
     </div>
 </div>
-<div class="form-group @if($business->is_boarding==0) displayNone @endif">
+<div class="form-group  fa-comment @if($business->is_boarding==0) displayNone @endif">
     <label class="col-lg-2 control-label">Boarding Comments</label>
 
     <div class="col-lg-10">
@@ -340,7 +349,7 @@
         </label>
     </div>
 </div>
-<div class="form-group  @if($business->is_highway_res==0) displayNone @endif">
+<div class="form-group  fa-comment  @if($business->is_highway_res==0) displayNone @endif">
     <label class="col-lg-2 control-label">Highway Details</label>
 
     <div class="col-lg-10">
@@ -363,27 +372,99 @@
                placeholder="Avg Delivery Time" value="{{$business->avg_delivery_time}}">
     </div>
 </div>
-<div class="form-group">
-    <div class="col-lg-offset-2 col-lg-10">
-        <button type="submit" class="btn btn-success btn-sm">Update</button>
+
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                Business Address
+            </a>
+        </h4>
     </div>
-    <!-- /.col -->
+    <div style="" id="collapseTwo" class="panel-collapse collapse">
+        <div class="panel-body">
+            <div class="form-group">
+                <label for="inputforAddress1" class="col-lg-2 control-label">Address Line 1</label>
+
+                <div class="col-lg-10">
+                    <input class="form-control width60 input-sm" id="inputforAddress1" name="address_line_1"
+                           placeholder="Address Line 1" value="{{$business->address->address_line_1}}">
+                </div>
+            </div>
+            <div class="form-group">
+
+                <label for="inputforAddress1" class="col-lg-2 control-label">Address Line 2</label>
+
+                <div class="col-lg-10">
+                    <input class="form-control width60 input-sm" id="inputforAddress1" name="address_line_2"
+                           placeholder="Address Line 2" value="{{$business->address->address_line_2}}">
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <label for="inputforAddress1" class="col-lg-2 control-label">Address Landmark</label>
+
+                <div class="col-lg-10">
+                    <input class="form-control width60 input-sm" id="inputforAddress1" name="address_landmark"
+                           placeholder="Address Landmark" value="{{$business->address->address_landmark}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Select City</label>
+                <div class="col-lg-6">
+                    <select class="form-control chzn-select">
+                      @foreach($cities as $city)
+                        	<option value="{{$city->id}}">{{$city->city_description}}</option>
+                      @endforeach
+                    </select>
+                </div><!-- /.col -->
+            </div><!-- /form-group -->
+
+        </div>
+    </div>
+</div>
+<div class="panel-footer">
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-lg-10">
+            <button type="submit" class="btn btn-success btn-sm">Update</button>
+        </div>
+        <!-- /.col -->
+    </div>
 </div>
 {{ Form::close() }}
 </div>
-
 @endsection
 @section('css')
+<link href="{{asset('assets/common/css/chosen/chosen.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/common/css/menutang.css')}}" rel="stylesheet">
 @endsection
 @section('scripts')
+<script src='{{asset('assets/common/js/chosen.jquery.min.js')}}'></script>
+<script src="{{asset('assets/common/js/app/app_form.js')}}"></script>
+
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
 <script type="text/javascript">
+    function initialize() {
+        var input = document.getElementById('searchTextField');
+        var componentRestrictions = {country: 'in'};
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.setComponentRestrictions(componentRestrictions);
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+<script type="text/javascript">
+
     $("input[type=radio]").click(function () {
         if ($(this).val() == '0') {
-            $(this).parents('.form-group').next().hide('slow');
+            $(this).parents('.form-group').next('.fa-comment').hide('slow').find('textarea').text('');
+
         }
         else {
-            $(this).parents('.form-group').next().show('slow');
+            $(this).parents('.form-group').next('.fa-comment').show('slow');
         }
     })
 </script>

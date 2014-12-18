@@ -10,8 +10,10 @@
 
 namespace Services;
 
+use Exception;
 use Illuminate\Database\DatabaseManager;
 use Repositories\ManageBusinessRepository\IManageBusinessRepository;
+use Repositories\ManageCityRepository\IManageCityRepository;
 use Services\Cache\ICacheService;
 use Services\Validations\BusinessValidator;
 
@@ -19,6 +21,9 @@ use Services\Validations\BusinessValidator;
 class BusinessManager
 {
 
+    /**
+     * @var
+     */
     public $errors;
     /**
      * @var IManageRestaurantRepository
@@ -28,8 +33,18 @@ class BusinessManager
      * @var ICacheService
      */
     protected $cacheService;
+    /**
+     * @var DatabaseManager
+     */
     protected $db;
+    /**
+     * @var BusinessValidator
+     */
     protected $validations;
+    /**
+     * @var ManageCityRepository
+     */
+    protected $manageCity;
 
     /**
      * @param IManageBusinessRepository $manageRestaurant
@@ -38,12 +53,14 @@ class BusinessManager
     public function __construct(IManageBusinessRepository $manageBusiness,
                                 ICacheService $cacheService,
                                 BusinessValidator $businessValidator,
-                                DatabaseManager $databaseManager)
+                                DatabaseManager $databaseManager,
+                                IManageCityRepository $manageCityRepository)
     {
         $this->manageBusiness = $manageBusiness;
         $this->cacheService = $cacheService;
         $this->validations = $businessValidator;
         $this->db = $databaseManager;
+        $this->manageCity = $manageCityRepository;
     }
 
     /**
@@ -67,19 +84,28 @@ class BusinessManager
     }
 
     /**
+     *
+     */
+    public function getAllCity()
+    {
+        return $this->manageCity->getAll();
+    }
+
+    /**
      * @param array $input
      * @param $slug
      */
-    public function updateBusiness(array $input, $slug)
+    public function updateBusiness(array $input, array $address, $slug)
     {
+
         $this->validations->with($input);
         if ($this->validations->passes()) {
             $this->db->beginTransaction();
             try {
                 $this->manageBusiness->update($input, $slug);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->db->rollback();
-
+                throw new Exception($e->getMessage());
             }
             $this->db->commit();
             return true;
