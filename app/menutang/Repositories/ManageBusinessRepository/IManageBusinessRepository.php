@@ -35,5 +35,5 @@ interface IManageBusinessRepository
      * @param string $slug
      * @return mixed
      */
-    public function update(array $data, $slug);
+    public function update(array $input, $slug);
 }

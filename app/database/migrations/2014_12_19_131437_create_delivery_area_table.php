@@ -14,12 +14,9 @@ class CreateDeliveryAreaTable extends Migration {
 	{
 		Schema::create('delivery_area', function(Blueprint $table)
 		{
-			$table->increments('id');
-			$table->string('delivery_area');
-			$table->integer('city_id')->unsigned();
-			$table->foreign('city_id')->references('id')->on('city')->onDelete('cascade')->onUpdate('cascade');
-			$table->unsignedBigInteger('business_info_id');
-			$table->foreign('business_info_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');
+			$table->bigIncrements('id');
+			$table->string('area');
+			$table->string('area_pincode');
 			$table->timestamps();
 		});
 	}

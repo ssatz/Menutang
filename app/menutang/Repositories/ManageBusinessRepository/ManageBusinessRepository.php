@@ -14,6 +14,7 @@ namespace Repositories\ManageBusinessRepository;
 use BusinessInfo;
 use Illuminate\Database\DatabaseManager;
 use Repositories\BaseRepository;
+use Services\Helper;
 
 
 class ManageBusinessRepository extends BaseRepository implements IManageBusinessRepository
@@ -25,13 +26,19 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
     protected $dbManager;
 
     /**
+     * @var Helper
+     */
+    protected $helper;
+
+    /**
      * @param businessInfo $managebusinesss
      * @param DatabaseManager $dbManager
      */
-    function __construct(BusinessInfo $manageBusiness, DatabaseManager $dbManager)
+    function __construct(BusinessInfo $manageBusiness, DatabaseManager $dbManager, Helper $helper)
     {
         parent::__construct($manageBusiness);
         $this->dbManager = $dbManager;
+        $this->helper = $helper;
 
     }
 
@@ -55,7 +62,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function findBusinessBySlug($slug)
     {
-        $businessInfo = $this->model->with('address')->where('business_slug', '=', $slug)->first();
+        $businessInfo = $this->model->with('address', 'payment')->where('business_slug', '=', $slug)->first();
         return $businessInfo;
     }
 
@@ -64,9 +71,14 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      * @param string $slug
      * @return mixed
      */
-    public function update(array $data, $slug)
+    public function update(array $input, $slug)
     {
-        return $this->model->where('business_slug', '=', $slug)->update($data);
+        $result = $this->helper->match($input, ['business_info', 'business_address']);
+        $businessInfo = $this->model->where('business_slug', '=', $slug)->first();
+        $this->model->where('business_slug', '=', $slug)->update($result['business_info']);
+        $this->model->find($businessInfo->id)->address()->update($result['business_address']);
+        $businessInfo->payment()->sync($input['payments']);
+        return;
     }
 
     /**

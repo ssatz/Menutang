@@ -19,5 +19,5 @@
 			    		</div>
 			    		<span id="balances" class="sparkline"></span>
 			    	</li>
-			    </ul><!-- /page-stats -->
-</div><!-- /main-header -->
+			    </ul>
+</div>

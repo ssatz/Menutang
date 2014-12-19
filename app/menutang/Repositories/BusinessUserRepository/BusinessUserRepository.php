@@ -11,8 +11,8 @@
 namespace Repositories\BusinessUserRepository;
 
 
-use Repositories\BaseRepository;
 use BusinessUser;
+use Repositories\BaseRepository;
 
 class  BusinessUserRepository extends BaseRepository implements IBusinessUserRepository
 {

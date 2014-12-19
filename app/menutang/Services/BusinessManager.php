@@ -14,6 +14,7 @@ use Exception;
 use Illuminate\Database\DatabaseManager;
 use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use Repositories\ManageCityRepository\IManageCityRepository;
+use Repositories\PaymentTypeRepository\IPaymentTypeRepository;
 use Services\Cache\ICacheService;
 use Services\Validations\BusinessValidator;
 
@@ -47,6 +48,11 @@ class BusinessManager
     protected $manageCity;
 
     /**
+     * @var IPaymentTypeRepository
+     */
+    protected $managePayments;
+
+    /**
      * @param IManageBusinessRepository $manageRestaurant
      * @param ICacheService $cacheService
      */
@@ -54,13 +60,15 @@ class BusinessManager
                                 ICacheService $cacheService,
                                 BusinessValidator $businessValidator,
                                 DatabaseManager $databaseManager,
-                                IManageCityRepository $manageCityRepository)
+                                IManageCityRepository $manageCityRepository,
+                                IPaymentTypeRepository $paymentTypeRepository)
     {
         $this->manageBusiness = $manageBusiness;
         $this->cacheService = $cacheService;
         $this->validations = $businessValidator;
         $this->db = $databaseManager;
         $this->manageCity = $manageCityRepository;
+        $this->managePayments = $paymentTypeRepository;
     }
 
     /**
@@ -92,10 +100,18 @@ class BusinessManager
     }
 
     /**
+     * @return mixed
+     */
+    public function getAllPayments()
+    {
+        return $this->managePayments->getAll();
+    }
+
+    /**
      * @param array $input
      * @param $slug
      */
-    public function updateBusiness(array $input, array $address, $slug)
+    public function updateBusiness(array $input, $slug)
     {
 
         $this->validations->with($input);

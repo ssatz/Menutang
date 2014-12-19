@@ -38,7 +38,7 @@ class BusinessInfo extends Eloquent
      */
     public function payment()
     {
-        return $this->hasMany('Payment');
+        return $this->belongsToMany('Payment', 'business_payments', 'business_info_id', 'payment_types_id');
     }
 
     /**
@@ -46,7 +46,7 @@ class BusinessInfo extends Eloquent
      */
     public function deliveryArea()
     {
-        return $this->hasMany('DeliveryArea');
+        return $this->belongsToMany('DeliveryArea', 'business_delivery', 'business_info_id', 'delivery_area_id');
     }
 
     /**

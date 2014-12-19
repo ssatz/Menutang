@@ -20,6 +20,6 @@ class DeliveryArea extends Eloquent {
      */
     public function businessInfo()
     {
-        return $this->belongsTo('BusinessInfo');
+        return $this->belongsToMany('BusinessInfo', 'business_delivery', 'business_info_id', 'delivery_area_id');
     }
 }

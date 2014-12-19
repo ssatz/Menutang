@@ -73,6 +73,10 @@ class AdminAuthController extends BaseController
         return View::make('admin.dashboard')->withLayout('admin._layout');
     }
 
+    public function regionalSettings()
+    {
+        return View::make('admin.forms.regional_settings');
+    }
 
 }
 

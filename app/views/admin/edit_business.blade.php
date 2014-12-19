@@ -416,14 +416,38 @@
             <div class="form-group">
                 <label class="col-lg-2 control-label">Select City</label>
                 <div class="col-lg-6">
-                    <select class="form-control chzn-select">
+                    <select class="form-control chzn-select" name="city_id">
                       @foreach($cities as $city)
-                        	<option value="{{$city->id}}">{{$city->city_description}}</option>
+                        	<option value="{{$city->id}}" @if($business->address->city_id==$city->id) selected @endif>{{$city->city_description}}</option>
                       @endforeach
                     </select>
                 </div><!-- /.col -->
             </div><!-- /form-group -->
 
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+             Payments
+            </a>
+        </h4>
+    </div>
+    <div style="" id="collapseThree" class="panel-collapse collapse">
+        <div class="panel-body">
+        <div class="col-lg-6">
+        								<label class="col-lg-2 control-label">Select Payments</label>
+        								<div class="col-lg-10">
+        									<select multiple class="form-control chzn-select" name="payments[]">
+        										 @foreach($payments as $payment)
+                                                      <option value="{{$payment->id}}" @foreach($business->payment as $businessPayments)
+                                                       @if($businessPayments->id==$payment->id) selected @endif @endforeach>{{$payment->payment_description}}</option>
+                                                   @endforeach
+        									</select>
+        								</div>
+        							</div>
         </div>
     </div>
 </div>

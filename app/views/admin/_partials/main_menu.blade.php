@@ -1,6 +1,6 @@
 <div class="main-menu">
     <ul>
-        <li class="{{Active::controller('AdminAuth')}}">
+        <li class="{{Active::action('AdminAuthController@dashboard')}}">
             <a href="{{  URL::action('AdminAuthController@dashboard')}}">
 								<span class="menu-icon">
 									<i class="fa fa-desktop fa-lg"></i>
@@ -30,13 +30,13 @@
                 </li>
             </ul>
         </li>
-		<li class="{{Active::controller('AdminAuth')}}">
-			<a href="{{  URL::action('AdminAuthController@dashboard')}}">
+		<li class="{{Active::action('AdminAuthController@regionalSettings')}}">
+			<a href="{{  URL::action('AdminAuthController@regionalSettings')}}">
 								<span class="menu-icon">
 									<i class="fa fa-desktop fa-lg"></i>
 								</span>
 								<span class="text">
-									Settings
+									Region Settings
 								</span>
 				<span class="menu-hover"></span>
 			</a>

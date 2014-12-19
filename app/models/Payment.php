@@ -13,17 +13,17 @@ class Payment extends Eloquent {
     /**
      * @var array
      */
-    protected $fillable = ['payment_code','payment_description'];
+    protected $fillable = [];
     /**
      * @var string
      */
-    protected $table = 'payments';
+    protected $table = 'payment_types';
 
     /**
      * @return mixed
      */
     public function businessInfo()
     {
-        return $this->belongsTo('BusinessInfo');
+        return $this->belongsToMany('BusinessInfo', 'business_payments', 'business_info_id', 'payment_types_id');
     }
 }

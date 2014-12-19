@@ -11,8 +11,8 @@
 namespace Repositories\AdminRepository;
 
 
-use Repositories\BaseRepository;
 use Admin;
+use Repositories\BaseRepository;
 
 class AdminRepository extends BaseRepository implements IAdminRepository
 {
@@ -29,6 +29,7 @@ class AdminRepository extends BaseRepository implements IAdminRepository
         parent::__construct($admin);
         $this->admin = $admin;
     }
+
     /**
      * @param $id
      * @return mixed

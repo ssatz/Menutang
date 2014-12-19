@@ -46,6 +46,10 @@ class MenutangServiceProvider extends ServiceProvider
             'Repositories\ManageCityRepository\ManageCityRepository'
         );
         $app->bind(
+            'Repositories\PaymentTypeRepository\IPaymentTypeRepository',
+            'Repositories\PaymentTypeRepository\PaymentTypeRepository'
+        );
+        $app->bind(
             'Services\Cache\ICacheService',
             'Services\Cache\CacheService'
         );
