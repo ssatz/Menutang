@@ -8,6 +8,7 @@
  * file that was distributed with this source code.
  */
 use Illuminate\Support\Facades\Hash;
+
 class UserTableSeeder extends Seeder
 {
 
@@ -16,7 +17,7 @@ class UserTableSeeder extends Seeder
         $user = Admin::create(array(
             'email' => 'sathish.thi@gmail.com',
             'password' => Hash::make('satdin'),
-            'mobile'=>9894331102
+            'mobile' => 9894331102
         ));
         $businessuser = BusinessUser::create(array(
             'email' => 'sathish.thi@live.in',

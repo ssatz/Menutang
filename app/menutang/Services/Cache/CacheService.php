@@ -80,4 +80,24 @@ class CacheService implements ICacheService
     }
 
 
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function remove($key)
+    {
+        return $this->cache->forget($key);
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function remember($key, $value)
+    {
+        return $this->cache->remember($key, $this->minutes, function () use ($value) {
+            return $value;
+        });
+    }
 }

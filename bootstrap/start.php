@@ -42,7 +42,7 @@ $env = $app->detectEnvironment(array(
 |
 */
 
-$app->bindInstallPaths(require __DIR__.'/paths.php');
+$app->bindInstallPaths(require __DIR__ . '/paths.php');
 
 /*
 |--------------------------------------------------------------------------
@@ -55,10 +55,10 @@ $app->bindInstallPaths(require __DIR__.'/paths.php');
 |
 */
 
-$framework = $app['path.base'].
-                 '/vendor/laravel/framework/src';
+$framework = $app['path.base'] .
+    '/vendor/laravel/framework/src';
 
-require $framework.'/Illuminate/Foundation/start.php';
+require $framework . '/Illuminate/Foundation/start.php';
 
 /*
 |--------------------------------------------------------------------------

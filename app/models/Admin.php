@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-use Illuminate\Auth\UserTrait;
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
+use Illuminate\Auth\Reminders\RemindableTrait;
+use Illuminate\Auth\UserInterface;
+use Illuminate\Auth\UserTrait;
 
 class Admin extends Eloquent implements UserInterface, RemindableInterface
 {

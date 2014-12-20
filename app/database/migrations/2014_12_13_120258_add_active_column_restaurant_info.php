@@ -1,35 +1,34 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-class AddActiveColumnRestaurantInfo extends Migration {
+class AddActiveColumnRestaurantInfo extends Migration
+{
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::table('business_info', function(Blueprint $table)
-		{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('business_info', function (Blueprint $table) {
 
-			$table->boolean("ischeckout_enable");
-		});
-	}
+            $table->boolean("ischeckout_enable");
+        });
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::table('business_info', function(Blueprint $table)
-		{
-			//
-		});
-	}
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('business_info', function (Blueprint $table) {
+            //
+        });
+    }
 
 }

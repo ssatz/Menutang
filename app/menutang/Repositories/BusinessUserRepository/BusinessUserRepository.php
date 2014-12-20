@@ -13,21 +13,18 @@ namespace Repositories\BusinessUserRepository;
 
 use BusinessUser;
 use Repositories\BaseRepository;
+use Services\Cache\ICacheService;
 
 class  BusinessUserRepository extends BaseRepository implements IBusinessUserRepository
 {
-    /**
-     * @var BusinessUser
-     */
-    protected $businessUser;
 
     /**
      * @param BusinessUser $businessUser
      */
-    public function __construct(BusinessUser $businessUser)
+    public function __construct(BusinessUser $businessUser, ICacheService $cache)
     {
-        parent::__construct($businessUser);
-        $this->$businessUser = $businessUser;
+        parent::__construct($businessUser, $cache);
+
     }
 
     /**
@@ -36,7 +33,7 @@ class  BusinessUserRepository extends BaseRepository implements IBusinessUserRep
      */
     public function create(array $data)
     {
-        return $this->$businessUser->create($data);
+        return $this->model->create($data);
     }
 
     /**
@@ -45,6 +42,6 @@ class  BusinessUserRepository extends BaseRepository implements IBusinessUserRep
      */
     public function findOrFail($id)
     {
-        return $this->$businessUser->findOrFail($id);
+        return $this->model->findOrFail($id);
     }
 }

@@ -36,7 +36,7 @@
             }
 
             if (options.autoopen) {
-                setTimeout(function() {
+                setTimeout(function () {
                     methods.show(el, 0);
                 }, 0);
             }
@@ -163,7 +163,7 @@
             // Add WAI ARIA role to announce dialog to screen readers
             $el.attr('role', 'dialog');
 
-            var openelement =  (options.openelement) ? options.openelement : ('.' + el.id + opensuffix);
+            var openelement = (options.openelement) ? options.openelement : ('.' + el.id + opensuffix);
 
             $(openelement).each(function (i, item) {
                 $(item).attr('data-popup-ordinal', i);
@@ -184,7 +184,7 @@
 
                     // Show element when clicked on `open` link.
                     // setTimeout is to allow `close` method to finish (for issues with multiple tooltips)
-                    setTimeout(function() {
+                    setTimeout(function () {
                         methods.show(el, ord);
                     }, 0);
 
@@ -241,7 +241,7 @@
                 $wrapper.show();
             }
 
-            setTimeout(function() {
+            setTimeout(function () {
                 $wrapper.css({
                     visibility: 'visible',
                     opacity: 1
@@ -267,10 +267,11 @@
 
             setTimeout(function () {
                 // Set event handlers
-                if(!onevisible) {
+                if (!onevisible) {
                     if (options.keepfocus) {
                         $(document).on('focusin', focushandler)
-                    };
+                    }
+                    ;
 
                     if (options.blur) {
                         $(document).on('click', blurhandler);
@@ -302,7 +303,7 @@
                 });
 
                 // Fix IE8 issue with background not appearing
-                setTimeout(function() {
+                setTimeout(function () {
                     $background.css({
                         'opacity': options.opacity
                     });
@@ -321,7 +322,7 @@
                 // Focus popup or user specified element.
                 // Initial timeout of 50ms is set to give some time to popup to show after clicking on
                 // `open` element, and after animation is complete to prevent background scrolling.
-                setTimeout(function() {
+                setTimeout(function () {
                     if (options.focuselement) {
                         $(options.focuselement).focus();
                     } else {
@@ -330,7 +331,7 @@
                 }, options.focusdelay);
 
                 // Handler for keyboard focus
-                focushandler = function(event) {
+                focushandler = function (event) {
                     var dialog = document.getElementById(el.id);
                     if (!dialog.contains(event.target)) {
                         event.stopPropagation();
@@ -346,17 +347,17 @@
                 var len = elements.length;
                 var maxzindex = 0;
 
-                for(var i=0; i<len; i++){
+                for (var i = 0; i < len; i++) {
 
                     var elementzindex = $(elements[i]).css('z-index');
 
-                    if(elementzindex !== 'auto'){
+                    if (elementzindex !== 'auto') {
 
-                      elementzindex = parseInt(elementzindex);
+                        elementzindex = parseInt(elementzindex);
 
-                      if(maxzindex < elementzindex){
-                        maxzindex = elementzindex;
-                      }
+                        if (maxzindex < elementzindex) {
+                            maxzindex = elementzindex;
+                        }
                     }
                 }
 
@@ -403,7 +404,7 @@
             // Reveal popup content to screen readers
             $el.attr('aria-hidden', false);
 
-            $wrapper.one('transitionend', function() {
+            $wrapper.one('transitionend', function () {
                 callback(el, ordinal, options.opentransitionend);
             });
 
@@ -437,7 +438,7 @@
 
             // Re-enable scrolling of background layer
             if (options.scrolllock) {
-                setTimeout(function() {
+                setTimeout(function () {
                     $body.css({
                         overflow: 'visible',
                         'margin-right': bodymarginright
@@ -456,7 +457,7 @@
                 $(document).off('focusin', focushandler);
 
                 // Focus back on saved element
-                setTimeout(function() {
+                setTimeout(function () {
                     if ($(focusedelementbeforepopup).is(':visible')) {
                         focusedelementbeforepopup.focus();
                     }
@@ -487,7 +488,7 @@
             }
 
             // After closing CSS transition is over... (if transition is set and supported)
-            $el.one('transitionend', function(e) {
+            $el.one('transitionend', function (e) {
 
                 if (!($el.data('popup-visible'))) {
                     if (options.detach) {
@@ -530,7 +531,7 @@
             if ($el.data('popup-visible')) {
                 methods.hide(el);
             } else {
-                setTimeout(function() {
+                setTimeout(function () {
                     methods.show(el, ordinal);
                 }, 0);
             }
@@ -555,7 +556,7 @@
                 $wrapper.css({
                     'position': 'absolute'
                 });
-                var openelement =  (options.openelement) ? options.openelement : ('.' + el.id + opensuffix);
+                var openelement = (options.openelement) ? options.openelement : ('.' + el.id + opensuffix);
                 var $elementclicked = $(openelement + '[data-popup-ordinal="' + ordinal + '"]');
                 var linkOffset = $elementclicked.offset();
 
@@ -563,11 +564,11 @@
                 if (options.horizontal == 'right') {
                     $wrapper.css('left', linkOffset.left + $elementclicked.outerWidth() + options.offsetleft);
                 } else if (options.horizontal == 'leftedge') {
-                    $wrapper.css('left', linkOffset.left + $elementclicked.outerWidth() - $elementclicked.outerWidth() +  options.offsetleft);
+                    $wrapper.css('left', linkOffset.left + $elementclicked.outerWidth() - $elementclicked.outerWidth() + options.offsetleft);
                 } else if (options.horizontal == 'left') {
-                    $wrapper.css('right', $(window).width() - linkOffset.left  - options.offsetleft);
+                    $wrapper.css('right', $(window).width() - linkOffset.left - options.offsetleft);
                 } else if (options.horizontal == 'rightedge') {
-                    $wrapper.css('right', $(window).width()  - linkOffset.left - $elementclicked.outerWidth() - options.offsetleft);
+                    $wrapper.css('right', $(window).width() - linkOffset.left - $elementclicked.outerWidth() - options.offsetleft);
                 } else {
                     $wrapper.css('left', linkOffset.left + ($elementclicked.outerWidth() / 2) - ($el.outerWidth() / 2) - parseFloat($el.css('marginLeft')) + options.offsetleft);
                 }
@@ -585,7 +586,7 @@
                     $wrapper.css('top', linkOffset.top + ($elementclicked.outerHeight() / 2) - ($el.outerHeight() / 2) - parseFloat($el.css('marginTop')) + options.offsettop);
                 }
 
-            // Overlay type
+                // Overlay type
             } else if (options.type == 'overlay') {
 
                 // Horizontal position for overlay
@@ -614,7 +615,7 @@
      * @param {function} func - callback function
      */
     var callback = function (el, ordinal, func) {
-        var openelement =  (options.openelement) ? options.openelement : ('.' + el.id + opensuffix);
+        var openelement = (options.openelement) ? options.openelement : ('.' + el.id + opensuffix);
         var elementclicked = $(openelement + '[data-popup-ordinal="' + ordinal + '"]');
         if (typeof func == 'function') {
             func(elementclicked);
@@ -682,11 +683,16 @@
         closeelement: null,
         transition: null,
         notransitiondetach: false,
-        beforeopen: function(){},
-        onclose: function(){},
-        onopen: function(){},
-        opentransitionend: function(){},
-        closetransitionend: function(){}
+        beforeopen: function () {
+        },
+        onclose: function () {
+        },
+        onopen: function () {
+        },
+        opentransitionend: function () {
+        },
+        closetransitionend: function () {
+        }
     };
 
 })(jQuery);

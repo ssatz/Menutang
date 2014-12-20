@@ -14,6 +14,7 @@ namespace Repositories\ManageBusinessRepository;
 use BusinessInfo;
 use Illuminate\Database\DatabaseManager;
 use Repositories\BaseRepository;
+use Services\Cache\ICacheService;
 use Services\Helper;
 
 
@@ -34,9 +35,9 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      * @param businessInfo $managebusinesss
      * @param DatabaseManager $dbManager
      */
-    function __construct(BusinessInfo $manageBusiness, DatabaseManager $dbManager, Helper $helper)
+    function __construct(BusinessInfo $manageBusiness, DatabaseManager $dbManager, Helper $helper, ICacheService $cache)
     {
-        parent::__construct($manageBusiness);
+        parent::__construct($manageBusiness, $cache);
         $this->dbManager = $dbManager;
         $this->helper = $helper;
 
@@ -54,6 +55,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
             ->leftjoin('status', 'status.id', '=', 'status_id')
             ->leftjoin('business_users', 'business_info.id', '=', 'business_users.id')
             ->paginate(20);
+
         return $businessInfo;
     }
 
@@ -62,7 +64,12 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function findBusinessBySlug($slug)
     {
+        $key = md5('slug.' . $slug);
+        if ($this->cache->has($key)) {
+            return $this->cache->get($key);
+        }
         $businessInfo = $this->model->with('address', 'payment')->where('business_slug', '=', $slug)->first();
+        $this->cache->put($key, $businessInfo);
         return $businessInfo;
     }
 
@@ -73,6 +80,8 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function update(array $input, $slug)
     {
+        $key = md5('slug.' . $slug);
+        $this->cache->remove($key);
         $result = $this->helper->match($input, ['business_info', 'business_address']);
         $businessInfo = $this->model->where('business_slug', '=', $slug)->first();
         $this->model->where('business_slug', '=', $slug)->update($result['business_info']);
@@ -86,7 +95,14 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function totalBusinesscount()
     {
-        return $this->dbManager->table('business_info')->count();
+        $key = md5('totalbusiness');
+        if ($this->cache->has($key)) {
+            return $this->cache->get($key);
+
+        }
+        $count = $this->dbManager->table('business_info')->count();
+        $this->cache->put($key, $count);
+        return $count;
     }
 
 

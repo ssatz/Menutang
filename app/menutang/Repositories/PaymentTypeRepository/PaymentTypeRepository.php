@@ -13,20 +13,13 @@ namespace Repositories\PaymentTypeRepository;
 
 use Payment;
 use Repositories\BaseRepository;
+use Services\Cache\ICacheService;
 
 class PaymentTypeRepository extends BaseRepository implements IPaymentTypeRepository
 {
-    public function __construct(Payment $payment)
+    public function __construct(Payment $payment, ICacheService $cache)
     {
-        parent::__construct($payment);
+        parent::__construct($payment, $cache);
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getAll()
-    {
-        return $this->model->all();
-    }
 }

@@ -13,6 +13,7 @@ namespace Repositories\AdminRepository;
 
 use Admin;
 use Repositories\BaseRepository;
+use Services\Cache\ICacheService;
 
 class AdminRepository extends BaseRepository implements IAdminRepository
 {
@@ -24,10 +25,10 @@ class AdminRepository extends BaseRepository implements IAdminRepository
     /**
      * @param Admin $admin
      */
-    public function __construct(Admin $admin)
+    public function __construct(Admin $admin, ICacheService $cache)
     {
-        parent::__construct($admin);
-        $this->admin = $admin;
+        parent::__construct($admin, $cache);
+
     }
 
     /**
@@ -36,6 +37,6 @@ class AdminRepository extends BaseRepository implements IAdminRepository
      */
     public function findOrFail($id)
     {
-        return $this->admin->findOrFail($id);
+        return $this->model->findOrFail($id);
     }
 }

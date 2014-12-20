@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the menutang
  *
@@ -8,7 +9,8 @@
  * file that was distributed with this source code.
  */
 
-class BusinessSeeder extends Seeder {
+class BusinessSeeder extends Seeder
+{
 
     public function run()
     {

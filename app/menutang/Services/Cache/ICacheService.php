@@ -32,4 +32,17 @@ interface ICacheService
      * @return bool
      */
     public function has($key);
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function remove($key);
+
+    /**
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function remember($key, $value);
 }

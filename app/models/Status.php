@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the menutang
  *
@@ -8,17 +9,18 @@
  * file that was distributed with this source code.
  */
 
-class Status extends Eloquent {
+class Status extends Eloquent
+{
     /**
      * @var string
      */
-    protected $table='status';
+    protected $table = 'status';
 
     /**
      * @return mixed
      */
     public function businessInfo()
     {
-        return$this->belongsTo('BusinessInfo');
+        return $this->belongsTo('BusinessInfo');
     }
 }

@@ -13,12 +13,13 @@ namespace Repositories\ManageDeliveryAreaRepository;
 
 use DeliveryArea;
 use Repositories\BaseRepository;
+use Services\Cache\ICacheService;
 
 class ManageDeliveryAreaRepository extends BaseRepository implements IManagerDeliveryAreaRepository
 {
-    public function __construct(DeliveryArea $deliveryArea)
+    public function __construct(DeliveryArea $deliveryArea, ICacheService $cache)
     {
-        parent::__construct($deliveryArea);
+        parent::__construct($deliveryArea, $cache);
     }
 
     /**

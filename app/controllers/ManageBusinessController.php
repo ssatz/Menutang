@@ -78,10 +78,6 @@ class ManageBusinessController extends BaseController
             return View::make('admin.edit_business')->withBusiness($businessInfo)
                 ->withCities($this->manage->getAllCity())->withPayments($this->manage->getAllPayments());
         } else {
-            $helper = new \Services\Helper();
-            $info = ['_token', 'address_line_1', 'address_line_2', 'address_landmark', 'city_id', 'payments'];
-            $address = ['address_line_1', 'address_line_2', 'address_landmark', 'city_id'];
-            $payments = ['payments'];
             if ($this->manage->updateBusiness($this->request->all(), $slug)) {
                 return $this->redirector->back()->withMessage($this->translator->get('business.success'));
             }

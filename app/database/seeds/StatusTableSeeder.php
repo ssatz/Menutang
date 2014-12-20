@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the menutang
  *
@@ -8,21 +9,22 @@
  * file that was distributed with this source code.
  */
 
-class StatusTableSeeder extends DatabaseSeeder {
+class StatusTableSeeder extends DatabaseSeeder
+{
 
     public function run()
     {
         $status = Status::create(array(
-         'status_code'=>'PENDIG',
-            'status_description'=>'pending'
+            'status_code' => 'PENDIG',
+            'status_description' => 'pending'
         ));
         $status = Status::create(array(
-            'status_code'=>'ACTIVE',
-            'status_description'=>'active'
+            'status_code' => 'ACTIVE',
+            'status_description' => 'active'
         ));
         $status = Status::create(array(
-            'status_code'=>'INACTIVE',
-            'status_description'=>'inactive'
+            'status_code' => 'INACTIVE',
+            'status_description' => 'inactive'
         ));
     }
 }

@@ -61,6 +61,7 @@ class BusinessInfo extends Eloquent
     {
         return $this->hasOne('BusinessAddress');
     }
+
     /**
      * @return mixed
      */

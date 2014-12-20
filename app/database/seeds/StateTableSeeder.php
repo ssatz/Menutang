@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the menutang
  *
@@ -8,14 +9,15 @@
  * file that was distributed with this source code.
  */
 
-class StateTableSeeder extends  DatabaseSeeder{
+class StateTableSeeder extends DatabaseSeeder
+{
 
     public function run()
     {
         $address = State::create(array(
-            'country_id'=>1,
-            'state_code'=>'TN',
-            'state_description'=>'Tamil Nadu',
+            'country_id' => 1,
+            'state_code' => 'TN',
+            'state_description' => 'Tamil Nadu',
         ));
     }
 }

@@ -8,6 +8,6 @@
  * file that was distributed with this source code.
  */
 return [
-    'login'=>'Email/Password doesn\'t match',
+    'login' => 'Email/Password doesn\'t match',
 
 ];

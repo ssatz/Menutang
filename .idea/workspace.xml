@@ -1,34 +1,243 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1c0c4679-7de4-41f9-b757-1c4f832827ac" name="Default" comment="Implementing Business Address Update details">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_19_111239_create_payments_types_table.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_19_111606_create_business_info_payment_types.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_19_131828_create_business_delivery_area_table.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/menutang/Services/Helper.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/menutang/Repositories/ManageDeliveryAreaRepository/IManagerDeliveryAreaRepository.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/menutang/Repositories/PaymentTypeRepository/IPaymentTypeRepository.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/menutang/Repositories/ManageDeliveryAreaRepository/ManageDeliveryAreaRepository.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/menutang/Repositories/PaymentTypeRepository/PaymentTypeRepository.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/admin/forms/regional_settings.blade.php" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\menutang\app\database\migrations\2014_12_11_133256_create_payments_table.php" afterPath="" />
-      <change type="MOVED" beforePath="C:\xampp\htdocs\menutang\app\database\migrations\2014_12_11_133940_create_delivery_area_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_19_131437_create_delivery_area_table.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/AdminAuthController.php" afterPath="$PROJECT_DIR$/app/controllers/AdminAuthController.php" />
+    <list default="true" id="1c0c4679-7de4-41f9-b757-1c4f832827ac" name="Default" comment="Implemented Payment types and their relationship to the business">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_20_071314_create_table_menu_item.php" />
+      <change type="MOVED" beforePath="C:\xampp\htdocs\menutang\app\database\migrations\2014_12_11_120522_create_status_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_20_071108_create_table_menu_category.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_09_054034_create_users_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_09_054034_create_users_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_09_063655_create_roles_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_09_063655_create_roles_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_09_072015_create_password_reset_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_09_072015_create_password_reset_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_09_135700_create_user_role_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_09_135700_create_user_role_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_10_054657_create_admin_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_10_054657_create_admin_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_10_054837_business_users_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_10_054837_business_users_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_11_115552_create_business_type_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_11_115552_create_business_type_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_11_120441_create_country_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_11_120441_create_country_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_11_120503_create_state_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_11_120503_create_state_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_11_120519_create_city_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_11_120519_create_city_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_11_120522_create_status_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_11_120522_create_status_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_11_120619_create_business_info_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_11_120619_create_business_info_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_11_120716_create_business_address_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_11_120716_create_business_address_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_11_120899_create_business_hours_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_11_120899_create_business_hours_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_12_061930_add_foreign_key_restaurant_info.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_12_061930_add_foreign_key_restaurant_info.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_13_120258_add_active_column_restaurant_info.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_13_120258_add_active_column_restaurant_info.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_15_044120_add_columns_business_unique_id.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_15_044120_add_columns_business_unique_id.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_15_102149_add_first_name_last_name_business_users.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_15_102149_add_first_name_last_name_business_users.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_15_113558_add_slug_business_info.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_15_113558_add_slug_business_info.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_19_111239_create_payments_types_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_19_111239_create_payments_types_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_19_111606_create_business_info_payment_types.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_19_111606_create_business_info_payment_types.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_19_131437_create_delivery_area_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_19_131437_create_delivery_area_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/migrations/2014_12_19_131828_create_business_delivery_area_table.php" afterPath="$PROJECT_DIR$/app/database/migrations/2014_12_19_131828_create_business_delivery_area_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/css/960/min/960.css" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/css/960/min/960.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/css/960/min/960_16_col.css" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/css/960/min/960_16_col.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Admin.php" afterPath="$PROJECT_DIR$/app/models/Admin.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/menutang/Repositories/AdminRepository/AdminRepository.php" afterPath="$PROJECT_DIR$/app/menutang/Repositories/AdminRepository/AdminRepository.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/menutang/Repositories/BaseRepository.php" afterPath="$PROJECT_DIR$/app/menutang/Repositories/BaseRepository.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/seeds/BusinessAddressSeeder.php" afterPath="$PROJECT_DIR$/app/database/seeds/BusinessAddressSeeder.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/BusinessInfo.php" afterPath="$PROJECT_DIR$/app/models/BusinessInfo.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/menutang/Services/BusinessManager.php" afterPath="$PROJECT_DIR$/app/menutang/Services/BusinessManager.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/seeds/BusinessInfoSeeder.php" afterPath="$PROJECT_DIR$/app/database/seeds/BusinessInfoSeeder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/seeds/BusinessSeeder.php" afterPath="$PROJECT_DIR$/app/database/seeds/BusinessSeeder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/BusinessType.php" afterPath="$PROJECT_DIR$/app/models/BusinessType.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/menutang/Repositories/BusinessUserRepository/BusinessUserRepository.php" afterPath="$PROJECT_DIR$/app/menutang/Repositories/BusinessUserRepository/BusinessUserRepository.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/menutang/Services/Cache/CacheService.php" afterPath="$PROJECT_DIR$/app/menutang/Services/Cache/CacheService.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/City.php" afterPath="$PROJECT_DIR$/app/models/City.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Country.php" afterPath="$PROJECT_DIR$/app/models/Country.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/seeds/CountryTableSeeder.php" afterPath="$PROJECT_DIR$/app/database/seeds/CountryTableSeeder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/seeds/DatabaseSeeder.php" afterPath="$PROJECT_DIR$/app/database/seeds/DatabaseSeeder.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/DeliveryArea.php" afterPath="$PROJECT_DIR$/app/models/DeliveryArea.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/menutang/Repositories/ManageBusinessRepository/IManageBusinessRepository.php" afterPath="$PROJECT_DIR$/app/menutang/Repositories/ManageBusinessRepository/IManageBusinessRepository.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/tests/ExampleTest.php" afterPath="$PROJECT_DIR$/app/tests/ExampleTest.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/menutang/Services/Cache/ICacheService.php" afterPath="$PROJECT_DIR$/app/menutang/Services/Cache/ICacheService.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/ManageBusinessController.php" afterPath="$PROJECT_DIR$/app/controllers/ManageBusinessController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/menutang/Repositories/ManageBusinessRepository/ManageBusinessRepository.php" afterPath="$PROJECT_DIR$/app/menutang/Repositories/ManageBusinessRepository/ManageBusinessRepository.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/menutang/Services/MenutangServiceProvider.php" afterPath="$PROJECT_DIR$/app/menutang/Services/MenutangServiceProvider.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/menutang/Repositories/ManageCityRepository/ManageCityRepository.php" afterPath="$PROJECT_DIR$/app/menutang/Repositories/ManageCityRepository/ManageCityRepository.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/menutang/Repositories/ManageDeliveryAreaRepository/ManageDeliveryAreaRepository.php" afterPath="$PROJECT_DIR$/app/menutang/Repositories/ManageDeliveryAreaRepository/ManageDeliveryAreaRepository.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Payment.php" afterPath="$PROJECT_DIR$/app/models/Payment.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/_partials/balanceheader.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/_partials/balanceheader.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/edit_business.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/edit_business.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/_partials/main_menu.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/_partials/main_menu.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/routes.php" afterPath="$PROJECT_DIR$/app/routes.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/menutang/Repositories/PaymentTypeRepository/PaymentTypeRepository.php" afterPath="$PROJECT_DIR$/app/menutang/Repositories/PaymentTypeRepository/PaymentTypeRepository.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/seeds/PaymentsSeeder.php" afterPath="$PROJECT_DIR$/app/database/seeds/PaymentsSeeder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/State.php" afterPath="$PROJECT_DIR$/app/models/State.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/seeds/StateTableSeeder.php" afterPath="$PROJECT_DIR$/app/database/seeds/StateTableSeeder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Status.php" afterPath="$PROJECT_DIR$/app/models/Status.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/seeds/StatusTableSeeder.php" afterPath="$PROJECT_DIR$/app/database/seeds/StatusTableSeeder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/tests/TestCase.php" afterPath="$PROJECT_DIR$/app/tests/TestCase.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/User.php" afterPath="$PROJECT_DIR$/app/models/User.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/menutang/Repositories/UserRepository/UserRepository.php" afterPath="$PROJECT_DIR$/app/menutang/Repositories/UserRepository/UserRepository.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/seeds/UserTableSeeder.php" afterPath="$PROJECT_DIR$/app/database/seeds/UserTableSeeder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/app-landing.css" afterPath="$PROJECT_DIR$/public/assets/common/css/app-landing.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/app-landing.min.css" afterPath="$PROJECT_DIR$/public/assets/common/css/app-landing.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/app-skin.css" afterPath="$PROJECT_DIR$/public/assets/common/css/app-skin.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/app.css" afterPath="$PROJECT_DIR$/public/assets/common/css/app.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/app/app.js" afterPath="$PROJECT_DIR$/public/assets/common/js/app/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/app.min.css" afterPath="$PROJECT_DIR$/public/assets/common/css/app.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/app.php" afterPath="$PROJECT_DIR$/app/config/app.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/local/app.php" afterPath="$PROJECT_DIR$/app/config/local/app.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/app/app_dashboard.js" afterPath="$PROJECT_DIR$/public/assets/common/js/app/app_dashboard.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/app/app_form.js" afterPath="$PROJECT_DIR$/public/assets/common/js/app/app_form.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/app/app_wizard.js" afterPath="$PROJECT_DIR$/public/assets/common/js/app/app_wizard.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artisan" afterPath="$PROJECT_DIR$/artisan" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/auth.php" afterPath="$PROJECT_DIR$/app/config/auth.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bootstrap/autoload.php" afterPath="$PROJECT_DIR$/bootstrap/autoload.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/backbone-0.5.3/backbone.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/backbone-0.5.3/backbone.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/benchmark.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/benchmark.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/bootstrap-datepicker.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/bootstrap-datepicker.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/bootstrap-datepicker.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/bootstrap-datepicker.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/bootstrap-slider.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/bootstrap-slider.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/bootstrap-slider.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/bootstrap-slider.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/bootstrap-timepicker.css" afterPath="$PROJECT_DIR$/public/assets/common/css/bootstrap-timepicker.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/bootstrap-timepicker.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/bootstrap-timepicker.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/bootstrap-timepicker.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/bootstrap-timepicker.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/bootstrap-wysihtml5.css" afterPath="$PROJECT_DIR$/public/assets/common/css/bootstrap-wysihtml5.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/bootstrap-wysihtml5.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/bootstrap-wysihtml5.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/bootstrap.min.css" afterPath="$PROJECT_DIR$/public/assets/common/css/bootstrap.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/bootstrap.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/bootstrap.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/cache.php" afterPath="$PROJECT_DIR$/app/config/cache.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/testing/cache.php" afterPath="$PROJECT_DIR$/app/config/testing/cache.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/chosen/chosen.css" afterPath="$PROJECT_DIR$/public/assets/common/css/chosen/chosen.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/chosen.jquery.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/chosen.jquery.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/chosen.jquery.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/chosen.jquery.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/chosen/chosen.min.css" afterPath="$PROJECT_DIR$/public/assets/common/css/chosen/chosen.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/colorbox/colorbox.css" afterPath="$PROJECT_DIR$/public/assets/common/css/colorbox/colorbox.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/compile.php" afterPath="$PROJECT_DIR$/app/config/compile.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.json" afterPath="$PROJECT_DIR$/composer.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/database.php" afterPath="$PROJECT_DIR$/app/config/database.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/local/database.php" afterPath="$PROJECT_DIR$/app/config/local/database.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/datepicker.css" afterPath="$PROJECT_DIR$/public/assets/common/css/datepicker.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/demo.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/demo.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/json/demo.json" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/json/demo.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/dropzone/dropzone.css" afterPath="$PROJECT_DIR$/public/assets/common/css/dropzone/dropzone.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/dropzone.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/dropzone.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/dropzone.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/dropzone.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/filters.php" afterPath="$PROJECT_DIR$/app/filters.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/font-awesome.css" afterPath="$PROJECT_DIR$/public/assets/common/css/font-awesome.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/font-awesome.min.css" afterPath="$PROJECT_DIR$/public/assets/common/css/font-awesome.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/fullcalendar.css" afterPath="$PROJECT_DIR$/public/assets/common/css/fullcalendar.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/fullcalendar.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/fullcalendar.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/fullcalendar.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/fullcalendar.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/fullcalendar.print.css" afterPath="$PROJECT_DIR$/public/assets/common/css/fullcalendar.print.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/start/global.php" afterPath="$PROJECT_DIR$/app/start/global.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/holder.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/holder.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/index.php" afterPath="$PROJECT_DIR$/public/index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/jcarousel.responsive.css" afterPath="$PROJECT_DIR$/public/assets/common/css/jcarousel.responsive.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jcarousel.responsive.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jcarousel.responsive.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery-1.10.2.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery-1.10.2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-1.10.2.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-1.10.2.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-basic-example.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-basic-example.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-clustering.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-clustering.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-data-attribute.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-data-attribute.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-extend-with-pagination.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-extend-with-pagination.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-filtering.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-filtering.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-fusion-tables.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-fusion-tables.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-geocoding.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-geocoding.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-geolocation.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-geolocation.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-json.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-json.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-microdata.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-microdata.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-microformat.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-microformat.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-mobile-boilerplate.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-mobile-boilerplate.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-mobile.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-mobile.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-rdfa.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-rdfa.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-streetview.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-google-maps-streetview.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-mobile-example.html" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/jquery-mobile-example.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.colorbox.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.colorbox.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery.colorbox.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery.colorbox.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.cookie.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.cookie.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery.cookie.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery.cookie.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/jquery.dataTables.css" afterPath="$PROJECT_DIR$/public/assets/common/css/jquery.dataTables.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.dataTables.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.dataTables.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery.dataTables.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery.dataTables.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/jquery.dataTables_themeroller.css" afterPath="$PROJECT_DIR$/public/assets/common/css/jquery.dataTables_themeroller.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.flot.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.flot.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery.flot.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery.flot.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/gritter/jquery.gritter.css" afterPath="$PROJECT_DIR$/public/assets/common/css/gritter/jquery.gritter.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.gritter.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.gritter.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery.gritter.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery.gritter.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.jcarousel.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.jcarousel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery.jcarousel.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery.jcarousel.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.localscroll.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.localscroll.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery.localscroll.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery.localscroll.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.maskedinput.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.maskedinput.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery.maskedinput.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery.maskedinput.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/jquery-1.7.1/jquery.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/jquery-1.7.1/jquery.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/minicolors/jquery.minicolors.css" afterPath="$PROJECT_DIR$/public/assets/common/css/minicolors/jquery.minicolors.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.minicolors.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.minicolors.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery.minicolors.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery.minicolors.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/css/jquery-mobile-1.0/jquery.mobile.css" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/css/jquery-mobile-1.0/jquery.mobile.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/jquery-mobile-1.0/jquery.mobile.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/jquery-mobile-1.0/jquery.mobile.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.nestable.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.nestable.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery.nestable.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery.nestable.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.popupoverlay.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.popupoverlay.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery.popupoverlay.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery.popupoverlay.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.resize.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.resize.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery.resize.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery.resize.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.scrollTo.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.scrollTo.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery.scrollTo.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery.scrollTo.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.slimscroll.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.slimscroll.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery.slimscroll.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery.slimscroll.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.sparkline.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.sparkline.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery.sparkline.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery.sparkline.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/jquery.tagsinput.css" afterPath="$PROJECT_DIR$/public/assets/common/css/jquery.tagsinput.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.tagsinput.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/jquery.tagsinput.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery.tagsinput.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery.tagsinput.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/jquery.ui-1.8.15/jquery.ui.autocomplete.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/jquery.ui-1.8.15/jquery.ui.autocomplete.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/jquery.ui.map.extensions.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/jquery.ui.map.extensions.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/min/jquery.ui.map.full.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/min/jquery.ui.map.full.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/jquery.ui.map.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/jquery.ui.map.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/jquery.ui.map.microdata.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/jquery.ui.map.microdata.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/min/jquery.ui.map.microdata.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/min/jquery.ui.map.microdata.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/jquery.ui.map.microformat.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/jquery.ui.map.microformat.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/min/jquery.ui.map.microformat.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/min/jquery.ui.map.microformat.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/min/jquery.ui.map.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/min/jquery.ui.map.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/jquery.ui.map.overlays.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/jquery.ui.map.overlays.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/min/jquery.ui.map.overlays.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/min/jquery.ui.map.overlays.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/jquery.ui.map.rdfa.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/jquery.ui.map.rdfa.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/min/jquery.ui.map.rdfa.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/min/jquery.ui.map.rdfa.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/jquery.ui.map.services.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/jquery.ui.map.services.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/min/jquery.ui.map.services.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/ui/min/jquery.ui.map.services.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/less-1.5.1.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/less-1.5.1.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/less-1.5.1.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/less-1.5.1.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/lang/en/login.php" afterPath="$PROJECT_DIR$/app/lang/en/login.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/mail.php" afterPath="$PROJECT_DIR$/app/config/mail.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/marker-with-label-1.1.5/marker.with.label.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/marker-with-label-1.1.5/marker.with.label.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/markerclustererplus-2.0.6/markerclusterer.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/markerclustererplus-2.0.6/markerclusterer.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/css/mobile.css" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/css/mobile.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/modernizr.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/modernizr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/modernizr.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/modernizr.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/modernizr-2.0.6/modernizr.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/modernizr-2.0.6/modernizr.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/morris.css" afterPath="$PROJECT_DIR$/public/assets/common/css/morris.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/morris.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/morris.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/morris.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/morris.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/css/normalize/min/normalize.css" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/css/normalize/min/normalize.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/pace.css" afterPath="$PROJECT_DIR$/public/assets/common/css/pace.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/pace.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/pace.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/pace.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/pace.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/lang/en/pagination.php" afterPath="$PROJECT_DIR$/app/lang/en/pagination.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/parsley.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/parsley.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/parsley.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/parsley.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bootstrap/paths.php" afterPath="$PROJECT_DIR$/bootstrap/paths.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phpunit.xml" afterPath="$PROJECT_DIR$/phpunit.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/prettify.css" afterPath="$PROJECT_DIR$/public/assets/common/css/prettify.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/css/prettify/min/prettify.css" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/css/prettify/min/prettify.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/prettify/prettify.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/prettify/prettify.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/queue.php" afterPath="$PROJECT_DIR$/app/config/queue.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/rapheal.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/rapheal.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/rapheal.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/rapheal.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/lang/en/reminders.php" afterPath="$PROJECT_DIR$/app/lang/en/reminders.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/remote.php" afterPath="$PROJECT_DIR$/app/config/remote.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/run_prettify.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/run_prettify.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server.php" afterPath="$PROJECT_DIR$/server.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/services.php" afterPath="$PROJECT_DIR$/app/config/services.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/session.php" afterPath="$PROJECT_DIR$/app/config/session.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/testing/session.php" afterPath="$PROJECT_DIR$/app/config/testing/session.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/slider.css" afterPath="$PROJECT_DIR$/public/assets/common/css/slider.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bootstrap/start.php" afterPath="$PROJECT_DIR$/bootstrap/start.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/css/style.css" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/underscore-1.2.2/underscore.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/jquery-ui-map/demos/js/underscore-1.2.2/underscore.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/lang/en/validation.php" afterPath="$PROJECT_DIR$/app/lang/en/validation.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/view.php" afterPath="$PROJECT_DIR$/app/config/view.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/waypoints.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/waypoints.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/waypoints.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/waypoints.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/workbench.php" afterPath="$PROJECT_DIR$/app/config/workbench.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/uncompressed/wysihtml5-0.3.0.js" afterPath="$PROJECT_DIR$/public/assets/common/js/uncompressed/wysihtml5-0.3.0.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/js/wysihtml5-0.3.0.min.js" afterPath="$PROJECT_DIR$/public/assets/common/js/wysihtml5-0.3.0.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/common/css/wysiwyg-color.css" afterPath="$PROJECT_DIR$/public/assets/common/css/wysiwyg-color.css" />
     </list>
     <list id="c3086eb5-d49c-4691-a259-2b1149a748e5" name="Rejected commit: Default" comment="Added Migrations and basic setup of Repository Pattern" />
     <list id="893e7829-f350-4483-9370-b26ba5782808" name="Failed commit: Default" comment="Created Repositories for Admin and Restaurants" />
@@ -81,34 +290,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="edit_business.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/admin/edit_business.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.423077" vertical-offset="7191" max-vertical-offset="8500">
-              <caret line="442" column="108" selection-start-line="442" selection-start-column="108" selection-end-line="442" selection-end-column="108" />
-              <folding>
-                <marker date="1418994415126" expanded="true" signature="406:523" placeholder="..." />
-                <marker date="1418994415126" expanded="true" signature="407:522" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IManageBusinessRepository.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/ManageBusinessRepository/IManageBusinessRepository.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.423077" vertical-offset="5" max-vertical-offset="629">
-              <caret line="37" column="39" selection-start-line="37" selection-start-column="39" selection-end-line="37" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ManageBusinessRepository.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/ManageBusinessRepository/ManageBusinessRepository.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.153846" vertical-offset="0" max-vertical-offset="1547">
-              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state vertical-scroll-proportion="33.384617" vertical-offset="1412" max-vertical-offset="1819">
+              <caret line="39" column="51" selection-start-line="39" selection-start-column="51" selection-end-line="39" selection-end-column="51" />
               <folding>
                 <element signature="e#270#287#0#PHP" expanded="true" />
               </folding>
@@ -116,22 +302,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="2014_12_19_131437_create_delivery_area_table.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_12_19_131437_create_delivery_area_table.php">
+      <file leaf-file-name="PaymentTypeRepository.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/PaymentTypeRepository/PaymentTypeRepository.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.115385" vertical-offset="0" max-vertical-offset="663">
-              <caret line="18" column="40" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="2014_12_19_131828_create_business_delivery_area_table.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_12_19_131828_create_business_delivery_area_table.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.461538" vertical-offset="51" max-vertical-offset="697">
-              <caret line="20" column="38" selection-start-line="20" selection-start-column="38" selection-end-line="20" selection-end-column="38" />
-              <folding />
+            <state vertical-scroll-proportion="-10.461538" vertical-offset="0" max-vertical-offset="391">
+              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+              <folding>
+                <element signature="e#267#279#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -139,19 +317,21 @@
       <file leaf-file-name="2014_12_19_111239_create_payments_types_table.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_12_19_111239_create_payments_types_table.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.6923075" vertical-offset="115" max-vertical-offset="663">
+            <state vertical-scroll-proportion="-9.0" vertical-offset="55" max-vertical-offset="663">
               <caret line="18" column="50" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BusinessInfo.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/models/BusinessInfo.php">
+      <file leaf-file-name="BusinessUserRepository.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/BusinessUserRepository/BusinessUserRepository.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5377856" vertical-offset="0" max-vertical-offset="1173">
-              <caret line="25" column="32" selection-start-line="25" selection-start-column="32" selection-end-line="25" selection-end-column="32" />
-              <folding />
+            <state vertical-scroll-proportion="-17.653847" vertical-offset="153" max-vertical-offset="765">
+              <caret line="43" column="5" selection-start-line="43" selection-start-column="5" selection-end-line="43" selection-end-column="5" />
+              <folding>
+                <element signature="e#268#285#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -159,28 +339,64 @@
       <file leaf-file-name="2014_12_19_111606_create_business_info_payment_types.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_12_19_111606_create_business_info_payment_types.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.076923" vertical-offset="111" max-vertical-offset="680">
-              <caret line="26" column="6" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
+            <state vertical-scroll-proportion="-1.7692307" vertical-offset="260" max-vertical-offset="680">
+              <caret line="19" column="36" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DeliveryArea.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/DeliveryArea.php">
+      <file leaf-file-name="2014_12_20_071108_create_table_menu_category.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_12_20_071108_create_table_menu_category.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.807693" vertical-offset="0" max-vertical-offset="391">
-              <caret line="22" column="108" selection-start-line="22" selection-start-column="51" selection-end-line="22" selection-end-column="108" />
+            <state vertical-scroll-proportion="-10.461538" vertical-offset="0" max-vertical-offset="646">
+              <caret line="17" column="50" selection-start-line="17" selection-start-column="50" selection-end-line="17" selection-end-column="50" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Payment.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/Payment.php">
+      <file leaf-file-name="2014_12_20_071314_create_table_menu_item.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_12_20_071314_create_table_menu_item.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.423077" vertical-offset="0" max-vertical-offset="459">
-              <caret line="26" column="35" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.6880952" vertical-offset="17" max-vertical-offset="680">
+              <caret line="18" column="59" selection-start-line="18" selection-start-column="59" selection-end-line="18" selection-end-column="59" />
+              <folding>
+                <element signature="e#7#52#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AdminRepository.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/AdminRepository/AdminRepository.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-8.307693" vertical-offset="260" max-vertical-offset="680">
+              <caret line="35" column="20" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="20" />
+              <folding>
+                <element signature="e#261#271#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ManageCityRepository.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/ManageCityRepository/ManageCityRepository.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-12.423077" vertical-offset="34" max-vertical-offset="476">
+              <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+              <folding>
+                <element signature="e#266#275#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BaseRepository.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/BaseRepository.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-11.923077" vertical-offset="659" max-vertical-offset="1343">
+              <caret line="57" column="7" selection-start-line="57" selection-start-column="7" selection-end-line="57" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -190,10 +406,6 @@
   </component>
   <component name="FrameworkCommandLineHistory">
     <commandsHistory>
-      <command text="php artisan migrate:make add_foreign_key --table=business_info" />
-      <command text="php artisan migrate" />
-      <command text="php artisan db:seed" />
-      <command text="php artisan migrate" />
       <command text="php artisan db:seed" />
       <command text="php artisan dump-autoload" />
       <command text="php artisan db:seed" />
@@ -215,6 +427,10 @@
       <command text="php artisan migrate:make create_delivery_area_table --create=delivery_area" />
       <command text="php artisan migrate:make create_business_delivery_area_table --create=business_delivery" />
       <command text="php artisan migrate" />
+      <command text="php artisan dump-autoload" />
+      <command text="php artisan migrate:make create_table_menu_category --create=menu_category" />
+      <command text="php artisan migrate:make create_table_menu_item --create" />
+      <command text="php artisan migrate:make create_table_menu_item --create=menu_item" />
     </commandsHistory>
   </component>
   <component name="Git.Settings">
@@ -330,7 +546,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -339,8 +554,19 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="menutang" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="menutang" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -385,17 +611,20 @@
     <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
       <method />
     </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
-      <method />
-    </configuration>
     <configuration default="true" type="com.intellij.database.run.ConsoleRunConfigurationType" factoryName="Query Language Console">
       <option name="VM_PARAMETERS" value="" />
       <option name="USER_CFG_CLASS" />
       <option name="CONTEXT_PROVIDER" />
       <method />
     </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
     <configuration default="true" type="PhpBehatConfigurationType" factoryName="Behat">
       <BehatRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
@@ -404,9 +633,6 @@
       <tasks />
       <pass-parent-envs>true</pass-parent-envs>
       <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <configuration default="false" name="menutang" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" server_name="Unnamed" start_url="http://localhost/menutang/public">
@@ -459,36 +685,42 @@
       <option name="project" value="LOCAL" />
       <updated>1418911789741</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Implemented Payment types and their relationship to the business">
+      <created>1418995516362</created>
+      <option name="number" value="00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1418995516362</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="0" />
     <editor active="false" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32861635" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32861635" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.329429" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27515724" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329429" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20131771" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.254717" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27515724" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.254717" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32861635" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32861635" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32861635" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4025157" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
     <layout-to-restore>
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32861635" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -510,9 +742,9 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20131771" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2625786" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -539,7 +771,8 @@
     <MESSAGE value="&#10;Created Business Login and Logout" />
     <MESSAGE value="Implemented BusinessInfo Update functionality and working on Delivery area" />
     <MESSAGE value="Implementing Business Address Update details" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implementing Business Address Update details" />
+    <MESSAGE value="Implemented Payment types and their relationship to the business" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented Payment types and their relationship to the business" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -555,140 +788,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Support/Facades/App.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.2692308" vertical-offset="0" max-vertical-offset="357">
-          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/BusinessAuthController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="503" max-vertical-offset="918">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/BaseController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.153846" vertical-offset="0" max-vertical-offset="374">
-          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/error404.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="374" max-vertical-offset="1258">
-          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/business_layout.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5262" max-vertical-offset="5831">
-          <caret line="336" column="7" selection-start-line="336" selection-start-column="7" selection-end-line="336" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/_layout.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.346153" vertical-offset="4964" max-vertical-offset="5576">
-          <caret line="317" column="4" selection-start-line="317" selection-start-column="4" selection-end-line="317" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/84c503bd/8479adaf-49e0-4510-9595-858c12e65443/menutang..city">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="272">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/City.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="95" max-vertical-offset="510">
-          <caret line="15" column="28" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/84c503bd/8479adaf-49e0-4510-9595-858c12e65443/menutang..business_info">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/ManageCityRepository/IManageCityRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23367697" vertical-offset="0" max-vertical-offset="582">
-          <caret line="15" column="29" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/BusinessAddress.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46735394" vertical-offset="0" max-vertical-offset="582">
-          <caret line="23" column="31" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/BaseRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7302405" vertical-offset="0" max-vertical-offset="582">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/84c503bd/8479adaf-49e0-4510-9595-858c12e65443/menutang..business_address">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/ManageDeliveryAreaRepository/IManagerDeliveryAreaRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="357">
-          <caret line="22" column="1" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/ManageDeliveryAreaRepository/ManageDeliveryAreaRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="510">
-          <caret line="23" column="7" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="7" />
-          <folding>
-            <element signature="e#274#291#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/start/artisan.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="608">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/start/global.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.2783505" vertical-offset="744" max-vertical-offset="1326">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -696,7 +799,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-10.461538" vertical-offset="119" max-vertical-offset="986">
           <caret line="32" column="37" selection-start-line="32" selection-start-column="37" selection-end-line="32" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -704,10 +806,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-34.0" vertical-offset="0" max-vertical-offset="1020">
           <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-          <folding>
-            <marker date="1418825757219" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1418825757219" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -715,7 +813,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="4.576923" vertical-offset="153" max-vertical-offset="867">
           <caret line="2" column="66" selection-start-line="2" selection-start-column="66" selection-end-line="2" selection-end-column="66" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -723,9 +820,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="4.923077" vertical-offset="366" max-vertical-offset="935">
           <caret line="14" column="78" selection-start-line="13" selection-start-column="21" selection-end-line="14" selection-end-column="78" />
-          <folding>
-            <marker date="1418825373218" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -733,19 +827,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.3076923" vertical-offset="0" max-vertical-offset="493">
           <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="dbDummy://dbtable:/84c503bd/8479adaf-49e0-4510-9595-858c12e65443/menutang..business_hours">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
-      </provider>
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state />
       </provider>
     </entry>
     <entry file="dbDummy://dbtable:/84c503bd/8479adaf-49e0-4510-9595-858c12e65443/menutang..delivery_area">
@@ -755,7 +847,6 @@
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -763,7 +854,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-13.730769" vertical-offset="0" max-vertical-offset="476">
           <caret line="21" column="21" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -771,7 +861,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="595">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -779,7 +868,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-9.807693" vertical-offset="0" max-vertical-offset="612">
           <caret line="16" column="131" selection-start-line="15" selection-start-column="12" selection-end-line="16" selection-end-column="131" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -787,50 +875,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.6153846" vertical-offset="0" max-vertical-offset="204">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/PaymentTypeRepository/IPaymentTypeRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.8461537" vertical-offset="0" max-vertical-offset="306">
-          <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/ManageCityRepository/ManageCityRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.961538" vertical-offset="132" max-vertical-offset="578">
-          <caret line="31" column="28" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/menutang/Services/MenutangServiceProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-26.615385" vertical-offset="5" max-vertical-offset="935">
-          <caret line="48" column="49" selection-start-line="48" selection-start-column="49" selection-end-line="48" selection-end-column="49" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="dbDummy://dbtable:/84c503bd/8479adaf-49e0-4510-9595-858c12e65443/menutang..payment_types">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
-      </provider>
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/AdminAuthController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-24.0" vertical-offset="566" max-vertical-offset="1394">
           <caret line="77" column="27" selection-start-line="77" selection-start-column="27" selection-end-line="77" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -856,110 +917,279 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.46153846" vertical-offset="73" max-vertical-offset="595">
           <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/PaymentTypeRepository/PaymentTypeRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.730769" vertical-offset="17" max-vertical-offset="510">
-          <caret line="29" column="35" selection-start-line="29" selection-start-column="35" selection-end-line="29" selection-end-column="35" />
-          <folding>
-            <marker date="1418989587032" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/menutang/Services/Helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.076923" vertical-offset="0" max-vertical-offset="850">
-          <caret line="20" column="49" selection-start-line="20" selection-start-column="49" selection-end-line="20" selection-end-column="49" />
-          <folding>
-            <element signature="e#6#217#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/menutang/Services/BusinessManager.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.3846154" vertical-offset="1781" max-vertical-offset="2329">
-          <caret line="113" column="20" selection-start-line="113" selection-start-column="20" selection-end-line="113" selection-end-column="20" />
-          <folding>
-            <element signature="e#6#217#0#PHP" expanded="true" />
-            <marker date="1418993690026" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/ManageBusinessController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.461538" vertical-offset="1037" max-vertical-offset="2125">
-          <caret line="84" column="68" selection-start-line="84" selection-start-column="68" selection-end-line="84" selection-end-column="68" />
-          <folding>
-            <element signature="e#219#257#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/ManageBusinessRepository/IManageBusinessRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.423077" vertical-offset="5" max-vertical-offset="629">
-          <caret line="37" column="39" selection-start-line="37" selection-start-column="39" selection-end-line="37" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/admin/edit_business.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.423077" vertical-offset="7191" max-vertical-offset="8500">
+        <state vertical-scroll-proportion="0.0" vertical-offset="7191" max-vertical-offset="8500">
           <caret line="442" column="108" selection-start-line="442" selection-start-column="108" selection-end-line="442" selection-end-column="108" />
           <folding>
-            <marker date="1418994415126" expanded="true" signature="406:523" placeholder="..." />
-            <marker date="1418994415126" expanded="true" signature="407:522" placeholder="..." />
+            <marker date="1418994415126" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1418994415126" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="dbDummy://dbtable:/84c503bd/8479adaf-49e0-4510-9595-858c12e65443/menutang..business_payments">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_12_19_131437_create_delivery_area_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="663">
+          <caret line="18" column="40" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
+          <folding>
+            <marker date="1418995574532" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_12_19_131828_create_business_delivery_area_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="697">
+          <caret line="20" column="38" selection-start-line="20" selection-start-column="38" selection-end-line="20" selection-end-column="38" />
+          <folding>
+            <marker date="1418995574389" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/Payment.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="493">
+          <caret line="28" column="35" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/DeliveryArea.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="425">
+          <caret line="24" column="111" selection-start-line="24" selection-start-column="52" selection-end-line="24" selection-end-column="111" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/BusinessInfo.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="4.923077" vertical-offset="604" max-vertical-offset="1190">
+          <caret line="35" column="7" selection-start-line="35" selection-start-column="7" selection-end-line="35" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Support/Facades/Cache.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17525773" vertical-offset="0" max-vertical-offset="582">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/cache.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1615">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="65.88461" vertical-offset="1713" max-vertical-offset="3468">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Support/Facades/Config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.14604811" vertical-offset="0" max-vertical-offset="582">
+          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Config/FileEnvironmentVariablesLoader.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1241">
+          <caret line="0" column="27" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Config/Repository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6987">
+          <caret line="0" column="27" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="27" />
+          <folding>
+            <element signature="e#36#52#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Config/LoaderInterface.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.3076923" vertical-offset="0" max-vertical-offset="1003">
+          <caret line="2" column="10" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Cache/CacheManager.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="52.807693" vertical-offset="1441" max-vertical-offset="3196">
+          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Config/EnvironmentVariables.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="867">
+          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/ManageBusinessController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.7404762" vertical-offset="1229" max-vertical-offset="2057">
+          <caret line="61" column="7" selection-start-line="61" selection-start-column="7" selection-end-line="61" selection-end-column="7" />
+          <folding>
+            <element signature="e#219#257#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/menutang/Services/Cache/ICacheService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.576923" vertical-offset="362" max-vertical-offset="782">
+          <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/menutang/Services/Cache/CacheService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.576923" vertical-offset="1246" max-vertical-offset="1717">
+          <caret line="98" column="37" selection-start-line="98" selection-start-column="37" selection-end-line="98" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/storage/cache/a1/81/a181a603769c1f98ad927e7367c7aa51">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="446">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/ManageBusinessRepository/IManageBusinessRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1923077" vertical-offset="5" max-vertical-offset="629">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/UserRepository/UserRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.769231" vertical-offset="136" max-vertical-offset="578">
+          <caret line="33" column="27" selection-start-line="33" selection-start-column="27" selection-end-line="33" selection-end-column="27" />
+          <folding>
+            <element signature="e#260#292#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/ManageDeliveryAreaRepository/ManageDeliveryAreaRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.8846154" vertical-offset="85" max-vertical-offset="527">
+          <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
+          <folding>
+            <element signature="e#274#291#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/BusinessUserRepository/IBusinessUserRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="446">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/BusinessUserRepository/BusinessUserRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-17.653847" vertical-offset="153" max-vertical-offset="765">
+          <caret line="43" column="5" selection-start-line="43" selection-start-column="5" selection-end-line="43" selection-end-column="5" />
+          <folding>
+            <element signature="e#268#285#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/AdminRepository/AdminRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.307693" vertical-offset="260" max-vertical-offset="680">
+          <caret line="35" column="20" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="20" />
+          <folding>
+            <element signature="e#261#271#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/PaymentTypeRepository/PaymentTypeRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.461538" vertical-offset="0" max-vertical-offset="391">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding>
+            <element signature="e#267#279#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/ManageCityRepository/ManageCityRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.423077" vertical-offset="34" max-vertical-offset="476">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding>
+            <element signature="e#266#275#0#PHP" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/ManageBusinessRepository/ManageBusinessRepository.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.153846" vertical-offset="0" max-vertical-offset="1547">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        <state vertical-scroll-proportion="33.384617" vertical-offset="1412" max-vertical-offset="1819">
+          <caret line="39" column="51" selection-start-line="39" selection-start-column="51" selection-end-line="39" selection-end-column="51" />
           <folding>
             <element signature="e#270#287#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_12_19_131437_create_delivery_area_table.php">
+    <entry file="file://$PROJECT_DIR$/app/menutang/Repositories/BaseRepository.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.115385" vertical-offset="0" max-vertical-offset="663">
-          <caret line="18" column="40" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_12_19_131828_create_business_delivery_area_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.461538" vertical-offset="51" max-vertical-offset="697">
-          <caret line="20" column="38" selection-start-line="20" selection-start-column="38" selection-end-line="20" selection-end-column="38" />
+        <state vertical-scroll-proportion="-11.923077" vertical-offset="659" max-vertical-offset="1343">
+          <caret line="57" column="7" selection-start-line="57" selection-start-column="7" selection-end-line="57" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_12_19_111239_create_payments_types_table.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.6923075" vertical-offset="115" max-vertical-offset="663">
+        <state vertical-scroll-proportion="-9.0" vertical-offset="55" max-vertical-offset="663">
           <caret line="18" column="50" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
           <folding />
         </state>
@@ -967,33 +1197,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_12_19_111606_create_business_info_payment_types.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.076923" vertical-offset="111" max-vertical-offset="680">
-          <caret line="26" column="6" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
+        <state vertical-scroll-proportion="-1.7692307" vertical-offset="260" max-vertical-offset="680">
+          <caret line="19" column="36" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Payment.php">
+    <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_12_20_071108_create_table_menu_category.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.423077" vertical-offset="0" max-vertical-offset="459">
-          <caret line="26" column="35" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="35" />
+        <state vertical-scroll-proportion="-10.461538" vertical-offset="0" max-vertical-offset="646">
+          <caret line="17" column="50" selection-start-line="17" selection-start-column="50" selection-end-line="17" selection-end-column="50" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/DeliveryArea.php">
+    <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_12_20_071314_create_table_menu_item.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.807693" vertical-offset="0" max-vertical-offset="391">
-          <caret line="22" column="108" selection-start-line="22" selection-start-column="51" selection-end-line="22" selection-end-column="108" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/BusinessInfo.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5377856" vertical-offset="0" max-vertical-offset="1173">
-          <caret line="25" column="32" selection-start-line="25" selection-start-column="32" selection-end-line="25" selection-end-column="32" />
-          <folding />
+        <state vertical-scroll-proportion="0.6880952" vertical-offset="17" max-vertical-offset="680">
+          <caret line="18" column="59" selection-start-line="18" selection-start-column="59" selection-end-line="18" selection-end-column="59" />
+          <folding>
+            <element signature="e#7#52#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

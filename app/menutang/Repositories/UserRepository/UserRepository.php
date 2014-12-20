@@ -12,26 +12,25 @@ namespace Repositories\UserRepository;
 
 
 use Repositories\BaseRepository;
+use Services\Cache\ICacheService;
 use User;
 
 class UserRepository extends BaseRepository implements IuserRepository
 {
 
-    protected $user;
-
-    public function __construct(User $user)
+    public function __construct(User $user, ICacheService $cache)
     {
-        parent::__construct($user);
-        $this->user = $user;
+        parent::__construct($user, $cache);
+
     }
 
     public function create(array $data)
     {
-        return $this->user->create($data);
+        return $this->model->create($data);
     }
 
     public function findOrFail($id)
     {
-        return $this->user->findOrFail($id);
+        return $this->model->findOrFail($id);
     }
 }

@@ -13,6 +13,7 @@ namespace Repositories\ManageCityRepository;
 
 use City;
 use Repositories\BaseRepository;
+use Services\Cache\ICacheService;
 
 class ManageCityRepository extends BaseRepository implements IManageCityRepository
 {
@@ -21,17 +22,9 @@ class ManageCityRepository extends BaseRepository implements IManageCityReposito
     /**
      * @param City $manageCity
      */
-    public function __construct(City $manageCity)
+    public function __construct(City $manageCity, ICacheService $cache)
     {
-        parent::__construct($manageCity);
+        parent::__construct($manageCity, $cache);
     }
 
-    /**
-     *get all city details
-     */
-    public function getAll()
-    {
-
-        return $this->model->all();
-    }
 }

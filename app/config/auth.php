@@ -2,32 +2,32 @@
 
 return array(
 
-	'multi' => [
-		'admin' => [
-			'driver' => 'eloquent',
-			'model' => 'Admin',
-			'table'=>'admins'
-		],
-		'user' => [
-			'driver' => 'eloquent',
-			'model' => 'User',
-			'table'=>'user'
-		],
-		'businessuser' => [
-			'driver' => 'eloquent',
-			'model' => 'BusinessUser',
-			'table' => 'business_user'
-		]
-	],
+    'multi' => [
+        'admin' => [
+            'driver' => 'eloquent',
+            'model' => 'Admin',
+            'table' => 'admins'
+        ],
+        'user' => [
+            'driver' => 'eloquent',
+            'model' => 'User',
+            'table' => 'user'
+        ],
+        'businessuser' => [
+            'driver' => 'eloquent',
+            'model' => 'BusinessUser',
+            'table' => 'business_user'
+        ]
+    ],
 
-	'reminder' => [
+    'reminder' => [
 
-		'email' => 'emails.auth.reminder',
+        'email' => 'emails.auth.reminder',
 
-		'table' => 'password_reminders',
+        'table' => 'password_reminders',
 
-		'expire' => 60,
+        'expire' => 60,
 
-	],
+    ],
 
 );

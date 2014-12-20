@@ -14,9 +14,9 @@ class BusinessAddressSeeder extends DatabaseSeeder
     public function run()
     {
         $address = BusinessAddress::create(array(
-         'business_info_id'=>1,
-         'city_id'=>1,
-         'address_line_1'=>'3\160 salem main road',
+            'business_info_id' => 1,
+            'city_id' => 1,
+            'address_line_1' => '3\160 salem main road',
         ));
     }
 }

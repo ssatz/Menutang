@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the menutang
  *
@@ -8,12 +9,13 @@
  * file that was distributed with this source code.
  */
 
-class State extends Eloquent {
+class State extends Eloquent
+{
 
     /**
      * @var string
      */
-    protected $table='state';
+    protected $table = 'state';
 
     /**
      * @return mixed

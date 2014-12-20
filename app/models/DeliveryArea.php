@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the menutang
  *
@@ -9,7 +10,8 @@
  */
 
 
-class DeliveryArea extends Eloquent {
+class DeliveryArea extends Eloquent
+{
     /**
      * @var string
      */

@@ -11,15 +11,13 @@
 |
 */
 
-App::before(function($request)
-{
-	//
+App::before(function ($request) {
+    //
 });
 
 
-App::after(function($request, $response)
-{
-	//
+App::after(function ($request, $response) {
+    //
 });
 
 /*
@@ -33,22 +31,18 @@ App::after(function($request, $response)
 |
 */
 
-Route::filter('auth', function()
-{
-	if (Auth::guest())
-	{
-		if (Request::ajax())
-		{
-			return Response::make('Unauthorized', 401);
-		}
-		return Redirect::guest('login');
-	}
+Route::filter('auth', function () {
+    if (Auth::guest()) {
+        if (Request::ajax()) {
+            return Response::make('Unauthorized', 401);
+        }
+        return Redirect::guest('login');
+    }
 });
 
 
-Route::filter('auth.basic', function()
-{
-	return Auth::basic();
+Route::filter('auth.basic', function () {
+    return Auth::basic();
 });
 
 /*
@@ -62,9 +56,8 @@ Route::filter('auth.basic', function()
 |
 */
 
-Route::filter('guest', function()
-{
-	if (Auth::check()) return Redirect::to('/');
+Route::filter('guest', function () {
+    if (Auth::check()) return Redirect::to('/');
 });
 
 /*
@@ -78,21 +71,18 @@ Route::filter('guest', function()
 |
 */
 
-Route::filter('csrf', function()
-{
-	if (Session::token() !== Input::get('_token'))
-	{
-		throw new Illuminate\Session\TokenMismatchException;
-	}
+Route::filter('csrf', function () {
+    if (Session::token() !== Input::get('_token')) {
+        throw new Illuminate\Session\TokenMismatchException;
+    }
 });
 
-Route::filter('auth.admin', function()
-{
-	if (Auth::admin()->guest()) return Redirect::to('/');
+Route::filter('auth.admin', function () {
+    if (Auth::admin()->guest()) return Redirect::to('/');
 });
 
 Route::filter('auth.businessuser', function () {
-	if (Auth::businessuser()->guest()) return Redirect::to('/');
+    if (Auth::businessuser()->guest()) return Redirect::to('/');
 });
 
 Route::when('*', 'csrf', ['post', 'put', 'patch', 'delete']);

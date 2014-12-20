@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreatePaymentsTypesTable extends Migration
+class CreateTableMenuItem extends Migration
 {
 
     /**
@@ -13,10 +13,10 @@ class CreatePaymentsTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('payment_types', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('payment_code');
-            $table->string('payment_description');
+        Schema::create('menu_item', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('item_name');
+            $table->string('item_description')->nullable();
             $table->timestamps();
         });
     }
@@ -28,7 +28,7 @@ class CreatePaymentsTypesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('payment_types');
+        Schema::drop('menu_item');
     }
 
 }
