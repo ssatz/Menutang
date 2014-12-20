@@ -37,6 +37,8 @@ Route::group(['domain' => 'admin.localhost'], function () {
         });
         Route::get('{businessName?}', ['as' => 'admin.business.dashboard', 'uses' => 'ManageBusinessController@businessDashboard']);
         Route::any('{businessName}/edit', ['as' => 'admin.business.edit', 'uses' => 'ManageBusinessController@editBusinessInfo']);
+        Route::any('{businessName}/menu/add-item', ['as' => 'admin.business.additem', 'uses' => 'ManageBusinessController@addItem']);
+        Route::any('{businessName}/menu/edit-item', ['as' => 'admin.business.edititem', 'uses' => 'ManageBusinessController@editItem']);
         Route::any('{businessName}/delivery-area', ['as' => 'admin.business.deliveryarea', 'uses' => 'ManageBusinessController@deliveryArea']);
     });
 });

@@ -34,17 +34,25 @@
             <span class="menu-hover"></span>
         </a>
         </li>
-        <li class="">
-            <a href="{{  action('ManageBusinessController@deliveryArea', [$slug])}}">
-                            	<span class="menu-icon">
-                                       	<i class="fa fa-arrow-right fa-lg"></i>
-                                </span>
-                                <span class="text">
-                                          		Manage Delivery Area
-                                                		</span>
-                <span class="menu-hover"></span>
-            </a>
-        </li>
+         <li class="openable {{Active::route('menu')}}">
+                    <a href="#">
+                						<span class="menu-icon">
+                                									<i class="fa fa-tag fa-lg"></i>
+                                								</span>
+                                								<span class="text">
+                                									Manage Menu
+                                								</span>
+                        <span class="menu-hover"></span>
+                    </a>
+                    <ul class="submenu">
+                        <li class="{{Active::action('ManageBusinessController@addItem')}}"><a
+                                href="{{  URL::action('ManageBusinessController@addItem',[$slug])}}"><span class="submenu-label">Add Menu</span></a>
+                        </li>
+                        <li class="{{Active::action('ManageBusinessController@editItem')}}"><a
+                                href="{{URL::action('ManageBusinessController@editItem',[$slug])}}"><span class="submenu-label">Edit Menu</span></a>
+                        </li>
+                    </ul>
+                </li>
 
     </ul>
 </div>

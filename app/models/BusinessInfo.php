@@ -69,4 +69,9 @@ class BusinessInfo extends Eloquent
     {
         return $this->hasOne('Status');
     }
+
+    public function menuItem()
+    {
+        return;
+    }
 }

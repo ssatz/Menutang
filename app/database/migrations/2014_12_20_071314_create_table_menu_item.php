@@ -15,8 +15,16 @@ class CreateTableMenuItem extends Migration
     {
         Schema::create('menu_item', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedInteger('menu_category_id');
             $table->string('item_name');
             $table->string('item_description')->nullable();
+            $table->decimal('item_price');
+            $table->boolean('is_veg');
+            $table->boolean('is_non_veg');
+            $table->boolean('is_egg');
+            $table->boolean('is_spicy');
+            $table->boolean('is_popular');
+            $table->foreign('menu_category_id')->references('id')->on('menu_category')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

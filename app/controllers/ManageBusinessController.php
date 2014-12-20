@@ -38,6 +38,9 @@ class ManageBusinessController extends BaseController
      */
     protected $translator;
 
+    /**
+     * @var Application
+     */
     protected $app;
 
     /**
@@ -108,9 +111,30 @@ class ManageBusinessController extends BaseController
         return View::make('admin.dashboard')->withLayout('admin.business_layout');
     }
 
+    /**
+     *
+     */
     public function deliveryArea()
     {
 
+    }
+
+    /**
+     *
+     */
+    public function addItem($slug)
+    {
+        $this->viewShareSlug($slug);
+        return View::make('admin.menu_item');
+
+    }
+
+    /**
+     *
+     */
+    public function editItem($slug)
+    {
+        $this->viewShareSlug($slug);
     }
 
     /**
