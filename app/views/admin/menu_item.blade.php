@@ -1,6 +1,8 @@
 @extends('admin.business_layout')
 
 @section('content')
+	{{ Form::open(['url' => action('ManageBusinessController@addItem', [$slug]), 'method'
+    =>'POST','class'=>'form-horizontal']) }}
 <div class="panel panel-default table-responsive">
 					<div class="panel-heading">
 						 Menu Item Details
@@ -28,40 +30,66 @@
 									<th>Spicy</th>
 									<th>Popular</th>
 									<th>Status</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-								<td> <input type="text" class="form-control input-sm" name="item_name[]" style="width: 140px;"> </td>
-								<td> <input type="text" class="form-control input-sm" name="item_description[]"> </td>
-								<td> <input type="text" class="form-control input-sm" style="width: 80px;" name="item_price[]"> </td>
-								<td> <input type="checkbox" data-on-text="Yes" data-off-text="No" name="is_veg[]"> </td>
-								<td> <input type="checkbox" data-on-text="Yes" data-off-text="No" name="is_non_veg[]"> </td>
-								<td> <input type="checkbox" data-on-text="Yes" data-off-text="No" name="is_egg[]"> </td>
-								<td> <input type="checkbox" data-on-text="Yes" data-off-text="No" name="is_spicy[]"> </td>
-								<td> <input type="checkbox" data-on-text="Yes" data-off-text="No" name="is_popular[]"> </td>
-								<td> <input type="checkbox" data-on-text="Active" data-off-text="InActive" name="item_status[]"> </td>
-
+									<td><input type="text" class="form-control input-sm" id="item_0_name"
+											   name="item[0][item_name]" style="width: 140px;"></td>
+									<td><input type="text" class="form-control input-sm" id="item_0_description"
+											   name="item[0][item_description]"></td>
+									<td><input type="text" class="form-control input-sm" style="width: 80px;"
+											   id="item_0_price" name="item[0][item_price]"></td>
+									<td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_0_veg"
+											   class="veg" name="item[0][is_veg]"></td>
+									<td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_0_non_veg"
+											   class="non-veg" name="item[0][is_non_veg]"></td>
+									<td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_0_is_egg"
+											   class="egg" name="item[0][is_egg]"></td>
+									<td><input type="checkbox" data-on-text="Yes" data-off-text="No"
+											   id="item_0_is_spicy" name="item[0][is_spicy]"></td>
+									<td><input type="checkbox" data-on-text="Yes" data-off-text="No"
+											   id="item_0_is_popular" name="item[0][is_popular]"></td>
+									<td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
+											   id="item_0_status" name="item[0][item_status]"></td>
+									<td> Addon</td>
 								</tr>
 							</tbody>
 						</table>
 					</div><!-- /.padding-md -->
 					</div>
+	<div class="panel-footer">
+		<div class="form-group">
+			<div class="col-lg-offset-2 col-lg-10">
+				<button type="submit" class="btn btn-success btn-sm">Save</button>
+			</div>
+			<!-- /.col -->
+		</div>
+	</div>
+	{{Form::close()}}
 <div id="items" class="displayNone">
 <table>
 <tbody>
 <tr>
-								<td> <input type="text" class="form-control input-sm" name="item_name[]" style="width: 140px;"> </td>
-								<td> <input type="text" class="form-control input-sm" name="item_description[]"> </td>
-								<td> <input type="text" class="form-control input-sm" style="width: 80px;" name="item_price[]"> </td>
-								<td> <input type="checkbox" data-on-text="Yes" data-off-text="No" name="is_veg[]"> </td>
-								<td> <input type="checkbox" data-on-text="Yes" data-off-text="No" name="is_non_veg[]"> </td>
-								<td> <input type="checkbox" data-on-text="Yes" data-off-text="No" name="is_egg[]"> </td>
-								<td> <input type="checkbox" data-on-text="Yes" data-off-text="No" name="is_spicy[]"> </td>
-								<td> <input type="checkbox" data-on-text="Yes" data-off-text="No" name="is_popular[]"> </td>
-								<td> <input type="checkbox" data-on-text="Active" data-off-text="InActive" name="item_status[]"> </td>
-
-								</tr>
+	<td><input type="text" class="form-control input-sm" id="item_0_name" name="item[0][item_name]"
+			   style="width: 140px;"></td>
+	<td><input type="text" class="form-control input-sm" id="item_0_description" name="item[0][item_description]"></td>
+	<td><input type="text" class="form-control input-sm" style="width: 80px;" id="item_0_price"
+			   name="item[0][item_price]"></td>
+	<td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_0_veg" class="veg" name="item[0][is_veg]">
+	</td>
+	<td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_0_non_veg" class="non-veg"
+			   name="item[0][is_non_veg]"></td>
+	<td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_0_is_egg" class="egg"
+			   name="item[0][is_egg]"></td>
+	<td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_0_is_spicy" name="item[0][is_spicy]"></td>
+	<td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_0_is_popular" name="item[0][is_popular]">
+	</td>
+	<td><input type="checkbox" data-on-text="Active" data-off-text="InActive" id="item_0_status"
+			   name="item[0][item_status]"></td>
+	<td> Addon</td>
+</tr>
 								</tbody>
 								</table>
 
@@ -85,14 +113,41 @@ $(".table-responsive").find("[type='checkbox']").bootstrapSwitch({
     'offColor':'danger',
     'size':'small'
 });
+	$(".table-responsive").on('switchChange.bootstrapSwitch', '.veg,.non-veg,.egg', function (event, state) {
+
+		if (state) {
+			if ($(this).hasClass('veg')) {
+				$(this).closest('tr').find('.non-veg,.egg').bootstrapSwitch('state', false, false);
+			}
+			else if ($(this).hasClass('non-veg')) {
+				$(this).closest('tr').find('.veg,.egg').bootstrapSwitch('state', false, false);
+			}
+			else if ($(this).hasClass('egg')) {
+				$(this).closest('tr').find('.non-veg,.veg').bootstrapSwitch('state', false, false);
+			}
+		}
+	});
 $(".add-menu-item").click(function(){
   var $html= $("#items").find('table>tbody').html();
+	var $prev = $(this).parents('.table-responsive').find("table>tbody>tr:last>td input").prop('id');
+	$prev = $prev.split('_')[1];
    $(this).parents('.table-responsive').find("table>tbody>tr:last").after($html);
    $(this).parents('.table-responsive').find("table>tbody>tr:last").find("[type='checkbox']").bootstrapSwitch({
                                                                           'onColor':'success',
                                                                           'offColor':'danger',
                                                                           'size':'small'
                                                                       });
+	var $count = parseInt($prev) + 1;
+	$(this).parents('.table-responsive').find("table>tbody>tr:last>td").each(function () {
+		$name = $(this).find('input').prop('name');
+		;
+		$name = $name != undefined ? $name.replace('item[0]', 'item[' + $count + ']') : $name;
+		$(this).find('input').prop('name', $name);
+		$id = $(this).find('input').prop('id');
+		$id = $id != undefined ? $id.replace('_0_', '_' + $count + '_') : $id;
+		$(this).find('input').prop('id', $id);
+
+	});
 });
 });
 </script>

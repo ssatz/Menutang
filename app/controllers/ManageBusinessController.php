@@ -125,8 +125,11 @@ class ManageBusinessController extends BaseController
     public function addItem($slug)
     {
         $this->viewShareSlug($slug);
-        return View::make('admin.menu_item');
+        if ($this->request->isMethod('GET')) {
 
+            return View::make('admin.menu_item');
+        }
+        return $this->request->all();
     }
 
     /**
@@ -134,6 +137,7 @@ class ManageBusinessController extends BaseController
      */
     public function editItem($slug)
     {
+
         $this->viewShareSlug($slug);
     }
 
