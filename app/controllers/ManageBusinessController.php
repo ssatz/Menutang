@@ -126,10 +126,12 @@ class ManageBusinessController extends BaseController
     {
         $this->viewShareSlug($slug);
         if ($this->request->isMethod('GET')) {
-
-            return View::make('admin.menu_item');
+            return View::make('admin.menu_item')->withCategories($this->manage->getAllMenuCategory());
         }
-        return $this->request->all();
+        $items = $this->request->all()['item'];
+        foreach ($items as $item) {
+            dd($item);
+        }
     }
 
     /**

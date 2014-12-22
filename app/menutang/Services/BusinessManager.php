@@ -14,9 +14,11 @@ use Exception;
 use Illuminate\Database\DatabaseManager;
 use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use Repositories\ManageCityRepository\IManageCityRepository;
+use Repositories\MenuCategoryRepository\IMenuCategoryRepository;
 use Repositories\PaymentTypeRepository\IPaymentTypeRepository;
 use Services\Cache\ICacheService;
 use Services\Validations\BusinessValidator;
+use Services\Validations\MenuItemValidator;
 
 
 class BusinessManager
@@ -53,6 +55,16 @@ class BusinessManager
     protected $managePayments;
 
     /**
+     * @var IMenuCategoryRepository
+     */
+    protected $manageCategory;
+
+    /**
+     * @var MenuItemValidator
+     */
+    protected $menuItemValidator;
+
+    /**
      * @param IManageBusinessRepository $manageRestaurant
      * @param ICacheService $cacheService
      */
@@ -61,7 +73,9 @@ class BusinessManager
                                 BusinessValidator $businessValidator,
                                 DatabaseManager $databaseManager,
                                 IManageCityRepository $manageCityRepository,
-                                IPaymentTypeRepository $paymentTypeRepository)
+                                IPaymentTypeRepository $paymentTypeRepository,
+                                IMenuCategoryRepository $menuCategoryRepository,
+                                MenuItemValidator $menuItemValidator)
     {
         $this->manageBusiness = $manageBusiness;
         $this->cacheService = $cacheService;
@@ -69,6 +83,8 @@ class BusinessManager
         $this->db = $databaseManager;
         $this->manageCity = $manageCityRepository;
         $this->managePayments = $paymentTypeRepository;
+        $this->manageCategory = $menuCategoryRepository;
+        $this->menuItemValidator = $menuItemValidator;
     }
 
     /**
@@ -92,7 +108,7 @@ class BusinessManager
     }
 
     /**
-     *
+     * @return mixed
      */
     public function getAllCity()
     {
@@ -127,6 +143,25 @@ class BusinessManager
             return true;
         }
         $this->errors = $this->validations->getErrors();
+        return false;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAllMenuCategory()
+    {
+        return $this->manageCategory->getAll();
+    }
+
+    /**
+     * @param array $input
+     * @param $slug
+     */
+    public function insertMenuItem(array $input, $slug)
+    {
+        $this->menuItemValidator->with($input);
+        $this->errors = $this->menuItemValidator->getErrors();
         return false;
     }
 }

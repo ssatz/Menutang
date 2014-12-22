@@ -23,3 +23,25 @@
 .padBot30 {
     padding-bottom: 30px;
 }
+
+.innerTable {
+    width: 60% !important;
+    margin-left: 50px !important;
+}
+
+.gi-2x {
+    font-size: 2em;
+    font-weight: bolder;
+}
+
+.gi-3x {
+    font-size: 3em;
+}
+
+.gi-4x {
+    font-size: 4em;
+}
+
+.gi-5x {
+    font-size: 5em;
+}
