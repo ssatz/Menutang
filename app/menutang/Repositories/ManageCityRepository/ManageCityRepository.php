@@ -27,4 +27,18 @@ class ManageCityRepository extends BaseRepository implements IManageCityReposito
         parent::__construct($manageCity, $cache);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCityWithState()
+    {
+        $key = md5($this->getObjectName() . '.State');
+        if ($this->cache->has($key)) {
+            return $this->cache->get($key);
+        }
+
+        $stateRelation = $this->model->with('state')->get();
+        $this->cache->put($key, $stateRelation);
+        return $stateRelation;
+    }
 }

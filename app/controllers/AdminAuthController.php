@@ -9,6 +9,7 @@
  */
 
 use Services\AdminAuth;
+use Services\RegionalSettingsManager;
 
 class AdminAuthController extends BaseController
 {
@@ -18,12 +19,15 @@ class AdminAuthController extends BaseController
      */
     protected $adminAuth;
 
+    protected $regionSettings;
+
     /**
      * @param AdminAuth $adminAuth
      */
-    public function __construct(AdminAuth $adminAuth)
+    public function __construct(AdminAuth $adminAuth, RegionalSettingsManager $regionalSettingsManager)
     {
         $this->adminAuth = $adminAuth;
+        $this->regionSettings = $regionalSettingsManager;
     }
 
     /* ShowLogin
@@ -75,7 +79,7 @@ class AdminAuthController extends BaseController
 
     public function regionalSettings()
     {
-        return View::make('admin.forms.regional_settings');
+        return View::make('admin.regional_settings');
     }
 
 }

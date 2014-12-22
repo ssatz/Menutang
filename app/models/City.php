@@ -24,4 +24,5 @@ class City extends Eloquent
     {
         return $this->belongsTo('State');
     }
+
 }

@@ -36,7 +36,7 @@
 									<i class="fa fa-desktop fa-lg"></i>
 								</span>
 								<span class="text">
-									Region Settings
+									Regional Settings
 								</span>
 				<span class="menu-hover"></span>
 			</a>

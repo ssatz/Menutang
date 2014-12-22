@@ -36,6 +36,8 @@ abstract class BaseRepository
      */
     public function create(array $data)
     {
+        $key = md5($this->getObjectName() . '.all');
+        $this->cache->remove($key);
         return $this->model->create($data);
     }
 
