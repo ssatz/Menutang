@@ -13,9 +13,15 @@ namespace Services\Validations;
 
 class BusinessValidator extends BaseValidator
 {
+    /**
+     * @var array
+     */
     public static $rules = [
         'business_name' => 'required|max:255',
         'minimum_delivery_amt' => ['required', 'Regex:/^[0-9]+(\.[0-9]{1,2})?$/'],
-        'website' => 'url'
+        'website' => 'url',
+        'address_line_1' => 'required',
+        'city_id' => 'required',
+        'payments' => 'required'
     ];
 }

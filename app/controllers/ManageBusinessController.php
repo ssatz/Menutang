@@ -44,16 +44,21 @@ class ManageBusinessController extends BaseController
     protected $app;
 
     /**
+     * @var mixed
+     */
+    protected $view;
+
+    /**
      * @param BusinessManager $manage
      */
     public function __construct(BusinessManager $manage, Request $request, Redirector $redirector, Translator $translator, Application $app)
     {
-
+        $this->app = $app;
         $this->manage = $manage;
         $this->request = $request;
         $this->redirector = $redirector;
         $this->translator = $translator;
-        $this->app = $app;
+        $this->view = $this->app->make('view');
     }
 
 
@@ -63,7 +68,7 @@ class ManageBusinessController extends BaseController
     public function showBusinesses()
     {
         $data = $this->manage->getAllBusiness();
-        return View::make('admin.manage_business')->withBusiness($data);
+        return $this->view->make('admin.manage_business')->withBusiness($data);
     }
 
     /**
@@ -78,7 +83,7 @@ class ManageBusinessController extends BaseController
             return $this->app->abort(404);
         }
         if ($this->request->isMethod('GET')) {
-            return View::make('admin.edit_business')->withBusiness($businessInfo)
+            return $this->view->make('admin.edit_business')->withBusiness($businessInfo)
                 ->withCities($this->manage->getAllCity())->withPayments($this->manage->getAllPayments());
         } else {
             if ($this->manage->updateBusiness($this->request->all(), $slug)) {
@@ -93,7 +98,7 @@ class ManageBusinessController extends BaseController
      */
     private function viewShareSlug($slug)
     {
-        View::share('slug', $slug);
+        $this->view->share('slug', $slug);
     }
 
     /**
@@ -108,7 +113,7 @@ class ManageBusinessController extends BaseController
             return $this->app->abort(404);
         }
         $this->viewShareSlug($slug);
-        return View::make('admin.dashboard')->withLayout('admin.business_layout');
+        return $this->view->make('admin.dashboard')->withLayout('admin.business_layout');
     }
 
     /**
@@ -126,7 +131,7 @@ class ManageBusinessController extends BaseController
     {
         $this->viewShareSlug($slug);
         if ($this->request->isMethod('GET')) {
-            return View::make('admin.menu_item')->withCategories($this->manage->getAllMenuCategory());
+            return $this->view->make('admin.menu_item')->withCategories($this->manage->getAllMenuCategory());
         }
         $items = $this->request->all()['item'];
         foreach ($items as $item) {
