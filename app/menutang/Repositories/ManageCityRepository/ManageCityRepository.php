@@ -36,8 +36,7 @@ class ManageCityRepository extends BaseRepository implements IManageCityReposito
         if ($this->cache->has($key)) {
             return $this->cache->get($key);
         }
-
-        $stateRelation = $this->model->with('state')->get();
+        $stateRelation = $this->model->with('state.country')->get();
         $this->cache->put($key, $stateRelation);
         return $stateRelation;
     }

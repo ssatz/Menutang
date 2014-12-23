@@ -8,6 +8,7 @@
  * file that was distributed with this source code.
  */
 
+use Illuminate\Foundation\Application;
 use Services\AdminAuth;
 use Services\RegionalSettingsManager;
 
@@ -21,13 +22,19 @@ class AdminAuthController extends BaseController
 
     protected $regionSettings;
 
+    protected $view;
+
+    protected $app;
+
     /**
      * @param AdminAuth $adminAuth
      */
-    public function __construct(AdminAuth $adminAuth, RegionalSettingsManager $regionalSettingsManager)
+    public function __construct(AdminAuth $adminAuth, RegionalSettingsManager $regionalSettingsManager, Application $application)
     {
         $this->adminAuth = $adminAuth;
         $this->regionSettings = $regionalSettingsManager;
+        $this->app = $application;
+        $this->view = $this->app->make('view');
     }
 
     /* ShowLogin
@@ -41,7 +48,7 @@ class AdminAuthController extends BaseController
         if ($this->adminAuth->authCheck()) {
             return Redirect::to('dashboard');
         }
-        return View::make('admin.login');
+        return $this->view->make('admin.login');
     }
 
     /**
@@ -74,12 +81,13 @@ class AdminAuthController extends BaseController
      */
     public function dashboard()
     {
-        return View::make('admin.dashboard')->withLayout('admin._layout');
+        return $this->view->make('admin.dashboard')->withLayout('admin._layout');
     }
 
     public function regionalSettings()
     {
-        return View::make('admin.regional_settings');
+        $cityDetails = $this->regionSettings->getCityRelations();
+        return $this->view->make('admin.regional_settings')->withCitydetails($cityDetails);
     }
 
 }

@@ -4,8 +4,9 @@
     <div class="panel-heading">
         Regional Settings
     </div>
+  {{ Form::open(['route' =>'admin.regionalsettings', 'method'
+  =>'POST','class'=>'form-horizontal']) }}
     <div class="padding-md clearfix">
-        {{Form::model($user, array('route' => array('user.update', $user->id)))}}
         <table class="table table-responsive">
             <thead>
             <th>City Code</th>
@@ -14,18 +15,18 @@
             <th>Country</th>
             </thead>
             <tbody>
-            <tr>
-                <td> {{ Form::text('city_code') }}</td>
-                <td> {{ Form::text('city_description') }}</td>
+            @foreach($citydetails as $city)
+            <tr id="id-{{$citydetails->city_id}}}">
+                <td>{{$city->city_code}} </td>
+                <td>{{$city->city_description}} </td>
+                <td>{{$city->state->state_description}} </td>
+                <td>{{$city->state->country->country_description}} </td>
             </tr>
-            <tr>
-                {{ Form::submit('Update Nerd!') }}
-                {{Form::close()}}
-            </tr>
+            @endforeach
             </tbody>
 
         </table>
-
+  {{Form::close()}}
 
     </div>
 @endsection

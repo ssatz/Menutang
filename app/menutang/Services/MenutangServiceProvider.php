@@ -54,6 +54,10 @@ class MenutangServiceProvider extends ServiceProvider
             'Repositories\MenuCategoryRepository\MenuCategoryRepository'
         );
         $app->bind(
+            'Repositories\ManageCountryRepository\IManageCountryRepository',
+            'Repositories\ManageCountryRepository\ManageCountryRepository'
+        );
+        $app->bind(
             'Services\Cache\ICacheService',
             'Services\Cache\CacheService'
         );

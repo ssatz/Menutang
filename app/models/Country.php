@@ -25,13 +25,11 @@ class Country extends Eloquent
         return $this->hasMany('state');
 
     }
-
     /**
      * @return mixed
      */
     public function city()
     {
-        return $this->hasMany('city');
-
+        return $this->hasManyThrough('City', 'State');
     }
 }

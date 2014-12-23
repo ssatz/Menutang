@@ -9,6 +9,7 @@
 namespace Services;
 
 use Repositories\ManageCityRepository\IManageCityRepository;
+use Repositories\ManageCountryRepository\IManageCountryRepository;
 
 
 class RegionalSettingsManager
@@ -16,11 +17,13 @@ class RegionalSettingsManager
 
     public $errors;
     protected $city;
+    protected $country;
 
-    public function __construct(IManageCityRepository $city)
+    public function __construct(IManageCityRepository $city, IManageCountryRepository $country)
     {
         $this->errors = [];
         $this->city = $city;
+        $this->country = $country;
     }
 
     public function insertCity(array $input)
@@ -31,6 +34,11 @@ class RegionalSettingsManager
     public function getCityRelations()
     {
         return $this->city->getCityWithState();
+    }
+
+    public function getCity()
+    {
+        return $this->country->getCity();
     }
 
 }

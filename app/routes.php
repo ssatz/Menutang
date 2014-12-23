@@ -57,8 +57,8 @@ Route::group(['domain' => 'business.localhost'], function () {
     });
 });
 
-// Display all SQL executed in Eloquent
-//Event::listen('illuminate.query', function($query)
-//{
-//    var_dump($query);
-//});
+//Display all SQL executed in Eloquent
+/*Event::listen('illuminate.query', function($query)
+{
+   var_dump($query);
+});*/

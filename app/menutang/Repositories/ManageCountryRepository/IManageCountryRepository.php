@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of the menutang
  *
@@ -9,21 +8,12 @@
  * file that was distributed with this source code.
  */
 
-class City extends Eloquent
+namespace Repositories\ManageCountryRepository;
+
+
+interface IManageCountryRepository
 {
 
-    /**
-     * @var string
-     */
-    protected $table = 'city';
-
-    /**
-     * @return mixed
-     */
-    public function state()
-    {
-        return $this->belongsTo('State');
-    }
-
+    public function getCity();
 
 }
