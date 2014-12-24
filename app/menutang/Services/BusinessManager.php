@@ -15,6 +15,7 @@ use Illuminate\Database\DatabaseManager;
 use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use Repositories\ManageCityRepository\IManageCityRepository;
 use Repositories\MenuCategoryRepository\IMenuCategoryRepository;
+use Repositories\MenuItemRepository\IMenuItemRepository;
 use Repositories\PaymentTypeRepository\IPaymentTypeRepository;
 use Services\Cache\ICacheService;
 use Services\Validations\BusinessValidator;
@@ -64,6 +65,8 @@ class BusinessManager
      */
     protected $menuItemValidator;
 
+    protected $menuItemrepo;
+
     /**
      * @param IManageBusinessRepository $manageRestaurant
      * @param ICacheService $cacheService
@@ -75,7 +78,8 @@ class BusinessManager
                                 IManageCityRepository $manageCityRepository,
                                 IPaymentTypeRepository $paymentTypeRepository,
                                 IMenuCategoryRepository $menuCategoryRepository,
-                                MenuItemValidator $menuItemValidator)
+                                MenuItemValidator $menuItemValidator,
+                                IMenuItemRepository $menuItem)
     {
         $this->manageBusiness = $manageBusiness;
         $this->cacheService = $cacheService;
@@ -85,6 +89,7 @@ class BusinessManager
         $this->managePayments = $paymentTypeRepository;
         $this->manageCategory = $menuCategoryRepository;
         $this->menuItemValidator = $menuItemValidator;
+        $this->menuItemrepo = $menuItem;
     }
 
     /**
@@ -160,8 +165,18 @@ class BusinessManager
      */
     public function insertMenuItem(array $input, $slug)
     {
-        $this->menuItemValidator->with($input);
-        $this->errors = $this->menuItemValidator->getErrors();
-        return false;
+        // var_dump($input['item'][1]);
+        // $numerickeys = array_filter(array_keys($input['item'][1]), 'is_numeric');
+        // dd($numerickeys);
+        $this->db->beginTransaction();
+        try {
+            $this->menuItemrepo->insert($input, $slug);
+        } catch (Exception $e) {
+            $this->db->rollback();
+            throw new Exception($e->getMessage());
+        }
+        $this->db->commit();
+        return true;
+
     }
 }

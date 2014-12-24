@@ -57,6 +57,9 @@ class BusinessInfo extends Eloquent
         return $this->belongsTo('BusinessType');
     }
 
+    /**
+     * @return mixed
+     */
     public function address()
     {
         return $this->hasOne('BusinessAddress');
@@ -70,8 +73,21 @@ class BusinessInfo extends Eloquent
         return $this->hasOne('Status');
     }
 
+    /**
+     * @return mixed
+     */
     public function menuItem()
     {
-        return;
+        return $this->hasMany('MenuItem');
+    }
+
+    /**
+     * @param $query
+     * @param $slug
+     * @return mixed
+     */
+    public function scopeSlug($query, $slug)
+    {
+        return $query->where('business_slug', '=', $slug);
     }
 }

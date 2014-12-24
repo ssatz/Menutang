@@ -25,5 +25,13 @@ class City extends Eloquent
         return $this->belongsTo('State');
     }
 
+    public function getCityStatusAttribute($value)
+    {
+        return ($value) ? '<span class="label label-success">Active</span>' : '<span class="label label-danger">InActive</span>';
+    }
 
+    public function setCityStatusAttribute($value)
+    {
+        $this->attributes['city_status'] = $value == 'Active' ? 1 : 0;
+    }
 }

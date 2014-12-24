@@ -73,4 +73,5 @@ abstract class BaseRepository
         return filter_var(str_replace(' ', '-', strtolower(trim($string))), FILTER_SANITIZE_URL);
     }
 
+
 }

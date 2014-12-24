@@ -133,10 +133,8 @@ class ManageBusinessController extends BaseController
         if ($this->request->isMethod('GET')) {
             return $this->view->make('admin.menu_item')->withCategories($this->manage->getAllMenuCategory());
         }
-        $items = $this->request->all()['item'];
-        foreach ($items as $item) {
-            dd($item);
-        }
+        $this->request->all();
+        $this->manage->insertMenuItem($this->request->except('_token'), $slug);
     }
 
     /**
