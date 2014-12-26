@@ -367,3 +367,34 @@ $(window).scroll(function () {
         $('#scroll-to-top').removeAttr('style');
     }
 });
+/* function to call ajax functionalities */
+function ajax(url,type,data,dataType,func)
+{
+    var request = $.ajax({
+        url: url,
+        type: type,
+        data: data,
+        dataType: dataType
+    });
+
+    request.done(function( msg ) {
+        var callbacks = $.Callbacks();
+        callbacks.add( func );
+        callbacks.fire(msg)
+    });
+
+    request.fail(function( jqXHR, textStatus ) {
+        alert( "Request failed: " + textStatus );
+    });
+}
+
+function notification(title,text,classname)
+{
+    $.gritter.add({
+        // (string | mandatory) the heading of the notification
+        title:'<i class="fa fa-info-circle"></i>'+ title,
+        // (string | mandatory) the text inside the notification
+        text: text,
+        class_name: classname
+    });
+}

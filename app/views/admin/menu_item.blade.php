@@ -1,8 +1,6 @@
 @extends('admin.business_layout')
 
 @section('content')
-	{{ Form::open(['url' => action('ManageBusinessController@addItem', [$slug]), 'method'
-    =>'POST','class'=>'form-horizontal']) }}
 	<div class="panel panel-default table-responsive">
 		<div class="panel-heading">
 			Menu Item Details
@@ -11,16 +9,29 @@
 			<div class="form-group padBot30">
 				<label class="col-lg-2 control-label">Select Category</label>
 
-				<div class="col-lg-6">
-					<select class="form-control chzn-select inputWidth" name="menu_category">
+				<div class="col-lg-2">
+					<select class="form-control chzn-select inputWidth" id="category" name="menu_category">
 						@foreach($categories as $category)
 							<option value="{{$category->id}}">{{$category->category_name}} </option>
 						@endforeach
 					</select>
 				</div>
-				<!-- /.col -->
+				<span class="col-lg-1 fa-2x">(or)</span>
+				{{ Form::open(['url' => action('ManageBusinessController@addCategory', [$slug]), 'method'
+    =>'POST','class'=>'form-horizontal']) }}
+				<label class="col-lg-2 control-label">Add Category</label>
+
+				<div class="col-lg-2">
+					<input type="text" class="form-control input-sm cat" placeholder="Add a Category here"/>
+				</div>
+				<div class="col-lg-2">
+					<button class="btn btn-info add-category">Add</button>
+				</div>
+				{{Form::close()}}
 			</div>
 			<!-- /form-group -->
+			{{ Form::open(['url' => action('ManageBusinessController@addItem', [$slug]), 'method'
+    =>'POST','class'=>'form-horizontal']) }}
 			<table class="table table-striped" id="dataTable">
 				<thead>
 				<tr>
@@ -91,18 +102,19 @@
 				</tr>
 				</tbody>
 			</table>
+			<div class="panel-footer">
+				<div class="form-group">
+					<div class="col-lg-offset-2 col-lg-10">
+						<button type="submit" class="btn btn-success btn-sm">Save</button>
+					</div>
+					<!-- /.col -->
+				</div>
+			</div>
+			{{Form::close()}}
 		</div>
 		<!-- /.padding-md -->
 	</div>
-	<div class="panel-footer">
-		<div class="form-group">
-			<div class="col-lg-offset-2 col-lg-10">
-				<button type="submit" class="btn btn-success btn-sm">Save</button>
-			</div>
-			<!-- /.col -->
-		</div>
-	</div>
-	{{Form::close()}}
+
 	<div id="items" class="displayNone">
 		<table>
 			<tbody>
@@ -165,12 +177,14 @@
 @section('css')
 	<link href="{{asset('assets/common/css/chosen/chosen.min.css')}}" rel="stylesheet">
 	<link href="{{asset('assets/common/css/bootstrap-switch.min.css')}}" rel="stylesheet">
+	<link href="{{asset('assets/common/css/gritter/jquery.gritter.css')}}" rel="stylesheet">
 	<link href="{{asset('assets/common/css/menutang.css')}}" rel="stylesheet">
 @endsection
 
 @section('scripts')
 	<script src="{{asset('assets/common/js/bootstrap-switch.min.js')}}"></script>
-	<script src='{{asset('assets/common/js/chosen.jquery.min.js')}}'></script>
+	<script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
+	<script src="{{asset('assets/common/js/jquery.gritter.min.js')}}"></script>
 	<script>
 		$(".chzn-select").chosen();
 		$(function () {
@@ -249,7 +263,6 @@
 			$(".add-menu-item").click(function () {
 				var $html = $("#items").find('table>tbody').html();
 				var $count = $(this).parents('.table-responsive').find("table>tbody>tr.addon:last");
-				debugger;
 				if ($count == '' || $count.length == 0) {
 					$(this).parents('.table-responsive').find("table>tbody").append($html);
 				}
@@ -272,6 +285,33 @@
 					'offColor': 'danger',
 					'size': 'small'
 				});
+			});
+
+			$('.add-category').click(function (e) {
+				e.preventDefault();
+				$category = $(this).closest('form').find('.cat').val().toLowerCase();
+				$token = $(this).closest('form').find('input[name="_token"]').val();
+				var $data = {
+					category_name: $category,
+					_token: $token
+				}
+				ajax('{{action('ManageBusinessController@addCategory', [$slug])}}', 'POST', $data, 'json', function (msg) {
+					$('#category').append(
+							$("<option></option>")
+									.attr("value", msg.id)
+									.text(msg.category_name)
+					);
+					$('#category').chosen().trigger("chosen:updated");
+
+					if (msg[1] == 'Error') {
+						notification('Notification', msg[0].category_name, 'gritter-danger');
+
+					}
+					else {
+						notification('Notification', 'Category Added successfully', 'gritter-success');
+					}
+				});
+				$(this).closest('form').find('.cat').val('');
 			});
 			function inputnameFormat($count, $selector, $currentObject, $parentsSelector) {
 				$($currentObject).parents($parentsSelector).find($selector).each(function () {

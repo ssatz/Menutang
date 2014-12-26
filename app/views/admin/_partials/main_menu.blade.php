@@ -25,8 +25,9 @@
                 <li class="{{Active::action('ManageBusinessController@showBusinesses')}}"><a
                         href="{{  URL::action('ManageBusinessController@showBusinesses')}}"><span class="submenu-label">All Business</span></a>
                 </li>
-                <li class="{{Active::action('ManageBusinessController@showBusinesses')}}"><a
-                        href="{{URL::action('ManageBusinessController@showBusinesses')}}"><span class="submenu-label">Add Business</span></a>
+				<li class="{{Active::action('ManageBusinessController@addBusinessInfo')}}"><a
+							href="{{URL::action('ManageBusinessController@addBusinessInfo')}}"><span
+								class="submenu-label">Add Business</span></a>
                 </li>
             </ul>
         </li>

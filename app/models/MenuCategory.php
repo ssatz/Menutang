@@ -11,8 +11,18 @@
 
 class MenuCategory extends Eloquent
 {
+    /**
+     * @var string
+     */
     protected $table = 'menu_category';
+    /**
+     * @var array
+     */
+    protected $fillable = ['category_name'];
 
+    /**
+     * @return mixed
+     */
     public function menuItem()
     {
         return $this->hasMany('MenuItem');

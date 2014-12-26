@@ -13,5 +13,5 @@ namespace Repositories\MenuCategoryRepository;
 
 interface IMenuCategoryRepository
 {
-    public function getAll();
+    public function getLastInsertedItem();
 }

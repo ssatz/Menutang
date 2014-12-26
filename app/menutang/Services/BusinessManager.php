@@ -12,6 +12,7 @@ namespace Services;
 
 use Exception;
 use Illuminate\Database\DatabaseManager;
+use Illuminate\View\View;
 use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use Repositories\ManageCityRepository\IManageCityRepository;
 use Repositories\MenuCategoryRepository\IMenuCategoryRepository;
@@ -19,7 +20,9 @@ use Repositories\MenuItemRepository\IMenuItemRepository;
 use Repositories\PaymentTypeRepository\IPaymentTypeRepository;
 use Services\Cache\ICacheService;
 use Services\Validations\BusinessValidator;
+use Services\Validations\CategoryValidator;
 use Services\Validations\MenuItemValidator;
+
 
 
 class BusinessManager
@@ -65,8 +68,12 @@ class BusinessManager
      */
     protected $menuItemValidator;
 
+    /**
+     * @var IMenuItemRepository
+     */
     protected $menuItemrepo;
 
+    protected $categoryValidator;
     /**
      * @param IManageBusinessRepository $manageRestaurant
      * @param ICacheService $cacheService
@@ -79,7 +86,8 @@ class BusinessManager
                                 IPaymentTypeRepository $paymentTypeRepository,
                                 IMenuCategoryRepository $menuCategoryRepository,
                                 MenuItemValidator $menuItemValidator,
-                                IMenuItemRepository $menuItem)
+                                IMenuItemRepository $menuItem,
+                                CategoryValidator $categoryValidator)
     {
         $this->manageBusiness = $manageBusiness;
         $this->cacheService = $cacheService;
@@ -90,6 +98,7 @@ class BusinessManager
         $this->manageCategory = $menuCategoryRepository;
         $this->menuItemValidator = $menuItemValidator;
         $this->menuItemrepo = $menuItem;
+        $this->categoryValidator = $categoryValidator;
     }
 
     /**
@@ -165,9 +174,6 @@ class BusinessManager
      */
     public function insertMenuItem(array $input, $slug)
     {
-        // var_dump($input['item'][1]);
-        // $numerickeys = array_filter(array_keys($input['item'][1]), 'is_numeric');
-        // dd($numerickeys);
         $this->db->beginTransaction();
         try {
             $this->menuItemrepo->insert($input, $slug);
@@ -178,5 +184,30 @@ class BusinessManager
         $this->db->commit();
         return true;
 
+    }
+
+    /**
+     * @param array $input
+     * @return mixed
+     * @throws Exception
+     */
+    public function addCategory(array $input)
+    {
+        $this->categoryValidator->with($input);
+        if ($this->categoryValidator->passes()) {
+            $this->db->beginTransaction();
+            try {
+                $this->manageCategory->create($input);
+            } catch (Exception $e) {
+                $this->db->rollback();
+                throw new Exception($e->getMessage());
+            }
+            $this->db->commit();
+            return $this->manageCategory->getLastInsertedItem()->toJson();
+        }
+        $arrayObject = new \ArrayObject();
+        $arrayObject->offsetSet(1, 'Error');
+        $arrayObject->offsetSet(0, $this->categoryValidator->getErrors());
+        return $arrayObject;
     }
 }

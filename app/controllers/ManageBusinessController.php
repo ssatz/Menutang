@@ -94,6 +94,18 @@ class ManageBusinessController extends BaseController
     }
 
     /**
+     *Add categort
+     * @return json
+     */
+    public function addCategory()
+    {
+        if ($this->request->ajax() && $this->request->isMethod('POST')) {
+            $input = $this->request->except('_token');
+            return $this->manage->addCategory($input);
+        }
+    }
+
+    /**
      * @param $slug
      */
     private function viewShareSlug($slug)
@@ -149,8 +161,9 @@ class ManageBusinessController extends BaseController
     /**
      * @return string
      */
-    public function addRestaurants()
+    public function addBusinessInfo()
     {
-        return 'sathish';
+
+        return $this->view->make('admin.add_business');
     }
 }

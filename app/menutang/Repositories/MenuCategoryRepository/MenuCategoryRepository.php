@@ -25,4 +25,14 @@ class MenuCategoryRepository extends BaseRepository implements IMenuCategoryRepo
         parent::__construct($menuCategory, $cache);
     }
 
+    /**
+     * Return all last item
+     * @return json
+     */
+    public function getLastInsertedItem()
+    {
+        return $this->model->orderBy('created_at', 'DESC')->first();
+    }
+
+
 }

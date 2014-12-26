@@ -33,13 +33,14 @@ Route::group(['domain' => 'admin.localhost'], function () {
         Route::get('regional-settings', ['as' => 'admin.regionalsettings', 'uses' => 'AdminAuthController@regionalSettings']);
         Route::get('manage-business', ['as' => 'admin.business', 'uses' => 'ManageBusinessController@showBusinesses']);
         Route::group(['prefix' => 'manage-business'], function () {
-            Route::get('add', ['as' => 'admin.business.add', 'uses' => 'ManageBusinessController@addBusinesses']);
+            Route::get('add', ['as' => 'admin.business.add', 'uses' => 'ManageBusinessController@addBusinessInfo']);
         });
         Route::get('{businessName?}', ['as' => 'admin.business.dashboard', 'uses' => 'ManageBusinessController@businessDashboard']);
         Route::any('{businessName}/edit', ['as' => 'admin.business.edit', 'uses' => 'ManageBusinessController@editBusinessInfo']);
         Route::any('{businessName}/menu/add-item', ['as' => 'admin.business.additem', 'uses' => 'ManageBusinessController@addItem']);
         Route::any('{businessName}/menu/edit-item', ['as' => 'admin.business.edititem', 'uses' => 'ManageBusinessController@editItem']);
         Route::any('{businessName}/delivery-area', ['as' => 'admin.business.deliveryarea', 'uses' => 'ManageBusinessController@deliveryArea']);
+        Route::any('{businessName}/addCategory', ['as' => 'admin.business.addCategory', 'uses' => 'ManageBusinessController@addCategory']);
     });
 });
 
@@ -58,7 +59,7 @@ Route::group(['domain' => 'business.localhost'], function () {
 });
 
 //Display all SQL executed in Eloquent
-/*Event::listen('illuminate.query', function($query)
-{
-   var_dump($query);
-});*/
+//Event::listen('illuminate.query', function($query)
+//{
+//   var_dump($query);
+//});

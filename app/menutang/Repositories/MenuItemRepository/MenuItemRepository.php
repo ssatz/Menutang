@@ -35,7 +35,6 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
         $menuCategory = $data['menu_category'];
         $buId = $this->businessInfo->slug($slug)->first()->id;
         foreach ($data['item'] as $item) {
-            //dd($item);
             $menuItem = new $this->model;
             $menuItem->menu_category_id = $menuCategory;
             $menuItem->business_info_id = $buId;
