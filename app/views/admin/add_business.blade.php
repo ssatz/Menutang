@@ -3,7 +3,7 @@
 @section('content')
 <div class="panel panel-default">
 {{ Form::open(['url' => action('ManageBusinessController@editBusinessInfo'), 'method'
-=>'POST','class'=>'form-horizontal no-margin form-border','id'=>'formWizard1','novalidate'])}}
+=>'POST','class'=>'form-horizontal no-margin form-border','id'=>'formWizard1'],'novalidate')}}
 
 <div class="panel-heading">
     Add Business Information
@@ -55,7 +55,7 @@
 
     <div class="col-lg-6">
         <input type="text" class="form-control input-sm" placeholder="100" name="budget"
-               data-required="true">
+               data-required="true" parsley-type="number">
     </div>
     <!-- /.col -->
 </div>
@@ -83,7 +83,7 @@
 
     <div class="col-lg-6">
         <input type="text" class="form-control input-sm" placeholder="00.00"
-               name="minimum_delivery_amt">
+               name="minimum_delivery_amt" parsley-type="number">
     </div>
 </div>
 <div class="form-group">
@@ -109,7 +109,7 @@
 
     <div class="col-lg-6">
         <input type="text" class="form-control input-sm" placeholder="00.00"
-               name="minimum_rail_deli_amt">
+               name="minimum_rail_deli_amt" parsley-type="number">
     </div>
 </div>
 <div class="form-group">
@@ -136,7 +136,7 @@
 
     <div class="col-lg-6">
         <input type="text" class="form-control input-sm" placeholder="00.00"
-               name="minimum_pickup_amt">
+               name="minimum_pickup_amt" parsley-type="number">
     </div>
 </div>
 <div class="form-group">
@@ -388,7 +388,7 @@
 
     <div class="col-lg-6">
         <input type="text" class="form-control input-sm" placeholder="http://www.example.com"
-               name="website">
+               name="website" type="url">
     </div>
 </div>
 <div class="form-group">
@@ -402,25 +402,42 @@
 </div>
 <div class="tab-pane fade" id="wizardContent2">
     <div class="form-group">
-        <label class="control-label col-lg-2">Phone</label>
+        <label class="control-label col-lg-2">Address Line 1</label>
 
         <div class="col-lg-6">
-            <input type="text" class="form-control input-sm" placeholder="(XXX) XXXX XXX"
-                   data-required="true" data-type="phone">
+            <input type="text" class="form-control input-sm" name="address_line_1"
+                   data-required="true">
         </div>
-        <!-- /.col -->
     </div>
-    <!-- /form-group -->
     <div class="form-group">
-        <label class="control-label col-lg-2">Website</label>
+        <label class="control-label col-lg-2">Address Line 2</label>
 
         <div class="col-lg-6">
-            <input type="text" class="form-control input-sm" placeholder="Website url"
-                   data-required="true" data-type="urlstrict">
+            <input type="text" class="form-control input-sm" name="address_line_2"
+                   data-required="true">
         </div>
-        <!-- /.col -->
     </div>
-    <!-- /form-group -->
+    <div class="form-group">
+        <label class="control-label col-lg-2">Address Landmark</label>
+
+        <div class="col-lg-6">
+            <input type="text" class="form-control input-sm" name="address_landmark">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-2">Address GPS Location</label>
+
+        <div class="col-lg-6">
+            <input type="text" class="form-control input-sm" name="address_gps_location">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-2">Postal Code</label>
+
+        <div class="col-lg-6">
+            <input type="text" class="form-control input-sm" name="postal_code" parsley-type="digits">
+        </div>
+    </div>
 </div>
 <div class="tab-pane fade" id="wizardContent3">
     <h4>Finish!</h4>
