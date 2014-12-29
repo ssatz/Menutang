@@ -79,7 +79,7 @@
     </div>
 </div>
 
-<div class="form-group">
+    <div class="form-group fa-comment displayNone">
     <label class="control-label col-lg-2">Minimum Delivery Amount</label>
 
     <div class="col-lg-6">
@@ -105,7 +105,7 @@
         </label>
     </div>
 </div>
-<div class="form-group">
+    <div class="form-group fa-comment displayNone">
     <label class="control-label col-lg-2">Minimum Rail Delivery Amount</label>
 
     <div class="col-lg-6">
@@ -132,7 +132,7 @@
     </div>
 </div>
 
-<div class="form-group">
+    <div class="form-group fa-comment displayNone">
     <label class="control-label col-lg-2">Minimum Pickup Amount</label>
 
     <div class="col-lg-6">
@@ -158,7 +158,7 @@
         </label>
     </div>
 </div>
-<div class="form-group">
+    <div class="form-group fa-comment displayNone">
     <label class="control-label col-lg-2">Outdoor Catering Comments</label>
 
     <div class="col-lg-6">
@@ -183,7 +183,7 @@
         </label>
     </div>
 </div>
-<div class="form-group">
+    <div class="form-group fa-comment displayNone">
     <label class="control-label col-lg-2">Party Hall Comments</label>
 
     <div class="col-lg-6">
@@ -334,7 +334,7 @@
         </label>
     </div>
 </div>
-<div class="form-group">
+    <div class="form-group fa-comment displayNone">
     <label class="control-label col-lg-2">Boarding Comments</label>
 
     <div class="col-lg-6">
@@ -377,7 +377,7 @@
         </label>
     </div>
 </div>
-<div class="form-group">
+    <div class="form-group fa-comment displayNone">
     <label class="control-label col-lg-2">Highway Details</label>
 
     <div class="col-lg-6">
@@ -458,10 +458,14 @@
 </div><!-- /panel -->
 
 @endsection
-
+@section('css')
+    <link href="{{asset('assets/common/css/chosen/chosen.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/common/css/menutang.css')}}" rel="stylesheet">
+@endsection
 @section('scripts')
 <script src="{{asset('assets/common/js/parsley.min.js')}}"></script>
 <script src="{{asset('assets/common/js/pace.min.js')}}"></script>
+
 <script>
     var step = 1;
     $('.wizard-demo li a').click(function () {
@@ -605,5 +609,16 @@
         }
         return false;
     });
+
+    $("input[type=radio]").click(function () {
+        if ($(this).val() == '0') {
+            $(this).parents('.form-group').next('.fa-comment').hide('slow').find('textarea,input').text('');
+            $(this).parents('.form-group').next('.fa-comment').hide('slow').find('input').val('');
+
+        }
+        else {
+            $(this).parents('.form-group').next('.fa-comment').show('slow');
+        }
+    })
 </script>
 @endsection
