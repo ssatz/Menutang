@@ -32,7 +32,7 @@
     <label class="control-label col-lg-2">Business Name</label>
 
     <div class="col-lg-6">
-        <input type="text" placeholder="Normal text input" name="business_name"
+        <input type="text" placeholder="Business Name" name="business_name"
                class="form-control input-sm" data-required="true">
     </div>
     <!-- /.col -->
@@ -42,9 +42,10 @@
     <label class="control-label col-lg-2">Business Type</label>
 
     <div class="col-lg-6">
-        <select data-required="true">
-            <option>Type1</option>
-            <option>Type 2</option>
+        <select class="form-control chzn-select" name="business_type_id">
+            @foreach($butypes as $buType)
+                <option value="{{$buType->id}}">{{$buType->business_type}}</option>
+            @endforeach
         </select>
     </div>
     <!-- /.col -->
@@ -441,10 +442,28 @@
     </div>
 </div>
 <div class="tab-pane fade" id="wizardContent3">
-    <h4>Finish!</h4>
+    <div class="form-group">
+        <label class="control-label col-lg-2">Payments</label>
+
+        <div class="col-lg-6">
+            <select multiple class="form-control chzn-select" name="payments[]" data-required="true">
+                @foreach($payments as $payment)
+                    <option value="{{$payment->id}}"> {{$payment->payment_description}}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
 </div>
 <div class="tab-pane fade padding-md" id="wizardContent4">
-    <h4>Finish!</h4>
+    <div class="form-group">
+        <label class="control-label col-lg-2">Delivery Area</label>
+
+        <div class="col-lg-6">
+            <div class="wrapper"
+            <input type="text" id="deliveryArea" data-required="true">
+        </div>
+    </div>
+</div>
 </div>
 </div>
 </div>
@@ -461,12 +480,15 @@
 @section('css')
     <link href="{{asset('assets/common/css/chosen/chosen.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/common/css/menutang.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/common/css/jquery.tagsinput.css')}}" rel="stylesheet">
 @endsection
 @section('scripts')
 <script src="{{asset('assets/common/js/parsley.min.js')}}"></script>
 <script src="{{asset('assets/common/js/pace.min.js')}}"></script>
-
+<script src='{{asset('assets/common/js/chosen.jquery.min.js')}}'></script>
+<script src='{{asset('assets/common/js/jquery.tagsinput.min.js')}}'></script>
 <script>
+    $(".chzn-select").chosen();
     var step = 1;
     $('.wizard-demo li a').click(function () {
 
@@ -619,6 +641,7 @@
         else {
             $(this).parents('.form-group').next('.fa-comment').show('slow');
         }
-    })
+    });
+    $("#deliveryArea").tagsInput();
 </script>
 @endsection

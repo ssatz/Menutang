@@ -13,6 +13,7 @@ namespace Repositories\BusinessTypeRepository;
 
 use Repositories\BaseRepository;
 use BusinessType;
+use Services\Cache\ICacheService;
 
 class BusinessTypeRepository extends BaseRepository implements IBusinessTypeRepository
 {

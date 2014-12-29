@@ -12,7 +12,6 @@ namespace Services;
 
 use Exception;
 use Illuminate\Database\DatabaseManager;
-use Illuminate\View\View;
 use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use Repositories\ManageCityRepository\IManageCityRepository;
 use Repositories\MenuCategoryRepository\IMenuCategoryRepository;
@@ -22,6 +21,8 @@ use Services\Cache\ICacheService;
 use Services\Validations\BusinessValidator;
 use Services\Validations\CategoryValidator;
 use Services\Validations\MenuItemValidator;
+use Repositories\BusinessTypeRepository\IBusinessTypeRepository;
+use ArrayObject;
 
 
 
@@ -73,6 +74,8 @@ class BusinessManager
      */
     protected $menuItemrepo;
 
+    protected $buTyperepo;
+
     protected $categoryValidator;
     /**
      * @param IManageBusinessRepository $manageRestaurant
@@ -87,6 +90,7 @@ class BusinessManager
                                 IMenuCategoryRepository $menuCategoryRepository,
                                 MenuItemValidator $menuItemValidator,
                                 IMenuItemRepository $menuItem,
+                                IBusinessTypeRepository $buType,
                                 CategoryValidator $categoryValidator)
     {
         $this->manageBusiness = $manageBusiness;
@@ -99,6 +103,7 @@ class BusinessManager
         $this->menuItemValidator = $menuItemValidator;
         $this->menuItemrepo = $menuItem;
         $this->categoryValidator = $categoryValidator;
+        $this->buTyperepo = $buType;
     }
 
     /**
@@ -205,9 +210,14 @@ class BusinessManager
             $this->db->commit();
             return $this->manageCategory->getLastInsertedItem()->toJson();
         }
-        $arrayObject = new \ArrayObject();
+        $arrayObject = new ArrayObject();
         $arrayObject->offsetSet(1, 'Error');
         $arrayObject->offsetSet(0, $this->categoryValidator->getErrors());
         return $arrayObject;
+    }
+
+    public function getAllBusinesstype()
+    {
+        return $this->buTyperepo->getAll();
     }
 }
