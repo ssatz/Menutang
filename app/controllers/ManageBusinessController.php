@@ -163,9 +163,17 @@ class ManageBusinessController extends BaseController
      */
     public function addBusinessInfo()
     {
-        $buTypes = $this->manage->getAllBusinesstype();
-        $payments = $this->manage->getAllPayments();
-        return $this->view->make('admin.add_business')->withButypes($buTypes)
-            ->withPayments($payments);
+
+        if ($this->request->isMethod('GET')) {
+            $buTypes = $this->manage->getAllBusinessType();
+            $payments = $this->manage->getAllPayments();
+            $status = $this->manage->getAllStatusType();
+            $cities = $this->manage->getAllCity();
+            return $this->view->make('admin.add_business')->withButypes($buTypes)
+                ->withPayments($payments)
+                ->withStatus($status)
+                ->withCities($cities);
+        }
+        $this->manage->insertBusinessInfo($this->request->all());
     }
 }
