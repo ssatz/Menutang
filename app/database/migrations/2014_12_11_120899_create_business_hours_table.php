@@ -17,8 +17,9 @@ class CreateBusinessHoursTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('business_info_id')->unsigned();
             $table->integer('day');
-            $table->time('open_time');
-            $table->time('close_time');
+            $table->time('open_time')->nullable();
+            $table->time('close_time')->nullable();
+            $table->boolean('is_closed')->default(0);
             $table->foreign('business_info_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

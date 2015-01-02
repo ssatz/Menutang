@@ -10,7 +10,8 @@
   "require": {
     "laravel/framework": "4.2.*",
     "ollieread/multiauth": "dev-master",
-    "hieu-le/active": "~1.0"
+    "hieu-le/active": "~1.0",
+    "guzzlehttp/guzzle": "~5.0"
   },
   "autoload": {
     "classmap": [

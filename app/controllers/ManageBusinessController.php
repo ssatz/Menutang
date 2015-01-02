@@ -158,8 +158,10 @@ class ManageBusinessController extends BaseController
         $this->viewShareSlug($slug);
     }
 
+
     /**
-     * @return string
+     * @return $this
+     * @throws Exception
      */
     public function addBusinessInfo()
     {
@@ -174,6 +176,9 @@ class ManageBusinessController extends BaseController
                 ->withStatus($status)
                 ->withCities($cities);
         }
-        $this->manage->insertBusinessInfo($this->request->all());
+        if ($this->manage->insertBusinessInfo($this->request->all())) {
+            return $this->redirector->back()->withMessage($this->translator->get('business.success'));
+        }
+        return $this->redirector->back()->withErrors($this->manage->errors);
     }
 }

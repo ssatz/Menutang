@@ -17,6 +17,7 @@ use Repositories\ManageCityRepository\IManageCityRepository;
 use Repositories\MenuCategoryRepository\IMenuCategoryRepository;
 use Repositories\MenuItemRepository\IMenuItemRepository;
 use Repositories\PaymentTypeRepository\IPaymentTypeRepository;
+use Repositories\StatusRepository\IStatusRepository;
 use Services\Cache\ICacheService;
 use Services\Validations\BusinessValidator;
 use Services\Validations\CategoryValidator;
@@ -74,12 +75,34 @@ class BusinessManager
      */
     protected $menuItemrepo;
 
+    /**
+     * @var IBusinessTypeRepository
+     */
     protected $buTyperepo;
 
-    protected $categoryValidator;
     /**
-     * @param IManageBusinessRepository $manageRestaurant
+     * @var CategoryValidator
+     */
+    protected $categoryValidator;
+
+    /**
+     * @var IStatusRepository
+     */
+    public $statusRepo;
+
+    /**
+     * @param IManageBusinessRepository $manageBusiness
      * @param ICacheService $cacheService
+     * @param BusinessValidator $businessValidator
+     * @param DatabaseManager $databaseManager
+     * @param IManageCityRepository $manageCityRepository
+     * @param IPaymentTypeRepository $paymentTypeRepository
+     * @param IMenuCategoryRepository $menuCategoryRepository
+     * @param MenuItemValidator $menuItemValidator
+     * @param IMenuItemRepository $menuItem
+     * @param IBusinessTypeRepository $buType
+     * @param CategoryValidator $categoryValidator
+     * @param IStatusRepository $statusRepository
      */
     public function __construct(IManageBusinessRepository $manageBusiness,
                                 ICacheService $cacheService,
@@ -91,7 +114,8 @@ class BusinessManager
                                 MenuItemValidator $menuItemValidator,
                                 IMenuItemRepository $menuItem,
                                 IBusinessTypeRepository $buType,
-                                CategoryValidator $categoryValidator)
+                                CategoryValidator $categoryValidator,
+                                IStatusRepository $statusRepository)
     {
         $this->manageBusiness = $manageBusiness;
         $this->cacheService = $cacheService;
@@ -104,6 +128,7 @@ class BusinessManager
         $this->menuItemrepo = $menuItem;
         $this->categoryValidator = $categoryValidator;
         $this->buTyperepo = $buType;
+        $this->statusRepo = $statusRepository;
     }
 
     /**
@@ -216,8 +241,43 @@ class BusinessManager
         return $arrayObject;
     }
 
-    public function getAllBusinesstype()
+    /**
+     * @param array $input
+     * @throws Exception
+     */
+    public function insertBusinessInfo(array $input)
+    {
+        $this->validations->with($input);
+        if ($this->validations->passes()) {
+            $this->db->beginTransaction();
+            try {
+                $this->manageBusiness->insert($input);
+            } catch (Exception $e) {
+                $this->db->rollback();
+                throw new Exception($e->getMessage());
+            }
+            $this->db->commit();
+            return true;
+        }
+        $this->errors = $this->validations->getErrors();
+        return false;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAllBusinessType()
     {
         return $this->buTyperepo->getAll();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAllStatusType()
+    {
+        return $this->statusRepo->getAll();
+    }
+
+
 }

@@ -13,6 +13,7 @@
 								<tr>
 									<th>Business Id</th>
 									<th>Business Name</th>
+									<th>Type</th>
 									<th>City</th>
 									<th>CheckOut Status</th>
 									<th>Created Date</th>
@@ -25,6 +26,7 @@
 								<tr>
 									<td>{{$businessDetails->business_unique_id}}</td>
 									<td>{{$businessDetails->business_name}}</td>
+									<td>{{$businessDetails->business_type}}</td>
 									<td>{{$businessDetails->city_description}}</td>
 									<td>{{$businessDetails->ischeckout_enable}}</td>
 									<td>{{$businessDetails->created_at}}</td>

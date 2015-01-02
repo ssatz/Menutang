@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the menutang
+ * This file(BusinessHours.php) is part of the menutang
  *
  * (c) Sensei Online Food Services
  *
@@ -9,13 +9,12 @@
  * file that was distributed with this source code.
  */
 
-
-class DeliveryArea extends Eloquent
+class BusinessHours extends Eloquent
 {
     /**
      * @var string
      */
-    protected $table = 'delivery_area';
+    protected $table = 'business_hours';
 
     /**
      * @var array
@@ -27,6 +26,7 @@ class DeliveryArea extends Eloquent
      */
     public function businessInfo()
     {
-        return $this->belongsToMany('BusinessInfo', 'business_delivery', 'business_info_id', 'delivery_area_id');
+        return $this->belongsTo('BusinessInfo');
     }
+
 }

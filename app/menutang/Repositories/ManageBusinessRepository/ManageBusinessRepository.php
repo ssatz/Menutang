@@ -16,7 +16,9 @@ use Illuminate\Database\DatabaseManager;
 use Repositories\BaseRepository;
 use Services\Cache\ICacheService;
 use Services\Helper;
-
+use DeliveryArea;
+use BusinessAddress;
+use BusinessHours;
 
 class ManageBusinessRepository extends BaseRepository implements IManageBusinessRepository
 {
@@ -115,6 +117,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         $businessInfo = new $this->model;
         $businessInfo->business_name = $input['business_name'];
         $businessInfo->budget = $input['budget'];
+        $businessInfo->business_type_id = $input['business_type_id'];
         $businessInfo->is_outdoor_catering = $input['is_outdoor_catering'];
         $businessInfo->outdoor_catering_comments = $input['outdoor_catering_comments'];
         $businessInfo->is_door_delivery = $input['is_door_delivery'];
@@ -139,15 +142,47 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         $businessInfo->highway_details = $input['highway_details'];
         $businessInfo->website = $input['website'];
         $businessInfo->avg_delivery_time = $input['avg_delivery_time'];
-        $businessInfo->ischeckout_enable = $input['avg_delivery_time'];
+        $businessInfo->ischeckout_enable = $input['ischeckout_enable'];
         $businessInfo->status_id = $input['status_id'];
         $businessInfo->save();
         $slug = $this->slug($input['business_name']);
         if (!empty($this->findBusinessBySlug($slug))) {
-            $slug = $slug . '_' . $businessInfo->id;
+            $slug = $slug . '-' . $businessInfo->id;
         }
         $businessInfo->fill(['business_slug' => $slug]);
         $businessInfo->save();
+
+        $address = new BusinessAddress();
+        $address->city_id = $input['city_id'];
+        $address->address_line_1 = $input['address_line_1'];
+        $address->address_line_2 = $input['address_line_2'];
+        $address->address_landmark = $input['address_landmark'];
+        $address->address_gps_location = $input['address_gps_location'];
+        $address->postal_code = $input['postal_code'];
+        $businessInfo->address()->save($address);
+
+        $businessInfo->payment()->attach($input['payments']);
+
+        $deliveryAreaId = [];
+        foreach ($input['delivery_area'] as $area) {
+            $deliveryArea = DeliveryArea::firstOrCreate(['area' => $area['area'], 'area_pincode' => $area['pincode']]);
+            array_push($deliveryAreaId, $deliveryArea->id);
+        }
+        $businessInfo->deliveryArea()->attach($deliveryAreaId);
+
+        foreach ($input['hours'] as $key => $value) {
+            $weekDays = strtoupper($key);
+            $buhr = new BusinessHours();
+            $buhr->business_info_id = $businessInfo->id;
+            $buhr->day = constant("Services\WeekDays::$weekDays");
+            if (!$input['hours'][$key]['is_closed']) {
+                $buhr->open_time = isset($input['hours'][$key]['open_time']) ? $this->helper->timeConverter($input['hours'][$key]['open_time'], "H:i:s") : null;
+                $buhr->close_time = isset($input['hours'][$key]['close_time']) ? $this->helper->timeConverter($input['hours'][$key]['close_time'], "H:i:s") : null;
+            }
+            $buhr->is_closed = isset($input['hours'][$key]['is_closed']) ? (int)$input['hours'][$key]['is_closed'] : 0;
+            $buhr->save();
+
+        }
 
     }
 }

@@ -36,4 +36,10 @@ interface IManageBusinessRepository
      * @return mixed
      */
     public function update(array $input, $slug);
+
+    /**
+     * @param array $input
+     * @return mixed
+     */
+    public function insert(array $input);
 }

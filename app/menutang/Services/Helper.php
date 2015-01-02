@@ -12,11 +12,10 @@ namespace Services;
 
 
 use Illuminate\Support\Facades\Schema;
+use DateTime;
 
 class Helper
 {
-
-
     /**
      * Match Request Input with Respective tables
      * @param array $inputs
@@ -40,6 +39,17 @@ class Helper
             $results = [];
         }
         return $data;
+    }
+
+    /**
+     * @param $time
+     * @param $format
+     * @return string
+     */
+    public function timeConverter($time, $format)
+    {
+        $time = new DateTime($time);
+        return $time->format($format);
     }
 
 }
