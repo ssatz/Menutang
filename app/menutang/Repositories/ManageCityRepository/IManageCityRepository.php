@@ -16,4 +16,5 @@ interface IManageCityRepository
     public function getAll();
 
     public function getCityWithState();
+
 }

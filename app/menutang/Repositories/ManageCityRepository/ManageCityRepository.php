@@ -40,4 +40,5 @@ class ManageCityRepository extends BaseRepository implements IManageCityReposito
         $this->cache->put($key, $stateRelation);
         return $stateRelation;
     }
+
 }

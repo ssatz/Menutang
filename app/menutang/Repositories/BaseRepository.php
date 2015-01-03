@@ -73,5 +73,15 @@ abstract class BaseRepository
         return filter_var(str_replace(' ', '-', strtolower(trim($string))), FILTER_SANITIZE_URL);
     }
 
-
+    /**
+     * @param array $data
+     */
+    public function update(array $data, $id)
+    {
+        $key = md5($this->getObjectName() . '.all');
+        $keystate = md5($this->getObjectName() . '.State');
+        $this->cache->remove($key);
+        $this->cache->remove($keystate);
+        return $this->model->where('id', '=', $id)->update($data);
+    }
 }

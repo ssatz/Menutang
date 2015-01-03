@@ -11,6 +11,8 @@
 use Illuminate\Foundation\Application;
 use Services\AdminAuth;
 use Services\RegionalSettingsManager;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class AdminAuthController extends BaseController
 {
@@ -20,21 +22,38 @@ class AdminAuthController extends BaseController
      */
     protected $adminAuth;
 
+    /**
+     * @var RegionalSettingsManager
+     */
     protected $regionSettings;
 
+    /**
+     * @var mixed
+     */
     protected $view;
 
+    /**
+     * @var Application
+     */
     protected $app;
+
+    protected $request;
+    protected $response;
 
     /**
      * @param AdminAuth $adminAuth
      */
-    public function __construct(AdminAuth $adminAuth, RegionalSettingsManager $regionalSettingsManager, Application $application)
+    public function __construct(AdminAuth $adminAuth, RegionalSettingsManager $regionalSettingsManager,
+                                Application $application,
+                                Request $request,
+                                Response $response)
     {
         $this->adminAuth = $adminAuth;
         $this->regionSettings = $regionalSettingsManager;
         $this->app = $application;
         $this->view = $this->app->make('view');
+        $this->request = $request;
+        $this->response = $response;
     }
 
     /* ShowLogin
@@ -84,10 +103,26 @@ class AdminAuthController extends BaseController
         return $this->view->make('admin.dashboard')->withLayout('admin._layout');
     }
 
+    /**
+     * @return mixed
+     */
     public function regionalSettings()
     {
         $cityDetails = $this->regionSettings->getCityRelations();
         return $this->view->make('admin.regional_settings')->withCitydetails($cityDetails);
+    }
+
+    /**
+     *Ajax method
+     */
+    public function updateCityStatus()
+    {
+        if ($this->request->ajax() && $this->request->isMethod('POST')) {
+            if ($this->regionSettings->updateCityStatus($this->request->all())) {
+                return json_encode('true');
+            }
+            return json_encode('false');
+        }
     }
 
 }

@@ -175,9 +175,11 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
             $buhr = new BusinessHours();
             $buhr->business_info_id = $businessInfo->id;
             $buhr->day = constant("Services\WeekDays::$weekDays");
-            if (!$input['hours'][$key]['is_closed']) {
-                $buhr->open_time = isset($input['hours'][$key]['open_time']) ? $this->helper->timeConverter($input['hours'][$key]['open_time'], "H:i:s") : null;
-                $buhr->close_time = isset($input['hours'][$key]['close_time']) ? $this->helper->timeConverter($input['hours'][$key]['close_time'], "H:i:s") : null;
+            if (isset($input['hours'][$key]['is_closed'])) {
+                if (!$input['hours'][$key]['is_closed']) {
+                    $buhr->open_time = isset($input['hours'][$key]['open_time']) ? $this->helper->timeConverter($input['hours'][$key]['open_time'], "H:i:s") : null;
+                    $buhr->close_time = isset($input['hours'][$key]['close_time']) ? $this->helper->timeConverter($input['hours'][$key]['close_time'], "H:i:s") : null;
+                }
             }
             $buhr->is_closed = isset($input['hours'][$key]['is_closed']) ? (int)$input['hours'][$key]['is_closed'] : 0;
             $buhr->save();
