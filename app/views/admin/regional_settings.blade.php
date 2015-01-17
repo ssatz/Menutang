@@ -59,9 +59,7 @@
             _token: '{{Session::get('_token')}}',
             id: $(this).closest('tr').prop('id').split('-')[1]
         }
-        ajax('{{action('
-        AdminAuthController@updateCityStatus
-        ')}}', 'POST', $data, 'json', function (msg) {
+        ajax('{{action('AdminAuthController@updateCityStatus')}}', 'POST', $data, 'json', function (msg) {
 
             if (msg == 'false') {
                 notification('Notification', msg[0].category_name, 'gritter-danger');

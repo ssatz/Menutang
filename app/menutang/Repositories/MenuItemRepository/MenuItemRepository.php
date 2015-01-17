@@ -20,9 +20,21 @@ use ItemAddon;
 class MenuItemRepository extends BaseRepository implements IMenuItemRepository
 {
 
+    /**
+     * @var BusinessInfo
+     */
     protected $businessInfo;
+    /**
+     * @var ItemAddon
+     */
     protected $itemAddon;
 
+    /**
+     * @param MenuItem $menuItem
+     * @param ICacheService $cache
+     * @param BusinessInfo $buInfo
+     * @param ItemAddon $itemAddon
+     */
     public function __construct(MenuItem $menuItem, ICacheService $cache, BusinessInfo $buInfo, ItemAddon $itemAddon)
     {
         parent::__construct($menuItem, $cache);
@@ -30,6 +42,10 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
         $this->itemAddon = $itemAddon;
     }
 
+    /**
+     * @param array $data
+     * @param $slug
+     */
     public function insert(array $data, $slug)
     {
         $menuCategory = $data['menu_category'];
@@ -61,6 +77,11 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
 
     }
 
+    /**
+     * @param $key
+     * @param array $input
+     * @return bool
+     */
     private function arrayExists($key, array $input)
     {
 

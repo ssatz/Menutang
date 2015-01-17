@@ -15,6 +15,7 @@ class DropUserForeignKeyBusinessInfo extends Migration
     {
         Schema::table('business_info', function (Blueprint $table) {
             $table->dropForeign('business_info_business_users_id_foreign');
+            $table->dropIndex('business_info_business_users_id_index');
         });
     }
 
