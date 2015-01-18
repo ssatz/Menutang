@@ -42,9 +42,21 @@ function isFormValid(formId) {
         $(this).nextAll('.required').remove();
         if ($(this).val() != undefined) {
             if ($(this).data('required') && ($(this).val().length == 0 || $(this).val() == '')) {
-                $flag = false;
-                $(this).parents('.form-group').addClass('has-error');
-                $(this).after('<span class="required label-danger">This is a Required field</span>');
+                if($(this).closest('td').find('.bu-close').length>0)
+                {
+                    if(!$(this).closest('td').find('.bu-close').is(":checked"))
+                    {
+                        $flag = false;
+                        $(this).parents('.form-group').addClass('has-error');
+                        $(this).after('<span class="required label-danger">This is a Required field</span>');
+                    }
+                }
+                else{
+                    $flag = false;
+                    $(this).parents('.form-group').addClass('has-error');
+                    $(this).after('<span class="required label-danger">This is a Required field</span>');
+                }
+
             }
         }
         if ($(this).data('type') != undefined && $(this).val().length > 0) {
@@ -104,3 +116,52 @@ function validateType(e, t) {
     }
     return "" !== e ? n.test(e) : false;
 }
+$(document).ready(function () {
+    $(".bu-close").click(function () {
+        if ($(this).is(":checked")) {
+            $(this).val(1);
+            $(this).closest("td").find("input").data('required', false);
+            $(this).closest("td").find(".required").remove();
+            $(this).closest("td").find(".form-group").removeClass('has-error').addClass('has-success')
+        } else {
+            $(this).closest("td").find("input").attr('data-required', true);
+
+        }
+    });
+
+    $("input[type=radio]").click(function () {
+        if ($(this).val() == '0') {
+            $(this).parents('.form-group').next('.fa-comment').hide('slow').find('textarea,input').text('');
+            $(this).parents('.form-group').next('.fa-comment').hide('slow').find('input').val('');
+
+        }
+        else {
+            $(this).parents('.form-group').next('.fa-comment').show('slow');
+        }
+    });
+    $("body").on("click", ".add-delivery", function (e) {
+        e.preventDefault();
+        var $clone = $(this).next('.padBot30:first').clone();
+        $($clone).find(".close").show();
+        $($clone).find("input").val('');
+        $($clone).find('.required').remove();
+        var $count = parseInt($($clone).find('.area').prop('id').split('_')[2]) + 1;
+        $($clone).find('.area').prop('name', 'delivery_area[' + $count + '][area]');
+        $($clone).find('.area').prop('id', 'delivery_area_' + $count + '_area');
+        $($clone).find('.pincode').prop('name', 'delivery_area[' + $count + '][pincode]');
+        $($clone).find('.pincode').prop('id', 'delivery_area_' + $count + '_pincode');
+        $(this).parent().find(".padBot30:last").after($clone);
+    });
+    $("body").on("click", ".close", function (e) {
+        $(this).parent().remove();
+    });
+    $("body").on("focusout", ".area", function (e) {
+        var $area = $(this).val();
+        var $this = this;
+        $.getJSON("http://www.getpincode.info/api/pincode?q=" + $area + "&callback=?", function (data) {
+            $result = JSON.parse(data);
+            $($this).parent().next().find('.pincode').val($result.pincode);
+        });
+
+    });
+});

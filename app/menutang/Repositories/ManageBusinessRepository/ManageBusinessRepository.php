@@ -70,7 +70,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         if ($this->cache->has($key)) {
             return $this->cache->get($key);
         }
-        $businessInfo = $this->model->with('address', 'payment')->where('business_slug', '=', $slug)->first();
+        $businessInfo = $this->model->with('address', 'payment','deliveryArea')->where('business_slug', '=', $slug)->first();
         $this->cache->put($key, $businessInfo);
         return $businessInfo;
     }
@@ -84,11 +84,28 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
     {
         $key = md5('slug.' . $slug);
         $this->cache->remove($key);
-        $result = $this->helper->match($input, ['business_info', 'business_address']);
+        $result = $this->helper->match($input, ['business_info', 'business_address','business_hours']);
         $businessInfo = $this->model->where('business_slug', '=', $slug)->first();
         $this->model->where('business_slug', '=', $slug)->update($result['business_info']);
         $this->model->find($businessInfo->id)->address()->update($result['business_address']);
         $businessInfo->payment()->sync($input['payments']);
+        foreach ($input['hours'] as $key => $value) {
+            $buhr = $this->model->find($businessInfo->id)->businessHours()->where('day','=',$key)->first();
+            $buhr->business_info_id = $businessInfo->id;
+            if (isset($input['hours'][$key]['is_closed'])) {
+                if (!$input['hours'][$key]['is_closed']) {
+                    $buhr->open_time = isset($input['hours'][$key]['open_time']) ? $this->helper->timeConverter($input['hours'][$key]['open_time'], "H:i:s") : null;
+                    $buhr->close_time = isset($input['hours'][$key]['close_time']) ? $this->helper->timeConverter($input['hours'][$key]['close_time'], "H:i:s") : null;
+                }
+                else{
+                    $buhr->open_time=null;
+                    $buhr->close_time=null;
+                }
+            }
+            $buhr->is_closed = isset($input['hours'][$key]['is_closed']) ? (int)$input['hours'][$key]['is_closed'] : 0;
+            $buhr->save();
+
+        }
         return;
     }
 

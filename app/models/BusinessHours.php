@@ -28,5 +28,4 @@ class BusinessHours extends Eloquent
     {
         return $this->belongsTo('BusinessInfo');
     }
-
 }

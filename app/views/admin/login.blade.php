@@ -45,12 +45,11 @@
                          @endforeach
                       </div>
                  @endif
-
 				<div class="panel-body">
 					{{ Form::open(array('route' => 'admin.login.post', 'method' =>'POST'))}}
 						<div class="form-group">
 							<label>Email</label>
-							<input type="text" placeholder="Email" name="email" class="form-control input-sm bounceIn animation-delay2" >
+							<input type="text" placeholder="Email" name="email" class="form-control input-sm bounceIn animation-delay2" value="{{Input::old('email')}}">
 						</div>
 						<div class="form-group">
 							<label>Password</label>

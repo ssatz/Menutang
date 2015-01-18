@@ -186,6 +186,6 @@ class ManageBusinessController extends BaseController
         if ($this->manage->insertBusinessInfo($this->request->all())) {
             return $this->redirector->back()->withMessage($this->translator->get('business.success'));
         }
-        return $this->redirector->back()->withErrors($this->manage->errors);
+        return $this->redirector->back()->withErrors($this->manage->errors)->withInput();
     }
 }

@@ -82,8 +82,7 @@ class AdminAuthController extends BaseController
         if ($this->adminAuth->login($userdata)) {
             return Redirect::to('dashboard');
         }
-
-        return Redirect::to('/')->withErrors($this->adminAuth->errors);
+        return Redirect::to('/')->withErrors($this->adminAuth->errors)->withInput();
     }
 
     /**

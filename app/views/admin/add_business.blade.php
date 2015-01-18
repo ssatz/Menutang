@@ -85,8 +85,8 @@
     <label class="control-label col-lg-2">Budget</label>
 
     <div class="col-lg-6">
-        <input type="text" class="form-control input-sm" placeholder="100" name="budget"
-               data-required="true" data-type="number">
+        <input type="text" class="form-control input-sm" placeholder="eg 100" name="budget"
+               data-required="true" data-type="number" value="{{Input::old(budget)}}">
     </div>
     <!-- /.col -->
 </div>
@@ -115,7 +115,7 @@
 
     <div class="col-lg-6">
         <input type="text" class="form-control input-sm" placeholder="00.00"
-               name="minimum_delivery_amt" data-type="number">
+               name="minimum_delivery_amt" data-type="number" value="{{Input::old('minimum_delivery_amt')}}">
     </div>
 </div>
 <div class="form-group">
@@ -756,51 +756,6 @@
 
             }
             return false;
-        });
-
-        $("input[type=radio]").click(function () {
-            if ($(this).val() == '0') {
-                $(this).parents('.form-group').next('.fa-comment').hide('slow').find('textarea,input').text('');
-                $(this).parents('.form-group').next('.fa-comment').hide('slow').find('input').val('');
-
-            }
-            else {
-                $(this).parents('.form-group').next('.fa-comment').show('slow');
-            }
-        });
-        $("body").on("click", ".add-delivery", function (e) {
-            e.preventDefault();
-            var $clone = $(this).next('.padBot30:first').clone();
-            $($clone).find(".close").show();
-            var $count = parseInt($($clone).find('.area').prop('id').split('_')[2]) + 1;
-            $($clone).find('.area').prop('name', 'delivery_area[' + $count + '][area]');
-            $($clone).find('.area').prop('id', 'delivery_area_' + $count + '_area');
-            $($clone).find('.pincode').prop('name', 'delivery_area[' + $count + '][pincode]');
-            $($clone).find('.pincode').prop('id', 'delivery_area_' + $count + '_pincode');
-            $(this).next(".padBot30:last").after($clone);
-        });
-        $("body").on("click", ".close", function (e) {
-            $(this).parent().remove();
-        });
-        $("body").on("focusout", ".area", function (e) {
-            var $area = $(this).val();
-            var $this = this;
-            $.getJSON("http://www.getpincode.info/api/pincode?q=" + $area + "&callback=?", function (data) {
-                $result = JSON.parse(data);
-                $($this).parent().next().find('.pincode').val($result.pincode);
-            });
-
-        });
-        $(".bu-close").click(function () {
-            if ($(this).is(":checked")) {
-                $(this).val(1);
-                $(this).closest("td").find("input").data('required', false);
-                $(this).closest("td").find(".required").remove();
-                $(this).closest("td").find(".form-group").removeClass('has-error').addClass('has-success')
-            } else {
-                $(this).closest("td").find("input").attr('data-required', true);
-
-            }
         });
     });
 </script>

@@ -52,6 +52,13 @@ class BusinessInfo extends Eloquent
     /**
      * @return mixed
      */
+    public function businessHours()
+    {
+        return $this->hasMany('BusinessHours');
+    }
+    /**
+     * @return mixed
+     */
     public function  business()
     {
         return $this->belongsTo('BusinessType');

@@ -443,7 +443,7 @@
                         </a>
                     </h4>
                 </div>
-                <div style="" id="collapseTwo" class="panel-collapse collapse">
+                <div  id="collapseTwo" class="panel-collapse collapse">
                     <div class="panel-body">
                             <div class="form-group">
                                 <label class="control-label col-lg-2">Address Line 1</label>
@@ -458,7 +458,7 @@
 
                                 <div class="col-lg-6">
                                     <input type="text" class="form-control input-sm" name="address_line_2"
-                                           data-required="true" value="{{$business->address_line_2}}">
+                                           data-required="true" value="{{$business->address->address_line_2}}">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -497,16 +497,65 @@
                     </div>
                 </div>
             </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                       href="#collapseThree">
+                        Business Hours
+                    </a>
+                </h4>
+            </div>
+            <div  id="collapseThree" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="col-lg-13">
+                        <table class="table table-responsive">
+                            <thead>
+
+                            <th>Sunday</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                            <th>Saturday</th>
+
+                            </thead>
+                            <tbody>
+                            <tr>
+                                @foreach($business->businessHours as $hour)
+                                <td>
+                        <span class="form-group">
+                        From:<input type="text" class="open-time form-control" data-required="true"
+                                    name="hours[{{$hour['day']}}][open_time]" value="{{$hour['open_time']}}"/><br/> To:<input type="text"
+                                                                                     class="close-time form-control"
+                                                                                     data-required="true"
+                                                                                     name="hours[{{$hour['day']}}][close_time]" value="{{$hour['close_time']}}"/><br/>
+                        <label class="label-checkbox inline">
+                            <input type="checkbox" class="bu-close" name="hours[{{$hour['day']}}][is_closed]" value="{{$hour['is_closed']}}" @if($hour['is_closed']==1)checked @endif/>
+                            <span class="custom-checkbox"></span>
+                            Closed
+                        </label>
+                            </span>
+                                </td>
+                                @endforeach
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                           href="#collapseThree">
+                           href="#collapseFour">
                             Payments
                         </a>
                     </h4>
                 </div>
-                <div style="" id="collapseThree" class="panel-collapse collapse">
+                <div  id="collapseFour" class="panel-collapse collapse">
                     <div class="panel-body">
                         <div class="col-lg-6">
                             <label class="col-lg-2 control-label">Select Payments</label>
@@ -524,6 +573,37 @@
                     </div>
                 </div>
             </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                       href="#collapseFive">
+                        Delivery Area
+                    </a>
+                </h4>
+            </div>
+            <div  id="collapseFive" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Delivery Area</label>
+
+                        <div class="col-lg-6">
+                            <button class="btn btn-sm btn-success pull-right add-delivery">Add</button>
+                           @foreach($business->deliveryArea as $deliveryArea)
+                            <div class="padBot30">
+                                <button type="button" class="close displayNone" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                <span class="pad10"><input type="text" id="delivery_area_0" class="form-control width60 area"
+                                           data-required="true"  name="delivery_area[0][area]" value="{{$deliveryArea['area']}}"></span>
+                <span class="pad10"><input type="text" id="delivery_area_0_pincode" class="form-control width60 pincode"
+                                           data-required="true" name="delivery_area[0][pincode]" data-type="digits" value="{{$deliveryArea['pincode']}}"></span>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
             <div class="panel-footer">
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
