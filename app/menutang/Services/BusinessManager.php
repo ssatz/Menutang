@@ -199,14 +199,30 @@ class BusinessManager
     }
 
     /**
+     * @return mixed
+     */
+    public function getAllMenuItem()
+    {
+        return $this->menuItemrepo->getAll();
+    }
+
+    /**
+     * @param $slug
+     * @return mixed
+     */
+    public function getMenuItemAddon($slug,$categoryId)
+    {
+        return $this->menuItemrepo->getMenuItemAddon($slug,$categoryId);
+    }
+    /**
      * @param array $input
      * @param $slug
      */
-    public function insertMenuItem(array $input, $slug)
+    public function insertOrUpdateMenuItem(array $input, $slug)
     {
         $this->db->beginTransaction();
         try {
-            $this->menuItemrepo->insert($input, $slug);
+            $this->menuItemrepo->insertOrUpdate($input, $slug);
         } catch (Exception $e) {
             $this->db->rollback();
             throw new Exception($e->getMessage());

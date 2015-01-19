@@ -70,7 +70,7 @@
 					<td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
 							   id="item_0_status" name="item[0][item_status]"></td>
 					<td><span class="btn btn-xs btn-info delete">Delete</span>
-						<input type="hidden" name="item[0][total_addon]" value="1"/>
+						<input type="hidden" name="item[0][id]" value="-1"/>
 					</td>
 
 				</tr>
@@ -94,7 +94,10 @@
 										   name="item[0][0][addon_price]" style="width: 140px;"></td>
 								<td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
 										   id="item_0_0_addon_price" name="item[0][0][addon_status]"></td>
-								<td><span class="btn btn-xs btn-info delete">Delete</span></td>
+								<td><span class="btn btn-xs btn-info delete">Delete</span>
+									<input type="hidden" name="item[0][0][id]" value="-1"/>
+								</td>
+
 							</tr>
 							</tbody>
 						</table>
@@ -139,7 +142,7 @@
 				<td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
 						   id="item_0_status" name="item[0][item_status]"></td>
 				<td><span class="btn btn-xs btn-info delete">Delete</span>
-					<input type="hidden" name="item[0][total_addon]" value="1"/>
+					<input type="hidden" name="item[0][id]" value="-1"/>
 				</td>
 			</tr>
 			<tr class="addon">
@@ -162,7 +165,9 @@
 									   name="item[0][0][addon_price]" style="width: 140px;"></td>
 							<td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
 									   id="item_0_0_addon_status" name="item[0][0][addon_status]"></td>
-							<td><span class="btn btn-xs btn-info delete">Delete</span></td>
+							<td><span class="btn btn-xs btn-info delete">Delete</span>
+								<input type="hidden" name="item[0][0][id]" value="-1"/>
+							</td>
 						</tr>
 						</tbody>
 					</table>

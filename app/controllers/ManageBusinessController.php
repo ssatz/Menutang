@@ -153,7 +153,11 @@ class ManageBusinessController extends BaseController
             return $this->view->make('admin.menu_item')->withCategories($this->manage->getAllMenuCategory());
         }
         $this->request->all();
-        $this->manage->insertMenuItem($this->request->except('_token'), $slug);
+        if($this->manage->insertOrUpdateMenuItem($this->request->except('_token'), $slug))
+        {
+            return $this->redirector->back()->withMessage($this->translator->get('business.success'));
+        }
+        return $this->redirector->back()->withErrors($this->manage->errors)->withInput();
     }
 
     /**
@@ -161,8 +165,18 @@ class ManageBusinessController extends BaseController
      */
     public function editItem($slug)
     {
-
         $this->viewShareSlug($slug);
+        $menuItem= $this->manage->getMenuItemAddon($slug,1); //default 1st category item will be loaded
+        if ($this->request->isMethod('GET')) {
+            return $this->view->make('admin.edit_menu_item')->withCategories($this->manage->getAllMenuCategory())
+                                                            ->withMenus($menuItem);
+        }
+        $this->request->all();
+       if($this->manage->insertOrUpdateMenuItem($this->request->except('_token'), $slug))
+       {
+           return $this->redirector->back()->withMessage($this->translator->get('business.success'));
+       }
+        return $this->redirector->back()->withErrors($this->manage->errors)->withInput();
     }
 
 

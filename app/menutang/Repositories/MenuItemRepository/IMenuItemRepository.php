@@ -14,5 +14,6 @@ namespace Repositories\MenuItemRepository;
 interface IMenuItemRepository
 {
 
-    public function insert(array $data, $slug);
+    public function insertOrUpdate(array $data, $slug);
+    public function getMenuItemAddon($slug,$categoryId);
 }
