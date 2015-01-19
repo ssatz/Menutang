@@ -50,6 +50,8 @@
             </thead>
             <tbody>
             <input type="hidden" name="menu_category" class="menu-category" value="{{$menus[0]['menu_category_id']}}"/>
+            <input type="hidden" name="menu_delete" class="menu-delete" value=""/>
+            <input type="hidden" name="addon_delete" class="addon-delete" value=""/>
             @foreach($menus as $item)
             <tr class="menu">
                 <td><a class="accordion-toggle"><span class="glyphicon gi-2x glyphicon-minus"></span></a></td>
@@ -68,11 +70,11 @@
                 <td><input type="checkbox" data-on-text="Yes" data-off-text="No"
                            id="item_{{$item['id']}}_is_spicy" name="item[{{$item['id']}}][is_spicy]" @if($item['is_spicy']) checked @endif></td>
                 <td><input type="checkbox" data-on-text="Yes" data-off-text="No"
-                           id="item_{{$item['id']}}_is_popular" name="item[{{$item['id']}}][is_popular]" @if($item['is_popular']    ) checked @endif></td>
+                           id="item_{{$item['id']}}_is_popular" name="item[{{$item['id']}}][is_popular]" @if($item['is_popular']) checked @endif></td>
                 <td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
                            id="item_{{$item['id']}}_status" name="item[{{$item['id']}}][item_status]" @if($item['item_status']) checked @endif></td>
                 <td><span class="btn btn-xs btn-info delete">Delete</span>
-                    <input type="hidden" name="item[{{$item['id']}}][id]" value="{{$item['id']}}"/>
+                    <input type="hidden" name="item[{{$item['id']}}][id]" class="menu-id" value="{{$item['id']}}"/>
                 </td>
 
             </tr>
@@ -98,7 +100,7 @@
                             <td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
                                        id="item_{{$item['id']}}_{{$addon['id']}}_addon_price" name="item[{{$item['id']}}][{{$addon['id']}}][addon_status]" @if($addon['addon_status']) checked @endif></td>
                             <td><span class="btn btn-xs btn-info delete">Delete</span>
-                                <input type="hidden" name="item[{{$item['id']}}][{{$addon['id']}}][id]" value="{{$addon['id']}}"/>
+                                <input type="hidden" name="item[{{$item['id']}}][{{$addon['id']}}][id]" class="addon-id" value="{{$addon['id']}}"/>
                             </td>
                         </tr>
                         @endforeach
@@ -146,7 +148,7 @@
             <td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
                        id="item_0_status" name="item[0][item_status]"></td>
             <td><span class="btn btn-xs btn-info delete">Delete</span>
-                <input type="hidden" name="item[0][id]" value="-1"/>
+                <input type="hidden" name="item[0][id]" class="menu-id" value="-1"/>
             </td>
         </tr>
         <tr class="addon">
@@ -170,7 +172,7 @@
                         <td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
                                    id="item_0_0_addon_status" name="item[0][0][addon_status]"></td>
                         <td><span class="btn btn-xs btn-info delete">Delete</span>
-                            <input type="hidden" name="item[0][0][id]" value="-1"/>
+                            <input type="hidden" name="item[0][0][id]" class="addon-id" value="-1"/>
                         </td>
                     </tr>
                     </tbody>
@@ -272,12 +274,19 @@
 
         $("body").on("click", ".table-responsive .delete", function () {
             if ($(this).closest('table').hasClass('innerTable')) {
+                var $addon= $(this).parents('table').find('.addon-delete').val();
+                var $id = $(this).closest('tr').find('.addon-id').val();
+                $(this).parents('table').find('.addon-delete').val($addon+','+$id);
+
                 $(this).closest('tr').remove();
             }
             else {
+                debugger;
+                var $menu= $(this).parents('table').find('.menu-delete').val();
+                var $id = $(this).closest('tr').find('.menu-id').val();
+                $(this).parents('table').find('.menu-delete').val($menu+','+$id);
                 $(this).closest('tr').next('tr.addon').remove();
                 $(this).closest('tr').remove();
-
             }
         });
         $(".add-menu-item").click(function () {
@@ -293,8 +302,8 @@
                 $(this).parents('.table-responsive').find("table>tbody>tr.addon:last").after($html);
 
                 var $count = parseInt($prev) + 1;
-                inputnameFormat($count, 'table>tbody>tr.menu:last>td', this, '.table-responsive');
-                inputnameFormat($count, '.innerTable>tbody>tr>td', this, '.table-responsive');
+                inputnameFormat($count, 'table>tbody>tr.menu:last>td:input', this, '.table-responsive');
+                inputnameFormat($count, '.innerTable>tbody>tr>td:input', this, '.table-responsive');
             }
             $(this).parents('.table-responsive').find("table>tbody>tr.menu:last").find("[type='checkbox']").bootstrapSwitch({
                 'onColor': 'success',

@@ -59,6 +59,10 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
     public function insertOrUpdate(array $data, $slug)
     {
         $menuCategory = $data['menu_category'];
+        $menuDelete =ltrim($data['menu_delete'],',');
+        $addonDelete =ltrim($data['addon_delete'],',');
+        $this->itemAddon->destroy($addonDelete);
+        $this->model->destroy($menuDelete);
         $buId = $this->businessInfo->slug($slug)->first()->id;
         foreach ($data['item'] as $item) {
             $menuItem = $this->model->find($item['id']);
