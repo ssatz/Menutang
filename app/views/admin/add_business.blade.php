@@ -86,7 +86,7 @@
 
     <div class="col-lg-6">
         <input type="text" class="form-control input-sm" placeholder="eg 100" name="budget"
-               data-required="true" data-type="number" value="{{Input::old(budget)}}">
+               data-required="true" data-type="number" value="{{Input::old('budget')}}">
     </div>
     <!-- /.col -->
 </div>
