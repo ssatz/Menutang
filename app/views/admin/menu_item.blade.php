@@ -49,6 +49,9 @@
 				</tr>
 				</thead>
 				<tbody>
+				<input type="hidden" name="menu_category" class="menu-category" value="1"/>
+				<input type="hidden" name="menu_delete" class="menu-delete" value=""/>
+				<input type="hidden" name="addon_delete" class="addon-delete" value=""/>
 				<tr class="menu">
 					<td><a class="accordion-toggle"><span class="glyphicon gi-2x glyphicon-minus"></span></a></td>
 					<td><input type="text" class="form-control input-sm" id="item_0_name"
@@ -190,149 +193,33 @@
 	<script src="{{asset('assets/common/js/bootstrap-switch.min.js')}}"></script>
 	<script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
 	<script src="{{asset('assets/common/js/jquery.gritter.min.js')}}"></script>
-	<script>
-		$(".chzn-select").chosen();
-		$(function () {
-			$(".table-responsive").find("[type='checkbox']").bootstrapSwitch({
-				'onColor': 'success',
-				'offColor': 'danger',
-				'size': 'small'
-			});
-			$(".table-responsive").on('switchChange.bootstrapSwitch', '.veg,.non-veg,.egg', function (event, state) {
-
-				if (state) {
-					if ($(this).hasClass('veg')) {
-						$(this).closest('tr').find('.non-veg,.egg').bootstrapSwitch('state', false, false);
-					}
-					else if ($(this).hasClass('non-veg')) {
-						$(this).closest('tr').find('.veg,.egg').bootstrapSwitch('state', false, false);
-					}
-					else if ($(this).hasClass('egg')) {
-						$(this).closest('tr').find('.non-veg,.veg').bootstrapSwitch('state', false, false);
-					}
-				}
-			});
-
-			$("body").on("click", ".accordion-toggle", function () {
-				if ($(this).find('span').hasClass('glyphicon-minus')) {
-					$(this).find('span').removeClass('glyphicon-minus').addClass('glyphicon-plus');
-					$(this).closest("tr").next("tr.addon").hide('slow');
-				}
-				else {
-					$(this).find('span').removeClass('glyphicon-plus').addClass('glyphicon-minus');
-					$(this).closest("tr").next("tr.addon").show('slow');
-				}
-			});
-
-			$("body").on("click", ".add-addon", function () {
-				var $clone = $('#items').find('.innerTable tbody>tr:first').clone();
-				var $count = $(this).parents('.innerTable').find('tbody>tr:last');
-				if ($count == '' || $count.length == 0) {
-					$(this).parents('.innerTable').find('tbody').append($clone);
-				} else {
-					var $arrayCount = $(this).parents('.innerTable').find('tbody>tr:last>td input').prop('id');
-					$arrayCount = $arrayCount.split('_')[2];
-					var $count = parseInt($arrayCount) + 1;
-					var $menuCount = $(this).closest('tr.addon').prev('tr.menu').find('td input').prop('id');
-					$menuCount = $menuCount.split('_')[1];
-					$(this).parents('.innerTable').find('tbody>tr:last').after($clone);
-					$(this).parents('.innerTable').find('tbody>tr:last>td').each(function () {
-						$name = $(this).find('input').prop('name');
-						$name = $name != undefined ? $name.replace('item[0][0]', 'item[' + $menuCount + '][' + $count + ']') : $name;
-						$(this).find('input').prop('name', $name);
-						$id = $(this).find('input').prop('id');
-						$id = $id != undefined ? $id.replace('item_0_0', 'item_' + $menuCount + '_' + $count) : $id;
-						$(this).find('input').prop('id', $id);
-					});
-					var $addonCount = $(this).parents('.innerTable').find('tbody>tr:last>td input').prop('id');
-					$addonCount = parseInt($addonCount.split('_')[2]) + 1;
-					$("input[name='item[" + $menuCount + "][total_addon]']").val($addonCount);
-				}
-				$(this).parents('.innerTable').find('tbody>tr:last').find("[type='checkbox']").bootstrapSwitch({
-					'onColor': 'success',
-					'offColor': 'danger',
-					'size': 'small'
-				});
-			});
-
-			$("body").on("click", ".table-responsive .delete", function () {
-				if ($(this).closest('table').hasClass('innerTable')) {
-					$(this).closest('tr').remove();
-				}
-				else {
-					$(this).closest('tr').next('tr.addon').remove();
-					$(this).closest('tr').remove();
-
-				}
-			});
-			$(".add-menu-item").click(function () {
-				var $html = $("#items").find('table>tbody').html();
-				var $count = $(this).parents('.table-responsive').find("table>tbody>tr.addon:last");
-				if ($count == '' || $count.length == 0) {
-					$(this).parents('.table-responsive').find("table>tbody").append($html);
-				}
-				else {
-					var $prev = $(this).parents('.table-responsive').find("table>tbody>tr.menu:last>td input").prop('id');
-					$prev = $prev.split('_')[1];
-					$(this).parents('.table-responsive').find("table>tbody>tr.addon:last").after($html);
-
-					var $count = parseInt($prev) + 1;
-					inputnameFormat($count, 'table>tbody>tr.menu:last>td', this, '.table-responsive');
-					inputnameFormat($count, '.innerTable>tbody>tr>td', this, '.table-responsive');
-				}
-				$(this).parents('.table-responsive').find("table>tbody>tr.menu:last").find("[type='checkbox']").bootstrapSwitch({
-					'onColor': 'success',
-					'offColor': 'danger',
-					'size': 'small'
-				});
-				$(this).parents('.table-responsive').find("table>tbody>tr.addon:last").find("[type='checkbox']").bootstrapSwitch({
-					'onColor': 'success',
-					'offColor': 'danger',
-					'size': 'small'
-				});
-			});
-
-			$('.add-category').click(function (e) {
-				e.preventDefault();
-				$category = $(this).closest('form').find('.cat').val().toLowerCase();
-				$token = $(this).closest('form').find('input[name="_token"]').val();
-				var $data = {
-					category_name: $category,
-					_token: $token
-				}
-				ajax('{{action('ManageBusinessController@addCategory', [$slug])}}', 'POST', $data, 'json', function (msg) {
-					$('#category').append(
-							$("<option></option>")
-									.attr("value", msg.id)
-									.text(msg.category_name)
-					);
-					$('#category').chosen().trigger("chosen:updated");
-
-					if (msg[1] == 'Error') {
-						notification('Notification', msg[0].category_name, 'gritter-danger');
-
-					}
-					else {
-						notification('Notification', 'Category Added successfully', 'gritter-success');
-					}
-				});
-				$(this).closest('form').find('.cat').val('');
-			});
-			function inputnameFormat($count, $selector, $currentObject, $parentsSelector) {
-				$($currentObject).parents($parentsSelector).find($selector).each(function () {
-					$name = $(this).find('input').prop('name');
-					console.log($name);
-					if ($name != undefined) {
-						$name = $name.replace('item[0]', 'item[' + $count + ']');
-						$(this).find('input').prop('name', $name);
-					}
-					$id = $(this).find('input').prop('id');
-					if ($id != undefined) {
-						$id = $id.replace('_0_', '_' + $count + '_');
-						$(this).find('input').prop('id', $id);
-					}
-				});
+    <script src="{{asset('assets/common/js/app/menuitem.js')}}"></script>
+	<script type="text/javascript">
+		$('.add-category').click(function (e) {
+			e.preventDefault();
+			$category = $(this).closest('form').find('.cat').val().toLowerCase();
+			$token = $(this).closest('form').find('input[name="_token"]').val();
+			var $data = {
+				category_name: $category,
+				_token: $token
 			}
+			ajax('{{action('ManageBusinessController@addCategory', [$slug])}}', 'POST', $data, 'json', function (msg) {
+				$('#category').append(
+					$("<option></option>")
+						.attr("value", msg.id)
+						.text(msg.category_name)
+				);
+				$('#category').chosen().trigger("chosen:updated");
+
+				if (msg[1] == 'Error') {
+					notification('Notification', msg[0].category_name, 'gritter-danger');
+
+				}
+				else {
+					notification('Notification', 'Category Added successfully', 'gritter-success');
+				}
+			});
+			$(this).closest('form').find('.cat').val('');
 		});
 	</script>
 @endsection
