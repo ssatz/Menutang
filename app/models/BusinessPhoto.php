@@ -1,7 +1,6 @@
 <?php
-
 /*
- * This file is part of the menutang
+ * This file(BusinessPhoto.php) is part of the menutang
  *
  * (c) Sensei Online Food Services
  *
@@ -9,17 +8,16 @@
  * file that was distributed with this source code.
  */
 
-class BusinessType extends Eloquent
-{
-
+class BusinessPhoto extends Eloquent {
     /**
      * @var string
      */
-    protected $table = 'business_type';
+    protected $table = 'business_image';
+
     /**
      * @var array
      */
-    protected $fillable = ['business_code', 'business_description'];
+    protected $fillable = ['image_name'];
 
     /**
      * @return mixed
@@ -28,4 +26,5 @@ class BusinessType extends Eloquent
     {
         return $this->hasMany('BusinessInfo');
     }
+
 }

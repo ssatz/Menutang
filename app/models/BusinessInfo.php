@@ -32,7 +32,13 @@ class BusinessInfo extends Eloquent
     {
         return $this->belongsTo('BusinessUser', 'business_users_id');
     }
-
+    /**
+     * @return mixed
+     */
+    public function businessPhoto()
+    {
+        return $this->hasMany('BusinessPhoto', 'business_info_id');
+    }
     /**
      * @return mixed
      */

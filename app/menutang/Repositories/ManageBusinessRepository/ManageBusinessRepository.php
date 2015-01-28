@@ -19,6 +19,7 @@ use Services\Helper;
 use DeliveryArea;
 use BusinessAddress;
 use BusinessHours;
+use BusinessType;
 
 class ManageBusinessRepository extends BaseRepository implements IManageBusinessRepository
 {
@@ -166,7 +167,9 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         if (!empty($this->findBusinessBySlug($slug))) {
             $slug = $slug . '-' . $businessInfo->id;
         }
-        $businessInfo->fill(['business_slug' => $slug]);
+        $buuniqueId = $this->dbManager->table('business_type')->where('id', $input['business_type_id'])->pluck('business_code');
+        $buuniqueId =$buuniqueId.'00000'.$businessInfo->id;
+        $businessInfo->fill(['business_slug' => $slug,'business_unique_id'=>$buuniqueId]);
         $businessInfo->save();
 
         $address = new BusinessAddress();

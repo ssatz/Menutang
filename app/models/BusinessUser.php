@@ -31,7 +31,7 @@ class BusinessUser extends Eloquent implements UserInterface, RemindableInterfac
     /**
      * @return mixed
      */
-    public function restaurantInfo()
+    public function businessInfo()
     {
         return $this->hasMany('BusinessInfo');
     }

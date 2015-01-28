@@ -1,5 +1,9 @@
 <?php
 
+Route::get('info',function(){
+    echo phpinfo();
+});
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
