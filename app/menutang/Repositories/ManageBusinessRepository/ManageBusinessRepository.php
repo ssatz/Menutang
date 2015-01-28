@@ -90,18 +90,18 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         $this->model->where('business_slug', '=', $slug)->update($result['business_info']);
         $this->model->find($businessInfo->id)->address()->update($result['business_address']);
         $businessInfo->payment()->sync($input['payments']);
+        $deliveryAreaId = [];
+        foreach ($input['delivery_area'] as $area) {
+            $deliveryArea = DeliveryArea::Where('area','=',strtolower($area['area']))->get();
+            array_push($deliveryAreaId, $deliveryArea->id);
+        }
+        $businessInfo->deliveryArea()->attach($deliveryAreaId);
         foreach ($input['hours'] as $key => $value) {
             $buhr = $this->model->find($businessInfo->id)->businessHours()->where('day','=',$key)->first();
             $buhr->business_info_id = $businessInfo->id;
-            if (isset($input['hours'][$key]['is_closed'])) {
-                if (!$input['hours'][$key]['is_closed']) {
+            if (!isset($input['hours'][$key]['is_closed'])) {
                     $buhr->open_time = isset($input['hours'][$key]['open_time']) ? $this->helper->timeConverter($input['hours'][$key]['open_time'], "H:i:s") : null;
                     $buhr->close_time = isset($input['hours'][$key]['close_time']) ? $this->helper->timeConverter($input['hours'][$key]['close_time'], "H:i:s") : null;
-                }
-                else{
-                    $buhr->open_time=null;
-                    $buhr->close_time=null;
-                }
             }
             $buhr->is_closed = isset($input['hours'][$key]['is_closed']) ? (int)$input['hours'][$key]['is_closed'] : 0;
             $buhr->save();
@@ -168,7 +168,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
             $slug = $slug . '-' . $businessInfo->id;
         }
         $buuniqueId = $this->dbManager->table('business_type')->where('id', $input['business_type_id'])->pluck('business_code');
-        $buuniqueId =$buuniqueId.'00000'.$businessInfo->id;
+        $buuniqueId =$buuniqueId.'00000 '.$businessInfo->id;
         $businessInfo->fill(['business_slug' => $slug,'business_unique_id'=>$buuniqueId]);
         $businessInfo->save();
 
@@ -189,17 +189,14 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
             array_push($deliveryAreaId, $deliveryArea->id);
         }
         $businessInfo->deliveryArea()->attach($deliveryAreaId);
-
         foreach ($input['hours'] as $key => $value) {
             $weekDays = strtoupper($key);
             $buhr = new BusinessHours();
             $buhr->business_info_id = $businessInfo->id;
             $buhr->day = constant("Services\WeekDays::$weekDays");
-            if (isset($input['hours'][$key]['is_closed'])) {
-                if (!$input['hours'][$key]['is_closed']) {
+            if (!isset($input['hours'][$key]['is_closed'])) {
                     $buhr->open_time = isset($input['hours'][$key]['open_time']) ? $this->helper->timeConverter($input['hours'][$key]['open_time'], "H:i:s") : null;
                     $buhr->close_time = isset($input['hours'][$key]['close_time']) ? $this->helper->timeConverter($input['hours'][$key]['close_time'], "H:i:s") : null;
-                }
             }
             $buhr->is_closed = isset($input['hours'][$key]['is_closed']) ? (int)$input['hours'][$key]['is_closed'] : 0;
             $buhr->save();

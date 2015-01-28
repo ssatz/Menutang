@@ -596,7 +596,7 @@
                 <span class="pad10"><input type="text" id="delivery_area_0" class="form-control width60 area"
                                            data-required="true"  name="delivery_area[0][area]" value="{{$deliveryArea['area']}}"></span>
                 <span class="pad10"><input type="text" id="delivery_area_0_pincode" class="form-control width60 pincode"
-                                           data-required="true" name="delivery_area[0][pincode]" data-type="digits" value="{{$deliveryArea['pincode']}}"></span>
+                                           data-required="true" name="delivery_area[0][pincode]" data-type="digits" value="{{$deliveryArea['area_pincode']}}"></span>
                             </div>
                             @endforeach
                         </div>
