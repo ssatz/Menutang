@@ -19,7 +19,6 @@ use Services\Helper;
 use DeliveryArea;
 use BusinessAddress;
 use BusinessHours;
-use BusinessType;
 
 class ManageBusinessRepository extends BaseRepository implements IManageBusinessRepository
 {

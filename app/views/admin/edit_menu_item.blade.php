@@ -10,7 +10,7 @@
             <label class="col-lg-2 control-label">Select Category</label>
 
             <div class="col-lg-2">
-                <select class="form-control chzn-select inputWidth" id="category" name="menu_category">
+                <select class="form-control chzn-select inputWidth editmenucat" id="category" name="menu_category">
                     @foreach($categories as $category)
                     <option value="{{$category->id}}" @if($category->id==1) selected @endif>{{$category->category_name}} </option>
                     @endforeach
@@ -31,7 +31,7 @@
         </div>
         <!-- /form-group -->
         {{ Form::open(['url' => action('ManageBusinessController@editItem', [$slug]), 'method'
-        =>'POST','class'=>'form-horizontal']) }}
+        =>'POST','class'=>'form-horizontal','id'=>'edit-menuitem']) }}
         <table class="table table-striped" id="dataTable">
             <thead>
             <tr>
@@ -60,7 +60,7 @@
                 <td><input type="text" class="form-control input-sm" id="item_{{$item['id']}}_description"
                            name="item[{{$item['id']}}][item_description]" value="{{$item['item_description']}}"></td>
                 <td><input type="text" class="form-control input-sm" style="width: 80px;"
-                           id="item_{{$item['id']}}_price" name="item[{{$item['id']}}][item_price]" value="{{$item['item_price']}}"></td>
+                           id="item_{{$item['id']}}_price" name="item[{{$item['id']}}][item_price]" data-type="number" value="{{$item['item_price']}}"></td>
                 <td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_{{$item['id']}}_veg"
                            class="veg" name="item[{{$item['id']}}][is_veg]" @if($item['is_veg']) checked @endif></td>
                 <td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_{{$item['id']}}_non_veg"
@@ -95,7 +95,7 @@
                         <tr>
                             <td><input type="text" class="form-control input-sm" id="item_{{$item['id']}}_{{$addon['id']}}_addon_description"
                                        name="item[{{$item['id']}}][{{$addon['id']}}][addon_description]" value="{{$addon['addon_description']}}" style="width: 140px;"></td>
-                            <td><input type="text" class="form-control input-sm" id="item_{{$item['id']}}_{{$addon['id']}}_addon_price"
+                            <td><input type="text" class="form-control input-sm" id="item_{{$item['id']}}_{{$addon['id']}}_addon_price" data-type="number"
                                        name="item[{{$item['id']}}][{{$addon['id']}}][addon_price]" value="{{$addon['addon_price']}}" style="width: 140px;"></td>
                             <td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
                                        id="item_{{$item['id']}}_{{$addon['id']}}_addon_price" name="item[{{$item['id']}}][{{$addon['id']}}][addon_status]" @if($addon['addon_status']) checked @endif></td>
@@ -114,7 +114,7 @@
         <div class="panel-footer">
             <div class="form-group">
                 <div class="col-lg-offset-2 col-lg-10">
-                    <button type="submit" class="btn btn-success btn-sm">Save</button>
+                    <button type="submit" class="btn btn-success btn-sm menuitemSave">Save</button>
                 </div>
                 <!-- /.col -->
             </div>
@@ -133,7 +133,7 @@
                        name="item[0][item_name]" style="width: 140px;"></td>
             <td><input type="text" class="form-control input-sm" id="item_0_description"
                        name="item[0][item_description]"></td>
-            <td><input type="text" class="form-control input-sm" style="width: 80px;"
+            <td><input type="text" class="form-control input-sm" style="width: 80px;" data-type="number"
                        id="item_0_price" name="item[0][item_price]"></td>
             <td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_0_is_veg"
                        class="veg" name="item[0][is_veg]"></td>
@@ -167,7 +167,7 @@
                     <tr>
                         <td><input type="text" class="form-control input-sm" id="item_0_0_addon_description"
                                    name="item[0][0][addon_description]" style="width: 140px;"></td>
-                        <td><input type="text" class="form-control input-sm" id="item_0_0_addon_price"
+                        <td><input type="text" class="form-control input-sm" id="item_0_0_addon_price" data-type="number"
                                    name="item[0][0][addon_price]" style="width: 140px;"></td>
                         <td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
                                    id="item_0_0_addon_status" name="item[0][0][addon_status]"></td>
@@ -197,6 +197,7 @@
 <script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
 <script src="{{asset('assets/common/js/jquery.gritter.min.js')}}"></script>
 <script src="{{asset('assets/common/js/app/menuitem.js')}}"></script>
+<script src="{{asset('assets/common/js/app/menutang.js')}}"></script>
 <script type="text/javascript">
     $('.add-category').click(function (e) {
         e.preventDefault();
@@ -223,6 +224,30 @@
             }
         });
         $(this).closest('form').find('.cat').val('');
+    });
+    $('#edit-menuitem').submit(function (e) {
+        if(!formValidation('#edit-menuitem')) {
+            e.preventDefault;
+            return false;
+        }
+    });
+    $(".editmenucat").change(function(e){
+        var $categoryId = $(this).val();
+        var $token = '{{ Session::token() }}';
+        var $data = {
+            category_id: $categoryId,
+            _token: $token
+        }
+        ajax('{{action('ManageBusinessController@changeMenuCategory', [$slug])}}', 'GET', $data, 'html', function (msg) {
+
+            $('#dataTable').html(msg);
+            notification('Notification', 'Category Changed successfully', 'gritter-success');
+            $(".table-responsive").find("[type='checkbox']").bootstrapSwitch({
+                'onColor': 'success',
+                'offColor': 'danger',
+                'size': 'small'
+            });
+        });
     });
 </script>
 @endsection

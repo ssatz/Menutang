@@ -31,7 +31,7 @@
 			</div>
 			<!-- /form-group -->
 			{{ Form::open(['url' => action('ManageBusinessController@addItem', [$slug]), 'method'
-    =>'POST','class'=>'form-horizontal']) }}
+    =>'POST','class'=>'form-horizontal','id'=>'add-menuitem']) }}
 			<table class="table table-striped" id="dataTable">
 				<thead>
 				<tr>
@@ -58,7 +58,7 @@
 							   name="item[0][item_name]" style="width: 140px;"></td>
 					<td><input type="text" class="form-control input-sm" id="item_0_description"
 							   name="item[0][item_description]"></td>
-					<td><input type="text" class="form-control input-sm" style="width: 80px;"
+					<td><input type="text" class="form-control input-sm" style="width: 80px;" data-type="number"
 							   id="item_0_price" name="item[0][item_price]"></td>
 					<td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_0_veg"
 							   class="veg" name="item[0][is_veg]"></td>
@@ -94,7 +94,7 @@
 								<td><input type="text" class="form-control input-sm" id="item_0_0_addon_description"
 										   name="item[0][0][addon_description]" style="width: 140px;"></td>
 								<td><input type="text" class="form-control input-sm" id="item_0_0_addon_price"
-										   name="item[0][0][addon_price]" style="width: 140px;"></td>
+										   name="item[0][0][addon_price]" data-type="number" style="width: 140px;"></td>
 								<td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
 										   id="item_0_0_addon_price" name="item[0][0][addon_status]"></td>
 								<td><span class="btn btn-xs btn-info delete">Delete</span>
@@ -130,7 +130,7 @@
 						   name="item[0][item_name]" style="width: 140px;"></td>
 				<td><input type="text" class="form-control input-sm" id="item_0_description"
 						   name="item[0][item_description]"></td>
-				<td><input type="text" class="form-control input-sm" style="width: 80px;"
+				<td><input type="text" class="form-control input-sm" style="width: 80px;" data-type="number"
 						   id="item_0_price" name="item[0][item_price]"></td>
 				<td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_0_is_veg"
 						   class="veg" name="item[0][is_veg]"></td>
@@ -162,9 +162,9 @@
 						</thead>
 						<tbody>
 						<tr>
-							<td><input type="text" class="form-control input-sm" id="item_0_0_addon_description"
+							<td><input type="text" class="form-control input-sm" id="item_0_0_addon_description" data-required="true"
 									   name="item[0][0][addon_description]" style="width: 140px;"></td>
-							<td><input type="text" class="form-control input-sm" id="item_0_0_addon_price"
+							<td><input type="text" class="form-control input-sm" id="item_0_0_addon_price" data-required="true" data-type="number"
 									   name="item[0][0][addon_price]" style="width: 140px;"></td>
 							<td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
 									   id="item_0_0_addon_status" name="item[0][0][addon_status]"></td>
@@ -194,7 +194,14 @@
 	<script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
 	<script src="{{asset('assets/common/js/jquery.gritter.min.js')}}"></script>
     <script src="{{asset('assets/common/js/app/menuitem.js')}}"></script>
+	<script src="{{asset('assets/common/js/app/menutang.js')}}"></script>
 	<script type="text/javascript">
+		$('#add-menuitem').submit(function (e) {
+			if(!formValidation('#add-menuitem')) {
+				e.preventDefault;
+				return false;
+			}
+		});
 		$('.add-category').click(function (e) {
 			e.preventDefault();
 			$category = $(this).closest('form').find('.cat').val().toLowerCase();

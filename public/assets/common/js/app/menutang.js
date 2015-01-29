@@ -5,7 +5,6 @@ function isFormValid(formId) {
     var $flag = true;
     var $radioflag = true;
     var name = new Array();
-    debugger;
     $(formId).find("input[type=radio]").each(function () {
         name.push(this.name);
     })
@@ -84,6 +83,24 @@ function isFormValid(formId) {
     return ($flag && $radioflag) ? true : false;
 }
 
+function formValidation(formId)
+{
+    var $flag =true;
+    $(formId).find('input[type=text]').each(function() {
+        $(this).next('.label-danger').remove();
+        if($(this).val()=='' || $(this).val().length==0)
+        {
+            $flag=false;
+            $(this).after('<span class="required label-danger">This is a required field</span>');
+        }
+        if ($(this).data('type')!=undefined && !validateType($(this).val(), $(this).data('type'))) {
+            $flag = false;
+            $(this).after('<span class="required label-danger">This field should contain only ' + $(this).data('type') + ' </span>');
+        }
+
+    });
+    return $flag;
+}
 
 function validateType(e, t) {
     var n;

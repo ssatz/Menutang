@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    $(".chzn-select").chosen();
     $(function () {
+        $(".chzn-select").chosen();
         $(".table-responsive").find("[type='checkbox']").bootstrapSwitch({
             'onColor': 'success',
             'offColor': 'danger',
@@ -83,7 +83,6 @@ $(document).ready(function() {
                 $(this).closest('tr').remove();
             }
             else {
-                debugger;
                 var $menu = $(this).parents('table').find('.menu-delete').val();
                 var $id = $(this).closest('tr').find('.menu-id').val();
                 $(this).parents('table').find('.menu-delete').val($menu + ',' + $id);
@@ -91,10 +90,9 @@ $(document).ready(function() {
                 $(this).closest('tr').remove();
             }
         });
-        $(".add-menu-item").click(function () {
+        $("body").on("click",".add-menu-item",function () {
             var $html = $("#items").find('table>tbody').html();
             var $count = $(this).parents('.table-responsive').find("table>tbody>tr.addon:last");
-            debugger;
             if ($count == '' || $count.length == 0) {
                 $(this).parents('.table-responsive').find("table>tbody").append($html);
             }

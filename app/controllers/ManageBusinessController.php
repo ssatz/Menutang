@@ -202,4 +202,19 @@ class ManageBusinessController extends BaseController
         }
         return $this->redirector->back()->withErrors($this->manage->errors)->withInput();
     }
+
+    /**
+     * @param $slug
+     */
+    public function changeMenuCategory($slug)
+    {
+        if($this->request->ajax()) {
+            $categoryId = $this->request->input('category_id');
+            $menuItem = $this->manage->getMenuItemAddon($slug, $categoryId);
+            $view = $this->view->make('admin._partials.menu_item_table')
+                                ->withMenus($menuItem)
+                                ->withCategoryid($categoryId);
+            return $view->render();
+        }
+    }
 }
