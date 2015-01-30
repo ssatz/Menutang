@@ -58,43 +58,44 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
      */
     public function insertOrUpdate(array $data, $slug)
     {
-        $menuCategory = $data['menu_category'];
-        $menuDelete =ltrim($data['menu_delete'],',');
-        $addonDelete =ltrim($data['addon_delete'],',');
-        $this->itemAddon->destroy($addonDelete);
-        $this->model->destroy($menuDelete);
-        $buId = $this->businessInfo->slug($slug)->first()->id;
-        foreach ($data['item'] as $item) {
-            $menuItem = $this->model->find($item['id']);
-            if(is_null($menuItem)) {
-                $menuItem = new $this->model;
-            }
-            $menuItem->menu_category_id = $menuCategory;
-            $menuItem->business_info_id = $buId;
-            $menuItem->item_name = $item['item_name'];
-            $menuItem->item_description = $item['item_description'];
-            $menuItem->item_price = $item['item_price'];
-            $menuItem->is_veg = $this->arrayExists('is_veg', $item)?true:false;
-            $menuItem->is_non_veg = $this->arrayExists('is_non_veg', $item)?true:false;
-            $menuItem->is_egg = $this->arrayExists('is_egg', $item)?true:false;
-            $menuItem->is_spicy = $this->arrayExists('is_spicy', $item)?true:false;
-            $menuItem->is_popular = $this->arrayExists('is_popular', $item)?true:false;
-            $menuItem->item_status = $this->arrayExists('item_status', $item)?true:false;
-            $menuItem->save();
-            $numerickeys = array_filter(array_keys($item), 'is_int');
-            foreach ($numerickeys as $key) {
-                $addon = $this->itemAddon->find($item[$key]['id']);
-                if(is_null($addon))
-                {
-                    $addon = new $this->itemAddon;
+        if(isset($data['item'])) {
+            $menuCategory = $data['menu_category'];
+            $menuDelete = ltrim($data['menu_delete'], ',');
+            $addonDelete = ltrim($data['addon_delete'], ',');
+            $this->itemAddon->destroy($addonDelete);
+            $this->model->destroy($menuDelete);
+            $buId = $this->businessInfo->slug($slug)->first()->id;
+            foreach ($data['item'] as $item) {
+                $menuItem = $this->model->find($item['id']);
+                if (is_null($menuItem)) {
+                    $menuItem = new $this->model;
                 }
-                $addon->addon_description = $item[$key]['addon_description'];
-                $addon->addon_price = $item[$key]['addon_price'];
-                $addon->addon_status = $this->arrayExists('addon_status', $item[$key])?true:false;
-                $addon->menuItem()->associate($menuItem);
-                $addon->save();
-            }
+                $menuItem->menu_category_id = $menuCategory;
+                $menuItem->business_info_id = $buId;
+                $menuItem->item_name = $item['item_name'];
+                $menuItem->item_description = $item['item_description'];
+                $menuItem->item_price = $item['item_price'];
+                $menuItem->is_veg = $this->arrayExists('is_veg', $item) ? true : false;
+                $menuItem->is_non_veg = $this->arrayExists('is_non_veg', $item) ? true : false;
+                $menuItem->is_egg = $this->arrayExists('is_egg', $item) ? true : false;
+                $menuItem->is_spicy = $this->arrayExists('is_spicy', $item) ? true : false;
+                $menuItem->is_popular = $this->arrayExists('is_popular', $item) ? true : false;
+                $menuItem->item_status = $this->arrayExists('item_status', $item) ? true : false;
+                $menuItem->save();
+                $numerickeys = array_filter(array_keys($item), 'is_int');
+                foreach ($numerickeys as $key) {
+                    $addon = $this->itemAddon->find($item[$key]['id']);
+                    if (is_null($addon)) {
+                        $addon = new $this->itemAddon;
+                    }
+                    $addon->addon_description = $item[$key]['addon_description'];
+                    $addon->addon_price = $item[$key]['addon_price'];
+                    $addon->addon_status = $this->arrayExists('addon_status', $item[$key]) ? true : false;
+                    $addon->menuItem()->associate($menuItem);
+                    $addon->save();
+                }
 
+            }
         }
 
     }

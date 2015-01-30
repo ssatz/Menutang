@@ -166,17 +166,19 @@ class ManageBusinessController extends BaseController
     public function editItem($slug)
     {
         $this->viewShareSlug($slug);
-        $menuItem= $this->manage->getMenuItemAddon($slug,1); //default 1st category item will be loaded
+        $categoryId = $this->request->query('category_id')==null?1:$this->request->query('category_id');
+        $menuItem= $this->manage->getMenuItemAddon($slug,$categoryId); //default 1st category item will be loaded
         if ($this->request->isMethod('GET')) {
+
             return $this->view->make('admin.edit_menu_item')->withCategories($this->manage->getAllMenuCategory())
                                                             ->withMenus($menuItem);
         }
-        $this->request->all();
+        $categoryId = $this->request->input('menu_category');
        if($this->manage->insertOrUpdateMenuItem($this->request->except('_token'), $slug))
        {
-           return $this->redirector->back()->withMessage($this->translator->get('business.success'));
+           return $this->redirector->to($slug.'/menu/edit-item?category_id='.$categoryId)->withMessage($this->translator->get('business.success'));
        }
-        return $this->redirector->back()->withErrors($this->manage->errors)->withInput();
+        return $this->redirector->to($slug.'/menu/edit-item?category_id='.$categoryId)->withErrors($this->manage->errors)->withInput();
     }
 
 

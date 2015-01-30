@@ -20,7 +20,7 @@
     <input type="hidden" name="addon_delete" class="addon-delete" value=""/>
     @foreach($menus as $item)
     <tr class="menu">
-        <td><a class="accordion-toggle"><span class="glyphicon gi-2x glyphicon-minus"></span></a></td>
+        <td><a class="accordion-toggle"><span class="glyphicon gi-2x glyphicon-plus"></span></a></td>
         <td><input type="text" class="form-control input-sm" id="item_{{$item['id']}}_name"
                    name="item[{{$item['id']}}][item_name]" value="{{$item['item_name']}}" style="width: 140px;"></td>
         <td><input type="text" class="form-control input-sm" id="item_{{$item['id']}}_description"
@@ -44,7 +44,7 @@
         </td>
 
     </tr>
-    <tr class="addon">
+    <tr class="addon displayNone">
         <td colspan="10">
             <table class="table innerTable">
                 <thead>

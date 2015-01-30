@@ -12,7 +12,7 @@
             <div class="col-lg-2">
                 <select class="form-control chzn-select inputWidth editmenucat" id="category" name="menu_category">
                     @foreach($categories as $category)
-                    <option value="{{$category->id}}" @if($category->id==1) selected @endif>{{$category->category_name}} </option>
+                    <option value="{{$category->id}}" @if($category->id==Input::get('category_id')) selected @endif>{{$category->category_name}} </option>
                     @endforeach
                 </select>
             </div>
@@ -49,12 +49,15 @@
             </tr>
             </thead>
             <tbody>
-            <input type="hidden" name="menu_category" class="menu-category" value="{{$menus[0]['menu_category_id']}}"/>
+            <input type="hidden" name="menu_category" class="menu-category" @if(Input::has('category_id'))
+                                                                                    value="{{Input::get('category_id')}}"
+                                                                                    @else
+                                                                                     value="1" @endif/>
             <input type="hidden" name="menu_delete" class="menu-delete" value=""/>
             <input type="hidden" name="addon_delete" class="addon-delete" value=""/>
             @foreach($menus as $item)
             <tr class="menu">
-                <td><a class="accordion-toggle"><span class="glyphicon gi-2x glyphicon-minus"></span></a></td>
+                <td><a class="accordion-toggle"><span class="glyphicon gi-2x glyphicon-plus"></span></a></td>
                 <td><input type="text" class="form-control input-sm" id="item_{{$item['id']}}_name"
                            name="item[{{$item['id']}}][item_name]" value="{{$item['item_name']}}" style="width: 140px;"></td>
                 <td><input type="text" class="form-control input-sm" id="item_{{$item['id']}}_description"
@@ -78,7 +81,7 @@
                 </td>
 
             </tr>
-            <tr class="addon">
+            <tr class="addon displayNone">
                 <td colspan="10">
                     <table class="table innerTable">
                         <thead>
