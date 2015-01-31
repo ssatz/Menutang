@@ -37,7 +37,13 @@ class AdminAuthController extends BaseController
      */
     protected $app;
 
+    /**
+     * @var Request
+     */
     protected $request;
+    /**
+     * @var Response
+     */
     protected $response;
 
     /**
@@ -122,6 +128,20 @@ class AdminAuthController extends BaseController
             }
             return json_encode('false');
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function addOrUpdateDeliveryArea()
+    {
+        if($this->request->ajax() && $this->request->isMethod('POST'))
+        {
+            $search = $this->request->input('search_query');
+           return $this->regionSettings->updateOrAddDeliveryArea($search);
+        }
+        $deliveryArea = $this->regionSettings->getDeliveryArea(10);
+        return $this->view->make('admin.delivery_area')->withDeliveryarea($deliveryArea);
     }
 
 }

@@ -397,4 +397,5 @@ function notification(title,text,classname)
         text: text,
         class_name: classname
     });
+
 }

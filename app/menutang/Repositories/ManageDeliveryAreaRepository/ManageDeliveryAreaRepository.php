@@ -15,19 +15,24 @@ use DeliveryArea;
 use Repositories\BaseRepository;
 use Services\Cache\ICacheService;
 
-class ManageDeliveryAreaRepository extends BaseRepository implements IManagerDeliveryAreaRepository
+class ManageDeliveryAreaRepository extends BaseRepository implements IManageDeliveryAreaRepository
 {
+    /**
+     * @param DeliveryArea $deliveryArea
+     * @param ICacheService $cache
+     */
     public function __construct(DeliveryArea $deliveryArea, ICacheService $cache)
     {
         parent::__construct($deliveryArea, $cache);
     }
 
+
     /**
-     * @param $id
+     * @param $pagination
      * @return mixed
      */
-    public function findByBusiness($id)
+    public function  getAllPaginate($pagination)
     {
-        // TODO: Implement findByBusiness() method.
+        return $this->model->paginate($pagination);
     }
 }

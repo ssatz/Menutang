@@ -70,6 +70,10 @@ class MenutangServiceProvider extends ServiceProvider
             'Repositories\StatusRepository\StatusRepository'
         );
         $app->bind(
+            'Repositories\ManageDeliveryAreaRepository\IManageDeliveryAreaRepository',
+            'Repositories\ManageDeliveryAreaRepository\ManageDeliveryAreaRepository'
+        );
+        $app->bind(
             'Services\Cache\ICacheService',
             'Services\Cache\CacheService'
         );

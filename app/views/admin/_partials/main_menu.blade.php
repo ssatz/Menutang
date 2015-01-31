@@ -42,6 +42,16 @@
 				<span class="menu-hover"></span>
 			</a>
 		</li>
-
+		<li class="{{Active::action('AdminAuthController@addOrUpdateDeliveryArea')}}">
+			<a href="{{  URL::action('AdminAuthController@addOrUpdateDeliveryArea')}}">
+								<span class="menu-icon">
+									<i class="fa fa-car fa-lg"></i>
+								</span>
+								<span class="text">
+									Delivery Area
+								</span>
+				<span class="menu-hover"></span>
+			</a>
+		</li>
     </ul>
 </div>

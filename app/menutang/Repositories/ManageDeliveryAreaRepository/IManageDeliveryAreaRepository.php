@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the menutang
+ * This file(IManageDeliveryAreaRepository.php) is part of the menutang
  *
  * (c) Sensei Online Food Services
  *
@@ -11,13 +11,7 @@
 namespace Repositories\ManageDeliveryAreaRepository;
 
 
-interface IManagerDeliveryAreaRepository
-{
+interface IManageDeliveryAreaRepository {
 
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function findByBusiness($id);
-
+    public function getAllPaginate($pagination);
 }

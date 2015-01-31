@@ -11,6 +11,8 @@ namespace Services;
 use Repositories\ManageCityRepository\IManageCityRepository;
 use Repositories\ManageCountryRepository\IManageCountryRepository;
 use Illuminate\Database\DatabaseManager;
+use Repositories\ManageDeliveryAreaRepository\IManageDeliveryAreaRepository;
+use GuzzleHttp;
 use Exception;
 
 
@@ -35,16 +37,23 @@ class RegionalSettingsManager
     protected $country;
 
     /**
+     * @var IManagerDeliveryAreaRepository
+     */
+    protected $deliveryArea;
+
+    /**
      * @param IManageCityRepository $city
      * @param IManageCountryRepository $country
      */
     public function __construct(IManageCityRepository $city,
                                 IManageCountryRepository $country,
+                                IManageDeliveryAreaRepository $deliveryAreaRepository,
                                 DatabaseManager $databaseManager)
     {
         $this->errors = [];
         $this->city = $city;
         $this->country = $country;
+        $this->deliveryArea = $deliveryAreaRepository;
         $this->db = $databaseManager;
     }
 
@@ -72,6 +81,11 @@ class RegionalSettingsManager
         return $this->country->getCity();
     }
 
+    /**
+     * @param array $input
+     * @return bool
+     * @throws Exception
+     */
     public function updateCityStatus(array $input)
     {
         $this->db->beginTransaction();
@@ -87,6 +101,22 @@ class RegionalSettingsManager
         }
         $this->db->commit();
         return true;
+    }
+
+    public function updateOrAddDeliveryArea($search)
+    {
+        $client = new  GuzzleHttp\Client();
+        $client->setDefaultOption('verify', false);
+        $res = $client->get('https://www.whizapi.com/api/v2/util/ui/in/indian-postal-codes.ashx?appkey=hv6r1slgqv97ihi3skkibbhj', ['query' => ['search' => $search]]);
+        return $res->json();
+    }
+    /**
+     * @param $pagination
+     * @return mixed
+     */
+    public function getDeliveryArea($pagination)
+    {
+        return $this->deliveryArea->getAllPaginate($pagination);
     }
 
 }
