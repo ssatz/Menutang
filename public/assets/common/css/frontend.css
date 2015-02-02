@@ -730,14 +730,14 @@ footer ul.list-inline {
     position: absolute;
     width: 100%;
     z-index: 7;
-    background: rgba(265,147,79,3.8)!important;
+    background:rgba(0, 0, 0, 0.5)!important;  /*rgba(530,147,85,0.8) !important rgba(265,147,79,3.8)*/
 }
 .header {
     position: relative;
 }
 .header {
     zoom: 1;
-    height: 48px;
+    height: 70px;
     background: #F15725!important;
     background-color: #2d2d2d;
     background-color: #000;
@@ -753,5 +753,5 @@ footer ul.list-inline {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     max-width: 1140px;
-    margin-top: -25px;
+    margin-top: -15px;
 }
