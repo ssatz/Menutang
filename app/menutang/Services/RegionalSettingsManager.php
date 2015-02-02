@@ -103,7 +103,23 @@ class RegionalSettingsManager
         return true;
     }
 
-    public function updateOrAddDeliveryArea($search)
+    /**
+     * @param $input
+     */
+    public function addOrUpdateDeliveryArea($input)
+    {
+        $area =['area'=> $input['area'],'area_pincode'=>$input['pincode']];
+        if($input['action']=='update')
+        {
+           return $this->deliveryArea->update($area,$input['delivery_id']);
+        }
+    }
+
+    /**
+     * @param $search
+     * @return mixed
+     */
+    public function getDeliveryAreaPincode($search)
     {
         $client = new  GuzzleHttp\Client();
         $client->setDefaultOption('verify', false);

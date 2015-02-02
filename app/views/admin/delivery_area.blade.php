@@ -18,7 +18,10 @@
         <tr id="id-{{$areas->id}}">
             <td>{{$areas->area}} </td>
             <td>{{$areas->area_pincode}} </td>
-            <td><button class="btn-info btn btn-sm edit-area">Edit</button></td>
+            <td>
+                <button class="btn-info btn btn-sm edit-area">Edit</button>
+                <button class="btn-info btn btn-sm update-area displayNone">Update</button>
+            </td>
         </tr>
         @endforeach
         </tbody>
@@ -70,8 +73,34 @@
                    }
                });
            });
-           $(this).text("update");
+           $(this).hide();
+           $(this).closest("td").find(".update-area").show();
        });
+
+        $("body").on("click",".update-area",function(e){
+            e.preventDefault();
+            $currentObject=this;
+            var $token = '{{ Session::token() }}';
+            var $area  = $(this).closest("tr").find("td:eq(0) input").val().split(",")[0];
+            var $pincode = $(this).closest("tr").find("td:eq(1) input").val();
+            var $deliveryID = $(this).closest("tr").prop("id").split("-")[1];
+            $data={
+                action : 'update',
+                area   : $area,
+                pincode:$pincode,
+                delivery_id:$deliveryID,
+                _token: $token
+            };
+            ajax('{{action('AdminAuthController@addOrUpdateDeliveryArea')}}', 'POST', $data, 'json', function (msg) {
+                    if(msg) {
+                        $($currentObject).closest("tr").find("td:eq(0)").text($area);
+                        $($currentObject).closest("tr").find("td:eq(1)").text($pincode);
+                        $($currentObject).hide( );
+                        $($currentObject).closest("td").find(".edit-area").show('slow');
+                        notification('Notification', 'Area and Pincode updated sucessfully', 'gritter-info');
+                    }
+            });
+        });
 
     });
 </script>

@@ -137,8 +137,12 @@ class AdminAuthController extends BaseController
     {
         if($this->request->ajax() && $this->request->isMethod('POST'))
         {
+            if($this->request->has('action') && $this->request->input('action')=='update')
+            {
+               return $this->regionSettings->addOrUpdateDeliveryArea($this->request->all());
+            }
             $search = $this->request->input('search_query');
-           return $this->regionSettings->updateOrAddDeliveryArea($search);
+           return $this->regionSettings->getDeliveryAreaPincode($search);
         }
         $deliveryArea = $this->regionSettings->getDeliveryArea(10);
         return $this->view->make('admin.delivery_area')->withDeliveryarea($deliveryArea);
