@@ -23,6 +23,13 @@ App::missing(function ($exception) {
 });
 
 /**
+ * FrontEnd Routes
+ */
+
+Route::get('/','FrontEndController@index');
+
+
+/**
  * Admin Routes
  */
 Route::group(['domain' => 'admin.localhost'], function () {
