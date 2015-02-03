@@ -33,7 +33,7 @@
 <body id="top">
 
 <!-- Navigation -->
-<nav class="navbar navbar-inverse navbar-static-top header header--fixed" role="navigation">
+<nav class="navbar navbar-inverse navbar-static-top header static-top header--fixed" role="navigation">
     <div class="nav-wrapper">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header ">
@@ -50,10 +50,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="#">Log In</a>
+                    <a href="#login" id="login-link">Log In</a>
                 </li>
                 <li>
-                    <a href="#">Sign Up</a>
+                    <a href="#sign-up" id="sign-up-link">Sign Up</a>
                 </li>
             </ul>
         </div>
@@ -72,18 +72,11 @@
         <h2>From Your Favorite Restaraunts!</h2>
 
         <!-- Header Search Form -->
-        <form class="form-inline header-form" role="form">
-            <div class="form-group">
-                <label class="sr-only">City</label>
-                <input type="text" class="form-control input-lg" placeholder="City Name">
+        <form class="form-inline" role="form">
+            <div class="form-group search-form">
+                <input type="text" class="form-control input-lg bradius searchHght" placeholder="City Name">
+                <button type="submit" class="btn btn-primary  bradiusbtn searchHght">Find Restaraunts!</button>
             </div>
-            <!-- Disabled Second Search Field - Uncomment to Enable or Delete -->
-            <!-- <div class="form-group">
-                <label class="sr-only">Area</label>
-                <input type="text" class="form-control input-lg" placeholder="Area Name (Optional)">
-            </div> -->
-            <button type="submit" class="btn btn-primary btn-xl">Find Restaraunts!</button>
-            <p>Ex. Mumbai</p>
         </form>
 
     </div>
@@ -362,7 +355,8 @@
     <!-- /.container -->
 
 </section>
-
+<!-- Login Modal -->
+@include('frontend/_partials/loginmodal')
 <!-- Footer -->
 <footer class="text-light">
 

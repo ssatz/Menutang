@@ -55,4 +55,9 @@ class FrontEndController extends BaseController  {
     {
         return $this->view->make('frontend.index');
     }
+
+    public function searchBU()
+    {
+
+    }
 }

@@ -22,12 +22,6 @@ App::missing(function ($exception) {
     return View::make('error404');
 });
 
-/**
- * FrontEnd Routes
- */
-
-Route::get('/','FrontEndController@index');
-
 
 /**
  * Admin Routes
@@ -71,6 +65,12 @@ Route::group(['domain' => 'business.localhost'], function () {
     });
 });
 
+/**
+ * FrontEnd Routes
+ */
+
+Route::get('/','FrontEndController@index');
+Route::any('takeway/{areaname}','FrontEndController@index');
 //Display all SQL executed in Eloquent
 //Event::listen('illuminate.query', function($query)
 //{

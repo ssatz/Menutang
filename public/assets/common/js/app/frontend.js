@@ -47,5 +47,32 @@ jQuery(document).ready(function($) {
         }
     });
 
+     //login and signup
+    $(".form-register-btn").click(function(){
+       $(".login").hide();
+        $(".form-signup").show();
+        $(this).hide();
+        $(".form-login-btn").show();
+
+    });
+
+    $(".form-login-btn").click(function(){
+        $(".login").show();
+        $(".form-signup").hide();
+        $(this).hide();
+        $(".form-register-btn").show();
+    });
+
+    $("#sign-up-link").click(function(){
+        $("#login-modal").find(".login,.form-register-btn").hide();
+        $("#login-modal").find(".form-signup,.form-login-btn").show();
+        $("#login-modal").modal('show');
+    });
+    $("#login-link").click(function(){
+        $("#login-modal").find(".login,.form-register-btn").show();
+        $("#login-modal").find(".form-signup,.form-login-btn").hide();
+        $("#login-modal").modal('show');
+    });
+
 });
 });
