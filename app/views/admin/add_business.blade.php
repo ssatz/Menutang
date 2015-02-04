@@ -18,7 +18,7 @@
     @endif
     </p>
     {{ Form::open(['url' => action('ManageBusinessController@addBusinessInfo'), 'method'
-    =>'POST','class'=>'form-horizontal no-margin form-border','id'=>'formWizard1'])}}
+    =>'POST','class'=>'form-horizontal no-margin form-border','id'=>'formWizard1','enctype'=>'multipart/form-data'])}}
 
 <div class="panel-heading">
     Add Business Information
@@ -55,6 +55,14 @@
     </div>
     <!-- /.col -->
 </div>
+    <div class="form-group">
+        <label class="control-label col-lg-2">Logo Upload</label>
+
+        <div class="col-lg-6">
+            <input type="file" class="form-control input-sm"  name="fileToUpload" id="fileToUpload">
+        </div>
+        <!-- /.col -->
+    </div>
 <!-- /form-group -->
 <div class="form-group">
     <label class="control-label col-lg-2">Business Type</label>

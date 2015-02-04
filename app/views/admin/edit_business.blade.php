@@ -18,7 +18,7 @@
             @endif
             </p>
             {{ Form::open(['url' => action('ManageBusinessController@editBusinessInfo', [$slug]), 'method'
-            =>'POST','class'=>'form-horizontal','id'=>'edit-businessinfo']) }}
+            =>'POST','class'=>'form-horizontal','id'=>'edit-businessinfo' ,'enctype'=>'multipart/form-data']) }}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
@@ -37,6 +37,14 @@
                                        class="form-control input-sm" data-required="true" value="{{$business->business_name}}">
                             </div>
                             <!-- /.col -->
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Logo Upload</label>
+
+                            <div class="col-lg-6">
+                                <input type="file" class="form-control input-sm"  name="fileToUpload" id="fileToUpload">
+                            </div>
+                            <img src="{{asset('uploads/'.$business->business_slug.'/logo.png')}}">
                         </div>
                         <!-- /form-group -->
                         <div class="form-group">

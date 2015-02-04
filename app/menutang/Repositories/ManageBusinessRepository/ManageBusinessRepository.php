@@ -13,12 +13,17 @@ namespace Repositories\ManageBusinessRepository;
 
 use BusinessInfo;
 use Illuminate\Database\DatabaseManager;
+use Illuminate\Support\Facades\File;
 use Repositories\BaseRepository;
 use Services\Cache\ICacheService;
 use Services\Helper;
 use DeliveryArea;
 use BusinessAddress;
 use BusinessHours;
+use BusinessPhoto;
+use Intervention\Image\ImageManager;
+use Illuminate\Filesystem\Filesystem;
+
 
 class ManageBusinessRepository extends BaseRepository implements IManageBusinessRepository
 {
@@ -32,17 +37,21 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      * @var Helper
      */
     protected $helper;
+    protected $imageHelper;
+    protected $fileHelper;
 
     /**
      * @param businessInfo $managebusinesss
      * @param DatabaseManager $dbManager
      */
-    function __construct(BusinessInfo $manageBusiness, DatabaseManager $dbManager, Helper $helper, ICacheService $cache)
+    function __construct(BusinessInfo $manageBusiness, DatabaseManager $dbManager,
+                         Helper $helper, ICacheService $cache,ImageManager $image,Filesystem $filesystem)
     {
         parent::__construct($manageBusiness, $cache);
         $this->dbManager = $dbManager;
         $this->helper = $helper;
-
+        $this->imageHelper =$image;
+        $this->fileHelper =$filesystem;
     }
 
     /**
@@ -89,12 +98,20 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         $this->model->where('business_slug', '=', $slug)->update($result['business_info']);
         $this->model->find($businessInfo->id)->address()->update($result['business_address']);
         $businessInfo->payment()->sync($input['payments']);
+        if(!$this->fileHelper->isDirectory(public_path('uploads/'.$slug))) {
+            $this->fileHelper->makeDirectory(public_path('uploads/' . $slug), 0775);
+        }
+
+        if(isset($input['fileToUpload'])) {
+            $this->fileHelper->delete(public_path('uploads/' . $slug.'/logo.png'));
+            $this->imageHelper->make($input['fileToUpload']->getRealPath())->resize(75, 75)->save(public_path('uploads/' . $slug . '/logo.png'));
+        }
         $deliveryAreaId = [];
-        foreach ($input['delivery_area'] as $area) {
+       /* foreach ($input['delivery_area'] as $area) {
             $deliveryArea = DeliveryArea::Where('area','=',strtolower($area['area']))->get();
             array_push($deliveryAreaId, $deliveryArea->id);
         }
-        $businessInfo->deliveryArea()->attach($deliveryAreaId);
+        $businessInfo->deliveryArea()->attach($deliveryAreaId);*/
         foreach ($input['hours'] as $key => $value) {
             $buhr = $this->model->find($businessInfo->id)->businessHours()->where('day','=',$key)->first();
             $buhr->business_info_id = $businessInfo->id;
@@ -167,9 +184,21 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
             $slug = $slug . '-' . $businessInfo->id;
         }
         $buuniqueId = $this->dbManager->table('business_type')->where('id', $input['business_type_id'])->pluck('business_code');
-        $buuniqueId =$buuniqueId.'00000 '.$businessInfo->id;
+        $buuniqueId =$buuniqueId.'00000'.$businessInfo->id;
+
         $businessInfo->fill(['business_slug' => $slug,'business_unique_id'=>$buuniqueId]);
         $businessInfo->save();
+        if(!$this->fileHelper->isDirectory(public_path('uploads/'.$slug))) {
+            $this->fileHelper->makeDirectory(public_path('uploads/' . $slug), 0775);
+        }
+        $this->imageHelper->make($input['fileToUpload']->getRealPath())->resize(75, 75)->save(public_path('uploads/'.$slug.'/logo.png'));
+
+        $image = new BusinessPhoto();
+        $image->business_info_id =$businessInfo->id;
+        $image->image_name = 'logo.png';
+
+
+        $businessInfo->businessPhoto()->save($image);
 
         $address = new BusinessAddress();
         $address->city_id = $input['city_id'];
@@ -182,7 +211,9 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
 
         $businessInfo->payment()->attach($input['payments']);
 
+
         $deliveryAreaId = [];
+
         foreach ($input['delivery_area'] as $area) {
             $deliveryArea = DeliveryArea::firstOrCreate(['area' => $area['area'], 'area_pincode' => $area['pincode']]);
             array_push($deliveryAreaId, $deliveryArea->id);
