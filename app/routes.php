@@ -70,7 +70,7 @@ Route::group(['domain' => 'business.localhost'], function () {
  */
 
 Route::get('/','FrontEndController@index');
-Route::any('takeway/{areaname}','FrontEndController@index');
+Route::any('takeaway/{query}','FrontEndController@searchBU');
 //Display all SQL executed in Eloquent
 //Event::listen('illuminate.query', function($query)
 //{

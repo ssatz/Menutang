@@ -74,7 +74,7 @@
         <!-- Header Search Form -->
         <form class="form-inline" role="form">
             <div class="form-group search-form">
-                <input type="text" class="form-control input-lg bradius searchHght" placeholder="City Name">
+                <input type="text" class="form-control input-lg bradius searchHght" id="searchbu" placeholder="City Name">
                 <button type="submit" class="btn btn-primary  bradiusbtn searchHght">Find Restaraunts!</button>
             </div>
         </form>
@@ -412,10 +412,17 @@
 <!-- Plugin JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places"></script>
 <!-- Theme Scripts -->
 <script src="{{asset('assets/common/js/app/frontend.js')}}"></script>
-
+<script type="text/javascript">
+        var autocomplete = new google.maps.places.Autocomplete($('#searchbu')[0], {
+            componentRestrictions: {country: "in"}
+        });
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            console.log( autocomplete.getPlace());
+        });
+</script>
 </body>
 
 </html>

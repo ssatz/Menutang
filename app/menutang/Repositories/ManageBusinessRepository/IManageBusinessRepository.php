@@ -42,4 +42,10 @@ interface IManageBusinessRepository
      * @return mixed
      */
     public function insert(array $input);
+
+    /**
+     * @param $query
+     * @return BusinessInfo
+     */
+    public function findBySearch($query);
 }

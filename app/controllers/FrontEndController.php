@@ -12,6 +12,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Translation\Translator;
+use Services\FrontEndManager;
 
 class FrontEndController extends BaseController  {
 
@@ -36,18 +37,25 @@ class FrontEndController extends BaseController  {
      */
     protected  $view;
 
+    protected $frontEndManager;
+
     /**
      * @param Request $request
      * @param Redirector $redirector
      * @param Translator $translator
      * @param Application $app
      */
-    public function __construct(Request $request, Redirector $redirector, Translator $translator, Application $app)
+    public function __construct(Request $request,
+                                Redirector $redirector,
+                                Translator $translator,
+                                Application $app,
+                                FrontEndManager $frontEndManager)
     {
         $this->app = $app;
         $this->request = $request;
         $this->redirector = $redirector;
         $this->translator = $translator;
+        $this->frontEndManager = $frontEndManager;
         $this->view = $this->app->make('view');
     }
 
@@ -58,6 +66,6 @@ class FrontEndController extends BaseController  {
 
     public function searchBU()
     {
-
+       return $this->frontEndManager->searchQuery('Test Restaurant');
     }
 }

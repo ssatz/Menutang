@@ -13,7 +13,6 @@ namespace Repositories\ManageBusinessRepository;
 
 use BusinessInfo;
 use Illuminate\Database\DatabaseManager;
-use Illuminate\Support\Facades\File;
 use Repositories\BaseRepository;
 use Services\Cache\ICacheService;
 use Services\Helper;
@@ -141,6 +140,29 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         return $count;
     }
 
+    /**
+     * @param $query
+     * @return BusinessInfo
+     */
+    public function findBySearch($query)
+    {
+       /* $key = md5('search.' . $query);
+        if ($this->cache->has($key)) {
+            return $this->cache->get($key);
+        }*/
+        $businessInfo = $this->model->join('business_delivery','business_delivery.business_info_id','=','business_info.id')
+                                    ->join('delivery_area','delivery_area.id','=','business_delivery.delivery_area_id')
+                                    ->join('business_address','business_address.business_info_id','=','business_info.id')
+                                    ->join('city','city.id','=','business_address.city_id')
+                                    ->where('city.city_status','=',true)
+                                    ->orwhere('city.city_description','LIKE','%'.$query.'%')
+                                    ->orwhere('delivery_area.area','LIKE','%'.$query.'%')
+                                    ->orwhere('delivery_area.area_pincode','LIKE','%'.$query.'%')
+                                    ->orwhere('business_info.business_name','LIKE','%'.$query.'%')
+                                    ->get();
+       // $this->cache->put($key, $businessInfo);
+        return $businessInfo;
+    }
 
     /**
      * @param array $input

@@ -28,7 +28,7 @@ class CreateBusinessTypeTable extends Migration
      */
     public function down()
     {
-        Schema::drop('restaurant_business');
+        Schema::drop('business_type');
     }
 
 }

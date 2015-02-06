@@ -12,6 +12,7 @@ namespace Services;
 
 use Exception;
 use Illuminate\Database\DatabaseManager;
+use Repositories\CuisineTypeRepository\ICuisineTypeRepository;
 use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use Repositories\ManageCityRepository\IManageCityRepository;
 use Repositories\MenuCategoryRepository\IMenuCategoryRepository;
@@ -91,6 +92,10 @@ class BusinessManager
     public $statusRepo;
 
     /**
+     * @var ICuisineTypeRepository
+     */
+    protected  $cuisineType;
+    /**
      * @param IManageBusinessRepository $manageBusiness
      * @param ICacheService $cacheService
      * @param BusinessValidator $businessValidator
@@ -115,6 +120,7 @@ class BusinessManager
                                 IMenuItemRepository $menuItem,
                                 IBusinessTypeRepository $buType,
                                 CategoryValidator $categoryValidator,
+                                ICuisineTypeRepository $cuisineTypeRepository,
                                 IStatusRepository $statusRepository)
     {
         $this->manageBusiness = $manageBusiness;
@@ -129,6 +135,7 @@ class BusinessManager
         $this->categoryValidator = $categoryValidator;
         $this->buTyperepo = $buType;
         $this->statusRepo = $statusRepository;
+        $this->cuisineType =$cuisineTypeRepository;
     }
 
     /**
@@ -167,6 +174,13 @@ class BusinessManager
         return $this->managePayments->getAll();
     }
 
+    /**
+     * @return mixed
+     */
+    public function getAllCuisineType()
+    {
+        return $this->cuisineType->getAll();
+    }
     /**
      * @param array $input
      * @param $slug

@@ -69,6 +69,7 @@
 
     <div class="col-lg-6">
         <select class="form-control chzn-select" name="business_type_id" data-required="true">
+            <option>-- select --</option>
             @foreach($butypes as $buType)
                 <option value="{{$buType->id}}">{{$buType->business_type}}</option>
             @endforeach
@@ -76,11 +77,25 @@
     </div>
     <!-- /.col -->
 </div>
+    <div class="form-group displayNone cuisine-type">
+        <label class="control-label col-lg-2">Cuisine Type</label>
+
+        <div class="col-lg-6">
+            <select class="form-control chzn-select" name="cuisine_type_id" data-required="true">
+                <option value="">-- select --</option>
+                @foreach($cusinetypes as $cuisineType)
+                <option value="{{$cuisineType->id}}">{{$cuisineType->cuisine_description}}</option>
+                @endforeach
+            </select>
+        </div>
+        <!-- /.col -->
+    </div>
     <div class="form-group">
         <label class="control-label col-lg-2">Status</label>
 
         <div class="col-lg-6">
             <select class="form-control chzn-select" name="status_id" data-required="true">
+                <option>-- select --</option>
                 @foreach($status as $stat)
                 <option value="{{$stat->id}}">{{$stat->status_description}}</option>
                 @endforeach
@@ -703,7 +718,6 @@
             return false;
         });
         $('#formWizard1').submit(function (e) {
-            debugger;
             if (isFormValid('#wizardContent' + step)) {
                 step++;
                 if (step == 2) {
@@ -764,6 +778,14 @@
 
             }
             return false;
+        });
+
+        $("input[name='business_type_id']").change(function(){
+            debugger;
+            if($(this).val().toLowerCase()=='restaurant')
+            {
+                $(".cuisine-type").show();
+            }
         });
     });
 </script>

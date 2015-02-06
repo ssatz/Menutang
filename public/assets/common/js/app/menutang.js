@@ -70,9 +70,10 @@ function isFormValid(formId) {
     });
 
     $(formId).find('select').each(function () {
+        debugger;
         $(this).parents('.form-group').removeClass('has-error');
         $(this).nextAll('.required').remove();
-        if ($(this).val() === null) {
+        if ($(this).val() === null || $(this).val()==undefined || $(this).val()=='-- select --') {
             $flag = false;
             $(this).parents('.form-group').addClass('has-error');
             $(this).after('<span class="required label-danger">This is a Required field</span>');
