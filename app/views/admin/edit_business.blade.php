@@ -51,9 +51,21 @@
                             <label class="control-label col-lg-2">Business Type</label>
 
                             <div class="col-lg-6">
-                                <select class="form-control chzn-select" name="business_type_id" data-required="true">
+                                <select class="form-control chzn-select" id="business_type_id" name="business_type_id" data-required="true">
                                     @foreach($butypes as $buType)
-                                    <option value="{{$buType->id}}">{{$buType->business_type}}</option>
+                                    <option value="{{$buType->id}}" @if($buType->id==$business->business_type_id)selected @endif>{{$buType->business_type}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <div class="form-group @if($business->business_type_id!=1) displayNone @endif cuisine-type">
+                            <label class="control-label col-lg-2">Cuisine Type</label>
+
+                            <div class="col-lg-6">
+                                <select class="form-control chzn-select" name="cuisine_type_id" data-required="true">
+                                    @foreach($cusinetypes as $cuisineType)
+                                    <option value="{{$cuisineType->id}}" @if($cuisineType->id==$business->cuisine_type_id)selected @endif>{{$cuisineType->cuisine_description}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -65,7 +77,7 @@
                             <div class="col-lg-6">
                                 <select class="form-control chzn-select" name="status_id" data-required="true">
                                     @foreach($status as $stat)
-                                    <option value="{{$stat->id}}">{{$stat->status_description}}</option>
+                                    <option value="{{$stat->id}}" @if($stat->id==$business->status_id)selected @endif>{{$stat->status_description}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -648,6 +660,14 @@
                 'maxTime': '03:00:00'
             });
             $('.close-time,.open-time').timepicker();
+            $("#business_type_id").change(function(){
+                debugger;
+                if($(this).val().toLowerCase()==1)
+                {
+                    return  $(".cuisine-type").show().removeClass('displayNone');
+                }
+                return $(".cuisine-type").hide().addClass('displayNone');
+            });
             $("input[type=radio]").click(function () {
                 if ($(this).val() == '0') {
                     $(this).parents('.form-group').next('.fa-comment').hide('slow').find('textarea,input').text('');

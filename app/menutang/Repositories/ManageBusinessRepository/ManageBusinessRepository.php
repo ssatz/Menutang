@@ -90,6 +90,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function update(array $input, $slug)
     {
+        $input['cuisine_type_id'] = $input['business_type_id']==1?$input['cuisine_type_id']:null;
         $key = md5('slug.' . $slug);
         $this->cache->remove($key);
         $result = $this->helper->match($input, ['business_info', 'business_address','business_hours']);
@@ -173,7 +174,9 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         $businessInfo = new $this->model;
         $businessInfo->business_name = $input['business_name'];
         $businessInfo->budget = $input['budget'];
+        /*Always Restaurants should come First */
         $businessInfo->business_type_id = $input['business_type_id'];
+        $businessInfo->cuisine_type_id = $input['business_type_id']==1?$input['cuisine_type_id']:null;
         $businessInfo->is_outdoor_catering = $input['is_outdoor_catering'];
         $businessInfo->outdoor_catering_comments = $input['outdoor_catering_comments'];
         $businessInfo->is_door_delivery = $input['is_door_delivery'];

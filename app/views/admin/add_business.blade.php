@@ -68,8 +68,8 @@
     <label class="control-label col-lg-2">Business Type</label>
 
     <div class="col-lg-6">
-        <select class="form-control chzn-select" name="business_type_id" data-required="true">
-            <option>-- select --</option>
+        <select class="form-control chzn-select" id="business_type_id" name="business_type_id" data-required="true">
+            <option value="-1">-- select --</option>
             @foreach($butypes as $buType)
                 <option value="{{$buType->id}}">{{$buType->business_type}}</option>
             @endforeach
@@ -82,7 +82,7 @@
 
         <div class="col-lg-6">
             <select class="form-control chzn-select" name="cuisine_type_id" data-required="true">
-                <option value="">-- select --</option>
+                <option value="-1">-- select --</option>
                 @foreach($cusinetypes as $cuisineType)
                 <option value="{{$cuisineType->id}}">{{$cuisineType->cuisine_description}}</option>
                 @endforeach
@@ -95,7 +95,7 @@
 
         <div class="col-lg-6">
             <select class="form-control chzn-select" name="status_id" data-required="true">
-                <option>-- select --</option>
+                <option value="-1">-- select --</option>
                 @foreach($status as $stat)
                 <option value="{{$stat->id}}">{{$stat->status_description}}</option>
                 @endforeach
@@ -780,12 +780,13 @@
             return false;
         });
 
-        $("input[name='business_type_id']").change(function(){
+        $("#business_type_id").change(function(){
             debugger;
-            if($(this).val().toLowerCase()=='restaurant')
+            if($(this).val().toLowerCase()==1)
             {
-                $(".cuisine-type").show();
+              return  $(".cuisine-type").show().removeClass('displayNone');
             }
+            return $(".cuisine-type").hide().addClass('displayNone');
         });
     });
 </script>

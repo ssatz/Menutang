@@ -70,15 +70,17 @@ function isFormValid(formId) {
     });
 
     $(formId).find('select').each(function () {
-        debugger;
-        $(this).parents('.form-group').removeClass('has-error');
-        $(this).nextAll('.required').remove();
-        if ($(this).val() === null || $(this).val()==undefined || $(this).val()=='-- select --') {
-            $flag = false;
-            $(this).parents('.form-group').addClass('has-error');
-            $(this).after('<span class="required label-danger">This is a Required field</span>');
+       if(! $(this).parents(".form-group").hasClass('displayNone')) {
+           $(this).parents('.form-group').removeClass('has-error');
+           $(this).nextAll('.required').remove();
+           if ($(this).val() === null || $(this).val() == undefined || $(this).val() == '-1') {
+               $flag = false;
+               $(this).parents('.form-group').addClass('has-error');
+               $(this).after('<span class="required label-danger">This is a Required field</span>');
 
-        }
+           }
+       }
+        return;
     });
 
     return ($flag && $radioflag) ? true : false;
