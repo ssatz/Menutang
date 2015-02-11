@@ -159,23 +159,11 @@ $(document).ready(function () {
             $(this).parents('.form-group').next('.fa-comment').show('slow');
         }
     });
-    $("body").on("click", ".add-delivery", function (e) {
-        e.preventDefault();
-        var $clone = $(this).next('.padBot30:first').clone();
-        $($clone).find(".close").show();
-        $($clone).find("input").val('');
-        $($clone).find('.required').remove();
-        var $count = parseInt($($clone).find('.area').prop('id').split('_')[2]) + 1;
-        $($clone).find('.area').prop('name', 'delivery_area[' + $count + '][area]');
-        $($clone).find('.area').prop('id', 'delivery_area_' + $count + '_area');
-        $($clone).find('.pincode').prop('name', 'delivery_area[' + $count + '][pincode]');
-        $($clone).find('.pincode').prop('id', 'delivery_area_' + $count + '_pincode');
-        $(this).parent().find(".padBot30:last").after($clone);
-    });
+
     $("body").on("click", ".close", function (e) {
         $(this).parent().remove();
     });
-    $("body").on("focusout", ".area", function (e) {
+    /*$("body").on("focusout", ".area", function (e) {
         var $area = $(this).val();
         var $this = this;
         $.getJSON("http://www.getpincode.info/api/pincode?q=" + $area + "&callback=?", function (data) {
@@ -183,5 +171,5 @@ $(document).ready(function () {
             $($this).parent().next().find('.pincode').val($result.pincode);
         });
 
-    });
+    });*/
 });

@@ -41,6 +41,7 @@ Route::group(['domain' => 'admin.localhost'], function () {
         Route::group(['prefix' => 'manage-business'], function () {
             Route::any('add', ['as' => 'admin.business.add', 'uses' => 'ManageBusinessController@addBusinessInfo']);
         });
+        Route::any('deliverysearch', ['as' => 'admin.business.deliveryAreaSearch', 'uses' => 'ManageBusinessController@deliveryAreaSearch']);
         Route::get('{businessName?}', ['as' => 'admin.business.dashboard', 'uses' => 'ManageBusinessController@businessDashboard']);
         Route::any('{businessName}/edit', ['as' => 'admin.business.edit', 'uses' => 'ManageBusinessController@editBusinessInfo']);
         Route::any('{businessName}/menu/add-item', ['as' => 'admin.business.additem', 'uses' => 'ManageBusinessController@addItem']);

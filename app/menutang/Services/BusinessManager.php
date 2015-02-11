@@ -24,6 +24,7 @@ use Services\Validations\BusinessValidator;
 use Services\Validations\CategoryValidator;
 use Services\Validations\MenuItemValidator;
 use Repositories\BusinessTypeRepository\IBusinessTypeRepository;
+use Repositories\ManageDeliveryAreaRepository\IManageDeliveryAreaRepository;
 use ArrayObject;
 
 
@@ -89,12 +90,17 @@ class BusinessManager
     /**
      * @var IStatusRepository
      */
-    public $statusRepo;
+    protected $statusRepo;
 
     /**
      * @var ICuisineTypeRepository
+     *
+     *
      */
     protected  $cuisineType;
+
+
+    protected  $deliveryArea;
     /**
      * @param IManageBusinessRepository $manageBusiness
      * @param ICacheService $cacheService
@@ -121,6 +127,7 @@ class BusinessManager
                                 IBusinessTypeRepository $buType,
                                 CategoryValidator $categoryValidator,
                                 ICuisineTypeRepository $cuisineTypeRepository,
+                                IManageDeliveryAreaRepository $deliveryAreaRepository,
                                 IStatusRepository $statusRepository)
     {
         $this->manageBusiness = $manageBusiness;
@@ -136,6 +143,7 @@ class BusinessManager
         $this->buTyperepo = $buType;
         $this->statusRepo = $statusRepository;
         $this->cuisineType =$cuisineTypeRepository;
+        $this->deliveryArea=$deliveryAreaRepository;
     }
 
     /**
@@ -308,6 +316,13 @@ class BusinessManager
     {
         return $this->statusRepo->getAll();
     }
-
+    public function getAllDeliveryArea()
+    {
+        return $this->deliveryArea->getAll();
+    }
+    public function deliverySearch()
+    {
+       return $this->deliveryArea->searchDeliveryArea();
+    }
 
 }

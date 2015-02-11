@@ -14,4 +14,6 @@ namespace Repositories\ManageDeliveryAreaRepository;
 interface IManageDeliveryAreaRepository {
 
     public function getAllPaginate($pagination);
+
+    public function searchDeliveryArea();
 }

@@ -137,17 +137,12 @@ class ManageBusinessController extends BaseController
         return $this->view->make('admin.dashboard')->withLayout('admin.business_layout');
     }
 
-    /**
-     *
-     */
-    public function deliveryArea()
+    public function deliveryAreaSearch()
     {
-
+        return $this->manage->deliverySearch();
     }
 
-    /**
-     *
-     */
+
     public function addItem($slug)
     {
         $this->viewShareSlug($slug);

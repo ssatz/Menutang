@@ -781,7 +781,6 @@
         });
 
         $("#business_type_id").change(function(){
-            debugger;
             if($(this).val().toLowerCase()==1)
             {
               return  $(".cuisine-type").show().removeClass('displayNone');
