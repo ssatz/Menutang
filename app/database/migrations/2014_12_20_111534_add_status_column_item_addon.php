@@ -14,7 +14,7 @@ class AddStatusColumnItemAddon extends Migration
     public function up()
     {
         Schema::table('item_addon', function (Blueprint $table) {
-            $table->boolean('addon_status');
+            $table->boolean('addon_status')->after('addon_price');
         });
     }
 

@@ -14,7 +14,7 @@ class AddStatusColumnMenuItem extends Migration
     public function up()
     {
         Schema::table('menu_item', function (Blueprint $table) {
-            $table->boolean('item_status');
+            $table->boolean('item_status')->after('is_popular');
         });
     }
 

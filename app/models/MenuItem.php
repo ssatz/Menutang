@@ -36,4 +36,12 @@ class MenuItem extends Eloquent
     {
         return $this->hasMany('ItemAddon');
     }
+
+    /**
+     * @return mixed
+     */
+    public function businessHours()
+    {
+        return $this->belongsToMany('BusinessHours', 'menu_available_time', 'menu_item_id', 'business_hours_id');
+    }
 }

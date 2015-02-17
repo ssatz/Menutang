@@ -123,7 +123,7 @@ class RegionalSettingsManager
     {
         $client = new  GuzzleHttp\Client();
         $client->setDefaultOption('verify', false);
-        $res = $client->get('https://www.whizapi.com/api/v2/util/ui/in/indian-postal-codes.ashx?appkey=hv6r1slgqv97ihi3skkibbhj', ['query' => ['search' => $search]]);
+        $res = $client->get('http://www.getpincode.info/api/pincode', ['query' => ['q' => $search]]);
         return $res->json();
     }
     /**

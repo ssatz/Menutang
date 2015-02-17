@@ -19,5 +19,10 @@ class BusinessSeeder extends Seeder
             'business_code' => 'RES',
             'business_type' => 'Restaurant',
         ]);
+        $business = BusinessType::create([
+
+            'business_code' => 'CAK',
+            'business_type' => 'Cake',
+        ]);
     }
 }

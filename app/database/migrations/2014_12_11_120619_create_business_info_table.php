@@ -18,8 +18,12 @@ class CreateBusinessInfoTable extends Migration
             $table->string('business_name');
             $table->integer('business_type_id')->unsigned();
             $table->decimal('budget');
+            $table->decimal('parcel_charges');
+            $table->boolean('is_door_delivery');
             $table->decimal('minimum_delivery_amt');
+            $table->boolean('is_rail_delivery');
             $table->decimal('minimum_rail_deli_amt');
+            $table->boolean('is_pickup_available');
             $table->decimal('minimum_pickup_amt');
             $table->boolean('is_outdoor_catering');
             $table->text('outdoor_catering_comments');
@@ -27,9 +31,6 @@ class CreateBusinessInfoTable extends Migration
             $table->text('party_hall_comments');
             $table->boolean('is_buffet');
             $table->boolean('is_midnight_buffet');
-            $table->boolean('is_door_delivery');
-            $table->boolean('is_rail_delivery');
-            $table->boolean('is_pickup_available');
             $table->boolean('is_wifi_available');
             $table->boolean('is_children_play_area');
             $table->boolean('is_garden_restaurant');

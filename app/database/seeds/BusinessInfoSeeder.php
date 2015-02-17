@@ -18,6 +18,7 @@ class BusinessInfoSeeder extends Seeder
                 'business_type_id' => 1,
                 'budget' => 100,
                 'business_users_id' => 1,
+                'cuisine_type_id'=>1,
                 'status_id' => 1,
                 'business_slug' => 'test-restaurant',
                 'business_unique_id' => 'BUS000001',
@@ -30,6 +31,7 @@ class BusinessInfoSeeder extends Seeder
                 'budget' => 100,
                 'business_users_id' => 1,
                 'status_id' => 2,
+                'cuisine_type_id'=>2,
                 'business_slug' => 'test-restaurant1',
                 'business_unique_id' => 'BUS000002',
 
@@ -40,6 +42,7 @@ class BusinessInfoSeeder extends Seeder
                 'business_type_id' => 1,
                 'budget' => 100,
                 'business_users_id' => 1,
+                'cuisine_type_id'=>1,
                 'status_id' => 1,
                 'business_slug' => 'test-restaurant2',
                 'business_unique_id' => 'BUS000003',

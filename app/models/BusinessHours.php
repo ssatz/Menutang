@@ -28,4 +28,12 @@ class BusinessHours extends Eloquent
     {
         return $this->belongsTo('BusinessInfo');
     }
+
+    /**
+     * @return mixed
+     */
+    public function timeCategory()
+    {
+        return $this->belongsTo('TimeCategory');
+    }
 }

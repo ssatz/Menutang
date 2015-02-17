@@ -19,5 +19,10 @@ class CityTableSeeder extends DatabaseSeeder
             'city_code' => 'ER',
             'city_description' => 'Erode',
         ));
+        $address = City::create(array(
+            'state_id' => 1,
+            'city_code' => 'TGODE',
+            'city_description' => 'Tiruchengode',
+        ));
     }
 }

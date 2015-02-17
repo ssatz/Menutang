@@ -17,7 +17,11 @@ class PaymentsSeeder extends Seeder
 
             'payment_code' => 'VISA',
             'payment_description' => 'Visa',
-            'business_info_id' => 1
+        ]);
+        $business = Payment::create([
+
+            'payment_code' => 'MASTERCARD',
+            'payment_description' => 'Master Card',
         ]);
     }
 }

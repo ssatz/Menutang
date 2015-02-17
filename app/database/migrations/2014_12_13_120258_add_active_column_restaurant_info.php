@@ -15,7 +15,7 @@ class AddActiveColumnRestaurantInfo extends Migration
     {
         Schema::table('business_info', function (Blueprint $table) {
 
-            $table->boolean("ischeckout_enable");
+            $table->boolean("ischeckout_enable")->after('website');
         });
     }
 

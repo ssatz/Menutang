@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
         $this->command->info("City table seeded :)");
         $this->call('StatusTableSeeder');
         $this->command->info('Status Table seeded');
+        $this->call('CusisineTypeSeeder');
+        $this->command->info('Cuisine Type table created sucessfully');
         $this->call('BusinessInfoSeeder');
         $this->command->info('BusinessInfo Table seeded');
         $this->call('PaymentsSeeder');
