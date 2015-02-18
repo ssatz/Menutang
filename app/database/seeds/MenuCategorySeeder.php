@@ -12,15 +12,12 @@ class MenuCategorySeeder extends Seeder
     {
         $business = MenuCategory::create([
 
-            'id' => '01',
             'category_name' => 'Tiffin_Items',
             'created_at' => '18-02-2015',
             'updated_at' => '18-02-2015',
 
         ]);
         $business = MenuCategory::create([
-
-            'id' => '02',
             'category_name' => 'Roast_Varieties',
             'created_at' => '18-02-2015',
             'updated_at' => '18-02-2015',

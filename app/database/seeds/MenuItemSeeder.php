@@ -11,8 +11,6 @@ class MenuItemSeeder  extends Seeder
     public function run()
     {
         $business = MenuItem::create([
-
-            'id' => '001',
             'menu_category_id' => '01',
             'item_name' => 'idly(2)',
             'item_description' => '',
@@ -31,9 +29,8 @@ class MenuItemSeeder  extends Seeder
             'updated_at' => '18-02-2015',
 
         ]);
-        $business = Payment::create([
+        $business = MenuItem::create([
 
-            'id' => '001',
             'menu_category_id' => '01',
             'item_name' => 'vada(1)',
             'item_description' => '',
