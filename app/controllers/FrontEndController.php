@@ -37,6 +37,9 @@ class FrontEndController extends BaseController  {
      */
     protected  $view;
 
+    /**
+     * @var FrontEndManager
+     */
     protected $frontEndManager;
 
     /**
@@ -59,13 +62,27 @@ class FrontEndController extends BaseController  {
         $this->view = $this->app->make('view');
     }
 
+    /**
+     * @return mixed
+     */
     public function index()
     {
         return $this->view->make('frontend.index');
     }
 
+    /**
+     * @return \Repositories\ManageBusinessRepository\BusinessInfo
+     */
     public function searchBU()
     {
        return $this->frontEndManager->searchQuery('Test Restaurant');
+    }
+
+    public function restaurantsProfile($restaurantSlug)
+    {
+       list($bu,$profile,$category)=  $this->frontEndManager->restaurantProfile($restaurantSlug);
+        return $this->view->make('frontend.profile')->withBusinessdetails($bu)
+                                                    ->withMenudetails($profile)
+                                                    ->withMenucategory($category);
     }
 }

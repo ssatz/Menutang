@@ -78,6 +78,10 @@ class MenutangServiceProvider extends ServiceProvider
             'Repositories\CuisineTypeRepository\CuisineTypeRepository'
         );
         $app->bind(
+            'Repositories\TimeCategoryRepository\ITimeCategoryRepository',
+            'Repositories\TimeCategoryRepository\TimeCategoryRepository'
+        );
+        $app->bind(
             'Services\Cache\ICacheService',
             'Services\Cache\CacheService'
         );

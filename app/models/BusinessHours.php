@@ -36,4 +36,11 @@ class BusinessHours extends Eloquent
     {
         return $this->belongsTo('TimeCategory');
     }
+    /**
+     * @return mixed
+     */
+    public function menuItem()
+    {
+        return $this->belongsToMany('MenuItem', 'menu_available_time', 'menu_item_id', 'business_hours_id');
+    }
 }

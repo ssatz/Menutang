@@ -28,4 +28,5 @@ class BusinessType extends Eloquent
     {
         return $this->hasMany('BusinessInfo');
     }
+
 }

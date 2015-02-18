@@ -28,6 +28,7 @@ class AddForeignKeyCityToDeliveryAreaTable extends Migration {
 	{
 		Schema::table('delivery_area', function(Blueprint $table)
 		{
+            $table->dropColumn('city_id');
 			$table->dropForeign('delivery_area_city_id_foreign');
 			$table->dropIndex('delivery_area_city_id_index');
 		});

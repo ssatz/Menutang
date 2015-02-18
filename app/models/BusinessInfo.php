@@ -87,14 +87,6 @@ class BusinessInfo extends Eloquent
     }
 
     /**
-     * @return mixed
-     */
-    public function menuItem()
-    {
-        return $this->hasMany('MenuItem');
-    }
-
-    /**
      * @param $query
      * @param $slug
      * @return mixed

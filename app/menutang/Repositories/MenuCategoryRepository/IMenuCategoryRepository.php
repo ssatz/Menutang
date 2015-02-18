@@ -14,4 +14,5 @@ namespace Repositories\MenuCategoryRepository;
 interface IMenuCategoryRepository
 {
     public function getLastInsertedItem();
+    public function findByProfile($businessId);
 }

@@ -11,6 +11,16 @@
 namespace Repositories\TimeCategoryRepository;
 
 
-class TimeCategoryRepository {
+use Repositories\BaseRepository;
+use TimeCategory;
+use Services\Cache\ICacheService;
+
+class TimeCategoryRepository extends BaseRepository implements ITimeCategoryRepository {
+
+    public function __construct(TimeCategory $timeCategory, ICacheService $cache)
+    {
+        parent::__construct($timeCategory, $cache);
+
+    }
 
 }

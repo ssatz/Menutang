@@ -13,6 +13,7 @@ namespace Repositories\ManageBusinessRepository;
 
 use BusinessInfo;
 use Illuminate\Database\DatabaseManager;
+use Illuminate\Support\Collection;
 use Repositories\BaseRepository;
 use Services\Cache\ICacheService;
 use Services\Helper;
@@ -22,6 +23,7 @@ use BusinessHours;
 use BusinessPhoto;
 use Intervention\Image\ImageManager;
 use Illuminate\Filesystem\Filesystem;
+
 
 
 class ManageBusinessRepository extends BaseRepository implements IManageBusinessRepository
@@ -36,7 +38,13 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      * @var Helper
      */
     protected $helper;
+    /**
+     * @var ImageManager
+     */
     protected $imageHelper;
+    /**
+     * @var Filesystem
+     */
     protected $fileHelper;
 
     /**

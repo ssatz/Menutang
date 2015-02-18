@@ -48,4 +48,5 @@ interface IManageBusinessRepository
      * @return BusinessInfo
      */
     public function findBySearch($query);
+
 }
