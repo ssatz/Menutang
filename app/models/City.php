@@ -31,6 +31,7 @@ class City extends Eloquent
     {
         return $this->hasMany('DeliveryArea');
     }
+
     /*
         public function getCityStatusAttribute($value)
         {

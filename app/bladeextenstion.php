@@ -9,7 +9,15 @@
  */
 Blade::extend(function($view, $compiler)
 {
-    $pattern = $compiler->createMatcher('formtdate');
-    return preg_replace($pattern, '<?php $time = new \DateTime($1); echo $time->format("g:i a"); ?>', $view);
+    $pattern = $compiler->createMatcher('formattime');
+    return preg_replace($pattern, '$1<?php $time= new \DateTime($2); echo $time->format(\'g:i a\'); ?>', $view);
+});
+
+
+Blade::extend(function($view, $compiler)
+{
+    $pattern = $compiler->createMatcher('replacespace');
+    return preg_replace($pattern, '$1<?php  echo strtolower(str_replace(\' \',\'-\',$2)); ?>', $view);
 
 });
+

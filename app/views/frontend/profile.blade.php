@@ -19,10 +19,10 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Hind:400,300,500,600,700' rel='stylesheet' type='text/css'>
-
     <!-- Theme CSS -->
     <link href={{asset('assets/common/css/frontend.css')}} rel="stylesheet">
-
+    <link href={{asset('assets/common/css/jquery.bootstrap-touchspin.min.css')}} rel="stylesheet">
+    <link href="{{asset('assets/common/css/menutang.css')}}" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -76,7 +76,7 @@
                 <a href="#">Home</a>
             </li>
             <li>
-                <a href="#">Hyderabad Food Delivery</a>
+                <a href="#">{{$businessdetails->address->city->city_description}} Food Delivery</a>
             </li>
             <li>
                 <div class="btn-group dropdown-breadcrumb">
@@ -106,7 +106,7 @@
         <div class="well">
             <div class="row">
                 <div class="col-lg-2 col-md-3 col-sm-4">
-                    <img class="img-responsive img-centered" src="img/demo-profile.jpg" alt="">
+                    <img class="img-responsive img-centered" src="{{asset('uploads/'.$businessdetails->business_slug.'/logo.jpg')}}" alt="{{$businessdetails->business_name}}">
                 </div>
                 <div class="col-lg-10 col-md-9 col-sm-8 profile-content">
 
@@ -128,26 +128,52 @@
                     <h4>{{$businessdetails->address->address_line_1}}</h4>
                     <h4>{{$businessdetails->address->address_line_2}}</h4>
                     <div class="row">
-                        <div class="col-lg-3 col-md-3">
+                        <div class="col-lg-4 col-md-4">
                             <p>
                                 <!-- Profile Hours -->
                                 <strong>Open 7 Days a Week:</strong>
-                                <br>9:00 AM - 11:00 PM
-                                <br>
+                                <table class="table-responsive">
+                                <?php $flag=false; ?>
+                                @foreach($businessdetails->businessHours as $hour)
+                                <tr>
+                                 <td>{{$hour->timeCategory->category_description}}</td>
+                                    <td>&nbsp;:&nbsp;</td>
+                                <td> @formattime($hour->open_time)</td>
+                                <td>&nbsp; to&nbsp; </td>
+                                <td> @formattime($hour->close_time)</td>
+                                 </tr>
+                                <?php
+                                 $date1 = new \DateTime();
+                                 $date2 = new \DateTime($hour->open_time);
+                                 $date3 = new \DateTime($hour->close_time);
+                                if ($date1->getTimestamp() >= $date2->getTimestamp() && $date1->getTimestamp() <= $date3->getTimestamp())
+                                {
+                                  $flag =true;
+                                }
+                                ?>
+                                 @endforeach
+                                </table>
                                 <!-- Open / Closed Indicators -->
+                                @if($flag)
                                 <span class="label label-success"><i class="fa fa-clock-o"></i> Open</span>
-                                <!-- <span class="label label-danger"><i class="fa fa-clock-o"></i> Closed</span> -->
+                                @else
+                                 <span class="label label-danger"><i class="fa fa-clock-o"></i> Closed</span>
+                                @endif
                             </p>
                         </div>
-                        <div class="col-lg-3 col-md-3">
+                        <div class="col-lg-3 col-md-2">
                             <!-- Delivery Time/Speed -->
                             <p><strong>Speed:</strong> Fast (10-15 Minutes)</p>
                             <p>
                                 <!-- Food Types/Categories -->
-                                <strong>Food:</strong> <a href="#">Pizza</a>, <a href="#">Italian</a>, <a href="#">Desserts</a>
+
+                                <strong>Food:</strong>
+                                @foreach($businessdetails->cuisineType as $cuisine)
+                                <a href="#">{{$cuisine->cuisine_description}}</a>,
+                                @endforeach
                             </p>
                         </div>
-                        <div class="col-lg-3 col-md-3">
+                        <div class="col-lg-3 col-md-2">
                             <!-- Profile Minimum Order Amount -->
                             <p><strong>Minimum Order:</strong><i class="fa fa-rupee"></i>{{$businessdetails->minimum_delivery_amt}}</p>
                             <!-- Profile Payment Types -->
@@ -172,7 +198,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-lg-3 col-md-3">
+                        <div class="col-lg-2 col-md-2">
                             <p>
                                 <!-- Profile Links -->
                                 <i class="fa fa-fw fa-info-circle"></i> <a href="#">About</a>
@@ -195,7 +221,7 @@
                     <div class="list-group">
                         <!-- Menu Category Links - Link to a Menu Category ID -->
                         @foreach($menucategory as $category)
-                        <a href="#{{$category}}" class="list-group-item page-scroll">{{$category}}</a>
+                        <a href="#@replacespace($category)" class="list-group-item page-scroll">{{$category}}</a>
                         @endforeach
                     </div>
                     <a href="#top" class="btn btn-link page-scroll"><i class="fa fa-fw fa-angle-up"></i> Back to Top</a>
@@ -204,11 +230,31 @@
             <div class="col-lg-6 col-md-6 col-sm-5">
                 <!-- Menu Category -->
                 @foreach($menudetails as $menu)
-                <div class="menu-category" id="{{$menu->category_name}}">
+                <div class="menu-category" id="@replacespace($menu->category_name)">
                     <h3>{{$menu->category_name}}</h3>
                     <div class="list-group">
                         @foreach($menu->menuItem as $item)
-                        <a data-toggle="modal" data-target="#myModal" href="#" class="list-group-item"><span class="badge"><i class="fa fa-inr"></i>{{$item->item_price}}</span> {{$item->item_name}} <i class="text-yellow fa fa-star fa-fw"></i><br><small>{{$item->item_description}}</small></a>
+                        <a  class="list-group-item">
+                             <span class="badge addOrder">
+                                <i class="fa fa-plus"></i>
+                                Add
+                            </span>
+                            <span class="badge">
+                                <i class="fa fa-inr"></i>
+                                {{$item->item_price}}
+                            </span>
+
+                            {{$item->item_name}}
+                            @if($item->is_popular)
+                               <i class="text-yellow fa fa-star fa-fw"></i>
+                            @endif
+                            <br>
+                            <small>
+                                {{$item->item_description}}
+
+                            </small>
+                            <input id="item-{{$item->id}}" type="text" value="1" name="item_order">
+                        </a>
                         @endforeach
                     </div>
                 </div>
@@ -226,11 +272,9 @@
                             </label>
                             <select class="form-control" style="margin-top: 5px;">
                                 <option selected disabled>Select Your Area:</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
+                                @foreach($businessdetails->deliveryArea as $area)
+                                    <option value="{{$area->id}}">{{$area->area}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="radio">
@@ -420,12 +464,12 @@
 <!-- Bootstrap -->
 <script src="{{asset('assets/common/js/bootstrap.min.js')}}"></script>
 
-
 <!-- Plugin JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places"></script>
 <!-- Theme Scripts -->
+<script src="{{asset('assets/common/js/jquery.bootstrap-touchspin.min.js')}}"></script>
 <script src="{{asset('assets/common/js/app/frontend.js')}}"></script>
 
 <script>
@@ -441,10 +485,9 @@
         }
     })
 </script>
-
 <!-- TouchSpin jQuery -->
 <script>
-    $("input[name='demo_vertical']").TouchSpin({
+    $("input[name='item_order']").TouchSpin({
         verticalbuttons: true,
         verticalupclass: 'fa fa-plus',
         verticaldownclass: 'fa fa-minus'

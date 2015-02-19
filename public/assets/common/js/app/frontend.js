@@ -4,6 +4,16 @@ $(document).ready(function (e) {
 $(function() {
     $('a.page-scroll').bind('click', function(event) {
         var $anchor = $(this);
+        $("#menuCategory .page-scroll").css({
+            'background-color': '#fff',
+            'color': '#555',
+            'font-weight':' normal'
+        });
+        $(this).css({
+            'background-color': '#f15725',
+            'color': '#f5f5f5',
+            'font-weight': 'bolder'
+        });
         $('html, body').stop().animate({
             scrollTop: $($anchor.attr('href')).offset().top
         }, 500, 'easeOutCubic');
