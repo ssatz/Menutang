@@ -131,27 +131,32 @@
                         <div class="col-lg-4 col-md-4">
                             <p>
                                 <!-- Profile Hours -->
-                                <strong>Open 7 Days a Week:</strong>
+
+                                <strong>Open <?php echo \Services\WeekDays::getWeekDay(date('N'));  ?> between:</strong>
                                 <table class="table-responsive">
-                                <?php $flag=false; ?>
-                                @foreach($businessdetails->businessHours as $hour)
-                                <tr>
-                                 <td>{{$hour->timeCategory->category_description}}</td>
-                                    <td>&nbsp;:&nbsp;</td>
-                                <td> @formattime($hour->open_time)</td>
-                                <td>&nbsp; to&nbsp; </td>
-                                <td> @formattime($hour->close_time)</td>
-                                 </tr>
-                                <?php
-                                 $date1 = new \DateTime();
-                                 $date2 = new \DateTime($hour->open_time);
-                                 $date3 = new \DateTime($hour->close_time);
-                                if ($date1->getTimestamp() >= $date2->getTimestamp() && $date1->getTimestamp() <= $date3->getTimestamp())
-                                {
-                                  $flag =true;
-                                }
-                                ?>
-                                 @endforeach
+                                    <?php $flag=false; ?>
+                                    @foreach($businessdetails->businessHours as $hour)
+
+                                        @foreach($hour->weekDays as $days)
+
+                                        @if($days->id==date('N'))
+                                        <tr>
+                                            <td> @formattime($hour->open_time)</td>
+                                            <td>&nbsp; to&nbsp; </td>
+                                            <td> @formattime($hour->close_time)</td>
+                                        </tr>
+                                            <?php
+                                            $date1 = new \DateTime();
+                                            $date2 = new \DateTime($hour->open_time);
+                                            $date3 = new \DateTime($hour->close_time);
+                                            if ($date1->getTimestamp() >= $date2->getTimestamp() && $date1->getTimestamp() <= $date3->getTimestamp())
+                                            {
+                                                $flag =true;
+                                            }
+                                            ?>
+                                        @endif
+                                        @endforeach
+                                    @endforeach
                                 </table>
                                 <!-- Open / Closed Indicators -->
                                 @if($flag)
@@ -266,8 +271,14 @@
                             @if($item->itemAddon->count()>0)
                                 <small> {{$item->item_description}}</small>
                             @endif
+                            <?php $itemFlag=0; ?>
+                            @foreach($item->weekDays as $days)
+                              @if($days->id==date('N'))
+                                <?php $itemFlag=1; ?>
+                              @endif
+                            @endforeach
+                            <input type="hidden" value="{{$itemFlag}}" id="item-available">
                         </a>
-
                         @endforeach
                     </div>
                 </div>

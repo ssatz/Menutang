@@ -86,7 +86,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         if ($this->cache->has($key)) {
             return $this->cache->get($key);
         }
-        $businessInfo = $this->model->with('address.city', 'payment','deliveryArea','cuisineType','businessHours.timeCategory')->where('business_slug', '=', $slug)->first();
+        $businessInfo = $this->model->with('address.city', 'payment','deliveryArea','cuisineType','businessHours.timeCategory','businessHours.weekDays')->where('business_slug', '=', $slug)->first();
         $this->cache->put($key, $businessInfo);
         return $businessInfo;
     }

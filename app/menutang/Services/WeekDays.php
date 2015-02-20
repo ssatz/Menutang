@@ -9,16 +9,50 @@
  */
 
 namespace Services;
+use ReflectionClass;
 
 
 final class WeekDays
 {
-    const SUNDAY = 1;
-    const MONDAY = 2;
-    const TUESDAY = 3;
-    const WEDNESDAY = 4;
-    const THURSDAY = 5;
-    const FRIDAY = 6;
-    const SATURDAY = 7;
+    /**
+     * Monday
+     */
+    const MONDAY = 1;
+    /**
+     *
+     */
+    const TUESDAY = 2;
+    /**
+     *
+     */
+    const WEDNESDAY = 3;
+    /**
+     *
+     */
+    const THURSDAY = 4;
+    /**
+     *
+     */
+    const FRIDAY = 5;
+    /**
+     *
+     */
+    const SATURDAY = 6;
 
+    /**
+     * Sunday
+     */
+    const SUNDAY = 7;
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    public static function getWeekDay($value)
+    {
+        $class = new ReflectionClass(__CLASS__);
+        $constants = array_flip($class->getConstants());
+
+        return $constants[$value];
+    }
 }

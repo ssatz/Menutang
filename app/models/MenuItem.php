@@ -14,7 +14,7 @@ class MenuItem extends Eloquent
     /**
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     /**
      * @var string
@@ -37,9 +37,19 @@ class MenuItem extends Eloquent
         return $this->hasMany('ItemAddon');
     }
 
+    /**
+     * @return mixed
+     */
     public function businessHours()
     {
         return $this->belongsToMany('BusinessHours', 'menu_available_time', 'menu_item_id', 'business_hours_id');
     }
 
+    /**
+     * @return mixed
+     */
+    public function weekDays()
+    {
+        return $this->belongsToMany('WeekDays', 'menu_available_weekdays', 'menu_item_id', 'weekdays_id');
+    }
 }

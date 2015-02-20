@@ -24,6 +24,6 @@ class CuisineType extends Eloquent {
 
     public function businessInfo()
     {
-        return $this->belongsToMany('BusinessInfo', 'business_cuisine', 'business_info_id', 'cuisine_type_id');
+        return $this->belongsToMany('BusinessInfo', 'business_cuisine', 'cuisine_type_id', 'business_info_id');
     }
 }

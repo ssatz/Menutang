@@ -41,6 +41,14 @@ class BusinessHours extends Eloquent
      */
     public function menuItem()
     {
-        return $this->belongsToMany('MenuItem', 'menu_available_time', 'menu_item_id', 'business_hours_id');
+        return $this->belongsToMany('MenuItem', 'menu_available_time', 'business_hours_id', 'menu_item_id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function weekDays()
+    {
+        return $this->belongsToMany('WeekDays', 'business_weekdays', 'business_hours_id', 'weekdays_id');
     }
 }

@@ -42,7 +42,7 @@ class MenuCategoryRepository extends BaseRepository implements IMenuCategoryRepo
     {
         $profileDetails =$this->model->wherehas('menuItem',function($query) use($businessId) {
             $query->where('business_info_id', '=', $businessId);
-        })->with('menuItem.businessHours')->with('menuItem.itemAddon')->get();
+        })->with('menuItem.businessHours')->with('menuItem.itemAddon')->with('menuItem.weekDays')->get();
         return $profileDetails;
     }
 
