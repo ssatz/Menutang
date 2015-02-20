@@ -97,18 +97,14 @@
 .tt-suggestion p {
     margin: 0;
 }
-.input-group{
-    width: 10%;
-}
+
 .form-control{
     padding: 0px 6px !important;
 }
-.bootstrap-touchspin
-{
-    margin-left: 470px;
-    top: -20px;
+.pdRight{
+    padding-right: 25px;
 }
 .addOrder{
-    background-color: #2FBC9B;
+    float:right;
     cursor: pointer;
 }

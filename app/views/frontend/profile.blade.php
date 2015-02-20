@@ -235,7 +235,7 @@
                     <div class="list-group">
                         @foreach($menu->menuItem as $item)
                         <a  class="list-group-item">
-                             <span class="badge addOrder">
+                             <span class="addOrder label label-success">
                                 <i class="fa fa-plus"></i>
                                 Add
                             </span>
@@ -248,13 +248,26 @@
                             @if($item->is_popular)
                                <i class="text-yellow fa fa-star fa-fw"></i>
                             @endif
-                            <br>
-                            <small>
-                                {{$item->item_description}}
+                            <div class="row">
+                                <div class="col-lg10 col-md-10">
+                                  @if($item->itemAddon->count()>0)
 
-                            </small>
-                            <input id="item-{{$item->id}}" type="text" value="1" name="item_order">
+                                    @foreach($item->itemAddon as $addon)
+                                      <span class="pdRight">  {{$addon->addon_description}}(<i class="fa fa-inr"></i>{{$addon->addon_price}}) <input type="radio" value="{{$addon->addon_price}}" name="item[{{$item->id}}][addon]"></span>
+                                    @endforeach
+                                  @else
+                                    <small> {{$item->item_description}}</small>
+                                  @endif
+                                </div>
+                                <div class="col-lg2 col-md-2">
+                                    <input id="item-{{$item->id}}" type="text" value="1" name="item_order">
+                                </div>
+                            </div>
+                            @if($item->itemAddon->count()>0)
+                                <small> {{$item->item_description}}</small>
+                            @endif
                         </a>
+
                         @endforeach
                     </div>
                 </div>
@@ -488,6 +501,7 @@
 <!-- TouchSpin jQuery -->
 <script>
     $("input[name='item_order']").TouchSpin({
+        min:1,
         verticalbuttons: true,
         verticalupclass: 'fa fa-plus',
         verticaldownclass: 'fa fa-minus'
