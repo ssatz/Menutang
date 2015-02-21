@@ -100,6 +100,9 @@ class BusinessManager
     protected  $cuisineType;
 
 
+    /**
+     * @var IManageDeliveryAreaRepository
+     */
     protected  $deliveryArea;
     /**
      * @param IManageBusinessRepository $manageBusiness
@@ -316,10 +319,18 @@ class BusinessManager
     {
         return $this->statusRepo->getAll();
     }
+
+    /**
+     * @return mixed
+     */
     public function getAllDeliveryArea()
     {
         return $this->deliveryArea->getAll();
     }
+
+    /**
+     * @return mixed
+     */
     public function deliverySearch()
     {
        return $this->deliveryArea->searchDeliveryArea();

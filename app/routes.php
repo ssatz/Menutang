@@ -74,7 +74,7 @@ Route::get('/','FrontEndController@index');
 Route::any('{query}','FrontEndController@searchBU');
 Route::any('restaurants/{query}','FrontEndController@restaurantsProfile');
 //Display all SQL executed in Eloquent
-//Event::listen('illuminate.query', function($query)
-//{
-//   var_dump($query);
-//});
+Event::listen('illuminate.query', function($query)
+{
+   var_dump($query);
+});

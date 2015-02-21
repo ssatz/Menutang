@@ -10,42 +10,88 @@
 
 namespace Services;
 
-use Illuminate\Support\Collection;
+
 use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use Repositories\MenuCategoryRepository\IMenuCategoryRepository;
+use Repositories\BusinessTypeRepository\IBusinessTypeRepository;
 
 
 class FrontEndManager {
 
+    /**
+     * @var IManageBusinessRepository
+     */
     protected  $buManager;
 
+    /**
+     * @var IMenuCategoryRepository
+     */
     protected  $menuCategory;
-    function __construct(IManageBusinessRepository $buManager,IMenuCategoryRepository $menuCategoryRepository)
+
+    /**
+     * @var IBusinessTypeRepository
+     */
+    protected $businessType;
+
+    /**
+     * @param IManageBusinessRepository $buManager
+     * @param IMenuCategoryRepository $menuCategoryRepository
+     * @param IBusinessTypeRepository $businessTypeRepository
+     */
+    public function __construct(IManageBusinessRepository $buManager,
+                                IMenuCategoryRepository $menuCategoryRepository,
+                                IBusinessTypeRepository $businessTypeRepository)
     {
         $this->buManager = $buManager;
         $this->menuCategory = $menuCategoryRepository;
+        $this->businessType = $businessTypeRepository;
     }
 
+    /**
+     * @param $query
+     * @return \Repositories\ManageBusinessRepository\BusinessInfo
+     */
     public function searchQuery($query)
     {
+
        return $this->buManager->findBySearch($query);
     }
 
+    /**
+     * @param $restaurantSlug
+     * @return mixed
+     */
     public function getBusinessDetails($restaurantSlug)
     {
         return $this->buManager->findBusinessBySlug($restaurantSlug);
     }
 
+    /**
+     * @param $businessID
+     * @return mixed
+     */
     public  function getProfileDetails($businessID)
     {
         return $this->menuCategory->findByProfile($businessID);
     }
 
+    /**
+     * @param $restaurantSlug
+     * @return array
+     */
     public function restaurantProfile($restaurantSlug)
     {
         $bu = $this->getBusinessDetails($restaurantSlug);
         $profile = $this->getProfileDetails($bu->id);
         $menuCategory =array_unique($profile->lists('category_name'));
         return [$bu,$profile,$menuCategory];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAllBusinessTypes()
+    {
+        return $this->businessType->getAllTypes();
     }
 }

@@ -13,5 +13,5 @@ namespace Repositories\BusinessTypeRepository;
 
 interface IBusinessTypeRepository
 {
-
+    public function getAllTypes();
 }

@@ -67,6 +67,7 @@ class FrontEndController extends BaseController  {
      */
     public function index()
     {
+        dd($this->frontEndManager->getAllBusinessTypes());
         return $this->view->make('frontend.index');
     }
 

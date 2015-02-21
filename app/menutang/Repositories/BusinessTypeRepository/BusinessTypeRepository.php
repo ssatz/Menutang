@@ -25,4 +25,18 @@ class BusinessTypeRepository extends BaseRepository implements IBusinessTypeRepo
         parent::__construct($buType, $cache);
 
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAllTypes()
+    {
+        $key = md5(__METHOD__);
+        if ($this->cache->has($key)) {
+            return $this->cache->get($key);
+        }
+        $types=$this->model->leftjoin('cuisine_type','cuisine_type.business_type_id','=','business_type.id')->get();
+        $this->cache->put($key, $types);
+        return $types;
+    }
 }
