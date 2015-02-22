@@ -43,10 +43,24 @@ interface IManageBusinessRepository
      */
     public function insert(array $input);
 
+
     /**
-     * @param $query
-     * @return BusinessInfo
+     * @param $locality
+     * @return mixed
      */
-    public function findBySearch($query);
+    public function findByLocality($locality);
+
+    /**
+     * @param $locality
+     * @param $area
+     * @return mixed
+     */
+    public function findByArea($locality,$area);
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function findByName($name);
 
 }

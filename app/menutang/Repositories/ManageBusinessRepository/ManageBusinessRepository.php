@@ -150,27 +150,52 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
     }
 
     /**
-     * @param $query
-     * @return BusinessInfo
+     * @param $locality
+     * @return mixed
      */
-    public function findBySearch($query)
+    public function findByLocality($locality)
     {
-       /* $key = md5('search.' . $query);
-        if ($this->cache->has($key)) {
-            return $this->cache->get($key);
-        }*/
-        $businessInfo = $this->model->join('business_delivery','business_delivery.business_info_id','=','business_info.id')
-                                    ->join('delivery_area','delivery_area.id','=','business_delivery.delivery_area_id')
-                                    ->join('business_address','business_address.business_info_id','=','business_info.id')
-                                    ->join('city','city.id','=','business_address.city_id')
-                                    ->where('city.city_status','=',true)
-                                    ->orwhere('city.city_description','LIKE','%'.$query.'%')
-                                    ->orwhere('delivery_area.area','LIKE','%'.$query.'%')
-                                    ->orwhere('delivery_area.area_pincode','LIKE','%'.$query.'%')
-                                    ->orwhere('business_info.business_name','LIKE','%'.$query.'%')
-                                    ->get();
-       // $this->cache->put($key, $businessInfo);
+        $businessInfo=  $this->model->leftjoin('business_delivery', 'business_delivery.business_info_id', '=', 'business_info.id')
+            ->leftjoin('delivery_area', 'delivery_area.id', '=', 'business_delivery.delivery_area_id')
+            ->leftjoin('business_address', 'business_address.business_info_id', '=', 'business_info.id')
+            ->leftjoin('city', 'city.id', '=', 'business_address.city_id')
+            ->where('city.city_status', '=', true)
+            ->where('city.city_description','=',$locality)
+            ->groupby('city.city_description')
+            ->paginate(15);
         return $businessInfo;
+    }
+
+    /**
+     * @param $locality
+     * @param $area
+     * @return mixed
+     */
+    public function findByArea($locality, $area)
+    {
+        $businessInfo=  $this->model->join('business_delivery', 'business_delivery.business_info_id', '=', 'business_info.id')
+            ->join('delivery_area', 'delivery_area.id', '=', 'business_delivery.delivery_area_id')
+            ->join('business_address', 'business_address.business_info_id', '=', 'business_info.id')
+            ->join('city', 'city.id', '=', 'business_address.city_id')
+            ->where('city.city_status', '=', true)
+            ->where('city.city_description','=',$locality)
+            ->where('delivery_area.area','=',$area)
+            ->paginate(15);
+        return $businessInfo;
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function findByName($name)
+    {
+        // TODO: Implement findByName() method.
+    }
+
+    function __call($name, $arguments)
+    {
+        // TODO: Implement __call() method.
     }
 
     /**

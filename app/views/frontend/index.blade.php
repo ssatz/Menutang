@@ -420,7 +420,20 @@
             componentRestrictions: {country: "in"}
         });
         google.maps.event.addListener(autocomplete, 'place_changed', function() {
-            console.log( autocomplete.getPlace());
+            var locality;
+            var place = autocomplete.getPlace();
+            var $html = $.parseHTML((place.adr_address).replace(/,/g , ""));
+            $.each( $html, function( i, el ) {
+                if($(el).hasClass('locality')){
+                    locality = $(el).html();
+                }
+            });
+            console.log(place.name+'-'+locality);
+           if(place.name===locality)
+           {
+             return   window.location.replace("{{URL::to('/')}}/"+locality.toLowerCase());
+           }
+            return window.location.replace("{{URL::to('/')}}/"+locality.toLowerCase()+"/"+(place.name).toLowerCase());
         });
 </script>
 </body>

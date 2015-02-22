@@ -33,7 +33,7 @@ class FrontEndController extends BaseController  {
      */
     protected  $translator;
     /**
-     * @var
+     * @var View
      */
     protected  $view;
 
@@ -67,18 +67,22 @@ class FrontEndController extends BaseController  {
      */
     public function index()
     {
-        dd($this->frontEndManager->getAllBusinessTypes());
         return $this->view->make('frontend.index');
     }
+
 
     /**
      * @return \Repositories\ManageBusinessRepository\BusinessInfo
      */
-    public function searchBU()
+    public function searchBU($locality,$area=null)
     {
-       return $this->frontEndManager->searchQuery('Test Restaurant');
+       return $this->frontEndManager->searchQuery($locality,$area);
     }
 
+    /**
+     * @param $restaurantSlug
+     * @return mixed
+     */
     public function restaurantsProfile($restaurantSlug)
     {
        list($bu,$profile,$category)=  $this->frontEndManager->restaurantProfile($restaurantSlug);

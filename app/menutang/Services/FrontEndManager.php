@@ -48,13 +48,17 @@ class FrontEndManager {
     }
 
     /**
-     * @param $query
-     * @return \Repositories\ManageBusinessRepository\BusinessInfo
+     * @param $locality
+     * @param null $area
+     * @return mixed
      */
-    public function searchQuery($query)
+    public function searchQuery($locality,$area=null)
     {
-
-       return $this->buManager->findBySearch($query);
+        if(is_null($area))
+        {
+            return $this->buManager->findByLocality($locality);
+        }
+        return $this->buManager->findByArea($locality,$area);
     }
 
     /**
