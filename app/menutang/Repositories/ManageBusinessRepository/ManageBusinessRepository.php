@@ -155,14 +155,11 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function findByLocality($locality)
     {
-        $businessInfo=  $this->model->leftjoin('business_delivery', 'business_delivery.business_info_id', '=', 'business_info.id')
-            ->leftjoin('delivery_area', 'delivery_area.id', '=', 'business_delivery.delivery_area_id')
-            ->leftjoin('business_address', 'business_address.business_info_id', '=', 'business_info.id')
-            ->leftjoin('city', 'city.id', '=', 'business_address.city_id')
-            ->where('city.city_status', '=', true)
-            ->where('city.city_description','=',$locality)
-            ->groupby('city.city_description')
-            ->paginate(15);
+        $businessInfo=  $this->model->with(['businessHours','cuisineType','address.city'=>function($query) use($locality)
+        {
+                $query->where('city.city_description','=',$locality);
+        }
+        ,'deliveryArea'])->paginate(15);
         return $businessInfo;
     }
 
@@ -173,14 +170,13 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function findByArea($locality, $area)
     {
-        $businessInfo=  $this->model->join('business_delivery', 'business_delivery.business_info_id', '=', 'business_info.id')
-            ->join('delivery_area', 'delivery_area.id', '=', 'business_delivery.delivery_area_id')
-            ->join('business_address', 'business_address.business_info_id', '=', 'business_info.id')
-            ->join('city', 'city.id', '=', 'business_address.city_id')
-            ->where('city.city_status', '=', true)
-            ->where('city.city_description','=',$locality)
-            ->where('delivery_area.area','=',$area)
-            ->paginate(15);
+        $businessInfo=  $this->model->with(['businessHours','cuisineType','address.city'=>function($query) use($locality)
+        {
+            $query->where('city.city_description','=',$locality);
+        },'deliveryArea'=>function($query) use($area)
+        {
+            $query->where('delivery_area.area','=',$area);
+        }])->paginate(15);
         return $businessInfo;
     }
 
@@ -192,12 +188,6 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
     {
         // TODO: Implement findByName() method.
     }
-
-    function __call($name, $arguments)
-    {
-        // TODO: Implement __call() method.
-    }
-
     /**
      * @param array $input
      * @return mixed

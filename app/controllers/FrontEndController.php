@@ -76,7 +76,8 @@ class FrontEndController extends BaseController  {
      */
     public function searchBU($locality,$area=null)
     {
-       return $this->frontEndManager->searchQuery($locality,$area);
+         $result= $this->frontEndManager->searchQuery($locality,$area);
+        return $this->view->make('frontend.search')->withResults($result);
     }
 
     /**

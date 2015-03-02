@@ -84,27 +84,4 @@ abstract class BaseRepository
         $this->cache->remove($keystate);
         return $this->model->where('id', '=', $id)->update($data);
     }
-
-    /**
-     * Get results by page
-     *
-     * @param int $page
-     * @param int $limit
-     * @return StdClass
-     */
-    public function getByPage($page = 1, $limit = 10)
-    {
-        $results = StdClass;
-        $results->page = $page;
-        $results->limit = $limit;
-        $results->totalItems = 0;
-        $results->items = array();
-
-        $data = $this->model->skip($limit * ($page - 1))->take($limit)->get();
-
-        $results->totalItems = $this->model->count();
-        $results->items = $data->all();
-
-        return $results;
-    }
 }
