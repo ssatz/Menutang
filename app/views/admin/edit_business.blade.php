@@ -18,7 +18,7 @@
             @endif
             </p>
             {{ Form::open(['url' => action('ManageBusinessController@editBusinessInfo', [$slug]), 'method'
-            =>'POST','class'=>'form-horizontal','id'=>'edit-businessinfo']) }}
+            =>'POST','class'=>'form-horizontal','id'=>'edit-businessinfo' ,'enctype'=>'multipart/form-data']) }}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
@@ -38,14 +38,34 @@
                             </div>
                             <!-- /.col -->
                         </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Logo Upload</label>
+
+                            <div class="col-lg-6">
+                                <input type="file" class="form-control input-sm"  name="fileToUpload" id="fileToUpload">
+                            </div>
+                            <img src="{{asset('uploads/'.$business->business_slug.'/logo.png')}}">
+                        </div>
                         <!-- /form-group -->
                         <div class="form-group">
                             <label class="control-label col-lg-2">Business Type</label>
 
                             <div class="col-lg-6">
-                                <select class="form-control chzn-select" name="business_type_id" data-required="true">
+                                <select class="form-control chzn-select" id="business_type_id" name="business_type_id" data-required="true">
                                     @foreach($butypes as $buType)
-                                    <option value="{{$buType->id}}">{{$buType->business_type}}</option>
+                                    <option value="{{$buType->id}}" @if($buType->id==$business->business_type_id)selected @endif>{{$buType->business_type}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <div class="form-group @if($business->business_type_id!=1) displayNone @endif cuisine-type">
+                            <label class="control-label col-lg-2">Cuisine Type</label>
+
+                            <div class="col-lg-6">
+                                <select class="form-control chzn-select" name="cuisine_type_id" data-required="true">
+                                    @foreach($cusinetypes as $cuisineType)
+                                    <option value="{{$cuisineType->id}}" @if($cuisineType->id==$business->cuisine_type_id)selected @endif>{{$cuisineType->cuisine_description}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -57,7 +77,7 @@
                             <div class="col-lg-6">
                                 <select class="form-control chzn-select" name="status_id" data-required="true">
                                     @foreach($status as $stat)
-                                    <option value="{{$stat->id}}">{{$stat->status_description}}</option>
+                                    <option value="{{$stat->id}}" @if($stat->id==$business->status_id)selected @endif>{{$stat->status_description}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -593,10 +613,12 @@
                             <div class="padBot30">
                                 <button type="button" class="close displayNone" aria-label="Close"><span aria-hidden="true">×</span>
                                 </button>
-                <span class="pad10"><input type="text" id="delivery_area_0" class="form-control width60 area"
+                <span class="pad10"><input type="text" id="delivery_area_0_area" class="form-control width60 area typeahead"
                                            data-required="true"  name="delivery_area[0][area]" value="{{$deliveryArea['area']}}"></span>
                 <span class="pad10"><input type="text" id="delivery_area_0_pincode" class="form-control width60 pincode"
-                                           data-required="true" name="delivery_area[0][pincode]" data-type="digits" value="{{$deliveryArea['area_pincode']}}"></span>
+                                           data-required="true" name="delivery_area[0][pincode]" data-type="digits" value="{{$deliveryArea['area_pincode']}}">
+                                       <input type="hidden" name="delivery_area[0][id]" class="area-id" id="delivery_area_0_id" value="{{$deliveryArea['id']}}">
+                </span>
                             </div>
                             @endforeach
                         </div>
@@ -613,6 +635,18 @@
                 </div>
             </div>
             {{ Form::close() }}
+        <div class="delivery-area-type displayNone">
+        <div class="padBot30">
+            <button type="button" class="close displayNone" aria-label="Close"><span aria-hidden="true">×</span>
+            </button>
+                <span class="pad10"><input type="text" id="delivery_area_0_area" class="form-control width60 area"
+                                           data-required="true"  name="delivery_area[0][area]" value=""></span>
+                <span class="pad10"><input type="text" id="delivery_area_0_pincode" class="form-control width60 pincode"
+                                           data-required="true" name="delivery_area[0][pincode]" data-type="digits" value="">
+                    <input type="hidden" name="delivery_area[0][id]" class="area-id" id="delivery_area_0_id" value="-1">
+                </span>
+        </div>
+            </div>
     </div>
 @endsection
 @section('css')
@@ -621,6 +655,7 @@
     <link href="{{asset('assets/common/css/menutang.css')}}" rel="stylesheet">
 @endsection
 @section('scripts')
+    <script src="{{asset('assets/common/js/typeahead.bundle.min.js')}}"></script>
     <script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
     <script src = "{{asset('assets/common/js/jquery.timepicker.min.js')}}"></script>
     <script src="{{asset('assets/common/js/app/menutang.js')}}"></script>
@@ -640,6 +675,13 @@
                 'maxTime': '03:00:00'
             });
             $('.close-time,.open-time').timepicker();
+            $("#business_type_id").change(function(){
+                if($(this).val().toLowerCase()==1)
+                {
+                    return  $(".cuisine-type").show().removeClass('displayNone');
+                }
+                return $(".cuisine-type").hide().addClass('displayNone');
+            });
             $("input[type=radio]").click(function () {
                 if ($(this).val() == '0') {
                     $(this).parents('.form-group').next('.fa-comment').hide('slow').find('textarea,input').text('');
@@ -650,6 +692,57 @@
                     $(this).parents('.form-group').next('.fa-comment').show('slow');
                 }
             });
+            var deliveryArea = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('area'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                limit: 10,
+                prefetch: {
+                    url: "{{action('ManageBusinessController@deliveryAreaSearch')}}"
+                }
+            });
+
+            deliveryArea.initialize();
+
+            $("body").on("click", ".add-delivery", function (e) {
+                e.preventDefault();
+                debugger;
+                var clone = $('.delivery-area-type').html();
+                $(this).parent().find(".padBot30:last").after(clone);
+                clone = $(this).parent().find(".padBot30:last");
+                $(clone).find(".close").show();
+                $(clone).find("input").val('');
+                $(clone).find(".area").addClass('typeahead');
+                var $count =parseInt($(this).parents(".form-group").find(".padBot30").length)-1;
+                $(clone).find('.area').prop('name', 'delivery_area[' + $count + '][area]');
+                $(clone).find('.area').prop('id', 'delivery_area_' + $count + '_area');
+                $(clone).find('.pincode').prop('name', 'delivery_area[' + $count + '][pincode]');
+                $(clone).find('.pincode').prop('id', 'delivery_area_' + $count + '_pincode');
+                $(clone).find('.area-id').prop('name', 'delivery_area[' + $count + '][id]');
+                $(clone).find('.area-id').prop('id', 'delivery_area_' + $count + '_id');
+                $(clone).find('.area').css('margin-left', '9px');
+                $(clone).find(".typeahead").typeahead('destroy');
+                $(clone).find(".typeahead").typeahead(null, {
+                    name: 'deliveryArea',
+                    displayKey: 'area',
+                    source: deliveryArea.ttAdapter()
+                }).bind("typeahead:selected", function(obj, datum, name) {
+                    var id=obj.currentTarget.id.split('_')[2];
+                    $("#delivery_area_"+id+"_pincode").val(datum.area_pincode);
+                    $("#delivery_area_"+id+"_id").val(datum.id);
+                });
+            });
+
+           $(".typeahead").typeahead(null, {
+                name: 'deliveryArea',
+                displayKey: 'area',
+                source: deliveryArea.ttAdapter()
+
+            }).bind("typeahead:selected", function(obj, datum, name) {
+               var id=obj.currentTarget.id.split('_')[2];
+               $("#delivery_area_"+id+"_pincode").val(datum.area_pincode);
+               $("#delivery_area_"+id+"_id").val(datum.id);
+               console.log(datum.id);
+           });
         });
     </script>
 @endsection

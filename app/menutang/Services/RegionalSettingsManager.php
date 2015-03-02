@@ -103,11 +103,27 @@ class RegionalSettingsManager
         return true;
     }
 
-    public function updateOrAddDeliveryArea($search)
+    /**
+     * @param $input
+     */
+    public function addOrUpdateDeliveryArea($input)
+    {
+        $area =['area'=> $input['area'],'area_pincode'=>$input['pincode']];
+        if($input['action']=='update')
+        {
+           return $this->deliveryArea->update($area,$input['delivery_id']);
+        }
+    }
+
+    /**
+     * @param $search
+     * @return mixed
+     */
+    public function getDeliveryAreaPincode($search)
     {
         $client = new  GuzzleHttp\Client();
         $client->setDefaultOption('verify', false);
-        $res = $client->get('https://www.whizapi.com/api/v2/util/ui/in/indian-postal-codes.ashx?appkey=hv6r1slgqv97ihi3skkibbhj', ['query' => ['search' => $search]]);
+        $res = $client->get('http://www.getpincode.info/api/pincode', ['query' => ['q' => $search]]);
         return $res->json();
     }
     /**

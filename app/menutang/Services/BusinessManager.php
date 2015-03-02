@@ -12,6 +12,7 @@ namespace Services;
 
 use Exception;
 use Illuminate\Database\DatabaseManager;
+use Repositories\CuisineTypeRepository\ICuisineTypeRepository;
 use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use Repositories\ManageCityRepository\IManageCityRepository;
 use Repositories\MenuCategoryRepository\IMenuCategoryRepository;
@@ -23,6 +24,7 @@ use Services\Validations\BusinessValidator;
 use Services\Validations\CategoryValidator;
 use Services\Validations\MenuItemValidator;
 use Repositories\BusinessTypeRepository\IBusinessTypeRepository;
+use Repositories\ManageDeliveryAreaRepository\IManageDeliveryAreaRepository;
 use ArrayObject;
 
 
@@ -88,8 +90,20 @@ class BusinessManager
     /**
      * @var IStatusRepository
      */
-    public $statusRepo;
+    protected $statusRepo;
 
+    /**
+     * @var ICuisineTypeRepository
+     *
+     *
+     */
+    protected  $cuisineType;
+
+
+    /**
+     * @var IManageDeliveryAreaRepository
+     */
+    protected  $deliveryArea;
     /**
      * @param IManageBusinessRepository $manageBusiness
      * @param ICacheService $cacheService
@@ -115,6 +129,8 @@ class BusinessManager
                                 IMenuItemRepository $menuItem,
                                 IBusinessTypeRepository $buType,
                                 CategoryValidator $categoryValidator,
+                                ICuisineTypeRepository $cuisineTypeRepository,
+                                IManageDeliveryAreaRepository $deliveryAreaRepository,
                                 IStatusRepository $statusRepository)
     {
         $this->manageBusiness = $manageBusiness;
@@ -129,6 +145,8 @@ class BusinessManager
         $this->categoryValidator = $categoryValidator;
         $this->buTyperepo = $buType;
         $this->statusRepo = $statusRepository;
+        $this->cuisineType =$cuisineTypeRepository;
+        $this->deliveryArea=$deliveryAreaRepository;
     }
 
     /**
@@ -167,6 +185,13 @@ class BusinessManager
         return $this->managePayments->getAll();
     }
 
+    /**
+     * @return mixed
+     */
+    public function getAllCuisineType()
+    {
+        return $this->cuisineType->getAll();
+    }
     /**
      * @param array $input
      * @param $slug
@@ -295,5 +320,20 @@ class BusinessManager
         return $this->statusRepo->getAll();
     }
 
+    /**
+     * @return mixed
+     */
+    public function getAllDeliveryArea()
+    {
+        return $this->deliveryArea->getAll();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function deliverySearch()
+    {
+       return $this->deliveryArea->searchDeliveryArea();
+    }
 
 }

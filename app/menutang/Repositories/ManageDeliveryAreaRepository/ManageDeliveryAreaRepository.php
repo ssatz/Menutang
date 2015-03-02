@@ -33,6 +33,11 @@ class ManageDeliveryAreaRepository extends BaseRepository implements IManageDeli
      */
     public function  getAllPaginate($pagination)
     {
-        return $this->model->paginate($pagination);
+        return $this->model->with('city')->paginate($pagination);
+    }
+
+    public function searchDeliveryArea()
+    {
+        return $this->model->select('id','area','area_pincode')->get();
     }
 }

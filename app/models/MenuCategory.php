@@ -27,4 +27,5 @@ class MenuCategory extends Eloquent
     {
         return $this->hasMany('MenuItem');
     }
+
 }

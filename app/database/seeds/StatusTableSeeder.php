@@ -15,16 +15,16 @@ class StatusTableSeeder extends DatabaseSeeder
     public function run()
     {
         $status = Status::create(array(
-            'status_code' => 'PENDIG',
+            'status_code' => 'PENDING',
             'status_description' => 'pending'
         ));
         $status = Status::create(array(
             'status_code' => 'ACTIVE',
-            'status_description' => 'active'
+            'status_description' => 'Active'
         ));
         $status = Status::create(array(
             'status_code' => 'INACTIVE',
-            'status_description' => 'inactive'
+            'status_description' => 'InActive'
         ));
     }
 }

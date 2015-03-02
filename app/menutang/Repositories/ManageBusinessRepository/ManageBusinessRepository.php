@@ -13,12 +13,18 @@ namespace Repositories\ManageBusinessRepository;
 
 use BusinessInfo;
 use Illuminate\Database\DatabaseManager;
+use Illuminate\Support\Collection;
 use Repositories\BaseRepository;
 use Services\Cache\ICacheService;
 use Services\Helper;
 use DeliveryArea;
 use BusinessAddress;
 use BusinessHours;
+use BusinessPhoto;
+use Intervention\Image\ImageManager;
+use Illuminate\Filesystem\Filesystem;
+
+
 
 class ManageBusinessRepository extends BaseRepository implements IManageBusinessRepository
 {
@@ -32,17 +38,27 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      * @var Helper
      */
     protected $helper;
+    /**
+     * @var ImageManager
+     */
+    protected $imageHelper;
+    /**
+     * @var Filesystem
+     */
+    protected $fileHelper;
 
     /**
      * @param businessInfo $managebusinesss
      * @param DatabaseManager $dbManager
      */
-    function __construct(BusinessInfo $manageBusiness, DatabaseManager $dbManager, Helper $helper, ICacheService $cache)
+    function __construct(BusinessInfo $manageBusiness, DatabaseManager $dbManager,
+                         Helper $helper, ICacheService $cache,ImageManager $image,Filesystem $filesystem)
     {
         parent::__construct($manageBusiness, $cache);
         $this->dbManager = $dbManager;
         $this->helper = $helper;
-
+        $this->imageHelper =$image;
+        $this->fileHelper =$filesystem;
     }
 
     /**
@@ -70,7 +86,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         if ($this->cache->has($key)) {
             return $this->cache->get($key);
         }
-        $businessInfo = $this->model->with('address', 'payment','deliveryArea')->where('business_slug', '=', $slug)->first();
+        $businessInfo = $this->model->with('address.city', 'payment','deliveryArea','cuisineType','businessHours.timeCategory','businessHours.weekDays')->where('business_slug', '=', $slug)->first();
         $this->cache->put($key, $businessInfo);
         return $businessInfo;
     }
@@ -82,6 +98,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function update(array $input, $slug)
     {
+        $input['cuisine_type_id'] = $input['business_type_id']==1?$input['cuisine_type_id']:null;
         $key = md5('slug.' . $slug);
         $this->cache->remove($key);
         $result = $this->helper->match($input, ['business_info', 'business_address','business_hours']);
@@ -89,12 +106,20 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         $this->model->where('business_slug', '=', $slug)->update($result['business_info']);
         $this->model->find($businessInfo->id)->address()->update($result['business_address']);
         $businessInfo->payment()->sync($input['payments']);
+        if(!$this->fileHelper->isDirectory(public_path('uploads/'.$slug))) {
+            $this->fileHelper->makeDirectory(public_path('uploads/' . $slug), 0775);
+        }
+
+        if(isset($input['fileToUpload'])) {
+            $this->fileHelper->delete(public_path('uploads/' . $slug.'/logo.png'));
+            $this->imageHelper->make($input['fileToUpload']->getRealPath())->resize(75, 75)->save(public_path('uploads/' . $slug . '/logo.png'));
+        }
         $deliveryAreaId = [];
-        foreach ($input['delivery_area'] as $area) {
+       /* foreach ($input['delivery_area'] as $area) {
             $deliveryArea = DeliveryArea::Where('area','=',strtolower($area['area']))->get();
             array_push($deliveryAreaId, $deliveryArea->id);
         }
-        $businessInfo->deliveryArea()->attach($deliveryAreaId);
+        $businessInfo->deliveryArea()->attach($deliveryAreaId);*/
         foreach ($input['hours'] as $key => $value) {
             $buhr = $this->model->find($businessInfo->id)->businessHours()->where('day','=',$key)->first();
             $buhr->business_info_id = $businessInfo->id;
@@ -124,7 +149,45 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         return $count;
     }
 
+    /**
+     * @param $locality
+     * @return mixed
+     */
+    public function findByLocality($locality)
+    {
+        $businessInfo=  $this->model->with(['businessHours','cuisineType','address.city'=>function($query) use($locality)
+        {
+                $query->where('city.city_description','=',$locality);
+        }
+        ,'deliveryArea'])->paginate(15);
+        return $businessInfo;
+    }
 
+    /**
+     * @param $locality
+     * @param $area
+     * @return mixed
+     */
+    public function findByArea($locality, $area)
+    {
+        $businessInfo=  $this->model->with(['businessHours','cuisineType','address.city'=>function($query) use($locality)
+        {
+            $query->where('city.city_description','=',$locality);
+        },'deliveryArea'=>function($query) use($area)
+        {
+            $query->where('delivery_area.area','=',$area);
+        }])->paginate(15);
+        return $businessInfo;
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function findByName($name)
+    {
+        // TODO: Implement findByName() method.
+    }
     /**
      * @param array $input
      * @return mixed
@@ -134,7 +197,9 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         $businessInfo = new $this->model;
         $businessInfo->business_name = $input['business_name'];
         $businessInfo->budget = $input['budget'];
+        /*Always Restaurants should come First */
         $businessInfo->business_type_id = $input['business_type_id'];
+        $businessInfo->cuisine_type_id = $input['business_type_id']==1?$input['cuisine_type_id']:null;
         $businessInfo->is_outdoor_catering = $input['is_outdoor_catering'];
         $businessInfo->outdoor_catering_comments = $input['outdoor_catering_comments'];
         $businessInfo->is_door_delivery = $input['is_door_delivery'];
@@ -167,9 +232,21 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
             $slug = $slug . '-' . $businessInfo->id;
         }
         $buuniqueId = $this->dbManager->table('business_type')->where('id', $input['business_type_id'])->pluck('business_code');
-        $buuniqueId =$buuniqueId.'00000 '.$businessInfo->id;
+        $buuniqueId =$buuniqueId.'00000'.$businessInfo->id;
+
         $businessInfo->fill(['business_slug' => $slug,'business_unique_id'=>$buuniqueId]);
         $businessInfo->save();
+        if(!$this->fileHelper->isDirectory(public_path('uploads/'.$slug))) {
+            $this->fileHelper->makeDirectory(public_path('uploads/' . $slug), 0775);
+        }
+        $this->imageHelper->make($input['fileToUpload']->getRealPath())->resize(75, 75)->save(public_path('uploads/'.$slug.'/logo.png'));
+
+        $image = new BusinessPhoto();
+        $image->business_info_id =$businessInfo->id;
+        $image->image_name = 'logo.png';
+
+
+        $businessInfo->businessPhoto()->save($image);
 
         $address = new BusinessAddress();
         $address->city_id = $input['city_id'];
@@ -182,7 +259,9 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
 
         $businessInfo->payment()->attach($input['payments']);
 
+
         $deliveryAreaId = [];
+
         foreach ($input['delivery_area'] as $area) {
             $deliveryArea = DeliveryArea::firstOrCreate(['area' => $area['area'], 'area_pincode' => $area['pincode']]);
             array_push($deliveryAreaId, $deliveryArea->id);

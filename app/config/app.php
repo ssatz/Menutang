@@ -3,7 +3,7 @@
 return [
 
     /*
-    |--------------------------------------------------------------------------
+    |------f--------------------------------------------------------------------
     | Application Debug Mode
     |--------------------------------------------------------------------------
     |
@@ -123,7 +123,8 @@ return [
         'Illuminate\Workbench\WorkbenchServiceProvider',
         "Ollieread\Multiauth\MultiauthServiceProvider",
         'HieuLe\Active\ActiveServiceProvider',
-        'Services\MenutangServiceProvider'
+        'Services\MenutangServiceProvider',
+        'Intervention\Image\ImageServiceProvider'
 
     ],
 
@@ -192,6 +193,7 @@ return [
         'Validator' => 'Illuminate\Support\Facades\Validator',
         'View' => 'Illuminate\Support\Facades\View',
         'Active' => 'HieuLe\Active\Facades\Active',
+        'Image' => 'Intervention\Image\Facades\Image'
 
     ],
 

@@ -23,4 +23,8 @@ class BusinessAddress extends Eloquent
     {
         return $this->belongsTo('BusinessInfo');
     }
+    public function city()
+    {
+        return $this->belongsTo('City');
+    }
 }

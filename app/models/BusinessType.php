@@ -28,4 +28,13 @@ class BusinessType extends Eloquent
     {
         return $this->hasMany('BusinessInfo');
     }
+
+    /**
+     * @return mixed
+     */
+    public function cuisineType()
+    {
+        return $this->hasMany('CuisineType');
+    }
+
 }

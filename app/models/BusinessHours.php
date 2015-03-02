@@ -28,4 +28,27 @@ class BusinessHours extends Eloquent
     {
         return $this->belongsTo('BusinessInfo');
     }
+
+    /**
+     * @return mixed
+     */
+    public function timeCategory()
+    {
+        return $this->belongsTo('TimeCategory');
+    }
+    /**
+     * @return mixed
+     */
+    public function menuItem()
+    {
+        return $this->belongsToMany('MenuItem', 'menu_available_time', 'business_hours_id', 'menu_item_id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function weekDays()
+    {
+        return $this->belongsToMany('WeekDays', 'business_weekdays', 'business_hours_id', 'weekdays_id');
+    }
 }

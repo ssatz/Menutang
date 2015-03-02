@@ -14,7 +14,7 @@ class AddStatusToCityTable extends Migration
     public function up()
     {
         Schema::table('city', function (Blueprint $table) {
-            $table->boolean('city_status')->default('0');
+            $table->boolean('city_status')->after('city_description')->default('0');
         });
     }
 
@@ -26,7 +26,7 @@ class AddStatusToCityTable extends Migration
     public function down()
     {
         Schema::table('city', function (Blueprint $table) {
-            //
+            $table->dropColumn('city_status');
         });
     }
 

@@ -34,5 +34,16 @@ class MenuCategoryRepository extends BaseRepository implements IMenuCategoryRepo
         return $this->model->orderBy('created_at', 'DESC')->first();
     }
 
+    /**
+     * @param $businessId
+     * @return mixed
+     */
+    public function findByProfile($businessId)
+    {
+        $profileDetails =$this->model->wherehas('menuItem',function($query) use($businessId) {
+            $query->where('business_info_id', '=', $businessId);
+        })->with('menuItem.businessHours')->with('menuItem.itemAddon')->with('menuItem.weekDays')->get();
+        return $profileDetails;
+    }
 
 }

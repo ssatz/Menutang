@@ -46,7 +46,13 @@ class BusinessInfo extends Eloquent
     {
         return $this->belongsToMany('Payment', 'business_payments', 'business_info_id', 'payment_types_id');
     }
-
+    /**
+     * @return mixed
+     */
+    public function cuisineType()
+    {
+        return $this->belongsToMany('CuisineType', 'business_cuisine', 'business_info_id', 'cuisine_type_id');
+    }
     /**
      * @return mixed
      */
@@ -84,14 +90,6 @@ class BusinessInfo extends Eloquent
     public function status()
     {
         return $this->hasOne('Status');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function menuItem()
-    {
-        return $this->hasMany('MenuItem');
     }
 
     /**

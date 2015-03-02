@@ -25,7 +25,7 @@ return array(
             'host' => 'localhost',
             'database' => 'menutang',
             'username' => 'root',
-            'password' => 'satdin',
+            'password' => 'saro123',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',

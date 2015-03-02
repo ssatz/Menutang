@@ -14,7 +14,7 @@ class AddSlugBusinessInfo extends Migration
     public function up()
     {
         Schema::table('business_info', function (Blueprint $table) {
-            $table->string('business_slug');
+            $table->string('business_slug')->after('business_name');
         });
     }
 

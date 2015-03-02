@@ -14,7 +14,7 @@ class AddColumnsBusinessUniqueId extends Migration
     public function up()
     {
         Schema::table('business_info', function (Blueprint $table) {
-            $table->string('business_unique_id');
+            $table->string('business_unique_id')->after('business_name');
         });
     }
 

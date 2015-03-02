@@ -22,6 +22,7 @@ App::missing(function ($exception) {
     return View::make('error404');
 });
 
+
 /**
  * Admin Routes
  */
@@ -40,6 +41,7 @@ Route::group(['domain' => 'admin.localhost'], function () {
         Route::group(['prefix' => 'manage-business'], function () {
             Route::any('add', ['as' => 'admin.business.add', 'uses' => 'ManageBusinessController@addBusinessInfo']);
         });
+        Route::any('deliverysearch', ['as' => 'admin.business.deliveryAreaSearch', 'uses' => 'ManageBusinessController@deliveryAreaSearch']);
         Route::get('{businessName?}', ['as' => 'admin.business.dashboard', 'uses' => 'ManageBusinessController@businessDashboard']);
         Route::any('{businessName}/edit', ['as' => 'admin.business.edit', 'uses' => 'ManageBusinessController@editBusinessInfo']);
         Route::any('{businessName}/menu/add-item', ['as' => 'admin.business.additem', 'uses' => 'ManageBusinessController@addItem']);
@@ -64,8 +66,16 @@ Route::group(['domain' => 'business.localhost'], function () {
     });
 });
 
+/**
+ * FrontEnd Routes
+ */
+
+Route::get('/',['as'=>'index','uses'=>'FrontEndController@index']);
+Route::get('{locality}/{query}',['as'=>'locality.area','uses'=>'FrontEndController@searchBU']);
+Route::get('{locality}',['as'=>'locality','uses'=>'FrontEndController@searchBU']);
+Route::any('restaurants/{query}',['as'=>'business','uses'=>'FrontEndController@restaurantsProfile']);
 //Display all SQL executed in Eloquent
-//Event::listen('illuminate.query', function($query)
-//{
-//   var_dump($query);
-//});
+Event::listen('illuminate.query', function($query)
+{
+   var_dump($query);
+});

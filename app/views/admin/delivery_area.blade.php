@@ -10,15 +10,20 @@
     <table class="table table-responsive">
         <thead>
         <th>Area</th>
-        <th>Pincode
+        <th>Pincode</th>
+        <th>City</th>
         <th></th>
         </thead>
         <tbody>
         @foreach($deliveryarea as $areas)
         <tr id="id-{{$areas->id}}">
             <td>{{$areas->area}} </td>
-            <td>{{$areas->area_pincode}} </td>
-            <td><button class="btn-info btn btn-sm edit-area">Edit</button></td>
+            <td>{{$areas->area_pincode}}</td>
+            <td>{{$areas->city->city_description}}</td>
+            <td>
+                <button class="btn-info btn btn-sm edit-area">Edit</button>
+                <button class="btn-info btn btn-sm update-area displayNone">Update</button>
+            </td>
         </tr>
         @endforeach
         </tbody>
@@ -50,19 +55,28 @@
            var $input=$(this).closest("tr").find("td:eq(0) input");
            var autocomplete = new google.maps.places.Autocomplete($($input)[0], {
                componentRestrictions: {country: "in"}
+              // types: ['(cities)']
            });
            google.maps.event.addListener(autocomplete, 'place_changed', function() {
                notification('Notification', 'Please Wait..', 'gritter-info');
                var place = autocomplete.getPlace();
                var $token = '{{ Session::token() }}';
                var query =  place.address_components[0].long_name;
+               var $locality ;
+               var $html = $.parseHTML((place.adr_address).replace(/,/g , ""));
+               $.each( $html, function( i, el ) {
+                    if($(el).hasClass('locality')){
+                        $locality = $(el).html();
+                    }
+               });
+               console.log($locality);
                $data={
                  search_query : query,
                    _token: $token
                };
                ajax('{{action('AdminAuthController@addOrUpdateDeliveryArea')}}', 'POST', $data, 'json', function (msg) {
-                   if(msg.ResponseCode==0) {
-                       $($currentObject).closest("tr").find("td:eq(1) input").val(msg.Data[0].Pincode);
+                   if(msg.pincode!='') {
+                       $($currentObject).closest("tr").find("td:eq(1) input").val(msg.pincode);
                        notification('Notification', 'Pincode retrived Sucessfully', 'gritter-success');
                    }
                    else{
@@ -70,8 +84,34 @@
                    }
                });
            });
-           $(this).text("update");
+           $(this).hide();
+           $(this).closest("td").find(".update-area").show();
        });
+
+        $("body").on("click",".update-area",function(e){
+            e.preventDefault();
+            $currentObject=this;
+            var $token = '{{ Session::token() }}';
+            var $area  = $(this).closest("tr").find("td:eq(0) input").val().split(",")[0];
+            var $pincode = $(this).closest("tr").find("td:eq(1) input").val();
+            var $deliveryID = $(this).closest("tr").prop("id").split("-")[1];
+            $data={
+                action : 'update',
+                area   : $area,
+                pincode:$pincode,
+                delivery_id:$deliveryID,
+                _token: $token
+            };
+            ajax('{{action('AdminAuthController@addOrUpdateDeliveryArea')}}', 'POST', $data, 'json', function (msg) {
+                    if(msg) {
+                        $($currentObject).closest("tr").find("td:eq(0)").text($area);
+                        $($currentObject).closest("tr").find("td:eq(1)").text($pincode);
+                        $($currentObject).hide( );
+                        $($currentObject).closest("td").find(".edit-area").show('slow');
+                        notification('Notification', 'Area and Pincode updated sucessfully', 'gritter-info');
+                    }
+            });
+        });
 
     });
 </script>

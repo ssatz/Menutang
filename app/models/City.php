@@ -24,6 +24,14 @@ class City extends Eloquent
     {
         return $this->belongsTo('State');
     }
+    /**
+     * @return mixed
+     */
+    public function deliveryArea()
+    {
+        return $this->hasMany('DeliveryArea');
+    }
+
     /*
         public function getCityStatusAttribute($value)
         {
