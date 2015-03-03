@@ -1,6 +1,31 @@
 @extends('admin.business_layout')
 
 @section('content')
+<div class="panel panel-default table-responsive">
+    <div class="panel-heading">
+        Upload Menu Via Excel
+    </div>
+    <div class="padding-md clearfix">
+        {{ Form::open(['url' => action('ManageBusinessController@upload', [$slug]), 'method'
+        =>'POST','class'=>'form-horizontal','enctype'=>'multipart/form-data']) }}
+        <div class="form-group padBot30">
+            <label class="col-lg-2 control-label">Upload Menu</label>
+
+            <div class="col-lg-2">
+                <input type="file" class="form-control input-sm"  name="menu_upload" id="fileToUpload">
+            <div>
+         </div>
+                <div class="panel-footer">
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="submit" class="btn btn-success btn-sm">upload</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                    </div>
+        {{Form::close()}}
+    </div>
+</div>
 	<div class="panel panel-default table-responsive">
 		<div class="panel-heading">
 			Menu Item Details

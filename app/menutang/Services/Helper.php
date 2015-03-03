@@ -52,4 +52,9 @@ class Helper
         return $time->format($format);
     }
 
+    public function replaceSpace($data)
+    {
+        return str_replace(' ', '-',ucfirst(strtolower($data)));
+    }
+
 }
