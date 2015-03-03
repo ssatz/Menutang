@@ -155,11 +155,13 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function findByLocality($locality)
     {
-        $businessInfo=  $this->model->with(['businessHours','cuisineType','address.city'=>function($query) use($locality)
-        {
-                $query->where('city.city_description','=',$locality);
-        }
-        ,'deliveryArea'])->paginate(15);
+       $businessInfo=  $this->model->with('businessHours','cuisineType','address')->whereHas('address',function($q) use($locality)
+       {
+            $q->whereHas('city',function($q) use($locality)
+            {
+                $q->where('city_description','=',$locality);
+            });
+       })->paginate(15);
         return $businessInfo;
     }
 
@@ -170,13 +172,18 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function findByArea($locality, $area)
     {
-        $businessInfo=  $this->model->with(['businessHours','cuisineType','address.city'=>function($query) use($locality)
+        $area = explode('-',$area);
+        $businessInfo=  $this->model->with('businessHours','cuisineType','address','deliveryArea')->whereHas('address',function($q) use($locality)
         {
-            $query->where('city.city_description','=',$locality);
-        },'deliveryArea'=>function($query) use($area)
+            $q->whereHas('city',function($q) use($locality)
+            {
+                $q->where('city_description','=',$locality);
+            });
+        })->whereHas('deliveryArea',function($q) use($area)
         {
-            $query->where('delivery_area.area','=',$area);
-        }])->paginate(15);
+            $q->where('area','LIKE','%'.$area[0].'%');
+        }
+        )->paginate(15);
         return $businessInfo;
     }
 

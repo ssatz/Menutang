@@ -428,12 +428,11 @@
                     locality = $(el).html();
                 }
             });
-            console.log(place.name+'-'+locality);
            if(place.name===locality)
            {
-             return   window.location.replace("{{URL::to('/')}}/"+locality.toLowerCase());
+             return   window.location.replace("{{URL::to('/')}}/"+locality.replace(/\s+/g, '-').toLowerCase());
            }
-            return window.location.replace("{{URL::to('/')}}/"+locality.toLowerCase()+"/"+(place.name).toLowerCase());
+            return window.location.replace("{{URL::to('/')}}/"+locality.replace(/\s+/g, '-').toLowerCase()+"/"+(place.name).replace(/\s+/g, '-').toLowerCase());
         });
 </script>
 </body>
