@@ -35,6 +35,22 @@ class MenuCategoryRepository extends BaseRepository implements IMenuCategoryRepo
     }
 
     /**
+     * @param $categoryName
+     * @return mixed
+     */
+    public function findOrCreate($categoryName)
+    {
+        $category= $this->model->where('category_name','=',$categoryName)->first();
+        if(is_null($category))
+        {
+            $category = new $this->model;
+            $category->category_name = $categoryName;
+            $category->save();
+        }
+        return $category->id;
+    }
+
+    /**
      * @param $businessId
      * @return mixed
      */
@@ -45,5 +61,7 @@ class MenuCategoryRepository extends BaseRepository implements IMenuCategoryRepo
         })->with('menuItem.businessHours')->with('menuItem.itemAddon')->with('menuItem.weekDays')->get();
         return $profileDetails;
     }
+
+
 
 }

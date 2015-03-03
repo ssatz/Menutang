@@ -15,6 +15,7 @@ class ItemAddon extends Eloquent
      * @var string
      */
     protected $table = 'item_addon';
+    protected $guarded =['id'];
 
     /**
      * @return mixed

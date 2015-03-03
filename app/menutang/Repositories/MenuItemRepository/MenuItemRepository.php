@@ -11,11 +11,14 @@
 namespace Repositories\MenuItemRepository;
 
 
+use Illuminate\Support\Collection;
 use Repositories\BaseRepository;
 use MenuItem;
 use Services\Cache\ICacheService;
 use BusinessInfo;
 use ItemAddon;
+use Exception;
+use Services\Helper;
 
 class MenuItemRepository extends BaseRepository implements IMenuItemRepository
 {
@@ -29,17 +32,24 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
      */
     protected $itemAddon;
 
+    protected $helper;
+
     /**
      * @param MenuItem $menuItem
      * @param ICacheService $cache
      * @param BusinessInfo $buInfo
      * @param ItemAddon $itemAddon
      */
-    public function __construct(MenuItem $menuItem, ICacheService $cache, BusinessInfo $buInfo, ItemAddon $itemAddon)
+    public function __construct(MenuItem $menuItem,
+                                ICacheService $cache,
+                                BusinessInfo $buInfo,
+                                Helper $helper,
+                                ItemAddon $itemAddon)
     {
         parent::__construct($menuItem, $cache);
         $this->businessInfo = $buInfo;
         $this->itemAddon = $itemAddon;
+        $this->helper = $helper;
     }
 
 
@@ -99,6 +109,41 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
         }
 
     }
+
+    public function bulkInsert($data)
+    {
+        if(!$data instanceof Collection)
+            throw new Exception("Must be a Collection");
+        foreach ($data as $menuItem)
+        {
+            foreach($menuItem as $item) {
+                $available = [];
+                if ($item['available_breakfast'])
+                {
+                    array_push($available,1);
+                }
+                if ($item['available_lunch'])
+                {
+                    array_push($available,2);
+                }
+                if ($item['available_dinner'])
+                {
+                    array_push($available,3);
+                }
+                $result = $this->helper->match($item,['menu_item']);
+                $menu= $this->model->create($result['menu_item']);
+                $menu->businessHours()->sync($available);
+                foreach ($item['itemAddon'] as $addon)
+                {
+                    $addonItem = new $this->itemAddon($addon);
+                    $addonItem->menuItem()->associate($menu);
+                    $addonItem->save();
+                }
+            }
+        }
+
+    }
+
     /**
      * @param $key
      * @param array $input

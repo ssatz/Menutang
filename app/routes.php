@@ -46,6 +46,7 @@ Route::group(['domain' => 'admin.localhost'], function () {
         Route::any('{businessName}/edit', ['as' => 'admin.business.edit', 'uses' => 'ManageBusinessController@editBusinessInfo']);
         Route::any('{businessName}/menu/add-item', ['as' => 'admin.business.additem', 'uses' => 'ManageBusinessController@addItem']);
         Route::any('{businessName}/menu/edit-item', ['as' => 'admin.business.edititem', 'uses' => 'ManageBusinessController@editItem']);
+        Route::any('{businessName}/menu/upload', ['as' => 'admin.business.menu_upload', 'uses' => 'ManageBusinessController@upload']);
         Route::any('{businessName}/delivery-area', ['as' => 'admin.business.deliveryarea', 'uses' => 'ManageBusinessController@deliveryArea']);
         Route::any('{businessName}/addCategory', ['as' => 'admin.business.addCategory', 'uses' => 'ManageBusinessController@addCategory']);
         Route::get('{businessName}/changecategory', ['as' => 'admin.business.changecategory', 'uses' => 'ManageBusinessController@changeMenuCategory']);
@@ -75,7 +76,7 @@ Route::get('{locality}/{query}',['as'=>'locality.area','uses'=>'FrontEndControll
 Route::get('{locality}',['as'=>'locality','uses'=>'FrontEndController@searchBU']);
 Route::any('restaurants/{query}',['as'=>'business','uses'=>'FrontEndController@restaurantsProfile']);
 //Display all SQL executed in Eloquent
-Event::listen('illuminate.query', function($query)
+/*Event::listen('illuminate.query', function($query)
 {
    var_dump($query);
-});
+}); */

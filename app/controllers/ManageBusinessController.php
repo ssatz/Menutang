@@ -137,12 +137,20 @@ class ManageBusinessController extends BaseController
         return $this->view->make('admin.dashboard')->withLayout('admin.business_layout');
     }
 
+    /**
+     * @return mixed
+     */
     public function deliveryAreaSearch()
     {
         return $this->manage->deliverySearch();
     }
 
 
+    /**
+     * @param $slug
+     * @return $this
+     * @throws Exception
+     */
     public function addItem($slug)
     {
         $this->viewShareSlug($slug);
@@ -157,9 +165,12 @@ class ManageBusinessController extends BaseController
         return $this->redirector->back()->withErrors($this->manage->errors)->withInput();
     }
 
-    /**
-     *
-     */
+    public function upload($slug)
+    {
+        $this->manage->uploadMenu($this->request->all(),$slug);
+        return $this->redirector->to($slug.'/menu/add-item')
+                                ->withErrors($this->manage->errors);
+    }
     public function editItem($slug)
     {
         $this->viewShareSlug($slug);

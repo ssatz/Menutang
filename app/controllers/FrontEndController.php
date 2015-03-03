@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Translation\Translator;
 use Services\FrontEndManager;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FrontEndController extends BaseController  {
 

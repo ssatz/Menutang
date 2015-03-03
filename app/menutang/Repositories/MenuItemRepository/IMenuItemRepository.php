@@ -16,4 +16,5 @@ interface IMenuItemRepository
 
     public function insertOrUpdate(array $data, $slug);
     public function getMenuItemAddon($slug,$categoryId);
+    public function bulkInsert($data);
 }

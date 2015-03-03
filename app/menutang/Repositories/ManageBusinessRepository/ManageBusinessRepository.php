@@ -161,7 +161,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
             {
                 $q->where('city_description','=',$locality);
             });
-       })->paginate(15);
+       })->remember(10)->paginate(15);
         return $businessInfo;
     }
 
@@ -183,7 +183,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         {
             $q->where('area','LIKE','%'.$area[0].'%');
         }
-        )->paginate(15);
+        )->remember(10)->paginate(15);
         return $businessInfo;
     }
 
