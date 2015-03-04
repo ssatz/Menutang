@@ -7,7 +7,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-return [
-    'success' => '<strong>Well done!</strong> You successfully saved',
-    'menuupload'=>'<strong>Well done!</strong> Menu successfully saved'
-];
+
+namespace Services\Validations;
+
+
+class MenuUploadValidator extends BaseValidator
+{
+    public static $rules = [
+        'menu_upload' => 'required|mimes:xls,xlsx',
+    ];
+}

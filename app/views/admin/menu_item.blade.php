@@ -6,6 +6,19 @@
         Upload Menu Via Excel
     </div>
     <div class="padding-md clearfix">
+        @if(Session::has('menu'))
+
+        <div class="alert alert-success alertCenter">
+            {{ Session::get('menu') }}
+        </div>
+        @endif
+        @if($errors->has())
+        <div class="alert alert-danger alertCenter">
+            @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>
+            @endforeach
+        </div>
+        @endif
         {{ Form::open(['url' => action('ManageBusinessController@upload', [$slug]), 'method'
         =>'POST','class'=>'form-horizontal','enctype'=>'multipart/form-data']) }}
         <div class="form-group padBot30">

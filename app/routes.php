@@ -72,9 +72,9 @@ Route::group(['domain' => 'business.localhost'], function () {
  */
 
 Route::get('/',['as'=>'index','uses'=>'FrontEndController@index']);
+Route::any('restaurants/{query}',['as'=>'business','uses'=>'FrontEndController@restaurantsProfile']);
 Route::get('{locality}/{query}',['as'=>'locality.area','uses'=>'FrontEndController@searchBU']);
 Route::get('{locality}',['as'=>'locality','uses'=>'FrontEndController@searchBU']);
-Route::any('restaurants/{query}',['as'=>'business','uses'=>'FrontEndController@restaurantsProfile']);
 //Display all SQL executed in Eloquent
 /*Event::listen('illuminate.query', function($query)
 {

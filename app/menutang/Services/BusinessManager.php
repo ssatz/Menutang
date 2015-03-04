@@ -13,7 +13,6 @@ namespace Services;
 use Exception;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Collections\CellCollection;
 use Repositories\CuisineTypeRepository\ICuisineTypeRepository;
 use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use Repositories\ManageCityRepository\IManageCityRepository;
@@ -28,8 +27,8 @@ use Services\Validations\MenuItemValidator;
 use Repositories\BusinessTypeRepository\IBusinessTypeRepository;
 use Repositories\ManageDeliveryAreaRepository\IManageDeliveryAreaRepository;
 use ArrayObject;
-use Services\Helper;
 use Maatwebsite\Excel\Excel;
+use Services\Validations\MenuUploadValidator;
 
 
 
@@ -109,9 +108,9 @@ class BusinessManager
      */
     protected  $deliveryArea;
 
-    protected $helper;
-
     protected $excel;
+
+    protected $menuUploadValidator;
     /**
      * @param IManageBusinessRepository $manageBusiness
      * @param ICacheService $cacheService
@@ -140,7 +139,7 @@ class BusinessManager
                                 ICuisineTypeRepository $cuisineTypeRepository,
                                 IManageDeliveryAreaRepository $deliveryAreaRepository,
                                 IStatusRepository $statusRepository,
-                                Helper $helper,
+                                MenuUploadValidator $menuUploadValidator,
                                 Excel $excel)
     {
         $this->manageBusiness = $manageBusiness;
@@ -158,7 +157,7 @@ class BusinessManager
         $this->cuisineType =$cuisineTypeRepository;
         $this->deliveryArea=$deliveryAreaRepository;
         $this->excel =$excel;
-        $this->helper = $helper;
+        $this->menuUploadValidator = $menuUploadValidator;
     }
 
     /**
@@ -350,47 +349,59 @@ class BusinessManager
 
     public function uploadMenu(array $data,$slug)
     {
-       $collection = new Collection();
-       $file= $data['menu_upload']->getRealPath();
-        $this->excel->load($file,function($reader) use($collection,$slug){
-            $reader->each(function($sheet) use($collection,$slug) {
-                (int) $count=-1;
-                $category_id = $this->manageCategory->findOrCreate($sheet->getTitle());
-               foreach($sheet as $row) {
-                   if (!is_null($row['item_name'])) {
-                       $cell=[];
-                       $count++;
-                       $cell[$count]['item_name'] = $row['item_name'];
-                       $cell[$count]['menu_category_id'] = $category_id;
-                       $cell[$count]['business_info_id']= $this->manageBusiness->findBusinessBySlug($slug)->id;
-                       $cell[$count]['item_description'] = $row['item_description'];
-                       $cell[$count]['item_price'] = $row['cost'];
-                       $cell[$count]['is_veg'] = $row['veg'];
-                       $cell[$count]['is_non_veg'] = $row['non_veg'];
-                       $cell[$count]['is_egg'] = $row['egg'];
-                       $cell[$count]['is_spicy'] = $row['spicy'];
-                       $cell[$count]['is_popular'] = $row['popular_food'];
-                       $cell[$count]['item_status'] = $row['menu_status'];
-                       $cell[$count]['available_breakfast']=boolval($row['available_at_breakfast']);
-                       $cell[$count]['available_lunch']= boolval($row['available_at_lunch']);
-                       $cell[$count]['available_dinner']= boolval($row['available_at_dinner']);
-                       $cell[$count]['itemAddon'] = new Collection();
-                   }
-                   if (!is_null($row['item_addon_name'])) {
-                   $addonItem = [];
-                   $addonItem['addon_description'] = $row['item_addon_name'];
-                   $addonItem['addon_price']=$row['addon_price'];
-                       $addonItem['addon_status']=$row['addon_status'];
-                   $cell[$count]['itemAddon']->push($addonItem);
+        $this->menuUploadValidator->with($data);
+        if ($this->menuUploadValidator->passes()) {
+            $collection = new Collection();
+            $file = $data['menu_upload']->getRealPath();
+            $this->excel->load($file, function ($reader) use ($collection, $slug) {
+                $reader->each(function ($sheet) use ($collection, $slug) {
+                    (int)$count = -1;
+                    $category_id = $this->manageCategory->findOrCreate($sheet->getTitle());
+                    foreach ($sheet as $row) {
+                        if (!is_null($row['item_name'])) {
+                            $cell = [];
+                            $count++;
+                            $cell[$count]['item_name'] = $row['item_name'];
+                            $cell[$count]['menu_category_id'] = $category_id;
+                            $cell[$count]['business_info_id'] = $this->manageBusiness->findBusinessBySlug($slug)->id;
+                            $cell[$count]['item_description'] = $row['item_description'];
+                            $cell[$count]['item_price'] = $row['cost'];
+                            $cell[$count]['is_veg'] = $row['veg'];
+                            $cell[$count]['is_non_veg'] = $row['non_veg'];
+                            $cell[$count]['is_egg'] = $row['egg'];
+                            $cell[$count]['is_spicy'] = $row['spicy'];
+                            $cell[$count]['is_popular'] = $row['popular_food'];
+                            $cell[$count]['item_status'] = $row['menu_status'];
+                            $cell[$count]['available_breakfast'] = boolval($row['available_at_breakfast']);
+                            $cell[$count]['available_lunch'] = boolval($row['available_at_lunch']);
+                            $cell[$count]['available_dinner'] = boolval($row['available_at_dinner']);
+                            $cell[$count]['itemAddon'] = new Collection();
+                        }
+                        if (!is_null($row['item_addon_name'])) {
+                            $addonItem = [];
+                            $addonItem['addon_description'] = $row['item_addon_name'];
+                            $addonItem['addon_price'] = $row['addon_price'];
+                            $addonItem['addon_status'] = $row['addon_status'];
+                            $cell[$count]['itemAddon']->push($addonItem);
+                        }
+                        if (!is_null($row['item_name'])) {
+                            $collection->push($cell);
+                        }
                     }
-                   if (!is_null($row['item_name'])) {
-                       $collection->push($cell);
-                   }
-               }
+                });
             });
-        });
-        $this->menuItemrepo->bulkInsert($collection);
-      return $collection;
+            $this->db->beginTransaction();
+            try {
+                $this->menuItemrepo->bulkInsert($collection);
+            } catch (Exception $e) {
+                $this->db->rollback();
+                throw new Exception($e->getMessage());
+            }
+            $this->db->commit();
+            return true;
+        }
+        $this->errors = $this->menuUploadValidator->getErrors();
+        return false;
     }
 
 
