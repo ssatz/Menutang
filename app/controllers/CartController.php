@@ -1,6 +1,6 @@
 <?php
 /*
- * This file(FrontEndController.php) is part of the menutang
+ * This file(CartController.php) is part of the menutang
  *
  * (c) Sensei Online Food Services
  *
@@ -13,8 +13,9 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Translation\Translator;
 use Services\FrontEndManager;
+use Services\CartManager;
 
-class FrontEndController extends BaseController  {
+class CartController extends BaseController  {
 
     /**
      * @var Application
@@ -43,15 +44,24 @@ class FrontEndController extends BaseController  {
     protected $frontEndManager;
 
     /**
+     * @var CartManager
+     */
+    protected $cartManager;
+
+
+    /**
      * @param Request $request
      * @param Redirector $redirector
      * @param Translator $translator
      * @param Application $app
+     * @param CartManager $cart
+     * @param FrontEndManager $frontEndManager
      */
     public function __construct(Request $request,
                                 Redirector $redirector,
                                 Translator $translator,
                                 Application $app,
+                                CartManager $cart,
                                 FrontEndManager $frontEndManager)
     {
         $this->app = $app;
@@ -59,45 +69,17 @@ class FrontEndController extends BaseController  {
         $this->redirector = $redirector;
         $this->translator = $translator;
         $this->frontEndManager = $frontEndManager;
+        $this->cartManager = $cart;
         $this->view = $this->app->make('view');
     }
 
-    /**
-     * @return mixed
-     */
-    public function index()
+    public function addToCart()
     {
-        return $this->view->make('frontend.index');
-    }
+       $menuItemId = $this->request->get('menu_item_id');
+       $quantity = 1;
+       $this->cartManager->addItemToCart($menuItemId,$quantity);
 
 
-    /**
-     * @return \Repositories\ManageBusinessRepository\BusinessInfo
-     */
-    public function searchBU($locality,$area=null)
-    {
-         $result= $this->frontEndManager->searchQuery($locality,$area);
-        return $this->view->make('frontend.search')->withResults($result);
     }
 
-    /**
-     * @param $restaurantSlug
-     * @return mixed
-     */
-    public function restaurantsProfile($restaurantSlug)
-    {
-        $this->viewShareSlug($restaurantSlug);
-       list($bu,$profile,$category)=  $this->frontEndManager->restaurantProfile($restaurantSlug);
-        return $this->view->make('frontend.profile')->withBusinessdetails($bu)
-                                                    ->withMenudetails($profile)
-                                                    ->withMenucategory($category);
-    }
-
-    /**
-     * @param $slug
-     */
-    private function viewShareSlug($slug)
-    {
-        $this->view->share('slug', $slug);
-    }
 }

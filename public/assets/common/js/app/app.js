@@ -1,5 +1,5 @@
 $(function () {
-
+/*
     // Cookie validation
     if (jQuery.type($.cookie('skin_color')) != 'undefined') {
 
@@ -46,7 +46,7 @@ $(function () {
     // uncomment code to activate
     //	$.removeCookie('skin_color');
     //
-
+*/
     //Preloading
     paceOptions = {
         startOnPageLoad: true,
@@ -56,7 +56,7 @@ $(function () {
         elements: false
     };
 
-    //
+    //Login
     $('.login-link').click(function (e) {
         e.preventDefault();
         href = $(this).attr('href');

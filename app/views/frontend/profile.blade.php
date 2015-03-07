@@ -240,6 +240,7 @@
                     <div class="list-group">
                         @foreach($menu->menuItem as $item)
                         <a  class="list-group-item">
+                            <input type="hidden" name="menu_item_id" value="{{$item->id}}">
                              <span class="addOrder label label-success">
                                 <i class="fa fa-plus"></i>
                                 Add
@@ -510,13 +511,28 @@
     })
 </script>
 <!-- TouchSpin jQuery -->
-<script>
+<script type="text/javascript">
     $("input[name='item_order']").TouchSpin({
         min:1,
         verticalbuttons: true,
         verticalupclass: 'fa fa-plus',
         verticaldownclass: 'fa fa-minus'
     });
+
+    $(".addOrder").click(function(e){
+        e.preventDefault();
+        var $menuItemId = $(this).parents(".list-group-item").find("input[name=menu_item_id]").val();
+        $data = {
+            menu_item_id : $menuItemId,
+            _token: '{{Session::get('_token')}}'
+        }
+        ajax('{{action('CartController@addToCart',[$slug])}}', 'POST', $data, 'json', function (msg) {
+
+
+        }
+        )
+        ;
+    })
 </script>
 
 </body>

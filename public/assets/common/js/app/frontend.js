@@ -86,3 +86,23 @@ jQuery(document).ready(function($) {
 
 });
 });
+/* function to call ajax functionalities */
+function ajax(url,type,data,dataType,func)
+{
+    var request = $.ajax({
+        url: url,
+        type: type,
+        data: data,
+        dataType: dataType
+    });
+
+    request.done(function( msg ) {
+        var callbacks = $.Callbacks();
+        callbacks.add( func );
+        callbacks.fire(msg)
+    });
+
+    request.fail(function( jqXHR, textStatus ) {
+        alert( "Request failed: " + textStatus );
+    });
+}

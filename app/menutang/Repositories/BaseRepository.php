@@ -8,7 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
+use RuntimeException;
+use NumberFormatter;
 abstract class BaseRepository
 {
     /**
@@ -24,12 +25,41 @@ abstract class BaseRepository
      * @param $model
      * @param $cache
      */
-    public function __construct($model, $cache)
+    public function __construct($model, $cache,Array $properties = [])
     {
         $this->model = $model;
         $this->cache = $cache;
+        foreach ($properties as $key => $value) {
+            $this->$key = $value;
+        }
     }
 
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        $method = 'get' .ucfirst($key);
+        if (method_exists($this, $method)) {
+            return $this->$method();
+        }
+        throw new RuntimeException("Cannot get property '${key}'.");
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function __set($key, $value)
+    {
+        $method = 'set' .ucfirst($key);
+        if (method_exists($this, $method)) {
+            $this->$method($value);
+            return;
+        }
+        throw new RuntimeException("Cannot set property '${key}'.");
+    }
     /**
      * @param array $data
      * @return mixed

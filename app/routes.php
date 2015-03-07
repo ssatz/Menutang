@@ -1,5 +1,4 @@
 <?php
-
 Route::get('info',function(){
     echo phpinfo();
 });
@@ -73,6 +72,7 @@ Route::group(['domain' => 'business.localhost'], function () {
 
 Route::get('/',['as'=>'index','uses'=>'FrontEndController@index']);
 Route::any('restaurants/{query}',['as'=>'business','uses'=>'FrontEndController@restaurantsProfile']);
+Route::post('restaurants/{query}/cart',['as'=>'business.cart','uses'=>'CartController@addToCart']);
 Route::get('{locality}/{query}',['as'=>'locality.area','uses'=>'FrontEndController@searchBU']);
 Route::get('{locality}',['as'=>'locality','uses'=>'FrontEndController@searchBU']);
 //Display all SQL executed in Eloquent

@@ -82,6 +82,14 @@ class MenutangServiceProvider extends ServiceProvider
             'Repositories\TimeCategoryRepository\TimeCategoryRepository'
         );
         $app->bind(
+            'Repositories\CartRepository\ICartRepository',
+            'Repositories\CartRepository\CartRepository'
+        );
+        $app->bind(
+            'Repositories\CartItemRepository\ICartItemRepository',
+            'Repositories\CartItemRepository\CartItemRepository'
+        );
+        $app->bind(
             'Services\Cache\ICacheService',
             'Services\Cache\CacheService'
         );
