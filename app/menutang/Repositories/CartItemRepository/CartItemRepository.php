@@ -169,5 +169,20 @@ class CartItemRepository extends BaseRepository implements ICartItemRepository {
             $this->unitPrice / 100, 'INR');
     }
 
+    public function create(array $data)
+    {
+        $item = new $this->model;
+        $item->menu_item_id = $data['menu_item_id'];
+        $item->cart_id = $data['cart_id'];
+        $item->quantity = $data['quantity'];
+        $item->price    = $data['price'];
+        $item->save();
+        return $item->id;
+    }
 
+    public function findMenuItemId($menuItemId,$cartId)
+    {
+      return  $this->model->where('menu_item_id','=',$menuItemId)
+                    ->where('cart_id','=',$cartId)->first();
+    }
 }

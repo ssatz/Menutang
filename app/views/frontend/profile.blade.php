@@ -1,3 +1,4 @@
+<?php use Services\DeliveryOptionEnum; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -293,7 +294,7 @@
                         <div class="radio">
                             <!-- Delivery/Pick Up Selection -->
                             <label>
-                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked> Delivery
+                                <input type="radio" name="delivery_option" id="optionsRadios1" value="{{DeliveryOptionEnum::DELIVERY()}}" checked> Delivery
                             </label>
                             <select class="form-control" style="margin-top: 5px;">
                                 <option selected disabled>Select Your Area:</option>
@@ -304,7 +305,7 @@
                         </div>
                         <div class="radio">
                             <label>
-                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"> Pick Up
+                                <input type="radio" name="delivery_option" id="optionsRadios2" value="{{DeliveryOptionEnum::PICKUP()}}"> Pick Up
                             </label>
                         </div>
 
@@ -522,8 +523,12 @@
     $(".addOrder").click(function(e){
         e.preventDefault();
         var $menuItemId = $(this).parents(".list-group-item").find("input[name=menu_item_id]").val();
+        var $quantity   =$(this).parents(".list-group-item").find("input[name=item_order]").val();
+        var $delivery_option = $("input[name=delivery_option]").val();
         $data = {
             menu_item_id : $menuItemId,
+            quantity     :$quantity,
+            delivery_option:$delivery_option,
             _token: '{{Session::get('_token')}}'
         }
         ajax('{{action('CartController@addToCart',[$slug])}}', 'POST', $data, 'json', function (msg) {

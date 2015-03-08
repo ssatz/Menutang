@@ -11,10 +11,12 @@
 namespace Services;
 
 
+use Exceptions\EnumExceptions;
 use Repositories\CartItemRepository\ICartItemRepository;
 use Repositories\CartRepository\ICartRepository;
 use Illuminate\Foundation\Application;
 use Repositories\MenuItemRepository\IMenuItemRepository;
+use Services\DeliveryOptionEnum;
 
 class CartManager {
 
@@ -77,11 +79,19 @@ class CartManager {
     /**
      * @return mixed
      */
-    public function create()
+    public function create($deliveryOption)
     {
 
         $uid = $this->generateUid();
-        $data = ['uid' => $uid];
+
+        if(!DeliveryOptionEnum::isValid($deliveryOption))
+        {
+            throw new EnumExceptions("Provide Valid Enum Value");
+        }
+        $data = [
+            'uid' => $uid,
+            'delivery_options'=>DeliveryOptionEnum::search($deliveryOption)
+        ];
         if ($user = $this->auth->user()->check()) {
             $data['user_id'] = $user->id;
             $cookieValue = '';
@@ -110,10 +120,10 @@ class CartManager {
     /**
      * @return mixed
      */
-    public function getOrCreate()
+    public function getOrCreate($deliveryOption)
     {
        $collection = $this->get();
-       return $collection->count()==0?$this->create():$collection;
+       return is_null($collection)?$this->create($deliveryOption):$collection;
     }
 
     /**
@@ -133,13 +143,22 @@ class CartManager {
      * @param int $quantity
      * @param null $cartId
      */
-    public function addItemToCart($menuItem, $quantity = 1, $cartId = null)
+    public function addItemToCart($menuItem,$deliveryOption, $quantity = 1, $cartId = null)
     {
         if ( ! $cartId) {
-            $cart = $this->getOrCreate();
+            $cart = $this->getOrCreate($deliveryOption);
             $cartId = $cart->id;
         }
         $menuItem = $this->getMenuItem((int)$menuItem);
+        $item =$this->getCartItem($menuItem->id,$cartId);
+        if(!is_null($item)) {
+            if ($item->count() > 0) {
+                (int)$quantity = ((int)$quantity) + ((int)$item->quantity);
+                $price = $quantity * $item->price;
+                $this->updateItemQuantity($item->id, (int)$quantity, $price);
+                return;
+            }
+        }
         $data = [
             'cart_id'      => (int)$cartId,
             'menu_item_id'   =>(int) $menuItem->id,
@@ -152,10 +171,13 @@ class CartManager {
      * @param $id
      * @param $quantity
      */
-    public function updateItemQuantity($id, $quantity)
+    public function updateItemQuantity($id, $quantity,$price)
     {
-        $data = ['quantity' => $quantity];
-        $this->cartItemRepo->update($id,$data);
+        $data = [
+            'quantity' => $quantity,
+            'price'=>$price
+        ];
+        $this->cartItemRepo->update($data,$id);
     }
 
     /**
@@ -179,7 +201,7 @@ class CartManager {
      */
     protected function setCookie($uid)
     {
-        $lifetime = 2628000;
+        $lifetime = 60*60*24*60;
         $this->cookie->queue('menutang_cart_uid', $uid, $lifetime);
     }
 
@@ -190,5 +212,11 @@ class CartManager {
     protected function getMenuItem($id)
     {
       return  $this->menuItemRepo->find($id);
+    }
+
+    protected function getCartItem($menuItemId,$cartId)
+    {
+       $item= $this->cartItemRepo->findMenuItemId($menuItemId,$cartId);
+      return $item;
     }
 }

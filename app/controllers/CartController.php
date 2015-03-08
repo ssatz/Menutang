@@ -76,8 +76,9 @@ class CartController extends BaseController  {
     public function addToCart()
     {
        $menuItemId = $this->request->get('menu_item_id');
-       $quantity = 1;
-       $this->cartManager->addItemToCart($menuItemId,$quantity);
+       $quantity = $this->request->get('quantity');
+       $deliveryOption = $this->request->get('delivery_option');
+       $this->cartManager->addItemToCart($menuItemId,$deliveryOption,$quantity);
 
 
     }

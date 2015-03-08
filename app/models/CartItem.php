@@ -16,11 +16,6 @@ class CartItem extends Eloquent {
     /**
      * @var array
      */
-    protected $guard = ['id'];
-
-    /**
-     * @var array
-     */
     protected $fillable=['cart_id,menu_item_id','quantity','price'];
 
     /**
