@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Calcutta',
 
     /*
     |--------------------------------------------------------------------------
@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'key' => 'RWPGnpDWP5mBsKKSBPXqsKhGuyRC8cd5',
+    'key' => 'tYxehD7QRYXfb8kYKQRo8a7SSsIRyjIv',
 
     'cipher' => MCRYPT_RIJNDAEL_128,
 
@@ -124,7 +124,8 @@ return [
         "Ollieread\Multiauth\MultiauthServiceProvider",
         'HieuLe\Active\ActiveServiceProvider',
         'Services\MenutangServiceProvider',
-        'Intervention\Image\ImageServiceProvider'
+        'Intervention\Image\ImageServiceProvider',
+        'anlutro\LaravelSettings\ServiceProvider',
 
     ],
 
@@ -193,7 +194,8 @@ return [
         'Validator' => 'Illuminate\Support\Facades\Validator',
         'View' => 'Illuminate\Support\Facades\View',
         'Active' => 'HieuLe\Active\Facades\Active',
-        'Image' => 'Intervention\Image\Facades\Image'
+        'Image' => 'Intervention\Image\Facades\Image',
+        'Setting' => 'anlutro\LaravelSettings\Facade',
 
     ],
 

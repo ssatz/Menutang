@@ -43,7 +43,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">FoodSine</a>
+                <a class="navbar-brand" href="#">{{Setting::get('site_name')}}</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->

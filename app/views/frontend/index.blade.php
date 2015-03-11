@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Menutang</title>
+    <title>{{Setting::get('site_name')}}</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('assets/common/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -43,7 +43,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Menutang</a>
+            <a class="navbar-brand" href="{{Setting::get('site_url')}}">Menutang</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -62,6 +62,7 @@
     <!-- /.container -->
 </nav>
 
+@section('content')
 <!-- Header -->
 <header class="home">
 
@@ -83,6 +84,7 @@
     <!-- /.header-content -->
 
 </header>
+
 
 <!-- Browse By Category Section -->
 <section class="bg-light">
@@ -228,7 +230,6 @@
     <!-- /.container -->
 
 </section>
-
 <!-- Call to Action -->
 <aside>
 
@@ -263,6 +264,7 @@
     <!-- /.container -->
 
 </aside>
+@show
 
 <!-- Popular Locations Section -->
 <section class="bg-light">
@@ -372,10 +374,10 @@
             <div class="col-md-6">
                 <ul class="list-inline">
                     <li>
-                        <a href="#" class="btn btn-dark btn-sm">Home</a>
+                        <a href="" class="btn btn-dark btn-sm">Home</a>
                     </li>
                     <li>
-                        <a href="#" class="btn btn-dark btn-sm">About</a>
+                        <a href="{{Setting::get('site_url')}}/about-us.htm" class="btn btn-dark btn-sm">About</a>
                     </li>
                     <li>
                         <a href="#" class="btn btn-dark btn-sm">Blog</a>
