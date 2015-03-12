@@ -436,6 +436,7 @@
            }
             return window.location.replace("{{URL::to('/')}}/"+locality.replace(/\s+/g, '-').toLowerCase()+"/"+(place.name).replace(/\s+/g, '-').toLowerCase());
         });
+    @yield('script')
 </script>
 </body>
 

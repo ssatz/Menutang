@@ -11,8 +11,7 @@
                         <h3 class="title">About Us</h3>
                     </div>
                 </div>
-                <div class="divider"></div>
-                <div class="row">
+                <div class="row well">
                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
                         <article>
                             <div class="post-content">
