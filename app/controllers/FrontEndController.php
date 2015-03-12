@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Translation\Translator;
 use Services\FrontEndManager;
+use Services\CartManager;
 
 class FrontEndController extends BaseController  {
 
@@ -42,6 +43,8 @@ class FrontEndController extends BaseController  {
      */
     protected $frontEndManager;
 
+    protected $cart;
+
     /**
      * @param Request $request
      * @param Redirector $redirector
@@ -52,6 +55,7 @@ class FrontEndController extends BaseController  {
                                 Redirector $redirector,
                                 Translator $translator,
                                 Application $app,
+                                CartManager $cartManager,
                                 FrontEndManager $frontEndManager)
     {
         $this->app = $app;
@@ -59,6 +63,7 @@ class FrontEndController extends BaseController  {
         $this->redirector = $redirector;
         $this->translator = $translator;
         $this->frontEndManager = $frontEndManager;
+        $this->cart = $cartManager;
         $this->view = $this->app->make('view');
     }
 
@@ -90,7 +95,8 @@ class FrontEndController extends BaseController  {
        list($bu,$profile,$category)=  $this->frontEndManager->restaurantProfile($restaurantSlug);
         return $this->view->make('frontend.profile')->withBusinessdetails($bu)
                                                     ->withMenudetails($profile)
-                                                    ->withMenucategory($category);
+                                                    ->withMenucategory($category)
+                                                    ->withCart($this->cart->getCartItems($restaurantSlug));
     }
 
     /**

@@ -185,4 +185,5 @@ class CartItemRepository extends BaseRepository implements ICartItemRepository {
       return  $this->model->where('menu_item_id','=',$menuItemId)
                     ->where('cart_id','=',$cartId)->first();
     }
+
 }

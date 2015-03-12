@@ -316,30 +316,16 @@
 
                         <!-- Order Items Summary -->
                         <ul class="list-unstyled order-summary-list">
+                            @foreach($cart->cartItem as $item)
                             <li>
                                 <div class="number-select">
-                                    <a href="#"><i class="fa fa-minus-circle"></i></a> 2
+                                    <a href="#"><i class="fa fa-minus-circle"></i></a> {{$item->quantity}}
                                     <a href="#"><i class="fa fa-plus-circle"></i></a>
                                 </div>
-                                <div>Jerry's Fish and Chips</div>
-                                <div class="pull-right">$25.98</div>
+                                <div>{{$item->menuItem->item_name}}</div>
+                                <div class="pull-right">{{$item->price}}</div>
                             </li>
-                            <li>
-                                <div class="number-select">
-                                    <a href="#"><i class="fa fa-minus-circle"></i></a> 2
-                                    <a href="#"><i class="fa fa-plus-circle"></i></a>
-                                </div>
-                                <div>Cherry Pie (Slice)</div>
-                                <div class="pull-right">$6.29</div>
-                            </li>
-                            <li>
-                                <div class="number-select">
-                                    <a href="#"><i class="fa fa-minus-circle"></i></a> 1
-                                    <a href="#"><i class="fa fa-plus-circle"></i></a>
-                                </div>
-                                <div>Large Pepperoni Pizza</div>
-                                <div class="pull-right">$23.05</div>
-                            </li>
+                            @endforeach
                         </ul>
                         <hr>
                         <!-- Subtotal -->

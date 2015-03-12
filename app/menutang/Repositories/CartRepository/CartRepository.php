@@ -221,7 +221,11 @@ class CartRepository extends BaseRepository implements ICartRepository {
      */
     public function findByUid($uid)
     {
-        return $this->model->where('uid', $uid)->first();
+        return $this->model->with(['cartItem'=>function($query)
+        {
+            $query->with('menuItem','itemAddon');
+        }
+        ])->where('uid', $uid)->first();
     }
 
     /**
@@ -230,6 +234,10 @@ class CartRepository extends BaseRepository implements ICartRepository {
      */
     public function findByUserId($userId)
     {
-        return $this->model->where('user_id', $userId)->first();
+        return $this->model->with(['cartItem'=>function($query)
+        {
+            $query->with('menuItem','itemAddon');
+        }
+        ])->where('user_id', $userId)->first();
     }
 }

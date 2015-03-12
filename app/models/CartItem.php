@@ -29,9 +29,9 @@ class CartItem extends Eloquent {
     /**
      * @return mixed
      */
-    public function menutItem()
+    public function menuItem()
     {
-        return $this->hasOne('MenuItem');
+        return $this->belongsTo('MenuItem');
     }
 
     /**
@@ -39,7 +39,7 @@ class CartItem extends Eloquent {
      */
     public function itemAddon()
     {
-        return $this->hasOne('ItemAddon');
+        return $this->belongsTo('ItemAddon');
     }
 
 }

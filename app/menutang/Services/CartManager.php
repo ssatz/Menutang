@@ -17,6 +17,8 @@ use Repositories\CartRepository\ICartRepository;
 use Illuminate\Foundation\Application;
 use Repositories\MenuItemRepository\IMenuItemRepository;
 use Services\DeliveryOptionEnum;
+use Repositories\ManageBusinessRepository\IManageBusinessRepository;
+use stdClass;
 
 class CartManager {
 
@@ -49,6 +51,8 @@ class CartManager {
      */
     protected $request;
 
+    protected $buRepo;
+
     /**
      * @var IMenuItemRepository
      */
@@ -63,13 +67,15 @@ class CartManager {
         Application $app,
         ICartRepository $cartRepo,
         ICartItemRepository $cartItemRepository,
-        IMenuItemRepository $menuItemRepository
+        IMenuItemRepository $menuItemRepository,
+        IManageBusinessRepository $businessRepository
 
     ) {
         $this->app = $app;
         $this->cartRepo = $cartRepo;
         $this->cartItemRepo = $cartItemRepository;
         $this->menuItemRepo = $menuItemRepository;
+        $this->buRepo = $businessRepository;
         $this->auth = $this->app->make('auth');
         $this->cookie = $this->app->make('cookie');
         $this->hash = $this->app->make('hash');
@@ -143,13 +149,18 @@ class CartManager {
      * @param int $quantity
      * @param null $cartId
      */
-    public function addItemToCart($menuItem,$deliveryOption, $quantity = 1, $cartId = null)
+    public function addItemToCart($menuItem,$deliveryOption,$slug, $quantity = 1, $cartId = null)
     {
         if ( ! $cartId) {
             $cart = $this->getOrCreate($deliveryOption);
             $cartId = $cart->id;
         }
         $menuItem = $this->getMenuItem((int)$menuItem);
+        $buRepo = $this->buRepo->findBusinessBySlug($slug);
+        if($buRepo->id != $menuItem->business_info_id)
+        {
+            $this->emptyCart();
+        }
         $item =$this->getCartItem($menuItem->id,$cartId);
         if(!is_null($item)) {
             if ($item->count() > 0) {
@@ -219,4 +230,23 @@ class CartManager {
        $item= $this->cartItemRepo->findMenuItemId($menuItemId,$cartId);
       return $item;
     }
+
+    public function getCartItems($slug)
+    {
+        if ($user = $this->auth->user()->check()) {
+            $cart = $this->cartRepo->findByUserId($user->id);
+        } else {
+            $uid = $this->request->cookie('menutang_cart_uid');
+            $cart = $this->cartRepo->findByUid($uid);
+        }
+        $buRepo = $this->buRepo->findBusinessBySlug($slug);
+        if($buRepo->id != $cart->cartItem[0]->menuItem->business_info_id)
+        {
+            $this->emptyCart();
+            $cart = new stdClass();
+        }
+        return $cart;
+    }
+
+
 }
