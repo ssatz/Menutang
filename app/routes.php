@@ -71,6 +71,7 @@ Route::group(['domain' => 'business.localhost'], function () {
  */
 
 Route::get('about-us.htm', ['as' => 'aboutUs', 'uses' => 'GuestController@aboutUs']);
+Route::get('faq.htm', ['as' => 'faq', 'uses' => 'GuestController@faq']);
 
 
 Route::get('/',['as'=>'index','uses'=>'FrontEndController@index']);

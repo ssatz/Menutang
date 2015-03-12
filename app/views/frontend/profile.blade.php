@@ -394,10 +394,10 @@
                         <a href="#" class="btn btn-dark btn-sm">Home</a>
                     </li>
                     <li>
-                        <a href="#" class="btn btn-dark btn-sm">About</a>
+                        <a href="{{action('GuestController@aboutUs')}}" class="btn btn-dark btn-sm">About</a>
                     </li>
                     <li>
-                        <a href="#" class="btn btn-dark btn-sm">Blog</a>
+                        <a href="{{action('GuestController@faq')}}" class="btn btn-dark btn-sm">FAQ</a>
                     </li>
                     <li>
                         <a href="#" class="btn btn-dark btn-sm">Businesses</a>

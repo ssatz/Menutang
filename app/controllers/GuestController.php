@@ -61,16 +61,25 @@ class GuestController extends BaseController
     }
 
 
+    /**
+     * @return mixed
+     */
     public function aboutUs()
     {
             return $this->view->make('frontend.about');
     }
 
+    /**
+     * @return mixed
+     */
     public function faq()
     {
-
+          return $this->view->make('frontend.faq');
     }
 
+    /**
+     *
+     */
     public function contactUs()
     {
 

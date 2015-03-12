@@ -907,13 +907,5 @@ footer ul.list-inline {
     padding-bottom: 10px;
 }
 
-h3.title:after {
-    background: #f15725;
-    content: "";
-    height: 2px;
-    margin-left: 10px;
-    position: absolute;
-    top: 32px;
-    width: 82%;
-}
+
 
