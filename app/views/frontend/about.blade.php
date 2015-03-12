@@ -16,8 +16,12 @@
                                 <p>
                                     Menutang is Online Food Ordering/Search Portal, which enables you to search or Order
                                     the best food industries in your town.
+                                </p>
+                                <p>
                                     Menutang has information on Restaurant menus and their other informations , which
                                     enables to plan your occassions .
+                                 </p>
+                                 <p>
                                     You can place an order with us so that ensure that you enjoy your food on the
                                     estimated time .
                                     Menutang also provide you reviews so that you can identify the best informations
@@ -27,10 +31,14 @@
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
                         <div class="contact-box widget">
-                            <h3>More Questions?</h3>
-                            <i class="fa fa-envelope"></i>
+                            <h3>Business Hour</h3>
+                            <i class="fa fa-clock-o"> </i>
+                            <ul>
+                                <li>Monday - Friday 9am to 5pm</li>
+                                <li>Saturday - 9am to 2pm</li>
+                                <li>Sunday - Closed</li>
+                            </ul>
 
-                            <p>Let us know your question via the contact form.</p>
                         </div>
                     </div>
                     <!--<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
