@@ -12,6 +12,7 @@ namespace Services;
 
 
 use Illuminate\Support\ServiceProvider;
+use Services\Validations\CustomValidator;
 
 
 class MenutangServiceProvider extends ServiceProvider
@@ -93,5 +94,11 @@ class MenutangServiceProvider extends ServiceProvider
             'Services\Cache\ICacheService',
             'Services\Cache\CacheService'
         );
+    }
+
+    public function boot() {
+        $this->app->validator->resolver( function( $translator, $data, $rules, $messages = array(), $customAttributes = array() ) {
+            return new CustomValidator( $translator, $data, $rules, $messages, $customAttributes );
+        } );
     }
 }

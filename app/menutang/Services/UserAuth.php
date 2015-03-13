@@ -65,9 +65,8 @@ class UserAuth
      * @param $input
      * @return bool
      */
-    public function login(array $input, $remember)
+    public function login(array $input,$remember)
     {
-
         $this->loginValidation->with($input);
         if ($this->loginValidation->passes()) {
             if (Auth::user()->attempt($input, $remember)) {

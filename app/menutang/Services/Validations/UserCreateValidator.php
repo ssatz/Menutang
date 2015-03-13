@@ -17,7 +17,7 @@ class UserCreateValidator extends BaseValidator
     public static $rules = [
         'email' => 'required|email|max:255|unique:users',
         'password' => 'required|min:6',
-        'mobile' => 'required|digits:10|unique:users',
+        'mobile' => 'required|digits:10|unique:users|mobile',
         'password_confirmation' => 'required|same:password'
     ];
 

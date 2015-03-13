@@ -16,13 +16,13 @@
                             <input type="text" id="login-email" name="email" placeholder="Enter your email" value=""
                                    class="form-control login-field">
                             <i class="fa fa-user login-field-icon"></i>
-                            <span class="error email  displayNone"></span>
+                            <span class="error login-email  displayNone"></span>
                         </div>
                         <div class="form-group">
                             <input type="password" id="login-password" name="password" placeholder="Password" value=""
                                    class="form-control login-field">
                             <i class="fa fa-lock login-field-icon"></i>
-                            <span class="error password displayNone"></span>
+                            <span class="error login-password displayNone"></span>
                         </div>
                         <div class="form-group">
                             <label>
@@ -65,9 +65,11 @@
                         </div>
 
                         <div class="form-group">
-                            <input type="text" id="mobile-no" name="mobile_no" placeholder="mobile no" value=""
-                                   class="form-control login-field">
-                            <i class="fa fa-mobile login-field-icon"></i>
+                            <div class="input-group">
+                                <div class="input-group-addon">+91</div>
+                                <input type="text" id="mobile-no" name="mobile_no" placeholder="mobile no" value=""
+                                       class="form-control login-field">
+                             </div>
                             <span class="error mobile displayNone"></span>
                         </div>
 
@@ -133,7 +135,7 @@ $(".error").each(function(){
 $(this).hide().parents('.form-group').find('input').removeClass('fieldHighlight');
 });
 $.each(msg,function(key,value){
-$(".error."+key).text(value).show().parents('.form-group').find('input').addClass('fieldHighlight');
+$(".error.login-"+key).text(value).show().parents('.form-group').find('input').addClass('fieldHighlight');
 
 });
 }
