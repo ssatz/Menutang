@@ -72,8 +72,9 @@ Route::group(['domain' => 'business.localhost'], function () {
 
 Route::get('about-us.htm', ['as' => 'aboutUs', 'uses' => 'GuestController@aboutUs']);
 Route::get('faq.htm', ['as' => 'faq', 'uses' => 'GuestController@faq']);
-
-
+Route::get('logout', ['as' => 'user.logout', 'uses' => 'FrontEndController@logout']);
+Route::post('login', ['as' => 'user.login', 'uses' => 'FrontEndController@userLogin']);
+Route::post('register', ['as' => 'user.register', 'uses' => 'FrontEndController@userRegistration']);
 Route::get('/',['as'=>'index','uses'=>'FrontEndController@index']);
 Route::any('restaurants/{query}',['as'=>'business','uses'=>'FrontEndController@restaurantsProfile']);
 Route::post('restaurants/{query}/cart',['as'=>'business.cart','uses'=>'CartController@addToCart']);

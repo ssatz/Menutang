@@ -953,3 +953,36 @@ footer ul.list-inline {
     color: #fff;
 }
 
+.error {
+    color: #d43f3a;
+    font-stretch: semi-expanded;
+    font-size: small;
+}
+
+.fieldHighlight {
+    box-shadow: 0 0 5px #d43f3a;
+    border: 1px solid #d43f3a;
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+}
+
+.dropdown-menutang {
+
+    background: rgba(0, 0, 0, 0.5);
+
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color: #f15725;
+}
+
+.borderStyle {
+    border-color: transparent;
+    border-bottom-color: #f15725;
+    border-style: solid;
+    border-width: 1px 1px 3px;
+}

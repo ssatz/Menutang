@@ -25,7 +25,7 @@ abstract class BaseRepository
      * @param $model
      * @param $cache
      */
-    public function __construct($model, $cache,Array $properties = [])
+    public function __construct($model, $cache = null, Array $properties = [])
     {
         $this->model = $model;
         $this->cache = $cache;
@@ -72,6 +72,14 @@ abstract class BaseRepository
     }
 
     /**
+     * @return string
+     */
+    protected function getObjectName()
+    {
+        return get_class($this->model);
+    }
+
+    /**
      * @return mixed
      */
     public function getAll()
@@ -86,11 +94,15 @@ abstract class BaseRepository
     }
 
     /**
-     * @return string
+     * @param array $data
      */
-    protected function getObjectName()
+    public function update(array $data, $id)
     {
-        return get_class($this->model);
+        $key = md5($this->getObjectName() . '.all');
+        $keystate = md5($this->getObjectName() . '.State');
+        $this->cache->remove($key);
+        $this->cache->remove($keystate);
+        return $this->model->where('id', '=', $id)->update($data);
     }
 
     /**
@@ -101,17 +113,5 @@ abstract class BaseRepository
     protected function slug($string)
     {
         return filter_var(str_replace(' ', '-', strtolower(trim($string))), FILTER_SANITIZE_URL);
-    }
-
-    /**
-     * @param array $data
-     */
-    public function update(array $data, $id)
-    {
-        $key = md5($this->getObjectName() . '.all');
-        $keystate = md5($this->getObjectName() . '.State');
-        $this->cache->remove($key);
-        $this->cache->remove($keystate);
-        return $this->model->where('id', '=', $id)->update($data);
     }
 }

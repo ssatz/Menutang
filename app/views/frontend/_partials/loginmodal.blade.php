@@ -11,64 +11,75 @@
                 <div class="clearfix"></div>
                 <div id='social-icons-conatainer' class="login">
                     <div class='modal-body-left'>
+                        <div class="error alert alert-danger match-error displayNone" role="alert"></div>
                         <div class="form-group">
-                            <input type="text" id="email" placeholder="Enter your email" value="" class="form-control login-field">
+                            <input type="text" id="login-email" name="email" placeholder="Enter your email" value=""
+                                   class="form-control login-field">
                             <i class="fa fa-user login-field-icon"></i>
+                            <span class="error email  displayNone"></span>
                         </div>
-
                         <div class="form-group">
-                            <input type="password" id="login-pass" placeholder="Password" value="" class="form-control login-field">
+                            <input type="password" id="login-password" name="password" placeholder="Password" value=""
+                                   class="form-control login-field">
                             <i class="fa fa-lock login-field-icon"></i>
+                            <span class="error password displayNone"></span>
                         </div>
-
-                        <a href="#" class="btn btn-success modal-login-btn">Login</a>
-                        <a href="#" class="login-link text-center">Lost your password?</a>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" value="true" name="remember">Remember Me
+                            </label>
+                        </div>
+                        <a href="#login" id="login" class="btn btn-success modal-login-btn">Login</a>
+                        <a href="#forgot-password" id="forgot-password" class="login-link text-center">Lost your
+                            password?</a>
                     </div>
 
                     <div class='modal-body-right'>
                         <div class="modal-social-icons">
-                            <a href='#' class="btn btn-default facebook"> <i class="fa fa-facebook modal-icons"></i> Sign In with Facebook </a>
-                           <!-- <a href='#' class="btn btn-default twitter"> <i class="fa fa-twitter modal-icons"></i> Sign In with Twitter </a> -->
-                            <a href='#' class="btn btn-default google"> <i class="fa fa-google-plus modal-icons"></i> Sign In with Google </a>
-                           <!-- <a href='#' class="btn btn-default linkedin"> <i class="fa fa-linkedin modal-icons"></i> Sign In with Linkedin </a> -->
+
                         </div>
                     </div>
-                    <div id='center-line'> OR </div>
+
                 </div>
                 <div id='social-icons-conatainer' class="form-signup displayNone">
                     <div class='modal-body-left'>
                         <div class="form-group">
-                            <input type="text" id="email" placeholder="Enter your email" value="" class="form-control login-field">
+                            <input type="text" id="email" name="email" placeholder="Enter your email" value=""
+                                   class="form-control login-field">
                             <i class="fa fa-user login-field-icon"></i>
+                            <span class="error email displayNone"></span>
                         </div>
 
                         <div class="form-group">
-                            <input type="password" id="login-pass" placeholder="Password" value="" class="form-control login-field">
+                            <input type="password" id="password" name="password" placeholder="Password" value=""
+                                   class="form-control login-field">
                             <i class="fa fa-lock login-field-icon"></i>
+                            <span class="error password displayNone"></span>
                         </div>
 
                         <div class="form-group">
-                            <input type="password" id="login-pass" placeholder="confirm Password" value="" class="form-control login-field">
+                            <input type="password" id="confirm-password" name="password_confirmation "
+                                   placeholder="confirm Password" value="" class="form-control login-field">
                             <i class="fa fa-lock login-field-icon"></i>
+                            <span class="error password_confirmation displayNone"></span>
                         </div>
 
                         <div class="form-group">
-                            <input type="text" id="login-pass" placeholder="mobile no" value="" class="form-control login-field">
+                            <input type="text" id="mobile-no" name="mobile_no" placeholder="mobile no" value=""
+                                   class="form-control login-field">
                             <i class="fa fa-mobile login-field-icon"></i>
+                            <span class="error mobile displayNone"></span>
                         </div>
 
-                        <a href="#" class="btn btn-success modal-login-btn">Register</a>
+                        <a href="#register" id="register" class="btn btn-success modal-login-btn">Register</a>
                     </div>
 
                     <div class='modal-body-right'>
                         <div class="modal-social-icons">
-                            <a href='#' class="btn btn-default facebook"> <i class="fa fa-facebook modal-icons"></i> Sign In with Facebook </a>
-                            <!-- <a href='#' class="btn btn-default twitter"> <i class="fa fa-twitter modal-icons"></i> Sign In with Twitter </a> -->
-                            <a href='#' class="btn btn-default google"> <i class="fa fa-google-plus modal-icons"></i> Sign In with Google </a>
-                            <!-- <a href='#' class="btn btn-default linkedin"> <i class="fa fa-linkedin modal-icons"></i> Sign In with Linkedin </a> -->
+
                         </div>
                     </div>
-                    <div id='center-line'> OR </div>
+
                 </div>
                 <div class="clearfix"></div>
 
@@ -79,9 +90,53 @@
                     <button class="btn btn-default"> Login? Click here</button>
                 </div>
             </div>
-            <div class="modal-footer">
-
-            </div>
         </div>
     </div>
 </div>
+@section('auth')
+$("#register").click(function(e){
+e.preventDefault();
+$data = {
+email    : $('#email').val(),
+password : $('#password').val(),
+password_confirmation: $('#confirm-password').val(),
+mobile: $('#mobile-no').val(),
+_token: '{{Session::get('_token')}}'
+}
+ajax('{{action('FrontEndController@userRegistration')}}', 'POST', $data, 'json', function (msg) {
+if(msg===true){
+return window.location.replace('{{Setting::get('site_url')}}');
+}
+$(".match-error").hide();
+$(".error").each(function(){
+$(this).hide().parents('.form-group').find('input').removeClass('fieldHighlight');
+});
+$.each(msg,function(key,value){
+$(".error."+key).text(value).show().parents('.form-group').find('input').addClass('fieldHighlight');
+
+});
+}
+)
+});
+$("#login").click(function(e){
+e.preventDefault();
+$data = {
+email    : $('#login-email').val(),
+password : $('#login-password').val(),
+_token: '{{Session::get('_token')}}'
+}
+ajax('{{action('FrontEndController@userLogin')}}', 'POST', $data, 'json', function (msg) {
+if(msg===true){
+return window.location.replace('{{Setting::get('site_url')}}');
+}
+$(".error").each(function(){
+$(this).hide().parents('.form-group').find('input').removeClass('fieldHighlight');
+});
+$.each(msg,function(key,value){
+$(".error."+key).text(value).show().parents('.form-group').find('input').addClass('fieldHighlight');
+
+});
+}
+)
+});
+@endsection

@@ -12,13 +12,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Translation\Translator;
+use Illuminate\Support\Facades\Password;
 
-/**
- * Created by PhpStorm.
- * User: swee
- * Date: 3/11/2015
- * Time: 4:31 PM
- */
 class GuestController extends BaseController
 {
     /**
@@ -41,6 +36,7 @@ class GuestController extends BaseController
      * @var View
      */
     protected $view;
+
 
     /**
      * @param Request $request
@@ -74,7 +70,8 @@ class GuestController extends BaseController
      */
     public function faq()
     {
-          return $this->view->make('frontend.faq');
+
+        return $this->view->make('frontend.faq');
     }
 
     /**
@@ -83,6 +80,13 @@ class GuestController extends BaseController
     public function contactUs()
     {
 
+    }
+
+    public function passwordReset()
+    {
+        Password::user()->remind('sathish.thi@gmail.com', function ($message) {
+            $message->subject('Password reminder');
+        });
     }
 
 }
