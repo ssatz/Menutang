@@ -22,10 +22,10 @@ return array(
 
         'mysql' => array(
             'driver' => 'mysql',
-            'host' => 'localhost',
-            'database' => 'menutang',
-            'username' => 'root',
-            'password' => 'satdin',
+            'host' => '128.199.141.186',
+            'database' => 'forge',
+            'username' => 'forge',
+            'password' => 'zfEqEuvIWIm8c5mWBr8A',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
