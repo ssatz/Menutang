@@ -456,10 +456,8 @@ use Illuminate\Support\Facades\Auth;
            }
             return window.location.replace("{{URL::to('/')}}/"+locality.replace(/\s+/g, '-').toLowerCase()+"/"+(place.name).replace(/\s+/g, '-').toLowerCase());
         });
-        @
-        yield('auth');
-        @
-        yield('script')
+        @yield('auth');
+        @yield('script')
 </script>
 </body>
 
