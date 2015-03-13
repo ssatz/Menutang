@@ -25,7 +25,7 @@ return array(
             'host' => 'localhost',
             'database' => 'forge',
             'username' => 'forge',
-            'password' => 'zfEqEuvIWIm8c5mWBr8A',
+            'password' => 'kZgXbaltxlGILtS6RrMR',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
