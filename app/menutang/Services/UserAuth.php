@@ -11,12 +11,14 @@
 namespace Services;
 
 
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Application;
 use Repositories\UserRepository\IUserRepository;
+use Services\Validations\EmailValidator;
 use Services\Validations\LoginValidation;
 use Services\Validations\UserCreateValidator;
 use Illuminate\Database\DatabaseManager;
-use Illuminate\Support\Facades\Lang;
+use Illuminate\Translation\Translator;
+use Illuminate\Events\Dispatcher;
 
 
 /**
@@ -43,7 +45,13 @@ class UserAuth
      * @var DatabaseManager
      */
     protected $db;
+    protected $event;
     protected $loginValidation;
+    protected $app;
+    protected $auth;
+    protected $password;
+    protected $lang;
+    protected $emailValidator;
 
     /**
      * @param IUserRepository $userRepository
@@ -52,12 +60,22 @@ class UserAuth
     public function __construct(IUserRepository $userRepository,
                                 DatabaseManager $databaseManager,
                                 LoginValidation $loginValidation,
+                                Dispatcher $event,
+                                Translator $translator,
+                                Application $application,
+                                EmailValidator $emailValidator,
                                 UserCreateValidator $userCreateValidator)
     {
         $this->userRepository = $userRepository;
         $this->userCreateValidator = $userCreateValidator;
         $this->db = $databaseManager;
         $this->loginValidation = $loginValidation;
+        $this->event = $event;
+        $this->app = $application;
+        $this->lang = $translator;
+        $this->emailValidator = $emailValidator;
+        $this->password = $this->app->make('auth.reminder');
+        $this->auth = $this->app->make('auth');
 
     }
 
@@ -69,11 +87,11 @@ class UserAuth
     {
         $this->loginValidation->with($input);
         if ($this->loginValidation->passes()) {
-            if (Auth::user()->attempt($input, $remember)) {
+            if ($this->auth->user()->attempt($input, $remember)) {
                 return true;
             }
 
-            $this->errors = ['match-error' => Lang::get('login.login')];
+            $this->errors = ['match-error' => $this->lang->get('login.login')];
             return false;
         }
         $this->errors = $this->loginValidation->getErrors();
@@ -92,6 +110,7 @@ class UserAuth
             $this->db->beginTransaction();
             try {
                 $this->userDetails = $this->userRepository->create($data);
+                $this->event->fire('user.created',$this->userDetails);
             } catch (Exception $e) {
                 $this->db->rollback();
                 throw new Exception($e->getMessage());
@@ -101,5 +120,17 @@ class UserAuth
         }
         $this->errors = $this->userCreateValidator->getErrors();
         return false;
+    }
+
+    public function sendPasswordToken(array $credentials)
+    {
+        $this->emailValidator->with($credentials);
+        if ($this->emailValidator->passes()) {
+          return [
+            'email'=>  $this->lang->get($this->password->user()->remind($credentials))
+          ];
+        }
+        $this->errors= $this->emailValidator->getErrors();
+        return $this->errors;
     }
 }

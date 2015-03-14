@@ -114,7 +114,6 @@ return [
         'Illuminate\Queue\QueueServiceProvider',
         'Illuminate\Redis\RedisServiceProvider',
         'Illuminate\Remote\RemoteServiceProvider',
-        'Ollieread\Multiauth\Reminders\ReminderServiceProvider',
         'Illuminate\Database\SeedServiceProvider',
         'Illuminate\Session\SessionServiceProvider',
         'Illuminate\Translation\TranslationServiceProvider',
@@ -126,6 +125,7 @@ return [
         'Services\MenutangServiceProvider',
         'Intervention\Image\ImageServiceProvider',
         'anlutro\LaravelSettings\ServiceProvider',
+        'Services\Reminders\ReminderServiceProvider',
 
     ],
 

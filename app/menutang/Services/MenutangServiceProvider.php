@@ -12,6 +12,8 @@ namespace Services;
 
 
 use Illuminate\Support\ServiceProvider;
+use Services\Events\UserEventSubscriber;
+use Services\Reminders\PasswordBroker;
 use Services\Validations\CustomValidator;
 
 
@@ -100,5 +102,13 @@ class MenutangServiceProvider extends ServiceProvider
         $this->app->validator->resolver( function( $translator, $data, $rules, $messages = array(), $customAttributes = array() ) {
             return new CustomValidator( $translator, $data, $rules, $messages, $customAttributes );
         } );
+
+        $this->app->events->subscribe(new UserEventSubscriber(
+                $this->app['mailer'])
+        );
+    }
+    public function provides()
+    {
+        return array('auth.reminder');
     }
 }

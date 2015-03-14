@@ -11,6 +11,9 @@
 namespace Services\Validations;
 
 
-class EmailValidator {
-
+class EmailValidator extends BaseValidator
+{
+    public static $rules = [
+        'email' => 'required|email|max:255',
+    ];
 }

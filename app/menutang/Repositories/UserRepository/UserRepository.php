@@ -55,4 +55,15 @@ class UserRepository extends BaseRepository implements IUserRepository
     {
         return $this->model->findOrFail($id);
     }
+
+    /**
+     * @param $email
+     * @return string
+     */
+    private function createActivationCode($email)
+    {
+        $value = str_shuffle(sha1($email.spl_object_hash($this).microtime(true)));
+
+        return hash_hmac('sha1', $value, Config::get('app.key'));
+    }
 }

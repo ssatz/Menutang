@@ -456,6 +456,16 @@ use Illuminate\Support\Facades\Auth;
            }
             return window.location.replace("{{URL::to('/')}}/"+locality.replace(/\s+/g, '-').toLowerCase()+"/"+(place.name).replace(/\s+/g, '-').toLowerCase());
         });
+        // Backstretch Image Slideshow for Homepage Header
+        $("header.home").backstretch([
+            "{{asset('assets/common/img/header-bg-1.jpg')}}",
+            "{{asset('assets/common/img/header-bg-2.jpg')}}",
+            "{{asset('assets/common/img/header-bg-3.jpg')}}",
+            "{{asset('assets/common/img/header-bg-4.jpg')}}",
+        ], {
+            duration: 5000,
+            fade: 750
+        });
         @yield('auth');
         @yield('script')
 </script>

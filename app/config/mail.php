@@ -15,7 +15,7 @@ return array(
     |
     */
 
-    'driver' => 'smtp',
+    'driver' => 'mandrill',
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return array(
     |
     */
 
-    'host' => 'smtp.mailgun.org',
+    'host' => 'smtp.mandrillapp.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return array(
     |
     */
 
-    'from' => array('address' => null, 'name' => null),
+    'from' => array('address' => 'hello@menutang.in', 'name' => 'Menutang.in'),
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
     |
     */
 
-    'username' => null,
+    'username' => 'sathish.thi@live.in',
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
     |
     */
 
-    'password' => null,
+    'password' => 'y--2B2OTZKZJkTtFdiAA6A',
 
     /*
     |--------------------------------------------------------------------------
@@ -119,6 +119,6 @@ return array(
     |
     */
 
-    'pretend' => false,
+    'pretend' => true,
 
 );

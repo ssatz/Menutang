@@ -170,4 +170,23 @@ class FrontEndController extends BaseController  {
             return $this->response->setContent($this->userAuth->errors);
         }
     }
+
+    public function forgotPassword()
+    {
+        if ($this->request->ajax() && $this->request->isMethod('POST')) {
+            $email =[
+                'email'=>$this->request->input('email')
+            ];
+          $msg =   $this->userAuth->sendPasswordToken($email);
+          return $this->response->setContent($msg);
+        }
+
+    }
+
+    public function passwordReset($type,$token)
+    {
+        return $this->view->make('frontend.password')
+            ->withType($type)
+            ->withToken($token);
+    }
 }

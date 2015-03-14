@@ -83,6 +83,24 @@
                     </div>
 
                 </div>
+                <div id='social-icons-conatainer' class="form-password displayNone">
+                    <div class='modal-body-left'>
+                        <div class="forgot-error alert alert-success match-error displayNone" role="alert">Password reset link has been sent!</div>
+                        <div class="form-group">
+                            <input type="text" id="forgot-email" name="email" placeholder="Enter your email" value=""
+                                   class="form-control login-field">
+                            <i class="fa fa-mail-reply login-field-icon"></i>
+                            <span class="error forgot-email displayNone"></span>
+                        </div>
+                        <a href="#password-reset" id="password-reset-link" class="btn btn-success modal-login-btn">Forgot Password</a>
+                    </div>
+
+                    <div class='modal-body-right'>
+                        <div class="modal-social-icons">
+
+                        </div>
+                    </div>
+                </div>
                 <div class="clearfix"></div>
 
                 <div class="form-group modal-register-btn form-register-btn">
@@ -138,6 +156,32 @@ $.each(msg,function(key,value){
 $(".error.login-"+key).text(value).show().parents('.form-group').find('input').addClass('fieldHighlight');
 
 });
+}
+)
+});
+
+$("#password-reset-link").click(function(e){
+e.preventDefault();
+$data = {
+email    : $('#forgot-email').val(),
+_token: '{{Session::get('_token')}}'
+}
+ajax('{{action('FrontEndController@forgotPassword')}}', 'POST', $data, 'json', function (msg) {
+$(".error").each(function(){
+$(this).hide().parents('.form-group').find('input').removeClass('fieldHighlight');
+});
+if(msg.email==='true')
+{
+$(".forgot-error").show('slow');
+return;
+}
+else{
+$(".forgot-error").hide('slow');
+$.each(msg,function(key,value){
+$(".error.forgot-"+key).text(value).show().parents('.form-group').find('input').addClass('fieldHighlight');
+
+});
+}
 }
 )
 });

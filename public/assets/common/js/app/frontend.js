@@ -26,18 +26,6 @@ $('.navbar-collapse ul li a').click(function() {
     $('.navbar-toggle:visible').click();
 });
 
-
-// Backstretch Image Slideshow for Homepage Header
-$("header.home").backstretch([
-    "assets/common/img/header-bg-1.jpg",
-    "assets/common/img/header-bg-2.jpg",
-    "assets/common/img/header-bg-3.jpg",
-    "assets/common/img/header-bg-4.jpg"
-], {
-    duration: 5000,
-    fade: 750
-});
-
 // Back to Top Button
 jQuery(document).ready(function($) {
     // browser window scroll (in pixels) after which the "back to top" link is shown
@@ -59,29 +47,42 @@ jQuery(document).ready(function($) {
 
      //login and signup
     $(".form-register-btn").click(function(){
-       $(".login").hide();
+        $(".forgot-error").hide('slow');
+       $(".login,.form-password").hide();
         $(".form-signup").show();
         $(this).hide();
         $(".form-login-btn").show();
-
+        $(".modal-title").text("Register Here")
     });
 
     $(".form-login-btn").click(function(){
+        $(".forgot-error").hide('slow');
         $(".login").show();
-        $(".form-signup").hide();
+        $(".form-signup,.form-password").hide();
         $(this).hide();
         $(".form-register-btn").show();
+        $(".modal-title").text("Login here")
     });
 
     $("#sign-up-link").click(function(){
-        $("#login-modal").find(".login,.form-register-btn").hide();
+        $(".forgot-error").hide('slow');
+        $("#login-modal").find(".login,.form-register-btn,.form-password").hide();
         $("#login-modal").find(".form-signup,.form-login-btn").show();
         $("#login-modal").modal('show');
     });
     $("#login-link").click(function(){
+        $(".forgot-error").hide('slow');
         $("#login-modal").find(".login,.form-register-btn").show();
-        $("#login-modal").find(".form-signup,.form-login-btn").hide();
+        $("#login-modal").find(".form-signup,.form-login-btn,.form-password").hide();
         $("#login-modal").modal('show');
+    });
+
+    $("#forgot-password").click(function(){
+        $(".forgot-error").hide('slow');
+        $("#login-modal").find(".form-password").show();
+        $("#login-modal").find(".form-signup,.form-login-btn,.login").hide();
+        $("#login-modal").modal('show');
+        $(".modal-title").text("Forgot Password?")
     });
 
 });
