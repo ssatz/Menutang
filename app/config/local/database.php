@@ -22,8 +22,8 @@ return array(
 
         'mysql' => array(
             'driver' => 'mysql',
-            'host' => '128.199.141.186',
-            'database' => 'forge',
+            'host' => 'localhost',
+            'database' => 'menutang',
             'username' => 'forge',
             'password' => 'kZgXbaltxlGILtS6RrMR',
             'charset' => 'utf8',
