@@ -25,8 +25,12 @@ $app = new Illuminate\Foundation\Application;
 */
 
 $env = $app->detectEnvironment(function() {
-
-    return gethostname() == '128.199.141.186' ? 'production' : 'local';
+    if(getenv('APP_NAME_ENV'))
+    {
+        return getenv('APP_NAME_ENV');
+    } else{
+        return 'local';
+    }
 });
 /*
 |--------------------------------------------------------------------------
