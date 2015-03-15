@@ -55,9 +55,9 @@ return array(
         'mysql' => array(
             'driver' => 'mysql',
             'host' => '128.199.141.186',
-            'database' => 'forge',
+            'database' => 'menutang',
             'username' => 'forge',
-            'password' => 'zfEqEuvIWIm8c5mWBr8A',
+            'password' => 'wnnoRFeYFwFXdpYqNMiV',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
