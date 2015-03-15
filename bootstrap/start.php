@@ -24,10 +24,10 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment([
-    'local' => ['Admin-PC'],
-]);
+$env = $app->detectEnvironment(function() {
 
+    return gethostname() == '128.199.141.186' ? 'production' : 'local';
+});
 /*
 |--------------------------------------------------------------------------
 | Bind Paths

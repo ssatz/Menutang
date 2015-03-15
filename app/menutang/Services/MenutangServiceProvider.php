@@ -13,7 +13,7 @@ namespace Services;
 
 use Illuminate\Support\ServiceProvider;
 use Services\Events\UserEventSubscriber;
-use Services\Reminders\PasswordBroker;
+use DBSettingsCommand;
 use Services\Validations\CustomValidator;
 
 
@@ -95,6 +95,13 @@ class MenutangServiceProvider extends ServiceProvider
         $app->bind(
             'Services\Cache\ICacheService',
             'Services\Cache\CacheService'
+        );
+        $this->app->bindShared('command.settings', function($app)
+        {
+            return new DBSettingsCommand($app);
+        });
+        $this->commands(
+            'command.settings'
         );
     }
 
