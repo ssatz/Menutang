@@ -24,9 +24,9 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment(array(
-    'local' => ['*.dev', gethostname()],
-));
+$env = $app->detectEnvironment([
+    'local' => ['Admin-PC'],
+]);
 
 /*
 |--------------------------------------------------------------------------
