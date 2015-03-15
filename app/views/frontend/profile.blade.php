@@ -1,3 +1,4 @@
+<?php use Services\DeliveryOptionEnum; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -240,6 +241,7 @@
                     <div class="list-group">
                         @foreach($menu->menuItem as $item)
                         <a  class="list-group-item">
+                            <input type="hidden" name="menu_item_id" value="{{$item->id}}">
                              <span class="addOrder label label-success">
                                 <i class="fa fa-plus"></i>
                                 Add
@@ -292,7 +294,7 @@
                         <div class="radio">
                             <!-- Delivery/Pick Up Selection -->
                             <label>
-                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked> Delivery
+                                <input type="radio" name="delivery_option" id="optionsRadios1" value="{{DeliveryOptionEnum::DELIVERY()}}" checked> Delivery
                             </label>
                             <select class="form-control" style="margin-top: 5px;">
                                 <option selected disabled>Select Your Area:</option>
@@ -303,7 +305,7 @@
                         </div>
                         <div class="radio">
                             <label>
-                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"> Pick Up
+                                <input type="radio" name="delivery_option" id="optionsRadios2" value="{{DeliveryOptionEnum::PICKUP()}}"> Pick Up
                             </label>
                         </div>
 
@@ -314,30 +316,16 @@
 
                         <!-- Order Items Summary -->
                         <ul class="list-unstyled order-summary-list">
+                            @foreach($cart->cartItem as $item)
                             <li>
                                 <div class="number-select">
-                                    <a href="#"><i class="fa fa-minus-circle"></i></a> 2
+                                    <a href="#"><i class="fa fa-minus-circle"></i></a> {{$item->quantity}}
                                     <a href="#"><i class="fa fa-plus-circle"></i></a>
                                 </div>
-                                <div>Jerry's Fish and Chips</div>
-                                <div class="pull-right">$25.98</div>
+                                <div>{{$item->menuItem->item_name}}</div>
+                                <div class="pull-right">{{$item->price}}</div>
                             </li>
-                            <li>
-                                <div class="number-select">
-                                    <a href="#"><i class="fa fa-minus-circle"></i></a> 2
-                                    <a href="#"><i class="fa fa-plus-circle"></i></a>
-                                </div>
-                                <div>Cherry Pie (Slice)</div>
-                                <div class="pull-right">$6.29</div>
-                            </li>
-                            <li>
-                                <div class="number-select">
-                                    <a href="#"><i class="fa fa-minus-circle"></i></a> 1
-                                    <a href="#"><i class="fa fa-plus-circle"></i></a>
-                                </div>
-                                <div>Large Pepperoni Pizza</div>
-                                <div class="pull-right">$23.05</div>
-                            </li>
+                            @endforeach
                         </ul>
                         <hr>
                         <!-- Subtotal -->
@@ -406,10 +394,10 @@
                         <a href="#" class="btn btn-dark btn-sm">Home</a>
                     </li>
                     <li>
-                        <a href="#" class="btn btn-dark btn-sm">About</a>
+                        <a href="{{action('GuestController@aboutUs')}}" class="btn btn-dark btn-sm">About</a>
                     </li>
                     <li>
-                        <a href="#" class="btn btn-dark btn-sm">Blog</a>
+                        <a href="{{action('GuestController@faq')}}" class="btn btn-dark btn-sm">FAQ</a>
                     </li>
                     <li>
                         <a href="#" class="btn btn-dark btn-sm">Businesses</a>
@@ -510,13 +498,32 @@
     })
 </script>
 <!-- TouchSpin jQuery -->
-<script>
+<script type="text/javascript">
     $("input[name='item_order']").TouchSpin({
         min:1,
         verticalbuttons: true,
         verticalupclass: 'fa fa-plus',
         verticaldownclass: 'fa fa-minus'
     });
+
+    $(".addOrder").click(function(e){
+        e.preventDefault();
+        var $menuItemId = $(this).parents(".list-group-item").find("input[name=menu_item_id]").val();
+        var $quantity   =$(this).parents(".list-group-item").find("input[name=item_order]").val();
+        var $delivery_option = $("input[name=delivery_option]").val();
+        $data = {
+            menu_item_id : $menuItemId,
+            quantity     :$quantity,
+            delivery_option:$delivery_option,
+            _token: '{{Session::get('_token')}}'
+        }
+        ajax('{{action('CartController@addToCart',[$slug])}}', 'POST', $data, 'json', function (msg) {
+
+
+        }
+        )
+        ;
+    })
 </script>
 
 </body>

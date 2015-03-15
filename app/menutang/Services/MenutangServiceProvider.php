@@ -12,6 +12,9 @@ namespace Services;
 
 
 use Illuminate\Support\ServiceProvider;
+use Services\Events\UserEventSubscriber;
+use DBSettingsCommand;
+use Services\Validations\CustomValidator;
 
 
 class MenutangServiceProvider extends ServiceProvider
@@ -82,8 +85,37 @@ class MenutangServiceProvider extends ServiceProvider
             'Repositories\TimeCategoryRepository\TimeCategoryRepository'
         );
         $app->bind(
+            'Repositories\CartRepository\ICartRepository',
+            'Repositories\CartRepository\CartRepository'
+        );
+        $app->bind(
+            'Repositories\CartItemRepository\ICartItemRepository',
+            'Repositories\CartItemRepository\CartItemRepository'
+        );
+        $app->bind(
             'Services\Cache\ICacheService',
             'Services\Cache\CacheService'
         );
+        $this->app->bindShared('command.settings', function($app)
+        {
+            return new DBSettingsCommand($app);
+        });
+        $this->commands(
+            'command.settings'
+        );
+    }
+
+    public function boot() {
+        $this->app->validator->resolver( function( $translator, $data, $rules, $messages = array(), $customAttributes = array() ) {
+            return new CustomValidator( $translator, $data, $rules, $messages, $customAttributes );
+        } );
+
+        $this->app->events->subscribe(new UserEventSubscriber(
+                $this->app['mailer'])
+        );
+    }
+    public function provides()
+    {
+        return array('auth.reminder');
     }
 }

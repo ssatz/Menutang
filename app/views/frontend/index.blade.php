@@ -1,3 +1,7 @@
+<?php
+use Illuminate\Support\Facades\Auth;
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Menutang</title>
+    <title>{{Setting::get('site_name')}}</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('assets/common/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -43,18 +47,34 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Menutang</a>
+            <a class="navbar-brand" href="{{Setting::get('site_url')}}">Menutang</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right borderStyle">
+                @if(Auth::user()->check())
+                <li class="dropdown dropdown-menutang"><a href="#" id="drop1" data-toggle="dropdown"
+                                                          class="dropdown-toggle" role="button">My Account <b
+                            class="caret"></b></a>
+                    <ul role="menu" class="dropdown-menu dropdown-menutang" aria-labelledby="drop1">
+                        <li role="presentation"><a href="#" role="menuitem">Overview</a></li>
+                        <li role="presentation"><a href="#" role="menuitem">Team Bios</a></li>
+                        <li role="presentation"><a href="#" role="menuitem">Customers</a></li>
+                        <li role="presentation"><a href="#" role="menuitem">Careers</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown-menutang">
+                    <a href="{{action('FrontEndController@logout')}}">Logout</a>
+                </li>
+                @else
                 <li>
                     <a href="#login" id="login-link">Log In</a>
                 </li>
                 <li>
                     <a href="#sign-up" id="sign-up-link">Sign Up</a>
                 </li>
+                @endif
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -62,6 +82,7 @@
     <!-- /.container -->
 </nav>
 
+@section('content')
 <!-- Header -->
 <header class="home">
 
@@ -83,6 +104,7 @@
     <!-- /.header-content -->
 
 </header>
+
 
 <!-- Browse By Category Section -->
 <section class="bg-light">
@@ -228,7 +250,6 @@
     <!-- /.container -->
 
 </section>
-
 <!-- Call to Action -->
 <aside>
 
@@ -263,6 +284,7 @@
     <!-- /.container -->
 
 </aside>
+@show
 
 <!-- Popular Locations Section -->
 <section class="bg-light">
@@ -372,13 +394,13 @@
             <div class="col-md-6">
                 <ul class="list-inline">
                     <li>
-                        <a href="#" class="btn btn-dark btn-sm">Home</a>
+                        <a href="" class="btn btn-dark btn-sm">Home</a>
                     </li>
                     <li>
-                        <a href="#" class="btn btn-dark btn-sm">About</a>
+                        <a href="{{action('GuestController@aboutUs')}}" class="btn btn-dark btn-sm">About</a>
                     </li>
                     <li>
-                        <a href="#" class="btn btn-dark btn-sm">Blog</a>
+                        <a href="{{action('GuestController@faq')}}" class="btn btn-dark btn-sm">FAQ</a>
                     </li>
                     <li>
                         <a href="#" class="btn btn-dark btn-sm">Businesses</a>
@@ -434,6 +456,18 @@
            }
             return window.location.replace("{{URL::to('/')}}/"+locality.replace(/\s+/g, '-').toLowerCase()+"/"+(place.name).replace(/\s+/g, '-').toLowerCase());
         });
+        // Backstretch Image Slideshow for Homepage Header
+        $("header.home").backstretch([
+            "{{asset('assets/common/img/header-bg-1.jpg')}}",
+            "{{asset('assets/common/img/header-bg-2.jpg')}}",
+            "{{asset('assets/common/img/header-bg-3.jpg')}}",
+            "{{asset('assets/common/img/header-bg-4.jpg')}}",
+        ], {
+            duration: 5000,
+            fade: 750
+        });
+        @yield('auth');
+        @yield('script')
 </script>
 </body>
 

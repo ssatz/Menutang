@@ -11,12 +11,9 @@
 namespace Services\Validations;
 
 
-class UserCreateValidation extends BaseValidator
+class MenuUploadValidator extends BaseValidator
 {
-
     public static $rules = [
-        'name' => 'required|max:255',
-        'email' => 'required|email|max:255|unique:users',
-        'password' => 'required|confirmed|min:6',
+        'menu_upload' => 'required|mimes:xls,xlsx',
     ];
 }

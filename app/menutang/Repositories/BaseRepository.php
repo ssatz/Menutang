@@ -8,7 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
+use RuntimeException;
+use NumberFormatter;
 abstract class BaseRepository
 {
     /**
@@ -24,12 +25,41 @@ abstract class BaseRepository
      * @param $model
      * @param $cache
      */
-    public function __construct($model, $cache)
+    public function __construct($model, $cache = null, Array $properties = [])
     {
         $this->model = $model;
         $this->cache = $cache;
+        foreach ($properties as $key => $value) {
+            $this->$key = $value;
+        }
     }
 
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        $method = 'get' .ucfirst($key);
+        if (method_exists($this, $method)) {
+            return $this->$method();
+        }
+        throw new RuntimeException("Cannot get property '${key}'.");
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function __set($key, $value)
+    {
+        $method = 'set' .ucfirst($key);
+        if (method_exists($this, $method)) {
+            $this->$method($value);
+            return;
+        }
+        throw new RuntimeException("Cannot set property '${key}'.");
+    }
     /**
      * @param array $data
      * @return mixed
@@ -39,6 +69,14 @@ abstract class BaseRepository
         $key = md5($this->getObjectName() . '.all');
         $this->cache->remove($key);
         return $this->model->create($data);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getObjectName()
+    {
+        return get_class($this->model);
     }
 
     /**
@@ -56,11 +94,15 @@ abstract class BaseRepository
     }
 
     /**
-     * @return string
+     * @param array $data
      */
-    protected function getObjectName()
+    public function update(array $data, $id)
     {
-        return get_class($this->model);
+        $key = md5($this->getObjectName() . '.all');
+        $keystate = md5($this->getObjectName() . '.State');
+        $this->cache->remove($key);
+        $this->cache->remove($keystate);
+        return $this->model->where('id', '=', $id)->update($data);
     }
 
     /**
@@ -71,17 +113,5 @@ abstract class BaseRepository
     protected function slug($string)
     {
         return filter_var(str_replace(' ', '-', strtolower(trim($string))), FILTER_SANITIZE_URL);
-    }
-
-    /**
-     * @param array $data
-     */
-    public function update(array $data, $id)
-    {
-        $key = md5($this->getObjectName() . '.all');
-        $keystate = md5($this->getObjectName() . '.State');
-        $this->cache->remove($key);
-        $this->cache->remove($keystate);
-        return $this->model->where('id', '=', $id)->update($data);
     }
 }

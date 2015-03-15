@@ -24,13 +24,14 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment(array(
-
-    'local' => ['*.dev', gethostname()],
-    'production' => ['*.com', '*.net', '*.org']
-
-));
-
+$env = $app->detectEnvironment(function() {
+    if(getenv('APP_NAME_ENV'))
+    {
+        return getenv('APP_NAME_ENV');
+    } else{
+        return 'local';
+    }
+});
 /*
 |--------------------------------------------------------------------------
 | Bind Paths

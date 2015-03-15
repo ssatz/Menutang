@@ -43,7 +43,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">FoodSine</a>
+                <a class="navbar-brand" href="#">{{Setting::get('site_name')}}</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -133,10 +133,10 @@
                         <a href="#" class="btn btn-dark btn-sm">Home</a>
                     </li>
                     <li>
-                        <a href="#" class="btn btn-dark btn-sm">About</a>
+                        <a href="{{action('GuestController@aboutUs')}}" class="btn btn-dark btn-sm">About</a>
                     </li>
                     <li>
-                        <a href="#" class="btn btn-dark btn-sm">Blog</a>
+                        <a href="{{action('GuestController@faq')}}" class="btn btn-dark btn-sm">FAQ</a>
                     </li>
                     <li>
                         <a href="#" class="btn btn-dark btn-sm">Businesses</a>

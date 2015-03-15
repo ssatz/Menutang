@@ -14,24 +14,47 @@ use Illuminate\Validation\Factory;
 
 abstract class BaseValidator
 {
+    /**
+     * @var array
+     */
+    protected static $messages = [];
+    /**
+     * @var
+     */
     protected $input;
+    /**
+     * @var
+     */
     protected $errors;
+    /**
+     * @var Factory
+     */
     protected $validator;
 
+    /**
+     * @param Factory $validator
+     */
     public function __construct(Factory $validator)
     {
         $this->validator = $validator;
     }
 
+    /**
+     * @param array $input
+     * @return $this
+     */
     public function with(array $input)
     {
         $this->input = $input;
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function passes()
     {
-        $validation = $this->validator->make($this->input, static::$rules);
+        $validation = $this->validator->make($this->input, static::$rules, static::$messages);
         if ($validation->passes()) {
             return true;
         }
@@ -39,6 +62,9 @@ abstract class BaseValidator
         return false;
     }
 
+    /**
+     * @return mixed
+     */
     public function getErrors()
     {
         return $this->errors;

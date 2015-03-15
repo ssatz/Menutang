@@ -9,4 +9,5 @@
  */
 return [
     'success' => '<strong>Well done!</strong> You successfully saved',
+    'menuupload'=>'<strong>Well done!</strong> Menu successfully saved'
 ];

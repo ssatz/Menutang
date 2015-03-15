@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-interface IuserRepository
+interface IUserRepository
 {
 
     public function create(array $data);

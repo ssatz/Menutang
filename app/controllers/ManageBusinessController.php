@@ -167,7 +167,11 @@ class ManageBusinessController extends BaseController
 
     public function upload($slug)
     {
-        $this->manage->uploadMenu($this->request->all(),$slug);
+       if($this->manage->uploadMenu($this->request->all(),$slug))
+       {
+           return $this->redirector->to($slug.'/menu/add-item')
+                                    ->withMenu($this->translator->get('business.menuupload'));
+       }
         return $this->redirector->to($slug.'/menu/add-item')
                                 ->withErrors($this->manage->errors);
     }

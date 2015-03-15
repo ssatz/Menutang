@@ -1,5 +1,4 @@
 <?php
-
 Route::get('info',function(){
     echo phpinfo();
 });
@@ -71,10 +70,22 @@ Route::group(['domain' => 'business.localhost'], function () {
  * FrontEnd Routes
  */
 
+Route::get('about-us.htm', ['as' => 'aboutUs', 'uses' => 'GuestController@aboutUs']);
+Route::get('faq.htm', ['as' => 'faq', 'uses' => 'GuestController@faq']);
+Route::get('logout', ['as' => 'user.logout', 'uses' => 'FrontEndController@logout']);
+Route::post('login', ['as' => 'user.login', 'uses' => 'FrontEndController@userLogin']);
+Route::post('register', ['as' => 'user.register', 'uses' => 'FrontEndController@userRegistration']);
 Route::get('/',['as'=>'index','uses'=>'FrontEndController@index']);
+Route::any('password/reset/{type}/{token}', ['as'=>'password.reset','uses'=>'FrontEndController@passwordReset']);
+Route::post('forgot-password', ['as'=>'password.forgot','uses'=>'FrontEndController@forgotPassword']);
+Route::any('restaurants/{query}',['as'=>'business','uses'=>'FrontEndController@restaurantsProfile']);
+Route::post('restaurants/{query}/cart',['as'=>'business.cart','uses'=>'CartController@addToCart']);
 Route::get('{locality}/{query}',['as'=>'locality.area','uses'=>'FrontEndController@searchBU']);
 Route::get('{locality}',['as'=>'locality','uses'=>'FrontEndController@searchBU']);
-Route::any('restaurants/{query}',['as'=>'business','uses'=>'FrontEndController@restaurantsProfile']);
+
+
+
+
 //Display all SQL executed in Eloquent
 /*Event::listen('illuminate.query', function($query)
 {
