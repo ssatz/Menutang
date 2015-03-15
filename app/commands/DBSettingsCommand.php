@@ -11,7 +11,7 @@ class DBSettingsCommand extends Command {
 	 *
 	 * @var string
 	 */
-	protected $name = 'settings:create';
+	protected $name = 'settings:generate';
 
 	/**
 	 * The console command description.
@@ -42,9 +42,25 @@ class DBSettingsCommand extends Command {
 	{
         $this->info('==== Creating Basic Settings  ===');
         $this->info('Current Enviroment: '. $this->app->environment());
+        $this->dbSettings();
+        $key = $this->argument('key');
+        $value = $this->option('value');
+        if(!is_null($key) && !is_null($value))
+        {
+           $settings = DBSetting::firstOrNew(array('key' =>strtolower($key)));
+           $settings->value = $value;
+           $settings->save();
+            $this->comment("{$key}  = {$value} created.");
+        }
+        $this->comment("Settings Generated successfully!!");
+
 	}
 
-
+    protected function getArguments(){
+        return array(
+            array('key', InputArgument::OPTIONAL, 'setting Key'),
+        );
+    }
 
 	/**
 	 * Get the console command options.
@@ -54,8 +70,23 @@ class DBSettingsCommand extends Command {
 	protected function getOptions()
 	{
 		return array(
-			array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
+			array('value', null, InputOption::VALUE_REQUIRED, 'Setting value', null),
 		);
 	}
+
+    private function dbSettings()
+    {
+        $settings =[
+            ['key'=>'site_name','value'=>'Menutang'],
+            ['key'=>'site_url','value'=>'http://menutang.com'],
+        ];
+        foreach($settings as $db) {
+            foreach ($db as $key => $value) {
+                $settings = DBSetting::firstOrNew(array('key' =>strtolower($db['key'])));
+                $settings->value = $db['value'];
+                $settings->save();
+            }
+        }
+    }
 
 }
