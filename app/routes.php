@@ -19,6 +19,9 @@ Route::get('info',function(){
  */
 App::missing(function ($exception) {
     return View::make('error404');
+
+
+    
 });
 
 
