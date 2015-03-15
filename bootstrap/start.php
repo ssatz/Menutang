@@ -25,7 +25,7 @@ $app = new Illuminate\Foundation\Application;
 */
 
 $env = $app->detectEnvironment(function() {
-    return getenv('APP_NAME_ENV')=='production'?'production':'local';
+   return gethostname()=='menutang'?'production':'local';
 });
 /*
 |--------------------------------------------------------------------------
