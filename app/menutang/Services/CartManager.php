@@ -51,6 +51,9 @@ class CartManager {
      */
     protected $request;
 
+    /**
+     * @var IManageBusinessRepository
+     */
     protected $buRepo;
 
     /**
@@ -161,7 +164,7 @@ class CartManager {
         {
             $this->emptyCart();
         }
-        $item =$this->getCartItem($menuItem->id,$cartId);
+        $item =$this->getCartMenuItem($menuItem->id,$cartId);
         if(!is_null($item)) {
             if ($item->count() > 0) {
                 (int)$quantity = ((int)$quantity) + ((int)$item->quantity);
@@ -199,6 +202,52 @@ class CartManager {
        $this->cartItemRepo->delete($id);
     }
 
+
+    /**
+     * @param $id
+     * @param $slug
+     */
+    public function minusItemQuantity($id,$slug)
+    {
+       $cartItem= $this->cartItemRepo->find($id);
+        if(!is_null($cartItem)){
+            $menu = $this->getMenuItem($cartItem->menu_item_id);
+            if(!is_null($menu)){
+                (int) $quantity = ($cartItem->quantity-1);
+                if($quantity<1){
+                    return $this->removeItemFromCart($id);
+                }
+                (int)$price = ($menu->item_price * $quantity);
+                $data =[
+                    'quantity' => $quantity,
+                    'price'=>$price
+                ];
+                $this->cartItemRepo->update($data,$id);
+            }
+        }
+    }
+
+
+    /**
+     * @param $id
+     * @param $slug
+     */
+    public function addItemQuantity($id,$slug)
+    {
+        $cartItem= $this->cartItemRepo->find($id);
+        if(!is_null($cartItem)){
+            $menu = $this->getMenuItem($cartItem->menu_item_id);
+            if(!is_null($menu)){
+                (int) $quantity = ($cartItem->quantity+1);
+                (int)$price = ($menu->item_price * $quantity);
+                $data =[
+                    'quantity' => $quantity,
+                    'price'=>$price
+                ];
+                $this->cartItemRepo->update($data,$id);
+            }
+        }
+    }
     /**
      * @return mixed
      */
@@ -225,12 +274,21 @@ class CartManager {
       return  $this->menuItemRepo->find($id);
     }
 
-    protected function getCartItem($menuItemId,$cartId)
+    /**
+     * @param $menuItemId
+     * @param $cartId
+     * @return mixed
+     */
+    protected function getCartMenuItem($menuItemId,$cartId)
     {
        $item= $this->cartItemRepo->findMenuItemId($menuItemId,$cartId);
       return $item;
     }
 
+    /**
+     * @param $slug
+     * @return stdClass
+     */
     public function getCartItems($slug)
     {
         if ($user = $this->auth->user()->check()) {
@@ -240,7 +298,7 @@ class CartManager {
             $cart = $this->cartRepo->findByUid($uid);
         }
         $buRepo = $this->buRepo->findBusinessBySlug($slug);
-        if(!is_null($cart)) {
+        if(!is_null($cart) && $cart->cartItem->count()>0) {
             if ($buRepo->id != $cart->cartItem[0]->menuItem->business_info_id) {
                 $this->emptyCart();
                 $cart = new stdClass();

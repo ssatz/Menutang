@@ -980,8 +980,7 @@ footer ul.list-inline {
     background-color: #f15725;
 }
 
-.borderStyle,#menuCategory ul>li.active>a {
-    background: #ddd;
+.borderStyle,#menuCategory>ul>li.active>a {
     border-color: transparent;
     border-bottom-color: #f15725;
     border-style: solid;
@@ -996,4 +995,6 @@ footer ul.list-inline {
     top: 20px;
     width: 150px;
 }
-
+.list-group.active{
+    background: #dddddd;
+}

@@ -227,7 +227,7 @@
                         <!-- Menu Category Links - Link to a Menu Category ID -->
                         <ul class="nav nav-pills nav-stacked list-group">
                         @foreach($menucategory as $category)
-                        <li class="active">
+                        <li>
                              <a href="#@replacespace($category)" class="list-group-item page-scroll">{{$category}}</a>
                         </li>
                             @endforeach
@@ -297,9 +297,11 @@
                         <div class="radio">
                             <!-- Delivery/Pick Up Selection -->
                             <label>
-                                <input type="radio" name="delivery_option" id="optionsRadios1" value="{{DeliveryOptionEnum::DELIVERY()}}" checked> Delivery
+                                <input type="radio" name="delivery_option" data-bind="checked:deliveryPick,click:deliveryPickclick" id="optionsRadios1" value="{{DeliveryOptionEnum::DELIVERY()}}"> Delivery
+                                <input type="hidden" name="delivery_fee" value="{{$businessdetails->delivery_fee}}">
+                                <input type="hidden" name="minimum_amt" value="{{$businessdetails->minimum_delivery_amt}}">
                             </label>
-                            <select class="form-control" style="margin-top: 5px;">
+                            <select class="form-control"  style="margin-top: 5px;">
                                 <option selected disabled>Select Your Area:</option>
                                 @foreach($businessdetails->deliveryArea as $area)
                                     <option value="{{$area->id}}">{{$area->area}}</option>
@@ -308,37 +310,38 @@
                         </div>
                         <div class="radio">
                             <label>
-                                <input type="radio" name="delivery_option" id="optionsRadios2" value="{{DeliveryOptionEnum::PICKUP()}}"> Pick Up
+                                <input type="radio" name="delivery_option" data-bind="checked:deliveryPick,click:deliveryPickclick" id="optionsRadios2" value="{{DeliveryOptionEnum::PICKUP()}}"> Pick Up
+                                <input type="hidden" name="delivery_fee" value="0">
+                                <input type="hidden" name="minimum_amt" value="{{$businessdetails->minimum_pickup_amt}}">
                             </label>
                         </div>
 
                         <hr>
 
-                        <!-- Message if there are no items in the order - Uncomment below to preview. -->
-                        <!-- <em><small>Add items to your order using the menu to the left.</small></em> -->
-
                         <!-- Order Items Summary -->
-                        <ul class="list-unstyled order-summary-list">
-                            @if(!is_null($cart))
-                            @foreach($cart->cartItem as $item)
+                        <ul class="list-unstyled order-summary-list" data-bind="foreach:cart">
+                            <!-- ko foreach: cart_item -->
                             <li>
+
                                 <div class="number-select">
-                                    <a href="#"><i class="fa fa-minus-circle"></i></a> {{$item->quantity}}
-                                    <a href="#"><i class="fa fa-plus-circle"></i></a>
+                                    <a href="#minus" data-bind="click:$root.cartItemMinus"><i class="fa fa-minus-circle"></i></a>
+                                    <!-- ko text: quantity --> <!-- /ko -->
+                                    <a href="#add" id="cartItem-plus" data-bind="click:$root.cartItemAdd"><i class="fa fa-plus-circle"></i></a>
                                 </div>
-                                <div>{{$item->menuItem->item_name}}</div>
-                                <div class="pull-right">{{$item->price}}</div>
+                                <div data-bind="text:menu_item.item_name"></div>
+                                <div class="pull-right"><i class="fa fa-rupee"></i>
+                                    <!-- ko text: price --> <!-- /ko -->
+                                    <a href="#delete" id="cartItem-minus" data-bind="click:$root.cartItemDelete"><i class="fa fa-times-circle-o"></i></a>
+                                </div>
+                                <input type="hidden" name="item_id" data-bind="value:id">
                             </li>
-                            @endforeach
-                            @else
-                            <li>No items added</li>
-                            @endif
+                            <!-- /ko -->
                         </ul>
                         <hr>
                         <!-- Subtotal -->
                         <strong>
                             <span class="pull-left">Subtotal:</span>
-                            <span class="pull-right">$55.32</span>
+                            <span class="pull-right"><i class="fa fa-rupee"></i><!-- ko text: subTotal --> <!-- /ko --></span>
                             <span class="clearfix"></span>
                         </strong>
                         <hr>
@@ -355,27 +358,34 @@
                             </label>
                         </div>
                         <hr>
+                        <strong>
+                            <span class="pull-left">Package Fee</span>
+                            <span class="pull-right"><i class="fa fa-rupee"></i>{{$businessdetails->parcel_charges}}</span>
+                            <span class="clearfix"></span>
+                            <input type="hidden" name="parcel_charges" id="parcel-charge" value="{{$businessdetails->parcel_charges}}">
+                        </strong>
+                        <!--ko if:display --><hr> <!--/ko-->
                         <!-- Taxes and Fees -->
-                        <strong>
-                            <span class="pull-left">Delivery Fee:</span>
-                            <span class="pull-right">$4.25</span>
+                        <strong data-bind="template:{name:'fee-template'}"> </strong>
+                        <script type="text/html" id="fee-template">
+                            <span class="pull-left" data-bind="if:display"><!-- ko text:deliveryPick --><!--/ko--> Fee</span>
+                            <span class="pull-right" data-bind="if:display"><i class="fa fa-rupee"></i><!-- ko text:deliveryPickFee --> <!--/ko --></span>
                             <span class="clearfix"></span>
-                        </strong>
-                        <strong>
-                            <span class="pull-left">Tax:</span>
-                            <span class="pull-right">$3.87</span>
+                            <span class="pull-left small" data-bind="if:display"><i class="fa fa-rupee"></i><!-- ko text:deliveryPickMinimum --><!--/ko--> Minimum</span>
+                            <span class="small" style="padding-left: 10px" data-bind="if:display"><i class="fa fa-rupee"></i><!-- ko text:remainingAmount --> <!--/ko --> remaining</span>
                             <span class="clearfix"></span>
-                        </strong>
+                        </script>
                         <hr>
                         <!-- Total Order Amount -->
                         <h4 class="text-primary">
                             <span class="pull-left">Total:</span>
-                            <span class="pull-right">$63.44</span>
+                            <span class="pull-right"><i class="fa fa-rupee"></i><!-- ko  text: grandTotal --> <!-- /ko --></span>
+                            <input type="hidden" name="grand_total" data-bind="value:grandTotal">
                             <span class="clearfix"></span>
                         </h4>
                         <hr>
                         <!-- Place Order Button -->
-                        <a href="#" class="btn btn-primary btn-block">Place Your Order!</a>
+                        <a href="#" class="btn btn-primary btn-block" data-bind="attr: { 'disabled': orderButton() }">Place Your Order!</a>
                     </div>
                 </div>
             </div>
@@ -482,7 +492,7 @@
 
 <!-- Bootstrap -->
 <script src="{{asset('assets/common/js/bootstrap.min.js')}}"></script>
-
+<script src="{{asset('assets/common/js/knockout.min-3.3.0.js')}}"></script>
 <!-- Plugin JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
@@ -490,6 +500,7 @@
 <!-- Theme Scripts -->
 <script src="{{asset('assets/common/js/jquery.bootstrap-touchspin.min.js')}}"></script>
 <script src="{{asset('assets/common/js/app/frontend.js')}}"></script>
+<script src="{{asset('assets/common/js/app/buprofile-knockout.js')}}"></script>
 
 <script>
     $('#menuCategory, #orderSummary').affix({
@@ -512,7 +523,7 @@
         verticalupclass: 'fa fa-plus',
         verticaldownclass: 'fa fa-minus'
     });
-
+    $("#menuCategory ul>li").first().addClass('active');
     $(".addOrder").click(function(e){
         e.preventDefault();
         var $menuItemId = $(this).parents(".list-group-item").find("input[name=menu_item_id]").val();
@@ -526,10 +537,24 @@
         };
         ajax('{{action('CartController;@addToCart',[$slug])}}', 'POST', $data, 'json', function (msg) {
 
-
+        cartModel.cart(msg)
         };
         )
     });;;
+    $data ={
+        _token: '{{Session::get('_token')}}'
+    };
+    ajax('{{action('CartController;@getCart',[$slug])}}', 'GET', $data, 'json', function (msg) {
+        cartModel.cart(msg);
+
+    };
+    )
+    function postAjax(id,action){
+        $.post('{{action('CartController;@updateCartItem',[$slug])}}',{cart_item_id:id,action:action,_token: '{{Session::get('_token')}}'}, function( data ) {
+            cartModel.cart(data);
+        }, 'json';
+    )
+    };;
 </script>
 
 </body>
