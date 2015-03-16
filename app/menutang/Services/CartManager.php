@@ -240,10 +240,11 @@ class CartManager {
             $cart = $this->cartRepo->findByUid($uid);
         }
         $buRepo = $this->buRepo->findBusinessBySlug($slug);
-        if($buRepo->id != $cart->cartItem[0]->menuItem->business_info_id)
-        {
-            $this->emptyCart();
-            $cart = new stdClass();
+        if(!is_null($cart)) {
+            if ($buRepo->id != $cart->cartItem[0]->menuItem->business_info_id) {
+                $this->emptyCart();
+                $cart = new stdClass();
+            }
         }
         return $cart;
     }

@@ -316,6 +316,7 @@
 
                         <!-- Order Items Summary -->
                         <ul class="list-unstyled order-summary-list">
+                            @if(!is_null($cart))
                             @foreach($cart->cartItem as $item)
                             <li>
                                 <div class="number-select">
@@ -326,6 +327,9 @@
                                 <div class="pull-right">{{$item->price}}</div>
                             </li>
                             @endforeach
+                            @else
+                            <li>No items added</li>
+                            @endif
                         </ul>
                         <hr>
                         <!-- Subtotal -->
@@ -516,14 +520,13 @@
             quantity     :$quantity,
             delivery_option:$delivery_option,
             _token: '{{Session::get('_token')}}'
-        }
-        ajax('{{action('CartController@addToCart',[$slug])}}', 'POST', $data, 'json', function (msg) {
+        };
+        ajax('{{action('CartController;@addToCart',[$slug])}}', 'POST', $data, 'json', function (msg) {
 
 
-        }
+        };;
         )
-        ;
-    })
+    });
 </script>
 
 </body>
