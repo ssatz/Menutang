@@ -33,7 +33,7 @@
 
 </head>
 
-<body id="top">
+<body id="top" data-spy="scroll" data-target=".side-menu">
 
 <header class="bg-light profile-header">
     <nav class="navbar navbar-default navbar-static-top" role="navigation">
@@ -224,12 +224,15 @@
             <div class="col-lg-2 col-md-2 col-sm-3 hidden-xs">
                 <!-- Affixed Menu Navigation -->
                 <div id="menuCategory" class="side-menu">
-                    <div class="list-group">
                         <!-- Menu Category Links - Link to a Menu Category ID -->
+                        <ul class="nav nav-pills nav-stacked list-group">
                         @foreach($menucategory as $category)
-                        <a href="#@replacespace($category)" class="list-group-item page-scroll">{{$category}}</a>
-                        @endforeach
-                    </div>
+                        <li class="active">
+                             <a href="#@replacespace($category)" class="list-group-item page-scroll">{{$category}}</a>
+                        </li>
+                            @endforeach
+                        </ul>
+
                     <a href="#top" class="btn btn-link page-scroll"><i class="fa fa-fw fa-angle-up"></i> Back to Top</a>
                 </div>
             </div>
@@ -524,9 +527,9 @@
         ajax('{{action('CartController;@addToCart',[$slug])}}', 'POST', $data, 'json', function (msg) {
 
 
-        };;
+        };
         )
-    });
+    });;;
 </script>
 
 </body>
