@@ -152,19 +152,33 @@ class CartManager {
      * @param int $quantity
      * @param null $cartId
      */
-    public function addItemToCart($menuItem,$deliveryOption,$slug, $quantity = 1, $cartId = null)
+    public function addItemToCart($menuItem,$deliveryOption,$slug, $quantity = 1,$itemAddon=null, $cartId = null)
     {
         if ( ! $cartId) {
             $cart = $this->getOrCreate($deliveryOption);
             $cartId = $cart->id;
         }
         $menuItem = $this->getMenuItem((int)$menuItem);
+        $price =(int) $menuItem->item_price;
+        if(!is_null($itemAddon)) {
+            $itemAddondetails = $menuItem->itemAddon->filter(function ($item) use ($itemAddon) {
+                return $item->id ==(int) $itemAddon;
+            })->first();
+            $price =(int) $itemAddondetails->addon_price;
+            $itemAddon = (int) $itemAddondetails->id;
+        }
+
         $buRepo = $this->buRepo->findBusinessBySlug($slug);
         if($buRepo->id != $menuItem->business_info_id)
         {
             $this->emptyCart();
         }
-        $item =$this->getCartMenuItem($menuItem->id,$cartId);
+        if(is_null($itemAddon)) {
+            $item = $this->getCartMenuItem($menuItem->id, $cartId);
+        }
+        else{
+            $item = $this->getCartMenuItem($menuItem->id,$cartId, $itemAddondetails->id);
+        }
         if(!is_null($item)) {
             if ($item->count() > 0) {
                 (int)$quantity = ((int)$quantity) + ((int)$item->quantity);
@@ -176,9 +190,11 @@ class CartManager {
         $data = [
             'cart_id'      => (int)$cartId,
             'menu_item_id'   =>(int) $menuItem->id,
-            'quantity'     => $quantity,
-            'price'   => $menuItem->item_price
+            'quantity'     => (int)$quantity,
+            'menu_item_addon_id'=>$itemAddon,
+            'price'   =>$price,
         ];
+
         $this->cartItemRepo->create($data);
     }
     /**
@@ -207,7 +223,7 @@ class CartManager {
      * @param $id
      * @param $slug
      */
-    public function minusItemQuantity($id,$slug)
+    public function minusItemQuantity($id)
     {
        $cartItem= $this->cartItemRepo->find($id);
         if(!is_null($cartItem)){
@@ -232,7 +248,7 @@ class CartManager {
      * @param $id
      * @param $slug
      */
-    public function addItemQuantity($id,$slug)
+    public function addItemQuantity($id)
     {
         $cartItem= $this->cartItemRepo->find($id);
         if(!is_null($cartItem)){
@@ -279,9 +295,9 @@ class CartManager {
      * @param $cartId
      * @return mixed
      */
-    protected function getCartMenuItem($menuItemId,$cartId)
+    protected function getCartMenuItem($menuItemId,$cartId,$itemAddon=null)
     {
-       $item= $this->cartItemRepo->findMenuItemId($menuItemId,$cartId);
+       $item= $this->cartItemRepo->findMenuItemId($menuItemId,$cartId,$itemAddon);
       return $item;
     }
 

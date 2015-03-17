@@ -19,6 +19,9 @@ class Cart extends Eloquent {
      */
     protected $guard = ['id'];
 
+    /**
+     * @var array
+     */
     protected $fillable =['uid'];
 
     /**
@@ -29,6 +32,9 @@ class Cart extends Eloquent {
         return $this->hasMany('CartItem');
     }
 
+    /**
+     * @return mixed
+     */
     public function user()
     {
         return $this->belongsTo('User');

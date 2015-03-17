@@ -95,4 +95,4 @@ Route::get('{locality}',['as'=>'locality','uses'=>'FrontEndController@searchBU']
 /*Event::listen('illuminate.query', function($query)
 {
    var_dump($query);
-}); */
+});*/

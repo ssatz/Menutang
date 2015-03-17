@@ -88,7 +88,8 @@ class CartController extends BaseController  {
        $menuItemId = $this->request->get('menu_item_id');
        $quantity = $this->request->get('quantity');
        $deliveryOption = $this->request->get('delivery_option');
-       $this->cartManager->addItemToCart($menuItemId,$deliveryOption,$slug,$quantity);
+       $itemAddon = $this->request->get('item_addon_id');
+       $this->cartManager->addItemToCart($menuItemId,$deliveryOption,$slug,$quantity,$itemAddon);
         $cartItem = $this->cartManager->getCartItems($slug);
         if(!is_null($cartItem)) {
             return $cartItem->toJson();
@@ -123,10 +124,10 @@ class CartController extends BaseController  {
             switch($action)
             {
                 case ActionEnum::Minus:
-                    $this->cartManager->minusItemQuantity($cartItemId,$slug);
+                    $this->cartManager->minusItemQuantity($cartItemId);
                     break;
                 case ActionEnum::Add:
-                    $this->cartManager->addItemQuantity($cartItemId,$slug);
+                    $this->cartManager->addItemQuantity($cartItemId);
                     break;
                 case ActionEnum::Delete:
                     $this->cartManager->removeItemFromCart($cartItemId);

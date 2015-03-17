@@ -93,6 +93,10 @@ class MenutangServiceProvider extends ServiceProvider
             'Repositories\CartItemRepository\CartItemRepository'
         );
         $app->bind(
+            'Repositories\MenuAddonRepository\IMenuAddonRepository',
+            'Repositories\MenuAddonRepository\MenuAddonRepository'
+        );
+        $app->bind(
             'Services\Cache\ICacheService',
             'Services\Cache\CacheService'
         );

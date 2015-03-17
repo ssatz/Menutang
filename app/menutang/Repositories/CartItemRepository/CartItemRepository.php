@@ -175,15 +175,20 @@ class CartItemRepository extends BaseRepository implements ICartItemRepository {
         $item->menu_item_id = $data['menu_item_id'];
         $item->cart_id = $data['cart_id'];
         $item->quantity = $data['quantity'];
+        $item->menu_item_addon_id = $data['menu_item_addon_id'];
         $item->price    = $data['price'];
         $item->save();
         return $item->id;
     }
 
-    public function findMenuItemId($menuItemId,$cartId)
+    public function findMenuItemId($menuItemId,$cartId,$itemAddon=null)
     {
-      return  $this->model->where('menu_item_id','=',$menuItemId)
-                    ->where('cart_id','=',$cartId)->first();
+       if(is_null($itemAddon)) {
+           return $this->model->where('menu_item_id', '=', $menuItemId)
+               ->where('cart_id', '=', $cartId)->first();
+       }
+        return $this->model->where('menu_item_id', '=', $menuItemId)->where('menu_item_addon_id','=',$itemAddon)
+            ->where('cart_id', '=', $cartId)->first();
     }
 
 }

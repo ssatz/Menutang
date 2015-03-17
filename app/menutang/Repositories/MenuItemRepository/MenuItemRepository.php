@@ -32,6 +32,9 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
      */
     protected $itemAddon;
 
+    /**
+     * @var Helper
+     */
     protected $helper;
 
     /**
@@ -110,6 +113,10 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
 
     }
 
+    /**
+     * @param $data
+     * @throws Exception
+     */
     public function bulkInsert($data)
     {
         if(!$data instanceof Collection)
@@ -143,10 +150,21 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
         }
 
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function find($id)
     {
         return $this->model->find($id);
     }
+
+    public function withAddon($menuId)
+    {
+        return $this->model->with('itemAddon')->find($menuId);
+    }
+
     /**
      * @param $key
      * @param array $input

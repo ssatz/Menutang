@@ -263,7 +263,10 @@
                                   @if($item->itemAddon->count()>0)
 
                                     @foreach($item->itemAddon as $addon)
-                                      <span class="pdRight">  {{$addon->addon_description}}(<i class="fa fa-inr"></i>{{$addon->addon_price}}) <input type="radio" value="{{$addon->addon_price}}" name="item[{{$item->id}}][addon]"></span>
+                                      <span class="pdRight">  {{$addon->addon_description}}
+                                          (<span class="badge"><i class="fa fa-inr"></i>{{$addon->addon_price}}</span>)
+                                          <input type="radio" value="{{$addon->addon_price}}" id="item_{{$addon->id}}_addon" class="item-addon" name="item[{{$item->id}}][addon]">
+                                      </span>
                                     @endforeach
                                   @else
                                     <small> {{$item->item_description}}</small>
@@ -333,6 +336,10 @@
                                     <!-- ko text: price --> <!-- /ko -->
                                     <a href="#delete" id="cartItem-minus" data-bind="click:$root.cartItemDelete"><i class="fa fa-times-circle-o"></i></a>
                                 </div>
+                                <!-- ko if: item_addon -->
+                                <span class="clearfix"></span>
+                                <div class="small" style="padding-left: 80px">Choices: <!-- ko text:item_addon.addon_description --> <!-- /ko --></div>
+                                <!-- /ko -->
                                 <input type="hidden" name="item_id" data-bind="value:id">
                             </li>
                             <!-- /ko -->
@@ -526,12 +533,18 @@
     $("#menuCategory ul>li").first().addClass('active');
     $(".addOrder").click(function(e){
         e.preventDefault();
+        var $addonItemId = $(this).parent(".list-group-item").find(".item-addon:checked").prop('id');
+        if($addonItemId!=undefined)
+        {
+            $addonItemId = $addonItemId.split("_")[1];
+        }
         var $menuItemId = $(this).parents(".list-group-item").find("input[name=menu_item_id]").val();
         var $quantity   =$(this).parents(".list-group-item").find("input[name=item_order]").val();
         var $delivery_option = $("input[name=delivery_option]").val();
         $data = {
             menu_item_id : $menuItemId,
             quantity     :$quantity,
+            item_addon_id:$addonItemId,
             delivery_option:$delivery_option,
             _token: '{{Session::get('_token')}}'
         };
@@ -546,6 +559,7 @@
     };
     ajax('{{action('CartController@getCart',[$slug])}}', 'GET', $data, 'json', function (msg) {
         cartModel.cart(msg);
+        console.log(msg);
     }
     );
     function postAjax(id,action){
