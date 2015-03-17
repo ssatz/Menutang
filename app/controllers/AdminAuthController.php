@@ -13,6 +13,8 @@ use Services\AdminAuth;
 use Services\RegionalSettingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
+use Carbon\Carbon;
 
 class AdminAuthController extends BaseController
 {
@@ -46,11 +48,16 @@ class AdminAuthController extends BaseController
      */
     protected $response;
 
+    protected $redirect;
+    protected $dateTime;
+
     /**
      * @param AdminAuth $adminAuth
      */
     public function __construct(AdminAuth $adminAuth, RegionalSettingsManager $regionalSettingsManager,
                                 Application $application,
+                                Redirector $redirector,
+                                Carbon $carbon,
                                 Request $request,
                                 Response $response)
     {
@@ -60,6 +67,8 @@ class AdminAuthController extends BaseController
         $this->view = $this->app->make('view');
         $this->request = $request;
         $this->response = $response;
+        $this->redirect =$redirector;
+        $this->dateTime = $carbon;
     }
 
     /* ShowLogin
@@ -132,6 +141,7 @@ class AdminAuthController extends BaseController
 
     /**
      * @return mixed
+     * @route delivery-area
      */
     public function addOrUpdateDeliveryArea()
     {
@@ -139,13 +149,31 @@ class AdminAuthController extends BaseController
         {
             if($this->request->has('action') && $this->request->input('action')=='update')
             {
-               return $this->regionSettings->addOrUpdateDeliveryArea($this->request->all());
+               return $this->regionSettings->updateDeliveryArea($this->request->all());
             }
             $search = $this->request->input('search_query');
            return $this->regionSettings->getDeliveryAreaPincode($search);
         }
+        if($this->request->isMethod('POST'))
+        {
+        $input=[
+          'area'=>$this->request->get('area'),
+          'area_pincode'=>$this->request->get('pincode'),
+          'city_id'=>$this->request->get('city'),
+          'created_at'=>$this->dateTime->now(),
+          'updated_at'=>$this->dateTime->now()
+        ];
+            if(empty($input['area']) || empty($input['area_pincode']) || empty($input['city_id']))
+            {
+                return  $this->redirect->back()->with("message",'All fields are Required');
+            }
+            $this->regionSettings->addDeliveryArea($input);
+            return $this->redirect->back()->with("message",'Delivery Area updated Sucessfully');
+        }
         $deliveryArea = $this->regionSettings->getDeliveryArea(10);
-        return $this->view->make('admin.delivery_area')->withDeliveryarea($deliveryArea);
+        $city = $this->regionSettings->getCityRelations();
+        return $this->view->make('admin.delivery_area')->withDeliveryarea($deliveryArea)
+                                                       ->withCities($city);
     }
 
 

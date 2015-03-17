@@ -11,10 +11,10 @@
 namespace Services;
 
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Repositories\AdminRepository\IAdminRepository;
 use Services\Validations\LoginValidation;
+use Illuminate\Foundation\Application;
 
 
 class AdminAuth
@@ -32,15 +32,22 @@ class AdminAuth
      * @var LoginValidation
      */
     protected $loginValidation;
+    /**
+     * @var mixed
+     */
+    protected $auth;
 
     /**
      * @param IAdminRepository $adminRepository
      * @param LoginValidation $loginValidation
      */
-    public function __construct(IAdminRepository $adminRepository, LoginValidation $loginValidation)
+    public function __construct(IAdminRepository $adminRepository, LoginValidation $loginValidation,
+                                Application $application
+                                )
     {
         $this->adminRepository = $adminRepository;
         $this->loginValidation = $loginValidation;
+        $this->auth= $application->make('auth');
 
 
     }
@@ -54,7 +61,7 @@ class AdminAuth
 
         $this->loginValidation->with($input);
         if ($this->loginValidation->passes()) {
-            if (Auth::admin()->attempt($input)) {
+            if ($this->auth->admin()->attempt($input)) {
                 return true;
             }
             $this->errors = Lang::get('login.login');
@@ -69,7 +76,7 @@ class AdminAuth
      */
     public function  logout()
     {
-        Auth::admin()->logout();
+        $this->auth->admin()->logout();
     }
 
     /**
@@ -77,7 +84,7 @@ class AdminAuth
      */
     public function authCheck()
     {
-        if (Auth::admin()->check()) {
+        if ($this->auth->admin()->check()) {
             return true;
         } else {
             return false;

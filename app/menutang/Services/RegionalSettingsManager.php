@@ -106,13 +106,22 @@ class RegionalSettingsManager
     /**
      * @param $input
      */
-    public function addOrUpdateDeliveryArea($input)
+    public function updateDeliveryArea($input)
     {
-        $area =['area'=> $input['area'],'area_pincode'=>$input['pincode']];
+        $area =[
+            'area'=> $input['area'],
+            'area_pincode'=>$input['pincode'],
+            'city_id'=>$input['city_id']
+        ];
         if($input['action']=='update')
         {
            return $this->deliveryArea->update($area,$input['delivery_id']);
         }
+    }
+
+    public function addDeliveryArea(array $input)
+    {
+        return $this->deliveryArea->create($input);
     }
 
     /**

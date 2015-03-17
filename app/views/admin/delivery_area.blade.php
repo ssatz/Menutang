@@ -4,10 +4,27 @@
 <div class="panel-heading">
     Delivery Area
 </div>
-{{ Form::open(['route' =>'admin.delivery-area', 'method'
-=>'POST','class'=>'form-horizontal']) }}
-<div class="padding-md clearfix">
-    <table class="table table-responsive">
+@if(Session::has('message'))
+<div class="alert alert-success text-center">{{Session::get('message')}}</div>
+@endif
+{{ Form::open(['route' =>'admin.delivery-area', 'method'=>'POST','class'=>'form-horizontal']) }}
+        <table class="table table-responsive delivery-Area">
+            <tr>
+                <td><input  class="input-sm form-control" name="area" id="area-add" type="text"></td>
+                <td><input  class="input-sm form-control" id="area-pincode" name="pincode" type="text"></td>
+                <td><select class="form-control chzn-select"  name="city" id="area-city" data-required="true">
+                        <option value="">-- select --</option>
+                        @foreach($cities as $city)
+                        <option value="{{$city->id}}">{{$city->city_description}}</option>
+                        @endforeach
+                    </select>
+                </td>
+                <td>
+                    <button class="btn-info btn btn-sm add-area-btn">Add</button>
+                </td>
+            </tr>
+        </table>
+    <table class="table table-responsive city-table">
         <thead>
         <th>Area</th>
         <th>Pincode</th>
@@ -19,7 +36,13 @@
         <tr id="id-{{$areas->id}}">
             <td>{{$areas->area}} </td>
             <td>{{$areas->area_pincode}}</td>
-            <td>{{$areas->city->city_description}}</td>
+            <td>
+                <select class="form-control chzn-select"  name="city" data-required="true">
+                    @foreach($cities as $city)
+                    <option value="{{$city->id}}" @if($city->id==$areas->city->id)selected @endif>{{$city->city_description}}</option>
+                    @endforeach
+                </select>
+            </td>
             <td>
                 <button class="btn-info btn btn-sm edit-area">Edit</button>
                 <button class="btn-info btn btn-sm update-area displayNone">Update</button>
@@ -35,6 +58,7 @@
 @endsection
 
 @section('css')
+<link href="{{asset('assets/common/css/chosen/chosen.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/common/css/gritter/jquery.gritter.css')}}" rel="stylesheet">
 <link href="{{asset('assets/common/css/menutang.css')}}" rel="stylesheet">
 @endsection
@@ -42,11 +66,13 @@
 @section('scripts')
 <script src="{{asset('assets/common/js/typeahead.bundle.min.js')}}"></script>
 <script src="{{asset('assets/common/js/jquery.gritter.min.js')}}"></script>
+<script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         var $currentObject;
-       $(".edit-area").click(function(e){
+        $(".chzn-select").chosen();
+        $("body").on("click",".edit-area",function(e){
            e.preventDefault();
            var $html = '<input  class="input-sm form-control" type="text">';
            $(this).closest("tr").find("td:eq(0)").html($html);
@@ -69,7 +95,7 @@
                         $locality = $(el).html();
                     }
                });
-               console.log($locality);
+               var city = place.address_components[1].long_name;
                $data={
                  search_query : query,
                    _token: $token
@@ -77,6 +103,10 @@
                ajax('{{action('AdminAuthController@addOrUpdateDeliveryArea')}}', 'POST', $data, 'json', function (msg) {
                    if(msg.pincode!='') {
                        $($currentObject).closest("tr").find("td:eq(1) input").val(msg.pincode);
+                      $($currentObject).closest('tr').find(".chzn-select option").filter(function(){
+                          return $.trim($(this).text()) == city
+                      }).prop('selected', true);
+                       $(".chzn-select").trigger("chosen:updated");
                        notification('Notification', 'Pincode retrived Sucessfully', 'gritter-success');
                    }
                    else{
@@ -95,11 +125,13 @@
             var $area  = $(this).closest("tr").find("td:eq(0) input").val().split(",")[0];
             var $pincode = $(this).closest("tr").find("td:eq(1) input").val();
             var $deliveryID = $(this).closest("tr").prop("id").split("-")[1];
+            var $city =  $(this).closest("tr").find(".chzn-select").val();
             $data={
                 action : 'update',
                 area   : $area,
                 pincode:$pincode,
                 delivery_id:$deliveryID,
+                city_id : $city,
                 _token: $token
             };
             ajax('{{action('AdminAuthController@addOrUpdateDeliveryArea')}}', 'POST', $data, 'json', function (msg) {
@@ -112,7 +144,44 @@
                     }
             });
         });
+        var autocomplete = new google.maps.places.Autocomplete($("#area-add")[0], {
+            componentRestrictions: {country: "in"}
+            // types: ['(cities)']
+        });
 
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            notification('Notification', 'Please Wait..', 'gritter-info');
+            var place = autocomplete.getPlace();
+            var $token = '{{ Session::token() }}';
+            var query =  place.address_components[0].long_name;
+            var $locality ;
+            var $html = $.parseHTML((place.adr_address).replace(/,/g , ""));
+            $.each( $html, function( i, el ) {
+                if($(el).hasClass('locality')){
+                    $locality = $(el).html();
+                }
+            });
+            var city = place.address_components[1].long_name;
+            $data={
+                search_query : query,
+                _token: $token
+            };
+
+            ajax('{{action('AdminAuthController@addOrUpdateDeliveryArea')}}', 'POST', $data, 'json', function (msg) {
+                if(msg.pincode!='') {
+                    $("#area-add").val(query);
+                    $("#area-pincode").val(msg.pincode);
+                    $("#area-city option").filter(function(){
+                        return $.trim($(this).text()) == city
+                    }).prop('selected', true);
+                    $(".chzn-select").trigger("chosen:updated");
+                    notification('Notification', 'Pincode retrived Sucessfully', 'gritter-success');
+                }
+                else{
+                    notification('Notification', 'Pincode not Available', 'gritter-error');
+                }
+            });
+        });
     });
 </script>
 @endsection
