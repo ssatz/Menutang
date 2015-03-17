@@ -245,6 +245,7 @@
                         @foreach($menu->menuItem as $item)
                         <a  class="list-group-item">
                             <input type="hidden" name="menu_item_id" value="{{$item->id}}">
+                            @if($item->itemAddon->count()==0)
                              <span class="addOrder label label-success">
                                 <i class="fa fa-plus"></i>
                                 Add
@@ -253,7 +254,7 @@
                                 <i class="fa fa-inr"></i>
                                 {{$item->item_price}}
                             </span>
-
+                            @endif
                             {{$item->item_name}}
                             @if($item->is_popular)
                                <i class="text-yellow fa fa-star fa-fw"></i>
@@ -261,13 +262,21 @@
                             <div class="row">
                                 <div class="col-lg10 col-md-10">
                                   @if($item->itemAddon->count()>0)
-
+                                    <ul class="list-unstyled order-summary-list">
                                     @foreach($item->itemAddon as $addon)
-                                      <span class="pdRight">  {{$addon->addon_description}}
+                                        <li>
+                                      <span class="pdRight addon-btn text-primary">  {{$addon->addon_description}}
                                           (<span class="badge"><i class="fa fa-inr"></i>{{$addon->addon_price}}</span>)
-                                          <input type="radio" value="{{$addon->addon_price}}" id="item_{{$addon->id}}_addon" class="item-addon" name="item[{{$item->id}}][addon]">
+                                           <span class="addOrder addon label label-success ">
+                                             <i class="fa fa-plus"></i>
+                                             Add
+                                           </span>
+                                          <input type="hidden" value="{{$addon->addon_price}}" id="item_{{$addon->id}}_addon" class="item-addon" name="item[{{$item->id}}][addon]">
+                                          <!--<input type="radio" value="{{$addon->addon_price}}" id="item_{{$addon->id}}_addon" class="item-addon" name="item[{{$item->id}}][addon]">-->
                                       </span>
+                                        </li>
                                     @endforeach
+                                        </ul>
                                   @else
                                     <small> {{$item->item_description}}</small>
                                   @endif
@@ -338,7 +347,7 @@
                                 </div>
                                 <!-- ko if: item_addon -->
                                 <span class="clearfix"></span>
-                                <div class="small" style="padding-left: 80px">Choices: <!-- ko text:item_addon.addon_description --> <!-- /ko --></div>
+                                <div class="small text-primary" style="padding-left: 80px">Choices: <!-- ko text:item_addon.addon_description --> <!-- /ko --></div>
                                 <!-- /ko -->
                                 <input type="hidden" name="item_id" data-bind="value:id">
                             </li>
@@ -378,8 +387,8 @@
                             <span class="pull-left" data-bind="if:display"><!-- ko text:deliveryPick --><!--/ko--> Fee</span>
                             <span class="pull-right" data-bind="if:display"><i class="fa fa-rupee"></i><!-- ko text:deliveryPickFee --> <!--/ko --></span>
                             <span class="clearfix"></span>
-                            <span class="pull-left small" data-bind="if:display"><i class="fa fa-rupee"></i><!-- ko text:deliveryPickMinimum --><!--/ko--> Minimum</span>
-                            <span class="small" style="padding-left: 10px" data-bind="if:display"><i class="fa fa-rupee"></i><!-- ko text:remainingAmount --> <!--/ko --> remaining</span>
+                            <span class="pull-left small text-primary" data-bind="if:display"><span class="badge"><i class="fa fa-inr"></i><!-- ko text:deliveryPickMinimum --><!--/ko--></span> Minimum</span>
+                            <span class="small text-primary" style="padding-left: 10px" data-bind="if:display"><span class="badge"><i class="fa fa-inr"></i><!-- ko text:remainingAmount --> <!--/ko --></span> remaining</span>
                             <span class="clearfix"></span>
                         </script>
                         <hr>
@@ -533,7 +542,7 @@
     $("#menuCategory ul>li").first().addClass('active');
     $(".addOrder").click(function(e){
         e.preventDefault();
-        var $addonItemId = $(this).parent(".list-group-item").find(".item-addon:checked").prop('id');
+        var $addonItemId = $(this).parents(".addon-btn").find("input[type=hidden].item-addon").prop('id');
         if($addonItemId!=undefined)
         {
             $addonItemId = $addonItemId.split("_")[1];

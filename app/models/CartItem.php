@@ -16,7 +16,7 @@ class CartItem extends Eloquent {
     /**
      * @var array
      */
-    protected $fillable=['cart_id,menu_item_id','quantity','price'];
+    protected $fillable=['cart_id,menu_item_id','quantity','price','menu_item_addon_id'];
 
     /**
      * @return mixed
@@ -31,7 +31,7 @@ class CartItem extends Eloquent {
      */
     public function menuItem()
     {
-        return $this->belongsTo('MenuItem');
+        return $this->belongsTo('MenuItem','menu_item_id');
     }
 
     /**
@@ -39,7 +39,7 @@ class CartItem extends Eloquent {
      */
     public function itemAddon()
     {
-        return $this->belongsTo('ItemAddon');
+        return $this->belongsTo('ItemAddon','menu_item_addon_id');
     }
 
 }
