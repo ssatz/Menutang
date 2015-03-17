@@ -535,26 +535,24 @@
             delivery_option:$delivery_option,
             _token: '{{Session::get('_token')}}'
         };
-        ajax('{{action('CartController;@addToCart',[$slug])}}', 'POST', $data, 'json', function (msg) {
+        ajax('{{action('CartController@addToCart',[$slug])}}', 'POST', $data, 'json', function (msg) {
 
         cartModel.cart(msg)
-        };
-        )
-    });;;
+        }
+        );
+    });
     $data ={
         _token: '{{Session::get('_token')}}'
     };
-    ajax('{{action('CartController;@getCart',[$slug])}}', 'GET', $data, 'json', function (msg) {
+    ajax('{{action('CartController@getCart',[$slug])}}', 'GET', $data, 'json', function (msg) {
         cartModel.cart(msg);
-
-    };
-    )
+    }
+    );
     function postAjax(id,action){
-        $.post('{{action('CartController;@updateCartItem',[$slug])}}',{cart_item_id:id,action:action,_token: '{{Session::get('_token')}}'}, function( data ) {
+        $.post('{{action('CartController@updateCartItem',[$slug])}}',{cart_item_id:id,action:action,_token: '{{Session::get('_token')}}'}, function( data ) {
             cartModel.cart(data);
-        }, 'json';
-    )
-    };;
+        }, 'json');
+    }
 </script>
 
 </body>
