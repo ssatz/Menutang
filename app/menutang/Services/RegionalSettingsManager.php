@@ -13,6 +13,7 @@ use Repositories\ManageCountryRepository\IManageCountryRepository;
 use Illuminate\Database\DatabaseManager;
 use Repositories\ManageDeliveryAreaRepository\IManageDeliveryAreaRepository;
 use Repositories\ManageStateRepository\IManageStateRepository;
+use Services\Validations\DeliveryAreaValidator;
 use Services\Validations\CityValidator;
 use GuzzleHttp;
 use Exception;
@@ -47,6 +48,8 @@ class RegionalSettingsManager
 
     protected $cityValidation;
 
+    protected $deliveryAreaValidator;
+
     /**
      * @param IManageCityRepository $city
      * @param IManageCountryRepository $country
@@ -54,6 +57,7 @@ class RegionalSettingsManager
     public function __construct(IManageCityRepository $city,
                                 IManageCountryRepository $country,
                                 IManageDeliveryAreaRepository $deliveryAreaRepository,
+                                DeliveryAreaValidator $deliveryAreaValidator,
                                 CityValidator $cityValidator,
                                 IManageStateRepository $stateRepository,
                                 DatabaseManager $databaseManager)
@@ -65,6 +69,7 @@ class RegionalSettingsManager
         $this->db = $databaseManager;
         $this->state = $stateRepository;
         $this->cityValidation = $cityValidator;
+        $this->deliveryAreaValidator = $deliveryAreaValidator;
     }
 
     /**
@@ -124,20 +129,31 @@ class RegionalSettingsManager
      */
     public function updateDeliveryArea($input)
     {
-        $area =[
-            'area'=> $input['area'],
-            'area_pincode'=>$input['pincode'],
-            'city_id'=>$input['city_id']
+        $area = [
+            'area' => $input['area'],
+            'area_pincode' => $input['pincode'],
+            'city_id' => $input['city_id']
         ];
-        if($input['action']=='update')
-        {
-           return $this->deliveryArea->update($area,$input['delivery_id']);
+        $this->deliveryAreaValidator->with($area);
+        if ($this->deliveryAreaValidator->passes()){
+             $this->deliveryArea->update($area, $input['delivery_id']);
+            return true;
         }
+        $this->errors = $this->deliveryAreaValidator->getErrors();
+        return false;
     }
 
     public function addDeliveryArea(array $input)
     {
-        return $this->deliveryArea->create($input);
+        $this->deliveryAreaValidator->with($input);
+        if($this->deliveryAreaValidator->passes())
+        {
+             $this->deliveryArea->create($input);
+            return true;
+        }
+        $this->errors = $this->deliveryAreaValidator->getErrors();
+        return false;
+
     }
 
     /**

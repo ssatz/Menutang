@@ -12,7 +12,7 @@ use Illuminate\Foundation\Application;
 use Services\AdminAuth;
 use Services\RegionalSettingsManager;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Routing\Redirector;
 use Carbon\Carbon;
 
@@ -27,7 +27,7 @@ class AdminAuthController extends BaseController
     /**
      * @var RegionalSettingsManager
      */
-    protected $regionSettings;
+    protected $regionalSettings;
 
     /**
      * @var mixed
@@ -62,7 +62,7 @@ class AdminAuthController extends BaseController
                                 Response $response)
     {
         $this->adminAuth = $adminAuth;
-        $this->regionSettings = $regionalSettingsManager;
+        $this->regionalSettings = $regionalSettingsManager;
         $this->app = $application;
         $this->view = $this->app->make('view');
         $this->request = $request;
@@ -122,8 +122,8 @@ class AdminAuthController extends BaseController
      */
     public function regionalSettings()
     {
-        $cityDetails = $this->regionSettings->getCityRelations();
-        $states = $this->regionSettings->getState();
+        $cityDetails = $this->regionalSettings->getCityRelations();
+        $states = $this->regionalSettings->getState();
         return $this->view->make('admin.regional_settings')->withCitydetails($cityDetails)
                            ->withStates($states);
     }
@@ -134,28 +134,28 @@ class AdminAuthController extends BaseController
     public function updateCityStatus()
     {
         if ($this->request->ajax() && $this->request->isMethod('POST')) {
-            if ($this->regionSettings->updateCityStatus($this->request->all())) {
-                return json_encode('true');
+            if ($this->regionalSettings->updateCityStatus($this->request->all())) {
+                return $this->response->json('true');
             }
-            return json_encode('false');
+            return $this->response->json('false');
         }
     }
 
     public function addCity()
     {
        $input = [
-           'state_id'=>$this->request->get('state'),
-           'city_code'=>$this->request->get('city_code'),
-           'city_description'=>$this->request->get('city_description'),
+           'state_id'=>trim($this->request->get('state')),
+           'city_code'=>trim($this->request->get('city_code')),
+           'city_description'=>trim(ucfirst($this->request->get('city_description'))),
            'city_status'=>false,
            'created_at'=>$this->dateTime->now(),
            'updated_at'=>$this->dateTime->now()
        ];
-        if($this->regionSettings->insertCity($input))
+        if($this->regionalSettings->insertCity($input))
         {
             return $this->redirect->back()->withMessage('City Update Successfully');
         }
-        return $this->redirect->back()->withErrors($this->regionSettings->errors);
+        return $this->redirect->back()->withErrors($this->regionalSettings->errors);
     }
 
     /**
@@ -168,29 +168,33 @@ class AdminAuthController extends BaseController
         {
             if($this->request->has('action') && $this->request->input('action')=='update')
             {
-               return $this->regionSettings->updateDeliveryArea($this->request->all());
+              if($this->regionalSettings->updateDeliveryArea($this->request->all()))
+              {
+                return $this->response->json('true');
+              }
+              return $this->regionalSettings->errors;
             }
             $search = $this->request->input('search_query');
-           return $this->regionSettings->getDeliveryAreaPincode($search);
+           return $this->regionalSettings->getDeliveryAreaPincode($search);
         }
         if($this->request->isMethod('POST'))
         {
         $input=[
-          'area'=>$this->request->get('area'),
-          'area_pincode'=>$this->request->get('pincode'),
-          'city_id'=>$this->request->get('city'),
+          'area'=>trim(ucfirst($this->request->get('area'))),
+          'area_pincode'=>trim($this->request->get('pincode')),
+          'city_id'=>trim($this->request->get('city_id')),
           'created_at'=>$this->dateTime->now(),
           'updated_at'=>$this->dateTime->now()
         ];
-            if(empty($input['area']) || empty($input['area_pincode']) || empty($input['city_id']))
-            {
-                return  $this->redirect->back()->with("message",'All fields are Required');
+
+
+            if($this->regionalSettings->addDeliveryArea($input)) {
+                return $this->redirect->back()->with("message", 'Delivery Area updated Sucessfully');
             }
-            $this->regionSettings->addDeliveryArea($input);
-            return $this->redirect->back()->with("message",'Delivery Area updated Sucessfully');
+            return $this->redirect->back()->withErrors($this->regionalSettings->errors);
         }
-        $deliveryArea = $this->regionSettings->getDeliveryArea(10);
-        $city = $this->regionSettings->getCityRelations();
+        $deliveryArea = $this->regionalSettings->getDeliveryArea(10);
+        $city = $this->regionalSettings->getCityRelations();
         return $this->view->make('admin.delivery_area')->withDeliveryarea($deliveryArea)
                                                        ->withCities($city);
     }
