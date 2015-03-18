@@ -16,6 +16,7 @@ class City extends Eloquent
      * @var string
      */
     protected $table = 'city';
+    protected $guarded = ['id'];
 
     /**
      * @return mixed

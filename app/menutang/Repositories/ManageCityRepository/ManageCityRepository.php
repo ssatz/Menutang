@@ -41,4 +41,14 @@ class ManageCityRepository extends BaseRepository implements IManageCityReposito
         return $stateRelation;
     }
 
+    public function create(array $input)
+    {
+        $key = md5($this->getObjectName() . '.State');
+        if ($this->cache->has($key)) {
+            $this->cache->remove($key);
+            $this->model->create($input);
+        }
+        return;
+    }
+
 }

@@ -36,7 +36,9 @@ Route::group(['domain' => 'admin.localhost'], function () {
 
     Route::group(['before' => 'auth.admin'], function () {
         Route::get('dashboard', ['as' => 'admin.dashboard', 'uses' => 'AdminAuthController@dashboard']);
+
         Route::get('regional-settings', ['as' => 'admin.regionalsettings', 'uses' => 'AdminAuthController@regionalSettings']);
+        Route::post('regional-settings/add', ['as' => 'admin.regionalsettings.add', 'uses' => 'AdminAuthController@addCity']);
         Route::post('regional-settings/update', ['as' => 'admin.regionalsettings.update', 'uses' => 'AdminAuthController@updateCityStatus']);
         Route::any('delivery-area', ['as' => 'admin.delivery-area', 'uses' => 'AdminAuthController@addOrUpdateDeliveryArea']);
         Route::get('manage-business', ['as' => 'admin.business', 'uses' => 'ManageBusinessController@showBusinesses']);

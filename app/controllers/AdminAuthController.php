@@ -80,7 +80,7 @@ class AdminAuthController extends BaseController
     public function showLogin()
     {
         if ($this->adminAuth->authCheck()) {
-            return Redirect::to('dashboard');
+            return $this->redirect->to('dashboard');
         }
         return $this->view->make('admin.login');
     }
@@ -91,13 +91,13 @@ class AdminAuthController extends BaseController
     public function postLogin()
     {
         $userdata = [
-            'email' => Input::get('email'),
-            'password' => Input::get('password')
+            'email' => $this->request->get('email'),
+            'password' => $this->request->get('password')
         ];
         if ($this->adminAuth->login($userdata)) {
-            return Redirect::to('dashboard');
+            return $this->redirect->to('dashboard');
         }
-        return Redirect::to('/')->withErrors($this->adminAuth->errors)->withInput();
+        return $this->redirect->to('/')->withErrors($this->adminAuth->errors)->withInput();
     }
 
     /**
@@ -106,7 +106,7 @@ class AdminAuthController extends BaseController
     public function logout()
     {
         $this->adminAuth->logout();
-        return Redirect::to('/')->with('message', 'You have been Logged Out');
+        return $this->redirect->to('/')->with('message', 'You have been Logged Out');
     }
 
     /**
@@ -123,7 +123,9 @@ class AdminAuthController extends BaseController
     public function regionalSettings()
     {
         $cityDetails = $this->regionSettings->getCityRelations();
-        return $this->view->make('admin.regional_settings')->withCitydetails($cityDetails);
+        $states = $this->regionSettings->getState();
+        return $this->view->make('admin.regional_settings')->withCitydetails($cityDetails)
+                           ->withStates($states);
     }
 
     /**
@@ -137,6 +139,23 @@ class AdminAuthController extends BaseController
             }
             return json_encode('false');
         }
+    }
+
+    public function addCity()
+    {
+       $input = [
+           'state_id'=>$this->request->get('state'),
+           'city_code'=>$this->request->get('city_code'),
+           'city_description'=>$this->request->get('city_description'),
+           'city_status'=>false,
+           'created_at'=>$this->dateTime->now(),
+           'updated_at'=>$this->dateTime->now()
+       ];
+        if($this->regionSettings->insertCity($input))
+        {
+            return $this->redirect->back()->withMessage('City Update Successfully');
+        }
+        return $this->redirect->back()->withErrors($this->regionSettings->errors);
     }
 
     /**

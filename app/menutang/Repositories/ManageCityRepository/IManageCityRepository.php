@@ -14,6 +14,7 @@ namespace Repositories\ManageCityRepository;
 interface IManageCityRepository
 {
     public function getAll();
+    public function create(array $input);
 
     public function getCityWithState();
 

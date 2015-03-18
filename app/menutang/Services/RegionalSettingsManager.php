@@ -12,6 +12,8 @@ use Repositories\ManageCityRepository\IManageCityRepository;
 use Repositories\ManageCountryRepository\IManageCountryRepository;
 use Illuminate\Database\DatabaseManager;
 use Repositories\ManageDeliveryAreaRepository\IManageDeliveryAreaRepository;
+use Repositories\ManageStateRepository\IManageStateRepository;
+use Services\Validations\CityValidator;
 use GuzzleHttp;
 use Exception;
 
@@ -41,6 +43,10 @@ class RegionalSettingsManager
      */
     protected $deliveryArea;
 
+    protected $state;
+
+    protected $cityValidation;
+
     /**
      * @param IManageCityRepository $city
      * @param IManageCountryRepository $country
@@ -48,6 +54,8 @@ class RegionalSettingsManager
     public function __construct(IManageCityRepository $city,
                                 IManageCountryRepository $country,
                                 IManageDeliveryAreaRepository $deliveryAreaRepository,
+                                CityValidator $cityValidator,
+                                IManageStateRepository $stateRepository,
                                 DatabaseManager $databaseManager)
     {
         $this->errors = [];
@@ -55,6 +63,8 @@ class RegionalSettingsManager
         $this->country = $country;
         $this->deliveryArea = $deliveryAreaRepository;
         $this->db = $databaseManager;
+        $this->state = $stateRepository;
+        $this->cityValidation = $cityValidator;
     }
 
     /**
@@ -62,7 +72,13 @@ class RegionalSettingsManager
      */
     public function insertCity(array $input)
     {
-        $this->city->create($input);
+        $this->cityValidation->with($input);
+        if($this->cityValidation->passes()) {
+            $this->city->create($input);
+            return true;
+        }
+        $this->errors = $this->cityValidation->getErrors();
+        return false;
     }
 
     /**
@@ -142,6 +158,11 @@ class RegionalSettingsManager
     public function getDeliveryArea($pagination)
     {
         return $this->deliveryArea->getAllPaginate($pagination);
+    }
+
+    public function getState()
+    {
+        return $this->state->getAllState();
     }
 
 }
