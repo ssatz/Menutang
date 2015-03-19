@@ -33,10 +33,12 @@ class UserEventSubscriber {
     public function onCreated($event)
     {
       $data =[
-        'email'=>$event->email
+        'email'=>$event->email,
+        'first_name'=>$event->first_name,
+        'last_name'=>$event->last_name,
       ];
-      $this->mail->send('emails.auth.welcome',$data,function($message) {
-          $message->to('sathish.thi@gmail.com', 'John Smith')->subject('Welcome!');
+      $this->mail->send('emails.auth.welcome',$data,function($message)use($data) {
+          $message->to($data['email'], $data['first_name'].' '.$data['last_name'] )->subject('Welcome!');
       });
     }
     public function onPasswordTokenCreated($event)

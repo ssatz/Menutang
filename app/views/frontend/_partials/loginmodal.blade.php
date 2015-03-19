@@ -44,6 +44,18 @@
                 <div id='social-icons-conatainer' class="form-signup displayNone">
                     <div class='modal-body-left'>
                         <div class="form-group">
+                            <input type="text" id="first-name" name="first_name" placeholder="First name" value=""
+                                   class="form-control login-field">
+                            <i class="fa fa-user login-field-icon"></i>
+                            <span class="error first_name displayNone"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="last-name" name="last_name" placeholder="Last name" value=""
+                                   class="form-control login-field">
+                            <i class="fa fa-user login-field-icon"></i>
+                            <span class="error last_name displayNone"></span>
+                        </div>
+                        <div class="form-group">
                             <input type="text" id="email" name="email" placeholder="Enter your email" value=""
                                    class="form-control login-field">
                             <i class="fa fa-user login-field-icon"></i>
@@ -121,6 +133,8 @@ email    : $('#email').val(),
 password : $('#password').val(),
 password_confirmation: $('#confirm-password').val(),
 mobile: $('#mobile-no').val(),
+first_name:$('#first-name').val(),
+last_name:$('#last-name').val(),
 _token: '{{Session::get('_token')}}'
 }
 ajax('{{action('FrontEndController@userRegistration')}}', 'POST', $data, 'json', function (msg) {

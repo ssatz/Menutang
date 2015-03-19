@@ -20,13 +20,14 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository extends BaseRepository implements IUserRepository
 {
-
+    protected $dateTime;
     /**
      * @param User $user
      * @param ICacheService $cache
      */
-    public function __construct(User $user, ICacheService $cache)
+    public function __construct(User $user, ICacheService $cache,Carbon $carbon)
     {
+        $this->dateTime =$carbon;
         parent::__construct($user, $cache);
 
     }
@@ -38,10 +39,12 @@ class UserRepository extends BaseRepository implements IUserRepository
     public function create(array $data)
     {
         $user = $this->model;
-        $user->email = $data['email'];
-        $user->mobile = $data['mobile'];
-        $user->password = Hash::make($data['password']);
-        $user->last_login = Carbon::now();
+        $user->email =trim($data['email']);
+        $user->mobile =trim($data['mobile']);
+        $user->first_name =trim($data['first_name']);
+        $user->last_name=trim($data['last_name']);
+        $user->password = Hash::make(trim($data['password']));
+        $user->last_login = $this->dateTime->now();
         $user->activation_code = $this->createActivationCode($data['email']);
         $user->save();
         return $user;
@@ -54,6 +57,19 @@ class UserRepository extends BaseRepository implements IUserRepository
     public function findOrFail($id)
     {
         return $this->model->findOrFail($id);
+    }
+
+    public function updateDetails($id, array $data)
+    {
+        $this->model->where('id','=',$id)->update($data);
+    }
+
+    public function updateLastLogin($id)
+    {
+        $data =[
+        'last_login'=>$this->dateTime->now()
+        ];
+        $this->model->where('id','=',$id)->update($data);
     }
 
     /**

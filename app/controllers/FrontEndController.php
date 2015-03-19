@@ -16,7 +16,7 @@ use Services\FrontEndManager;
 use Services\CartManager;
 use Illuminate\Http\Response;
 use Services\UserAuth;
-use Illuminate\Support\Facades\Auth;
+
 
 
 class FrontEndController extends BaseController  {
@@ -62,6 +62,8 @@ class FrontEndController extends BaseController  {
      */
     protected $userAuth;
 
+    protected $auth;
+
     /**
      * @param Request $request
      * @param Redirector $redirector
@@ -86,6 +88,7 @@ class FrontEndController extends BaseController  {
         $this->response = $response;
         $this->userAuth = $userAuth;
         $this->view = $this->app->make('view');
+        $this->auth =$this->app->make('auth');
     }
 
     /**
@@ -134,10 +137,10 @@ class FrontEndController extends BaseController  {
      */
     public function userRegistration()
     {
-        if ($this->request->ajax() && $this->request->isMethod('POST')) {
-
+        if ($this->request->ajax() && $this->request->isMethod('POST'))
+        {
             if ($this->userAuth->userRegister($this->request->except('_token'))) {
-                Auth::user()->login($this->userAuth->userDetails);
+               $this->auth->user()->login($this->userAuth->userDetails);
                 return $this->response->setContent("true");
             }
             return $this->response->setContent($this->userAuth->errors);
@@ -149,7 +152,7 @@ class FrontEndController extends BaseController  {
      */
     public function logout()
     {
-        Auth::user()->logout();
+        $this->auth->user()->logout();
         return $this->redirector->guest('/');
     }
 

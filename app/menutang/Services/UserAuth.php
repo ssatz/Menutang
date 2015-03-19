@@ -88,6 +88,8 @@ class UserAuth
         $this->loginValidation->with($input);
         if ($this->loginValidation->passes()) {
             if ($this->auth->user()->attempt($input, $remember)) {
+                $id =$this->auth->user()->get()->id;
+                $this->userRepository->updateLastLogin($id);
                 return true;
             }
 

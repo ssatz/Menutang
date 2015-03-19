@@ -15,6 +15,8 @@ class UserCreateValidator extends BaseValidator
 {
 
     public static $rules = [
+        'first_name'=>'required|Regex:/^[a-zA-Z ]*$/',
+        'last_name'=>'required|Regex:/^[a-zA-Z ]*$/',
         'email' => 'required|email|max:255|unique:users',
         'password' => 'required|min:6',
         'mobile' => 'required|digits:10|unique:users|mobile',
@@ -22,6 +24,8 @@ class UserCreateValidator extends BaseValidator
     ];
 
     public static $messages = [
+        'first_name.required'=>'This is a required field',
+        'last_name.required'=>'This is a required field',
         'email.required' => 'This is a required field',
         'password.required' => 'This is a required field',
         'mobile.required' => 'This is a required field',

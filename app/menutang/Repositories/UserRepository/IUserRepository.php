@@ -14,4 +14,7 @@ interface IUserRepository
     public function create(array $data);
 
     public function findOrFail($id);
+
+    public function updateDetails($id,array $data);
+    public function updateLastLogin($id);
 }
