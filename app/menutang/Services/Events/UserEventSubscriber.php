@@ -10,6 +10,7 @@
 
 namespace Services\Events;
 use Illuminate\Mail\Mailer;
+use Setting;
 
 
 class UserEventSubscriber {
@@ -44,7 +45,7 @@ class UserEventSubscriber {
     public function onPasswordTokenCreated($event)
     {
         $this->mail->send('emails.auth.reminder',(array)$event,function($message)use($event) {
-            $message->to($event['email'])->subject('Reset your password');
+            $message->to($event['email'])->subject(Setting::get('site_name').':Reset your password');
         });
     }
 
