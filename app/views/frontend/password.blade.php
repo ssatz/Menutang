@@ -17,24 +17,28 @@
             <div class="col-lg-6 col-md-9 col-sm-8 col-xs-12">
                 <article>
                     <div class="post-content">
+                        <div class="error alert alert-info reset-error displayNone" role="alert"></div>
                         <div class="panel-body col-lg-6">
                             {{ Form::open(['url' => action('FrontEndController@passwordReset'), 'method'
                             =>'POST','class'=>'form-horizontal','id'=>'password-reset']) }}
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="text" placeholder="Email" name="email" class="form-control input-sm bounceIn animation-delay2" >
+                                <input type="text" placeholder="Email" name="email" id="reset-email" class="form-control input-sm bounceIn animation-delay2" >
+                                <span class="error reset-email displayNone"></span>
                             </div>
                             <div class="form-group">
                                 <label>Password</label>
-                                <input type="password" placeholder="Password" name="password" class="form-control input-sm bounceIn animation-delay4">
+                                <input type="password" placeholder="Password" name="password" id="reset-pass" class="form-control input-sm bounceIn animation-delay4">
+                                <span class="error reset-password displayNone"></span>
                             </div>
                             <div class="form-group">
                                 <label>Repeat Password</label>
-                                <input type="password" placeholder="Password" name="password_confirmation" class="form-control input-sm bounceIn animation-delay4">
+                                <input type="password" placeholder="Password" name="password_confirmation" id="reset-passc" class="form-control input-sm bounceIn animation-delay4">
+                                <span class="error reset-password_confirmation displayNone"></span>
                             </div>
-                            <input type="hidden" name="token" value="{{ $token }}">
-                            <input type="hidden" name="type" value="{{ $type }}">
-                            <button class="btn btn-primary btn-success btn-sm bounceIn animation-delay5  pull-right"><i class="fa fa-refresh"></i> Reset Password</button>
+                            <input type="hidden" name="token" id="reset-token" value="{{ $token }}">
+                            <input type="hidden" name="type" id="reset-type" value="{{ $type }}">
+                            <button id="pass-reset" class="btn btn-primary btn-success btn-sm bounceIn animation-delay5  pull-right"><i class="fa fa-refresh"></i> Reset Password</button>
                             {{ Form::close() }}
                         </div>
                     </div>
@@ -60,5 +64,22 @@
 
 @overwrite
 @section('script')
-
+$("#pass-reset").click(function(e){
+e.preventDefault();
+$data = {
+email    : $('#reset-email').val(),
+password : $('#reset-pass').val(),
+password_confirmation:$('#reset-passc').val(),
+token:$('#reset-token').val(),
+_token: '{{Session::get('_token')}}'
+}
+ajax('{{action('FrontEndController@passwordReset')}}', 'POST', $data, 'json', function (msg) {
+$(".error").each(function(){
+$(this).hide().parents('.form-group').find('input').removeClass('fieldHighlight');
+});
+$.each(msg,function(key,value){
+$(".error.reset-"+key).text(value).show().parents('.form-group').find('input').addClass('fieldHighlight');
+});
+});
+});
 @endsection

@@ -14,7 +14,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Translation\Translator;
 use Services\FrontEndManager;
 use Services\CartManager;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Response;
 use Services\UserAuth;
 
 
@@ -141,9 +141,9 @@ class FrontEndController extends BaseController  {
         {
             if ($this->userAuth->userRegister($this->request->except('_token'))) {
                $this->auth->user()->login($this->userAuth->userDetails);
-                return $this->response->setContent("true");
+                return $this->response->json("true");
             }
-            return $this->response->setContent($this->userAuth->errors);
+            return $this->response->json($this->userAuth->errors);
         }
     }
 
@@ -168,9 +168,9 @@ class FrontEndController extends BaseController  {
             ];
             $remember = is_null($this->request->input('remember')) ? false : true;
             if ($this->userAuth->login($userdata, $remember)) {
-                return $this->response->setContent('true');
+                return $this->response->json('true');
             }
-            return $this->response->setContent($this->userAuth->errors);
+            return $this->response->json($this->userAuth->errors);
         }
     }
 
@@ -181,13 +181,20 @@ class FrontEndController extends BaseController  {
                 'email'=>$this->request->input('email')
             ];
           $msg =   $this->userAuth->sendPasswordToken($email);
-          return $this->response->setContent($msg);
+          return $this->response->json($msg);
         }
 
     }
 
     public function passwordReset($type,$token)
     {
+        if($this->request->ajax()) {
+            if ($passwordReset = $this->userAuth->passwordReset($this->request->except('_token')))
+            {
+                return $this->response->json(['error'=>$this->translator->get($passwordReset)]);
+             }
+             return $this->userAuth->errors;
+        }
         return $this->view->make('frontend.password')
             ->withType($type)
             ->withToken($token);

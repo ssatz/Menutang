@@ -19,6 +19,9 @@ use Services\Validations\UserCreateValidator;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Translation\Translator;
 use Illuminate\Events\Dispatcher;
+use Illuminate\Hashing\HasherInterface;
+use Services\Validations\PasswordResetValidator;
+
 
 
 /**
@@ -52,6 +55,8 @@ class UserAuth
     protected $password;
     protected $lang;
     protected $emailValidator;
+    protected  $passwordHash;
+    protected $passwordValidator;
 
     /**
      * @param IUserRepository $userRepository
@@ -64,6 +69,8 @@ class UserAuth
                                 Translator $translator,
                                 Application $application,
                                 EmailValidator $emailValidator,
+                                HasherInterface $hasherInterface,
+                                PasswordResetValidator $passwordResetValidator,
                                 UserCreateValidator $userCreateValidator)
     {
         $this->userRepository = $userRepository;
@@ -76,6 +83,8 @@ class UserAuth
         $this->emailValidator = $emailValidator;
         $this->password = $this->app->make('auth.reminder');
         $this->auth = $this->app->make('auth');
+        $this->passwordHash = $hasherInterface;
+        $this->passwordValidator = $passwordResetValidator;
 
     }
 
@@ -134,5 +143,18 @@ class UserAuth
         }
         $this->errors= $this->emailValidator->getErrors();
         return $this->errors;
+    }
+
+    public function passwordReset(array $credentials)
+    {
+       $this->passwordValidator->with($credentials);
+       if($this->passwordValidator->passes()) {
+          return $this->password->user()->reset($credentials, function ($user, $password) {
+              $user->password = $this->passwordHash->make($password);
+              $user->save();
+          });
+       }
+        $this->errors=$this->passwordValidator->getErrors();
+      return false;
     }
 }

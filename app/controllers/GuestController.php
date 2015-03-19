@@ -12,7 +12,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Translation\Translator;
-use Illuminate\Support\Facades\Password;
+use Services\UserAuth;
 
 class GuestController extends BaseController
 {
@@ -37,6 +37,7 @@ class GuestController extends BaseController
      */
     protected $view;
 
+    protected $userAuth;
 
     /**
      * @param Request $request
@@ -47,12 +48,14 @@ class GuestController extends BaseController
     public function __construct(Request $request,
                                 Redirector $redirector,
                                 Translator $translator,
+                                UserAuth $auth,
                                 Application $app)
     {
         $this->app = $app;
         $this->request = $request;
         $this->redirector = $redirector;
         $this->translator = $translator;
+        $this->userAuth = $auth;
         $this->view = $this->app->make('view');
     }
 
@@ -82,11 +85,6 @@ class GuestController extends BaseController
 
     }
 
-    public function passwordReset()
-    {
-        Password::user()->remind('sathish.thi@gmail.com', function ($message) {
-            $message->subject('Password reminder');
-        });
-    }
+
 
 }
