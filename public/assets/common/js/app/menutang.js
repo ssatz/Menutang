@@ -36,7 +36,7 @@ function isFormValid(formId) {
         }
 
     });
-    $(formId).find('input[type=text],#deliveryArea').each(function (e) {
+    $(formId).find('input[type=text],#deliveryArea').not(".tt-hint").each(function (e) {
         $(this).parents('.form-group').removeClass('has-error');
         $(this).nextAll('.required').remove();
         if ($(this).val() != undefined) {
@@ -89,7 +89,7 @@ function isFormValid(formId) {
 function formValidation(formId)
 {
     var $flag =true;
-    $(formId).find('input[type=text]').each(function() {
+    $(formId).find('input[type=text]').not(".tt-hint").each(function() {
         $(this).next('.label-danger').remove();
         if($(this).val()=='' || $(this).val().length==0)
         {

@@ -13,7 +13,6 @@ namespace Repositories\ManageBusinessRepository;
 
 use BusinessInfo;
 use Illuminate\Database\DatabaseManager;
-use Illuminate\Support\Collection;
 use Repositories\BaseRepository;
 use Services\Cache\ICacheService;
 use Services\Helper;
@@ -23,7 +22,7 @@ use BusinessHours;
 use BusinessPhoto;
 use Intervention\Image\ImageManager;
 use Illuminate\Filesystem\Filesystem;
-
+use Services\WeekdaysEnum;
 
 
 class ManageBusinessRepository extends BaseRepository implements IManageBusinessRepository
@@ -206,7 +205,6 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         $businessInfo->budget = $input['budget'];
         /*Always Restaurants should come First */
         $businessInfo->business_type_id = $input['business_type_id'];
-        $businessInfo->cuisine_type_id = $input['business_type_id']==1?$input['cuisine_type_id']:null;
         $businessInfo->is_outdoor_catering = $input['is_outdoor_catering'];
         $businessInfo->outdoor_catering_comments = $input['outdoor_catering_comments'];
         $businessInfo->is_door_delivery = $input['is_door_delivery'];
@@ -266,27 +264,44 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
 
         $businessInfo->payment()->attach($input['payments']);
 
+        foreach($input['hours'] as $key => $value)
+        {
+            if(isset($input['hours'][$key]['available'])) {
+                $hours = new BusinessHours([
+                    'business_info_id'=>$businessInfo->id,
+                    'time_category_id'=>(int)$input['hours'][$key]['available'],
+                    'open_time'=>$this->helper->timeConverter($input['hours'][$key]['open_time'], "H:i:s"),
+                    'close_time'=>$this->helper->timeConverter($input['hours'][$key]['close_time'], "H:i:s"),
+                ]);
+                $businessInfo->businessHours()->save($hours);
+                $weekDays=[];
+                foreach(WeekdaysEnum::toArray() as $dayKey => $dayValue)
+                {
+                    if(isset($input['hours'][$key][strtolower($dayKey)])) {
+                        $weekDays[] = $dayValue;
+                    }
+                }
+                $hours->weekDays()->attach($weekDays);
+            }
+        }
+
+        if(!is_null($input['cuisines_types'])) {
+            $businessInfo->cuisineType()->attach($input['cuisines_types']);
+        }
 
         $deliveryAreaId = [];
-
         foreach ($input['delivery_area'] as $area) {
-            $deliveryArea = DeliveryArea::firstOrCreate(['area' => $area['area'], 'area_pincode' => $area['pincode']]);
-            array_push($deliveryAreaId, $deliveryArea->id);
-        }
-        $businessInfo->deliveryArea()->attach($deliveryAreaId);
-        foreach ($input['hours'] as $key => $value) {
-            $weekDays = strtoupper($key);
-            $buhr = new BusinessHours();
-            $buhr->business_info_id = $businessInfo->id;
-            $buhr->day = constant("Services\WeekDays::$weekDays");
-            if (!isset($input['hours'][$key]['is_closed'])) {
-                    $buhr->open_time = isset($input['hours'][$key]['open_time']) ? $this->helper->timeConverter($input['hours'][$key]['open_time'], "H:i:s") : null;
-                    $buhr->close_time = isset($input['hours'][$key]['close_time']) ? $this->helper->timeConverter($input['hours'][$key]['close_time'], "H:i:s") : null;
+            $deliveryArea = DeliveryArea::find($area['id']);
+            if(is_null($deliveryArea)) {
+                $deliveryArea = new DeliveryArea();
+                $deliveryArea->area =(string)$area['area'];
+                $deliveryArea->area_pincode = (int)$area['pincode'];
+                $deliveryArea->city_id = (int)$address->city_id;
+                $deliveryArea->save();
             }
-            $buhr->is_closed = isset($input['hours'][$key]['is_closed']) ? (int)$input['hours'][$key]['is_closed'] : 0;
-            $buhr->save();
+            array_push($deliveryAreaId, $deliveryArea->id);
 
         }
-
+        $businessInfo->deliveryArea()->attach(array_unique($deliveryAreaId));
     }
 }

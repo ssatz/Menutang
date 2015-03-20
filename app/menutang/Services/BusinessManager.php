@@ -29,7 +29,8 @@ use Repositories\ManageDeliveryAreaRepository\IManageDeliveryAreaRepository;
 use ArrayObject;
 use Maatwebsite\Excel\Excel;
 use Services\Validations\MenuUploadValidator;
-
+use Repositories\BusinessHoursRepository\IBusinessHoursRepository;
+use Repositories\TimeCategoryRepository\ITimeCategoryRepository;
 
 
 class BusinessManager
@@ -108,9 +109,21 @@ class BusinessManager
      */
     protected  $deliveryArea;
 
+    /**
+     * @var Excel
+     */
     protected $excel;
 
+    /**
+     * @var MenuUploadValidator
+     */
     protected $menuUploadValidator;
+    /**
+     * @var IBusinessHoursRepository
+     */
+    protected $businessHours;
+
+    protected $businessTimes;
     /**
      * @param IManageBusinessRepository $manageBusiness
      * @param ICacheService $cacheService
@@ -135,11 +148,13 @@ class BusinessManager
                                 MenuItemValidator $menuItemValidator,
                                 IMenuItemRepository $menuItem,
                                 IBusinessTypeRepository $buType,
+                                IBusinessHoursRepository $businessHoursRepository,
                                 CategoryValidator $categoryValidator,
                                 ICuisineTypeRepository $cuisineTypeRepository,
                                 IManageDeliveryAreaRepository $deliveryAreaRepository,
                                 IStatusRepository $statusRepository,
                                 MenuUploadValidator $menuUploadValidator,
+                                ITimeCategoryRepository $timeCategoryRepository,
                                 Excel $excel)
     {
         $this->manageBusiness = $manageBusiness;
@@ -158,6 +173,8 @@ class BusinessManager
         $this->deliveryArea=$deliveryAreaRepository;
         $this->excel =$excel;
         $this->menuUploadValidator = $menuUploadValidator;
+        $this->businessHours = $businessHoursRepository;
+        $this->businessTimes = $timeCategoryRepository;
     }
 
     /**
@@ -196,6 +213,18 @@ class BusinessManager
         return $this->managePayments->getAll();
     }
 
+    /**
+     * @return mixed
+     */
+    public function getAllBusinessHours()
+    {
+        return $this->businessHours->getAll();
+    }
+
+    public function getAllBusinessTimes()
+    {
+        return $this->businessTimes->getAll();
+    }
     /**
      * @return mixed
      */
@@ -347,6 +376,12 @@ class BusinessManager
        return $this->deliveryArea->searchDeliveryArea();
     }
 
+    /**
+     * @param array $data
+     * @param $slug
+     * @return bool
+     * @throws Exception
+     */
     public function uploadMenu(array $data,$slug)
     {
         $this->menuUploadValidator->with($data);

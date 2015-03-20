@@ -81,7 +81,7 @@
         <label class="control-label col-lg-2">Cuisine Type</label>
 
         <div class="col-lg-6">
-            <select class="form-control chzn-select" name="cuisine_type_id" data-required="true">
+            <select class="form-control chzn-select" multiple  name="cuisines_types[]" data-required="true">
                 <option value="-1">-- select --</option>
                 @foreach($cusinetypes as $cuisineType)
                 <option value="{{$cuisineType->id}}">{{$cuisineType->cuisine_description}}</option>
@@ -525,121 +525,109 @@
     </div>
 </div>
 <div class="tab-pane fade" id="wizardContent3">
-    <div class="col-lg-13">
-        <table class="table table-responsive">
-            <thead>
+    <div class="col-lg-12">
+        <div class="form-group">
+            @foreach($times as $time)
+                <div class="row">
+                    <div class="col-lg-3">
+                         <span class="form-group">
+                              <label class="label-checkbox inline">
+                                  <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][available]" value="{{$time->id}}"/>
+                                  <span class="custom-checkbox"></span>
+                                  {{$time->category_description}}
+                              </label>
+                             <br/>
+                             From:  <input type="text" class="open-time form-control"  name="hours[{{$time->id}}][open_time]"/><br/>
+                             To:<input type="text" class="close-time form-control"  name="hours[{{$time->id}}][close_time]"/><br/>
+                         </span>
+                    </div>
+                    <div class="col-lg-9">
+                        <table class="table table-responsive">
+                            <thead>
 
-            <th>Sunday</th>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-            <th>Saturday</th>
+                            <th>Sunday</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                            <th>Saturday</th>
 
-            </thead>
-            <tbody>
-            <tr>
-                <td>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
                         <span class="form-group">
-                        From:<input type="text" class="open-time form-control" data-required="true"
-                                    name="hours[sunday][open_time]"/><br/> To:<input type="text"
-                                                                                     class="close-time form-control"
-                                                                                     data-required="true"
-                                                                                     name="hours[sunday][close_time]"/><br/>
-                        <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[sunday][is_closed]" value="0"/>
-                            <span class="custom-checkbox"></span>
-                            Closed
-                        </label>
-                            </span>
-                </td>
-                <td>
+                            <label class="label-checkbox inline">
+                                <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][sunday]" checked value="sunday"/>
+                                <span class="custom-checkbox"></span>
+                                is Available?
+                            </label>
+                        </span>
+                                </td>
+                                <td>
                             <span class="form-group">
-                            From:<input type="text" class="open-time form-control" name="hours[monday][open_time]"
-                                        data-required="true"/><br/> To:<input type="text"
-                                                                              class="close-time form-control"
-                                                                              name="hours[monday][close_time]"
-                                                                              data-required="true"/><br/>
-                        <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[monday][is_closed]" value="0"/>
-                            <span class="custom-checkbox"></span>
-                            Closed
-                        </label>
+                                <label class="label-checkbox inline">
+                                    <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][monday]" checked value="monday"/>
+                                    <span class="custom-checkbox"></span>
+                                    is Available?
+                                </label>
                                 </span>
-                </td>
-                <td>
+                                </td>
+                                <td>
                             <span class="form-group">
-                            From:<input type="text" class="open-time form-control" name="hours[tuesday][open_time]"
-                                        data-required="true"/><br/> To:<input type="text"
-                                                                              class="close-time form-control"
-                                                                              name="hours[tuesday][close_time]"
-                                                                              data-required="true"/><br/>
+
                         <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[tuesday][is_closed]" value="0"/>
+                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][tuesday]" checked value="tuesday"/>
                             <span class="custom-checkbox"></span>
-                            Closed
+                            is Available?
                         </label>
                                 </span>
-                </td>
-                <td>
+                                </td>
+                                <td>
                             <span class="form-group">
-                            From:<input type="text" class="open-time form-control" name="hours[wednesday][open_time]"
-                                        data-required="true"/><br/> To:<input type="text"
-                                                                              class="close-time form-control"
-                                                                              name="hours[wednesday][close_time]"
-                                                                              data-required="true"/><br/>
                         <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[wednesday][is_closed]" value="0"/>
+                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][wednesday]" checked value="wednesday"/>
                             <span class="custom-checkbox"></span>
-                            Closed
+                            is Available?
                         </label>
                                 </span>
-                </td>
-                <td>
+                                </td>
+                                <td>
                             <span class="form-group">
-                            From:<input type="text" class="open-time form-control" name="hours[thursday][open_time]"
-                                        data-required="true"/><br/> To:<input type="text"
-                                                                              class="close-time form-control"
-                                                                              name="hours[thursday][close_time]"
-                                                                              data-required="true"/><br/>
+
                         <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[thursday][is_closed]" value="0"/>
+                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][thursday]" checked value="thursday"/>
                             <span class="custom-checkbox"></span>
-                            Closed
+                            is Available?
                         </label>
                                 </span>
-                </td>
-                <td>
+                                </td>
+                                <td>
                             <span class="form-group">
-                            From:<input type="text" class="open-time form-control" name="hours[friday][open_time]"
-                                        data-required="true"/><br/> To:<input type="text"
-                                                                              class="close-time form-control"
-                                                                              name="hours[friday][close_time]"
-                                                                              data-required="true"/><br/>
                         <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[friday][is_closed]" value="0"/>
+                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][friday]" checked value="friday"/>
                             <span class="custom-checkbox"></span>
-                            Closed
+                            is Available?
                         </label>
                                 </span>
-                </td>
-                <td><span class="form-group">
-                            From:<input type="text" class="open-time form-control" name="hours[saturday][open_time]"
-                                        data-required="true"/><br/> To:<input type="text"
-                                                                              class="close-time form-control"
-                                                                              name="hours[saturday][close_time]"
-                                                                              data-required="true"/><br/>
+                                </td>
+                                <td><span class="form-group">
+
                         <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[saturday][is_closed]" value="0"/>
+                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][saturday]" checked value="saturday"/>
                             <span class="custom-checkbox"></span>
-                            Closed
+                            is Available?
                         </label>
                                 </span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endforeach
+        </div>
     </div>
 </div>
     <div class="tab-pane fade" id="wizardContent4">
@@ -664,18 +652,20 @@
             <div class="padBot30">
                 <button type="button" class="close displayNone" aria-label="Close"><span aria-hidden="true">×</span>
                 </button>
-                <span class="pad10"><input type="text" id="delivery_area_0" class="form-control width60 area"
+                <span class="pad10"><input type="text" id="delivery_area_0_area" class="form-control width60 area typeahead"
                                            data-required="true" name="delivery_area[0][area]"></span>
                 <span class="pad10"><input type="text" id="delivery_area_0_pincode" class="form-control width60 pincode"
                                            data-required="true" name="delivery_area[0][pincode]"></span>
+                <input type="hidden" id="delivery_area_0_id" name="delivery_area[0][id]" value="-1">
             </div>
             <div class="padBot30">
                 <button type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <span class="pad10"> <input type="text" id="delivery_area_1" class="form-control width60 area"
+                <span class="pad10"> <input type="text" id="delivery_area_1_area" class="form-control width60 area typeahead"
                                             data-required="true" name="delivery_area[1][area]"></span>
                 <span class="pad10"> <input type="text" id="delivery_area_1_pincode"
                                             class="form-control width60 pincode" data-required="true"
                                             name="delivery_area[1][pincode]"></span>
+                <input type="hidden" id="delivery_area_1_id" name="delivery_area[1][id]" value="-1">
             </div>
         </div>
     </div>
@@ -691,7 +681,18 @@
 </div>
 {{Form::close()}}
 </div>
-
+<div class="delivery-area-type displayNone">
+    <div class="padBot30">
+        <button type="button" class="close displayNone" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+                <span class="pad10"><input type="text" id="delivery_area_0_area" class="form-control width60 area"
+                                           data-required="true"  name="delivery_area[0][area]" value=""></span>
+                <span class="pad10"><input type="text" id="delivery_area_0_pincode" class="form-control width60 pincode"
+                                           data-required="true" name="delivery_area[0][pincode]" data-type="digits" value="">
+                    <input type="hidden" name="delivery_area[0][id]" class="area-id" id="delivery_area_0_id" value="-1">
+                </span>
+    </div>
+</div>
 @endsection
 @section('css')
     <link href="{{asset('assets/common/css/chosen/chosen.min.css')}}" rel="stylesheet">
@@ -700,6 +701,7 @@
 @endsection
 @section('scripts')
 <script src="{{asset('assets/common/js/pace.min.js')}}"></script>
+<script src="{{asset('assets/common/js/typeahead.bundle.min.js')}}"></script>
 <script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
 <script src ="{{asset('assets/common/js/jquery.timepicker.min.js')}}"></script>
 <script src="{{asset('assets/common/js/app/menutang.js')}}"></script>
@@ -786,6 +788,54 @@
               return  $(".cuisine-type").show().removeClass('displayNone');
             }
             return $(".cuisine-type").hide().addClass('displayNone');
+        });
+
+        var deliveryArea = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('area'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            limit: 10,
+            prefetch: {
+                url: "{{action('ManageBusinessController@deliveryAreaSearch')}}"
+            }
+        });
+        $("body").on("click", ".add-delivery", function (e) {
+            e.preventDefault();
+            debugger;
+            var clone = $('.delivery-area-type').html();
+            $(this).parent().find(".padBot30:last").after(clone);
+            clone = $(this).parent().find(".padBot30:last");
+            $(clone).find(".close").show();
+            $(clone).find("input").val('');
+            $(clone).find(".area").addClass('typeahead');
+            var $count =parseInt($(this).parents(".form-group").find(".padBot30").length)-1;
+            $(clone).find('.area').prop('name', 'delivery_area[' + $count + '][area]');
+            $(clone).find('.area').prop('id', 'delivery_area_' + $count + '_area');
+            $(clone).find('.pincode').prop('name', 'delivery_area[' + $count + '][pincode]');
+            $(clone).find('.pincode').prop('id', 'delivery_area_' + $count + '_pincode');
+            $(clone).find('.area-id').prop('name', 'delivery_area[' + $count + '][id]');
+            $(clone).find('.area-id').prop('id', 'delivery_area_' + $count + '_id');
+            $(clone).find('.area').css('margin-left', '9px');
+            $(clone).find(".typeahead").typeahead('destroy');
+            $(clone).find(".typeahead").typeahead(null, {
+                name: 'deliveryArea',
+                displayKey: 'area',
+                source: deliveryArea.ttAdapter()
+            }).bind("typeahead:selected", function(obj, datum, name) {
+                var id=obj.currentTarget.id.split('_')[2];
+                $("#delivery_area_"+id+"_pincode").val(datum.area_pincode);
+                $("#delivery_area_"+id+"_id").val(datum.id);
+            });
+        });
+        deliveryArea.initialize();
+        $(".typeahead").typeahead(null, {
+            name: 'deliveryArea',
+            displayKey: 'area',
+            source: deliveryArea.ttAdapter()
+
+        }).bind("typeahead:selected", function(obj, datum, name) {
+            var id=obj.currentTarget.id.split('_')[2];
+            $("#delivery_area_"+id+"_pincode").val(datum.area_pincode);
+            $("#delivery_area_"+id+"_id").val(datum.id);
         });
     });
 </script>

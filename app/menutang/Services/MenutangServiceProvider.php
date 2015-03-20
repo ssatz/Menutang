@@ -101,9 +101,14 @@ class MenutangServiceProvider extends ServiceProvider
             'Repositories\ManageStateRepository\ManageStateRepository'
         );
         $app->bind(
+            'Repositories\BusinessHoursRepository\IBusinessHoursRepository',
+            'Repositories\BusinessHoursRepository\BusinessHoursRepository'
+        );
+        $app->bind(
             'Services\Cache\ICacheService',
             'Services\Cache\CacheService'
         );
+
         $this->app->bindShared('command.settings', function($app)
         {
             return new DBSettingsCommand($app);

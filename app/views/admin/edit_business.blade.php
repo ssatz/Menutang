@@ -741,7 +741,6 @@
                var id=obj.currentTarget.id.split('_')[2];
                $("#delivery_area_"+id+"_pincode").val(datum.area_pincode);
                $("#delivery_area_"+id+"_id").val(datum.id);
-               console.log(datum.id);
            });
         });
     </script>
