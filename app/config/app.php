@@ -126,6 +126,7 @@ return [
         'Intervention\Image\ImageServiceProvider',
         'anlutro\LaravelSettings\ServiceProvider',
         'Services\Reminders\ReminderServiceProvider',
+        'Maatwebsite\Excel\ExcelServiceProvider',
 
     ],
 
@@ -196,6 +197,7 @@ return [
         'Active' => 'HieuLe\Active\Facades\Active',
         'Image' => 'Intervention\Image\Facades\Image',
         'Setting' => 'anlutro\LaravelSettings\Facade',
+        'Excel' => 'Maatwebsite\Excel\Facades\Excel',
 
     ],
 
