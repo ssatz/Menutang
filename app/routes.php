@@ -24,11 +24,10 @@ App::missing(function ($exception) {
     
 });
 
-dd(preg_replace('#^https?://#', '', Config::get('app.url')));
 /**
  * Admin Routes
  */
-Route::group(['domain' => 'admin.'.preg_replace('#^https?://#', '', Config::get('app.url'))], function () {
+Route::group(['domain' => 'admin.'.preg_replace('#^http(s)?://(www.)?#', '', Config::get('app.url'))], function () {
     Route::get('login', 'AdminAuthController@showLogin');
     Route::get('/', 'AdminAuthController@showLogin');
     Route::post('login', ['as' => 'admin.login.post', 'uses' => 'AdminAuthController@postLogin']);
@@ -60,7 +59,7 @@ Route::group(['domain' => 'admin.'.preg_replace('#^https?://#', '', Config::get(
 /**
  *  Business Routes
  */
-Route::group(['domain' => 'business.'.preg_replace('#^https?://#', '', Config::get('app.url'))], function () {
+Route::group(['domain' => 'business.'.preg_replace('#^http(s)?://(www.)?#', '', Config::get('app.url'))], function () {
     Route::get('login', 'BusinessAuthController@showLogin');
     Route::get('/', 'BusinessAuthController@showLogin');
     Route::post('login', ['as' => 'business.login.post', 'uses' => 'BusinessAuthController@postLogin']);
