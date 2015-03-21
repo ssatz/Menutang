@@ -22,6 +22,7 @@ class MenuCategoryRepository extends BaseRepository implements IMenuCategoryRepo
      */
     public function __construct(MenuCategory $menuCategory, ICacheService $cache)
     {
+        $cache->tag(get_class($menuCategory));
         parent::__construct($menuCategory, $cache);
     }
 

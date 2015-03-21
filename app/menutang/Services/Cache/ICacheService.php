@@ -45,4 +45,9 @@ interface ICacheService
      * @return mixed
      */
     public function remember($key, $value);
+
+    public function flush($tag);
+
+    public function tag($tag);
+
 }

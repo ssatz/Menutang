@@ -52,6 +52,7 @@ class CartRepository extends BaseRepository implements ICartRepository {
         $this->userId = 0;
         $this->deliveryOptions='';
         $this->uid = '';
+        $cache->tag(get_class($cart));
         parent::__construct($cart, $cache,$properties);
 
     }

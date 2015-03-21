@@ -23,6 +23,7 @@ class BusinessHoursRepository extends BaseRepository implements IBusinessHoursRe
      */
     public function __construct(BusinessHours $hours, ICacheService $cache)
     {
+        $cache->tag(get_class($hours));
         parent::__construct($hours, $cache);
 
     }

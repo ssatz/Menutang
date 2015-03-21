@@ -19,6 +19,7 @@ class StatusRepository extends BaseRepository implements IStatusRepository
 {
     public function __construct(Status $status, ICacheService $cache)
     {
+        $cache->tag(get_class($status));
         parent::__construct($status, $cache);
     }
 }

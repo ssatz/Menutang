@@ -13,13 +13,15 @@ namespace Repositories\MenuAddonRepository;
 
 use Repositories\BaseRepository;
 use ItemAddon;
+use Services\Cache\ICacheService;
 
 class MenuAddonRepository extends  BaseRepository implements IMenuAddonRepository{
     /**
      * @param ItemAddon $menuItem
      */
-    public function __construct(ItemAddon $menuItem)
+    public function __construct(ItemAddon $menuItem,ICacheService $cache)
     {
+        $cache->tag(get_class($menuItem));
         parent::__construct($menuItem);
 
     }

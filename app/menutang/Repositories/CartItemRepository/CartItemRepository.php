@@ -38,9 +38,10 @@ class CartItemRepository extends BaseRepository implements ICartItemRepository {
      */
     public function __construct(CartItem $cartItem, ICacheService $cache,Array $properties = [])
     {
-       $this->id=0;
+        $this->id=0;
         $this->quantity=0;
         $this->price =0.00;
+        $cache->tag(get_class($cartItem));
         parent::__construct($cartItem, $cache,$properties);
 
     }

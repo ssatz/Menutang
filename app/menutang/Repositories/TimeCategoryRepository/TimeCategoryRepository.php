@@ -19,6 +19,7 @@ class TimeCategoryRepository extends BaseRepository implements ITimeCategoryRepo
 
     public function __construct(TimeCategory $timeCategory, ICacheService $cache)
     {
+        $cache->tag(get_class($timeCategory));
         parent::__construct($timeCategory, $cache);
 
     }

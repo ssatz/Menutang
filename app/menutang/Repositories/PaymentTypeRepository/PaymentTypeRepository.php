@@ -19,6 +19,7 @@ class PaymentTypeRepository extends BaseRepository implements IPaymentTypeReposi
 {
     public function __construct(Payment $payment, ICacheService $cache)
     {
+        $cache->tag(get_class($payment));
         parent::__construct($payment, $cache);
     }
 

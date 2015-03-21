@@ -20,6 +20,7 @@ class WeekdaysRepository extends BaseRepository implements IWeekdaysRepository {
      */
     public function __construct(City $manageCity, ICacheService $cache)
     {
+        $cache->tag(get_class($manageCity));
         parent::__construct($manageCity, $cache);
     }
 }

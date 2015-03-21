@@ -50,9 +50,10 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      * @param businessInfo $managebusinesss
      * @param DatabaseManager $dbManager
      */
-    function __construct(BusinessInfo $manageBusiness, DatabaseManager $dbManager,
+  public  function __construct(BusinessInfo $manageBusiness, DatabaseManager $dbManager,
                          Helper $helper, ICacheService $cache,ImageManager $image,Filesystem $filesystem)
     {
+        $cache->tag(get_class($manageBusiness));
         parent::__construct($manageBusiness, $cache);
         $this->dbManager = $dbManager;
         $this->helper = $helper;

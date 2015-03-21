@@ -24,6 +24,7 @@ class CuisineTypeRepository extends BaseRepository implements ICuisineTypeReposi
      */
     public function __construct(CuisineType $cuisineType, ICacheService $cache)
     {
+        $cache->tag(get_class($cuisineType));
         parent::__construct($cuisineType, $cache);
 
     }

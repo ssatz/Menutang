@@ -27,7 +27,9 @@ class AdminRepository extends BaseRepository implements IAdminRepository
      */
     public function __construct(Admin $admin, ICacheService $cache)
     {
+        $cache->tag(get_class($admin));
         parent::__construct($admin, $cache);
+
 
     }
 

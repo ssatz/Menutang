@@ -28,6 +28,7 @@ class UserRepository extends BaseRepository implements IUserRepository
     public function __construct(User $user, ICacheService $cache,Carbon $carbon)
     {
         $this->dateTime =$carbon;
+        $cache->tag(get_class($user));
         parent::__construct($user, $cache);
 
     }

@@ -19,6 +19,7 @@ use Services\Cache\ICacheService;
 class ManageStateRepository extends BaseRepository implements IManageStateRepository{
     public function __construct(State $state, ICacheService $cache)
     {
+        $cache->tag(get_class($state));
         parent::__construct($state, $cache);
     }
     public function getAllState()

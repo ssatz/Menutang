@@ -27,6 +27,11 @@ class CacheService implements ICacheService
     protected $minutes;
 
     /**
+     * @var string
+     */
+    protected $tag;
+
+    /**
      * Construct
      *
      * @param Illuminate\Cache\CacheManager $cache
@@ -40,6 +45,16 @@ class CacheService implements ICacheService
     }
 
     /**
+     * @param $tag
+     * @return $this
+     */
+    public function tag($tag)
+    {
+        $this->tag = $tag;
+        return $this;
+    }
+
+    /**
      * Get
      *
      * @param string $key
@@ -47,7 +62,7 @@ class CacheService implements ICacheService
      */
     public function get($key)
     {
-        return $this->cache->get($key);
+        return $this->cache->tags($this->tag)->get($key);
 
     }
 
@@ -65,7 +80,7 @@ class CacheService implements ICacheService
             $minutes = $this->minutes;
         }
 
-        return $this->cache->put($key, $value, $minutes);
+        return $this->cache->tags($this->tag)->put($key, $value, $minutes);
     }
 
     /**
@@ -76,7 +91,7 @@ class CacheService implements ICacheService
      */
     public function has($key)
     {
-        return $this->cache->has($key);
+        return $this->cache->tags($this->tag)->has($key);
     }
 
 
@@ -99,5 +114,13 @@ class CacheService implements ICacheService
         return $this->cache->remember($key, $this->minutes, function () use ($value) {
             return $value;
         });
+    }
+
+    /**
+     * @param $tag
+     */
+    public function flush($tag)
+    {
+        $this->cache->tags($this->tag)->flush();
     }
 }

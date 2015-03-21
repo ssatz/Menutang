@@ -23,6 +23,7 @@ class ManageDeliveryAreaRepository extends BaseRepository implements IManageDeli
      */
     public function __construct(DeliveryArea $deliveryArea, ICacheService $cache)
     {
+        $cache->tag(get_class($deliveryArea));
         parent::__construct($deliveryArea, $cache);
     }
 

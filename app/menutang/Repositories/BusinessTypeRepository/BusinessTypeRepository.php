@@ -22,6 +22,7 @@ class BusinessTypeRepository extends BaseRepository implements IBusinessTypeRepo
      */
     public function __construct(BusinessType $buType, ICacheService $cache)
     {
+        $cache->tag(get_class($buType));
         parent::__construct($buType, $cache);
 
     }

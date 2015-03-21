@@ -25,6 +25,7 @@ class ManageCountryRepository extends BaseRepository implements IManageCountryRe
      */
     public function __construct(Country $manageCountry, ICacheService $cache)
     {
+        $cache->tag(get_class($manageCountry));
         parent::__construct($manageCountry, $cache);
     }
 

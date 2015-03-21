@@ -49,6 +49,7 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
                                 Helper $helper,
                                 ItemAddon $itemAddon)
     {
+        $cache->tag(get_class($menuItem));
         parent::__construct($menuItem, $cache);
         $this->businessInfo = $buInfo;
         $this->itemAddon = $itemAddon;

@@ -23,6 +23,7 @@ class  BusinessUserRepository extends BaseRepository implements IBusinessUserRep
      */
     public function __construct(BusinessUser $businessUser, ICacheService $cache)
     {
+        $cache->tag(get_class($businessUser));
         parent::__construct($businessUser, $cache);
 
     }
