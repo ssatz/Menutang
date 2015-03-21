@@ -24,7 +24,7 @@ App::missing(function ($exception) {
     
 });
 
-
+dd(Config::get('app.url'));
 /**
  * Admin Routes
  */
