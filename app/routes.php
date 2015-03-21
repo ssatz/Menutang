@@ -28,7 +28,7 @@ App::missing(function ($exception) {
 /**
  * Admin Routes
  */
-Route::group(['domain' => 'admin.menutang.com'], function () {
+Route::group(['domain' => 'admin.'.preg_replace('#^https?://#', '', Config::get('app.url'))], function () {
     Route::get('login', 'AdminAuthController@showLogin');
     Route::get('/', 'AdminAuthController@showLogin');
     Route::post('login', ['as' => 'admin.login.post', 'uses' => 'AdminAuthController@postLogin']);
@@ -60,7 +60,7 @@ Route::group(['domain' => 'admin.menutang.com'], function () {
 /**
  *  Business Routes
  */
-Route::group(['domain' => 'business.localhost'], function () {
+Route::group(['domain' => 'business.'.preg_replace('#^https?://#', '', Config::get('app.url'))], function () {
     Route::get('login', 'BusinessAuthController@showLogin');
     Route::get('/', 'BusinessAuthController@showLogin');
     Route::post('login', ['as' => 'business.login.post', 'uses' => 'BusinessAuthController@postLogin']);
