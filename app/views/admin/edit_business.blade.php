@@ -63,11 +63,14 @@
                             <label class="control-label col-lg-2">Cuisine Type</label>
 
                             <div class="col-lg-6">
-                                <select class="form-control chzn-select" name="cuisine_type_id" data-required="true">
+                                <select multiple class="form-control chzn-select" name="payments[]">
                                     @foreach($cusinetypes as $cuisineType)
-                                    <option value="{{$cuisineType->id}}" @if($cuisineType->id==$business->cuisine_type_id)selected @endif>{{$cuisineType->cuisine_description}}</option>
+                                    <option value="{{$cuisineType->id}}" @foreach($business->cuisineType as $cutype)
+                                        @if($cuisineType->id==$cutype->id)
+                                        selected @endif @endforeach>{{$cuisineType->cuisine_description}}</option>
                                     @endforeach
                                 </select>
+
                             </div>
                             <!-- /.col -->
                         </div>
@@ -528,40 +531,143 @@
             </div>
             <div  id="collapseThree" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <div class="col-lg-13">
-                        <table class="table table-responsive">
-                            <thead>
+                    <div class="form-group">
+                        @foreach($times as $key=> $time)
+                        <div class="row">
+                            <div class="col-lg-1"></div>
+                            <div class="col-lg-3">
+                         <span class="form-group">
+                              <label class="label-checkbox inline">
+                                  <input type="checkbox" class="bu-close"
+                                         @foreach($business->businessHours as $hour)
+                                         @if($time->id ==$hour->time_category_id ) checked @endif
+                                         @endforeach
+                                  name="hours[{{$time->id}}][available]" value="{{$time->id}}"/>
+                                  <span class="custom-checkbox"></span>
+                                  {{$time->category_description}}
+                              </label>
+                             <br/>
+                             <?php
+                             $open=null;
+                             $weekdays =null;
+                             foreach($business->businessHours as $hour):
+                                                if($time->id ==$hour->time_category_id ):
+                                                    $datTime= new \DateTime($hour->open_time);
+                                                    $open = $datTime->format('g:i a');
+                                                    $weekdays = $hour->weekDays;
+                                                endif;
+                                    endforeach;
+                            ?>
 
-                            <th>Sunday</th>
-                            <th>Monday</th>
-                            <th>Tuesday</th>
-                            <th>Wednesday</th>
-                            <th>Thursday</th>
-                            <th>Friday</th>
-                            <th>Saturday</th>
+                             From:  <input type="text" class="open-time form-control"
+                                        value="{{$open}}"
+                                           name="hours[{{$time->id}}][open_time]"/><br/>
+                             <?php
+                             $close=null;
+                             foreach($business->businessHours as $hour):
+                                 if($time->id ==$hour->time_category_id ):
+                                     $datTime= new \DateTime($hour->close_time);
+                                     $close = $datTime->format('g:i a');
+                                 endif;
+                             endforeach;
+                             ?>
+                             To:<input type="text" class="close-time form-control"
+                                       value="{{$close}}"
+                                       name="hours[{{$time->id}}][close_time]"/><br/>
+                         </span>
+                            </div>
+                            <div class="col-lg-7">
+                                <table class="table table-responsive">
+                                    <thead>
 
-                            </thead>
-                            <tbody>
-                            <tr>
-                                @foreach($business->businessHours as $hour)
-                                <td>
+                                    <th>Sunday</th>
+                                    <th>Monday</th>
+                                    <th>Tuesday</th>
+                                    <th>Wednesday</th>
+                                    <th>Thursday</th>
+                                    <th>Friday</th>
+                                    <th>Saturday</th>
+
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
                         <span class="form-group">
-                        From:<input type="text" class="open-time form-control" data-required="true"
-                                    name="hours[{{$hour['day']}}][open_time]" value="{{$hour['open_time']}}"/><br/> To:<input type="text"
-                                                                                     class="close-time form-control"
-                                                                                     data-required="true"
-                                                                                     name="hours[{{$hour['day']}}][close_time]" value="{{$hour['close_time']}}"/><br/>
+                            <label class="label-checkbox inline">
+                                <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][sunday]"
+                                       @if(!is_null($weekdays))
+                                       @foreach($weekdays as $day)
+                                       @if($day['day']=='Sunday') checked @endif
+                                       @endforeach
+                                       @endif
+                                value="sunday"/>
+                                <span class="custom-checkbox"></span>
+                                is Available?
+                            </label>
+                        </span>
+                                        </td>
+                                        <td>
+                            <span class="form-group">
+                                <label class="label-checkbox inline">
+                                    <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][monday]" checked value="monday"/>
+                                    <span class="custom-checkbox"></span>
+                                    is Available?
+                                </label>
+                                </span>
+                                        </td>
+                                        <td>
+                            <span class="form-group">
+
                         <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[{{$hour['day']}}][is_closed]" value="{{$hour['is_closed']}}" @if($hour['is_closed']==1)checked @endif/>
+                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][tuesday]" checked value="tuesday"/>
                             <span class="custom-checkbox"></span>
-                            Closed
+                            is Available?
                         </label>
-                            </span>
-                                </td>
-                                @endforeach
-                            </tr>
-                            </tbody>
-                        </table>
+                                </span>
+                                        </td>
+                                        <td>
+                            <span class="form-group">
+                        <label class="label-checkbox inline">
+                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][wednesday]" checked value="wednesday"/>
+                            <span class="custom-checkbox"></span>
+                            is Available?
+                        </label>
+                                </span>
+                                        </td>
+                                        <td>
+                            <span class="form-group">
+
+                        <label class="label-checkbox inline">
+                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][thursday]" checked value="thursday"/>
+                            <span class="custom-checkbox"></span>
+                            is Available?
+                        </label>
+                                </span>
+                                        </td>
+                                        <td>
+                            <span class="form-group">
+                        <label class="label-checkbox inline">
+                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][friday]" checked value="friday"/>
+                            <span class="custom-checkbox"></span>
+                            is Available?
+                        </label>
+                                </span>
+                                        </td>
+                                        <td><span class="form-group">
+
+                        <label class="label-checkbox inline">
+                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][saturday]" checked value="saturday"/>
+                            <span class="custom-checkbox"></span>
+                            is Available?
+                        </label>
+                                </span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

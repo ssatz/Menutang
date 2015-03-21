@@ -14,6 +14,6 @@ return array(
     */
 
     'debug' => false,
-    'url' => 'http://menutang.com',
+    'url' => 'http://www.menutang.com',
 
 );
