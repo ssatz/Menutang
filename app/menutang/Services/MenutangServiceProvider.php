@@ -125,13 +125,6 @@ class MenutangServiceProvider extends ServiceProvider
         $this->commands(
             'command.db'
         );
-        $this->app->bindShared('command.db', function($app)
-        {
-            return new AdminDBSeedCommand();
-        });
-        $this->commands(
-            'command.db'
-        );
     }
 
     public function boot() {

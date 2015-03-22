@@ -14,10 +14,12 @@ class CusisineTypeSeeder extends DatabaseSeeder
     public function run()
     {
         $cuisine = CuisineType::create(array(
+            'business_type_id',1,
             'cuisine_code' => 'INDIA',
             'cuisine_description' => 'Indian',
         ));
         $cuisine = CuisineType::create(array(
+            'business_type_id'=>1,
             'cuisine_code' => 'CHIN',
             'cuisine_description' => 'Chinese',
         ));
