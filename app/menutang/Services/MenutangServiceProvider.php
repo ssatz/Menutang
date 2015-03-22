@@ -116,6 +116,13 @@ class MenutangServiceProvider extends ServiceProvider
         $this->commands(
             'command.settings'
         );
+        $this->app->bindShared('command.db', function($app)
+        {
+            return new \DatabaseCommand();
+        });
+        $this->commands(
+            'command.db'
+        );
     }
 
     public function boot() {
