@@ -15,6 +15,8 @@ use Illuminate\Support\ServiceProvider;
 use Services\Events\UserEventSubscriber;
 use DBSettingsCommand;
 use Services\Validations\CustomValidator;
+use DatabaseCommand;
+use AdminDBSeedCommand;
 
 
 class MenutangServiceProvider extends ServiceProvider
@@ -118,7 +120,14 @@ class MenutangServiceProvider extends ServiceProvider
         );
         $this->app->bindShared('command.db', function($app)
         {
-            return new \DatabaseCommand();
+            return new DatabaseCommand();
+        });
+        $this->commands(
+            'command.db'
+        );
+        $this->app->bindShared('command.db', function($app)
+        {
+            return new AdminDBSeedCommand();
         });
         $this->commands(
             'command.db'
