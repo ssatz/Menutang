@@ -13,7 +13,7 @@ return array(
     |
     */
 
-    'debug' => false,
+    'debug' => true,
     'url' => 'http://www.menutang.com',
 
 );
