@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-class CountryTableSeeder extends DatabaseSeeder
+class CountryTableSeeder extends Seeder
 {
     public function run()
     {

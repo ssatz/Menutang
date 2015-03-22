@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-class CusisineTypeSeeder extends DatabaseSeeder
+class CusisineTypeSeeder extends Seeder
 {
 
     public function run()

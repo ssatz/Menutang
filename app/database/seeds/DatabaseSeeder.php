@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Cuisine Type table created sucessfully');
         $this->call('PaymentsSeeder');
         $this->command->info("Payments table seeded :)");
+        $this->call('TimeCategorySeeder');
+        $this->command->info("Time category table seeded :)");
 
     }
 

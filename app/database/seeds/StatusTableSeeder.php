@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-class StatusTableSeeder extends DatabaseSeeder
+class StatusTableSeeder extends Seeder
 {
 
     public function run()

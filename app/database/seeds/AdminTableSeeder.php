@@ -9,7 +9,7 @@
  */
 
 use Illuminate\Support\Facades\Hash;
-class AdminTableSeeder extends DatabaseSeeder {
+class AdminTableSeeder extends Seeder {
     public function run()
     {
         $admin = Admin::create(array(

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-class BusinessAddressSeeder extends DatabaseSeeder
+class BusinessAddressSeeder extends Seeder
 {
     public function run()
     {

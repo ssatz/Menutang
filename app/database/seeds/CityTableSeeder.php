@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-class CityTableSeeder extends DatabaseSeeder
+class CityTableSeeder extends Seeder
 {
 
     public function run()
