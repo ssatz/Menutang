@@ -11,9 +11,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Eloquent::unguard();
-
-        $this->call('UserTableSeeder');
-        $this->command->info("Users table seeded :)");
         $this->call('BusinessSeeder');
         $this->command->info("Business table seeded :)");
         $this->call('CountryTableSeeder');
@@ -26,8 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Status Table seeded');
         $this->call('CusisineTypeSeeder');
         $this->command->info('Cuisine Type table created sucessfully');
-        $this->call('BusinessInfoSeeder');
-        $this->command->info('BusinessInfo Table seeded');
         $this->call('PaymentsSeeder');
         $this->command->info("Payments table seeded :)");
 

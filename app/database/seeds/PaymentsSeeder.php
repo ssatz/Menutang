@@ -23,5 +23,10 @@ class PaymentsSeeder extends Seeder
             'payment_code' => 'MASTERCARD',
             'payment_description' => 'Master Card',
         ]);
+        $business = Payment::create([
+
+            'payment_code' => 'COD',
+            'payment_description' => 'Cash On Delivery',
+        ]);
     }
 }

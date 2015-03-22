@@ -16,7 +16,7 @@ class StatusTableSeeder extends DatabaseSeeder
     {
         $status = Status::create(array(
             'status_code' => 'PENDING',
-            'status_description' => 'pending'
+            'status_description' => 'Pending'
         ));
         $status = Status::create(array(
             'status_code' => 'ACTIVE',
