@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Console\Command;
-use Admin;
 
 class AdminDBSeedCommand extends Command {
 

@@ -16,7 +16,15 @@ use Illuminate\Auth\UserTrait;
 class Admin extends Eloquent implements UserInterface, RemindableInterface
 {
     use UserTrait, RemindableTrait;
+    /**
+     * @var string
+     * table= 'admins'
+     */
     protected $table = 'admins';
+    /**
+     * @var array
+     */
+    protected $fillable =['email,mobile,password'];
     /**
      * The attributes excluded from the model's JSON form.
      *
