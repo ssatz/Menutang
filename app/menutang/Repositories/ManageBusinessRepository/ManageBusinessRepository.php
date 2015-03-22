@@ -267,7 +267,8 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
 
         foreach($input['hours'] as $key => $value)
         {
-            if(isset($input['hours'][$key]['available'])) {
+            if(isset($input['hours'][$key]['available']))
+            {
                 $hours = new BusinessHours([
                     'business_info_id'=>$businessInfo->id,
                     'time_category_id'=>(int)$input['hours'][$key]['available'],
@@ -282,7 +283,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
                         $weekDays[] = $dayValue;
                     }
                 }
-                $hours->weekDays()->attach($weekDays);
+                $hours->weekDays()->sync($weekDays);
             }
         }
 
