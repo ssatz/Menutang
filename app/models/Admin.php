@@ -24,7 +24,7 @@ class Admin extends Eloquent implements UserInterface, RemindableInterface
     /**
      * @var array
      */
-    protected $fillable =['email,mobile,password'];
+    protected $fillable  =['email','mobile','password'];
     /**
      * The attributes excluded from the model's JSON form.
      *
