@@ -283,7 +283,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
                         $weekDays[] = $dayValue;
                     }
                 }
-                $hours->weekDays()->sync($weekDays);
+                $hours->weekDays()->attach($weekDays);
             }
         }
 

@@ -14,7 +14,7 @@ class MenuItem extends Eloquent
     /**
      * @var array
      */
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     /**
      * @var string

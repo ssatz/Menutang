@@ -388,8 +388,9 @@ class BusinessManager
         if ($this->menuUploadValidator->passes()) {
             $collection = new Collection();
             $file = $data['menu_upload']->getRealPath();
-            $this->excel->load($file, function ($reader) use ($collection, $slug) {
-                $reader->each(function ($sheet) use ($collection, $slug) {
+            $budID =$this->manageBusiness->findBusinessBySlug($slug)->id;
+            $this->excel->load($file, function ($reader) use ($collection, $budID) {
+                $reader->each(function ($sheet) use ($collection, $budID) {
                     (int)$count = -1;
                     $category_id = $this->manageCategory->findOrCreate($sheet->getTitle());
                     foreach ($sheet as $row) {
@@ -398,7 +399,7 @@ class BusinessManager
                             $count++;
                             $cell[$count]['item_name'] = $row['item_name'];
                             $cell[$count]['menu_category_id'] = $category_id;
-                            $cell[$count]['business_info_id'] = $this->manageBusiness->findBusinessBySlug($slug)->id;
+                            $cell[$count]['business_info_id'] = $budID;
                             $cell[$count]['item_description'] = $row['item_description'];
                             $cell[$count]['item_price'] = $row['cost'];
                             $cell[$count]['is_veg'] = $row['veg'];
@@ -427,7 +428,7 @@ class BusinessManager
             });
             $this->db->beginTransaction();
             try {
-                $this->menuItemrepo->bulkInsert($collection);
+                $this->menuItemrepo->bulkInsert($collection,$budID);
             } catch (Exception $e) {
                 $this->db->rollback();
                 throw new Exception($e->getMessage());

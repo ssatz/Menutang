@@ -18,6 +18,7 @@ use Services\Cache\ICacheService;
 use BusinessInfo;
 use ItemAddon;
 use Exception;
+use BusinessHours;
 use Services\Helper;
 
 class MenuItemRepository extends BaseRepository implements IMenuItemRepository
@@ -118,25 +119,46 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
      * @param $data
      * @throws Exception
      */
-    public function bulkInsert($data)
+    public function bulkInsert($data,$buId)
     {
         if(!$data instanceof Collection)
             throw new Exception("Must be a Collection");
+
+        $businessHours = BusinessHours::where('business_info_id','=',$buId)
+                                    ->select('id','time_category_id')
+                                    ->get()
+                                    ->toArray();
         foreach ($data as $menuItem)
         {
             foreach($menuItem as $item) {
                 $available = [];
                 if ($item['available_breakfast'])
                 {
-                    array_push($available,1);
+                    foreach($businessHours as $hr)
+                    {
+                        if($hr['time_category_id']==1){
+                            array_push($available,$hr['id']);
+                        }
+                    }
+
                 }
                 if ($item['available_lunch'])
                 {
-                    array_push($available,2);
+                    foreach($businessHours as $hr)
+                    {
+                        if($hr['time_category_id']==2){
+                            array_push($available,$hr['id']);
+                        }
+                    }
                 }
                 if ($item['available_dinner'])
                 {
-                    array_push($available,3);
+                    foreach($businessHours as $hr)
+                    {
+                        if($hr['time_category_id']==3){
+                            array_push($available,$hr['id']);
+                        }
+                    }
                 }
                 $result = $this->helper->match($item,['menu_item']);
                 $menu= $this->model->create($result['menu_item']);
