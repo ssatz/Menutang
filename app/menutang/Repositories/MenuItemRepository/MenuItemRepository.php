@@ -20,6 +20,7 @@ use ItemAddon;
 use Exception;
 use BusinessHours;
 use Services\Helper;
+use Services\TimeCategoryEnum;
 
 class MenuItemRepository extends BaseRepository implements IMenuItemRepository
 {
@@ -136,7 +137,7 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
                 {
                     foreach($businessHours as $hr)
                     {
-                        if($hr['time_category_id']==1){
+                        if($hr['time_category_id']==TimeCategoryEnum::BREAKFAST){
                             array_push($available,$hr['id']);
                         }
                     }
@@ -146,7 +147,7 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
                 {
                     foreach($businessHours as $hr)
                     {
-                        if($hr['time_category_id']==2){
+                        if($hr['time_category_id']==TimeCategoryEnum::LUNCH){
                             array_push($available,$hr['id']);
                         }
                     }
@@ -155,7 +156,7 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
                 {
                     foreach($businessHours as $hr)
                     {
-                        if($hr['time_category_id']==3){
+                        if($hr['time_category_id']==TimeCategoryEnum::DINNER){
                             array_push($available,$hr['id']);
                         }
                     }

@@ -262,7 +262,7 @@
                         <a  class="list-group-item">
                             <input type="hidden" name="menu_item_id" value="{{$item->id}}">
                             @if($item->itemAddon->count()==0)
-                             <span class="addOrder label label-success">
+                             <span class="addOrder label label-success" role="button" data-container="body" data-toggle="popover">
                                 <i class="fa fa-plus"></i>
                                 Add
                             </span>
@@ -304,13 +304,20 @@
                             @if($item->itemAddon->count()>0)
                                 <small> {{$item->item_description}}</small>
                             @endif
-                            <?php $itemFlag=0; ?>
-                            @foreach($item->weekDays as $days)
-                              @if($days->id==date('N'))
-                                <?php $itemFlag=1; ?>
-                              @endif
+                            <?php $itemFlag=0;?>
+                            @foreach($item->businessHours as $hours)
+                                <?php
+                                    $openTime = new DateTime($hours->open_time);
+                                    $closeTime = new DateTime($hours->close_time);
+                                    $now = new DateTime('now');
+                                   if($now>=$openTime && $now<=$closeTime)
+                                   {
+                                       $itemFlag=1;
+                                   }
+                                ?>
                             @endforeach
-                            <input type="hidden" value="{{$itemFlag}}" id="item-available">
+                            <input type="hidden" value="{{$itemFlag}}" class="item-available" name="item_available">
+
                         </a>
                         @endforeach
                     </div>
@@ -514,7 +521,9 @@
         </div>
     </div>
 </div>
-
+<div id="popover_content_wrapper" style="display: none">
+    <div class="text-primary"><i class="fa fa-asterisk"></i>&nbsp; Item Not Available at this time!!!</div>
+</div>
 <!-- Back to Top Button -->
 <a href="#top" class="page-scroll cd-top">Top</a>
 
@@ -533,7 +542,6 @@
 <script src="{{asset('assets/common/js/jquery.bootstrap-touchspin.min.js')}}"></script>
 <script src="{{asset('assets/common/js/app/frontend.js')}}"></script>
 <script src="{{asset('assets/common/js/app/buprofile-knockout.js')}}"></script>
-
 <script>
     $('#menuCategory, #orderSummary').affix({
         offset: {
@@ -549,6 +557,23 @@
 </script>
 <!-- TouchSpin jQuery -->
 <script type="text/javascript">
+    $(document).ready(function (){
+        $('[data-toggle="popover"]').popover({
+            html : true,
+            content: function() {
+                return $('#popover_content_wrapper').html();
+            },
+            trigger:'manual'
+        });
+        $('body').on('click', function (e) {
+            $('[data-toggle="popover"]').each(function () {
+                //the 'is' for buttons that trigger popups
+                //the 'has' for icons within a button that triggers a popup
+                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                    $(this).popover('hide');
+                }
+            });
+        });
     $("input[name='item_order']").TouchSpin({
         min:1,
         verticalbuttons: true,
@@ -558,6 +583,12 @@
     $("#menuCategory ul>li").first().addClass('active');
     $(".addOrder").click(function(e){
         e.preventDefault();
+        var $itemAvailable = $(this).parents(".list-group-item").find(".item-available").val();
+        if($itemAvailable==0)
+        {
+            $(this).popover('show');
+            return;
+        }
         var $addonItemId = $(this).parents(".addon-btn").find("input[type=hidden].item-addon").prop('id');
         if($addonItemId!=undefined)
         {
@@ -587,6 +618,7 @@
         console.log(msg);
     }
     );
+    });
     function postAjax(id,action){
         $.post('{{action('CartController@updateCartItem',[$slug])}}',{cart_item_id:id,action:action,_token: '{{Session::get('_token')}}'}, function( data ) {
             cartModel.cart(data);
