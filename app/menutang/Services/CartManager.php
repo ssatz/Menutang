@@ -15,10 +15,13 @@ use Exceptions\EnumExceptions;
 use Repositories\CartItemRepository\ICartItemRepository;
 use Repositories\CartRepository\ICartRepository;
 use Illuminate\Foundation\Application;
+use Repositories\MenuAddonRepository\IMenuAddonRepository;
 use Repositories\MenuItemRepository\IMenuItemRepository;
 use Services\DeliveryOptionEnum;
 use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use stdClass;
+use ItemAddon;
+use MenuItem;
 
 class CartManager {
 
@@ -61,6 +64,8 @@ class CartManager {
      */
     protected $menuItemRepo;
 
+    protected $itemAddonRepo;
+
     /**
      * @param Application $app
      * @param ICartRepository $cartRepo
@@ -71,7 +76,8 @@ class CartManager {
         ICartRepository $cartRepo,
         ICartItemRepository $cartItemRepository,
         IMenuItemRepository $menuItemRepository,
-        IManageBusinessRepository $businessRepository
+        IManageBusinessRepository $businessRepository,
+        IMenuAddonRepository $addonRepository
 
     ) {
         $this->app = $app;
@@ -83,6 +89,7 @@ class CartManager {
         $this->cookie = $this->app->make('cookie');
         $this->hash = $this->app->make('hash');
         $this->request = $this->app->make('request');
+        $this->itemAddonRepo=$addonRepository;
     }
 
     /**
@@ -175,6 +182,7 @@ class CartManager {
         }
         if(is_null($itemAddon)) {
             $item = $this->getCartMenuItem($menuItem->id, $cartId);
+
         }
         else{
             $item = $this->getCartMenuItem($menuItem->id,$cartId, $itemAddondetails->id);
@@ -182,7 +190,7 @@ class CartManager {
         if(!is_null($item)) {
             if ($item->count() > 0) {
                 (int)$quantity = ((int)$quantity) + ((int)$item->quantity);
-                $price = $quantity * $item->price;
+                $price = $quantity * $price;
                 $this->updateItemQuantity($item->id, (int)$quantity, $price);
                 return;
             }
@@ -227,13 +235,18 @@ class CartManager {
     {
        $cartItem= $this->cartItemRepo->find($id);
         if(!is_null($cartItem)){
-            $menu = $this->getMenuItem($cartItem->menu_item_id);
+            $menu = $this->getMenuItem($cartItem->menu_item_id,$cartItem->menu_item_addon_id);
             if(!is_null($menu)){
                 (int) $quantity = ($cartItem->quantity-1);
                 if($quantity<1){
                     return $this->removeItemFromCart($id);
                 }
-                (int)$price = ($menu->item_price * $quantity);
+                if($menu instanceof ItemAddon) {
+                    (int)$price = ($menu->addon_price * $quantity);
+                }
+                if($menu instanceof MenuItem) {
+                    (int)$price = ($menu->item_price * $quantity);
+                }
                 $data =[
                     'quantity' => $quantity,
                     'price'=>$price
@@ -252,10 +265,15 @@ class CartManager {
     {
         $cartItem= $this->cartItemRepo->find($id);
         if(!is_null($cartItem)){
-            $menu = $this->getMenuItem($cartItem->menu_item_id);
+            $menu = $this->getMenuItem($cartItem->menu_item_id,$cartItem->menu_item_addon_id);
             if(!is_null($menu)){
                 (int) $quantity = ($cartItem->quantity+1);
-                (int)$price = ($menu->item_price * $quantity);
+                if($menu instanceof ItemAddon) {
+                    (int)$price = ($menu->addon_price * $quantity);
+                }
+                if($menu instanceof MenuItem) {
+                    (int)$price = ($menu->item_price * $quantity);
+                }
                 $data =[
                     'quantity' => $quantity,
                     'price'=>$price
@@ -285,9 +303,13 @@ class CartManager {
      * @param $id
      * @return mixed
      */
-    protected function getMenuItem($id)
+    protected function getMenuItem($menuId,$addonId=null)
     {
-      return  $this->menuItemRepo->find($id);
+        if(is_null($addonId))
+        {
+        return $this->menuItemRepo->find($menuId);
+        }
+        return $this->itemAddonRepo->findByMenuId($menuId,$addonId);
     }
 
     /**
