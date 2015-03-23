@@ -27,6 +27,8 @@ class CreateUserDeliveryAddress extends Migration {
                 ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('city_id')->references('id')->on('city')
                 ->onDelete('cascade')->onUpdate('cascade');
+            $table->index('user_id');
+            $table->index('city_id');
 		});
 	}
 

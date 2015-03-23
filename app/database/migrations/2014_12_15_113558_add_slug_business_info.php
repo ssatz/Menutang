@@ -15,6 +15,7 @@ class AddSlugBusinessInfo extends Migration
     {
         Schema::table('business_info', function (Blueprint $table) {
             $table->string('business_slug')->after('business_name');
+            $table->index('business_slug');
         });
     }
 

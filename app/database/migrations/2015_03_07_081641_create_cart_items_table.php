@@ -24,6 +24,8 @@ class CreateCartItemsTable extends Migration {
             $table->foreign('cart_id')->references('id')->on('cart')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('menu_item_id')->references('id')->on('menu_item')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('menu_item_addon_id')->references('id')->on('item_addon')->onDelete('cascade')->onUpdate('cascade');
+            $table->index('menu_item_id');
+            $table->index('menu_item_addon_id');
 		});
 	}
 

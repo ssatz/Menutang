@@ -16,7 +16,6 @@ class CreateBusinessHoursTable extends Migration
         Schema::create('business_hours', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('business_info_id')->unsigned();
-            $table->integer('day');
             $table->time('open_time')->nullable();
             $table->time('close_time')->nullable();
             $table->boolean('is_closed')->default(0);

@@ -51,7 +51,7 @@
 
     <div class="col-lg-6">
         <input type="text" placeholder="Business Name" name="business_name"
-               class="form-control input-sm" data-required="true">
+               class="form-control input-sm" data-required="true" value="{{Input::old('business_name')}}">
     </div>
     <!-- /.col -->
 </div>
@@ -71,13 +71,15 @@
         <select class="form-control chzn-select" id="business_type_id" name="business_type_id" data-required="true">
             <option value="-1">-- select --</option>
             @foreach($butypes as $buType)
-                <option value="{{$buType->id}}">{{$buType->business_type}}</option>
+                <option value="{{$buType->id}}"
+                        @if(Input::old('business_type_id')==$buType->id) selected @endif>{{$buType->business_type}}
+            </option>
             @endforeach
         </select>
     </div>
     <!-- /.col -->
 </div>
-    <div class="form-group displayNone cuisine-type">
+    <div class="form-group @if(Input::old('business_type_id')!=1)displayNone @endif cuisine-type">
         <label class="control-label col-lg-2">Cuisine Type</label>
 
         <div class="col-lg-6">
@@ -97,7 +99,7 @@
             <select class="form-control chzn-select" name="status_id" data-required="true">
                 <option value="-1">-- select --</option>
                 @foreach($status as $stat)
-                <option value="{{$stat->id}}">{{$stat->status_description}}</option>
+                <option value="{{$stat->id}}" @if(Input::old('status_id')==$stat->id) selected @endif>{{$stat->status_description}}</option>
                 @endforeach
             </select>
         </div>
@@ -115,16 +117,21 @@
 </div>
 <div class="form-group">
     <label class="control-label col-lg-2">Door Delivery</label>
-
+    <?php
+        $isDoorDelivery = Input::old('is_door_delivery');
+        if(is_null(Input::old('is_door_delivery'))) {
+            $isDoorDelivery =3;
+        }
+    ?>
     <div class="col-lg-6">
         <label class="label-radio inline">
-            <input name="is_door_delivery" type="radio" value="1">
+            <input name="is_door_delivery" type="radio" @if($isDoorDelivery==1) checked @endif  value="1">
 
             <span class="custom-radio"></span>
             Yes
         </label>
         <label class="label-radio inline">
-            <input name="is_door_delivery" type="radio" value="0">
+            <input name="is_door_delivery" type="radio" @if($isDoorDelivery==0) checked @endif  value="0">
 
             <span class="custom-radio"></span>
             No
@@ -141,18 +148,32 @@
                name="minimum_delivery_amt" data-type="number" value="{{Input::old('minimum_delivery_amt')}}">
     </div>
 </div>
+    <div class="form-group">
+        <label class="control-label col-lg-2">Delivery Fee</label>
+
+        <div class="col-lg-6">
+            <input type="text" class="form-control input-sm" placeholder="eg 100" name="delivery_fee"
+                   data-required="true" data-type="number" value="{{Input::old('delivery_fee')}}">
+        </div>
+        <!-- /.col -->
+    </div>
 <div class="form-group">
     <label class="control-label col-lg-2">Rail Delivery</label>
-
+    <?php
+    $is_rail_delivery = Input::old('is_door_delivery');
+    if(is_null(Input::old('is_rail_delivery'))) {
+        $is_rail_delivery =3;
+    }
+    ?>
     <div class="col-lg-6">
         <label class="label-radio inline">
-            <input name="is_rail_delivery" type="radio" value="1">
+            <input name="is_rail_delivery" type="radio" @if($is_rail_delivery==1) checked @endif  value="1">
 
             <span class="custom-radio"></span>
             Yes
         </label>
         <label class="label-radio inline">
-            <input name="is_rail_delivery" type="radio" value="0">
+            <input name="is_rail_delivery" type="radio" @if($is_rail_delivery==0) checked @endif  value="0">
 
             <span class="custom-radio"></span>
             No
@@ -167,18 +188,32 @@
                name="minimum_rail_deli_amt" data-type="number">
     </div>
 </div>
+    <div class="form-group">
+        <label class="control-label col-lg-2">Parcel charges(package fee)</label>
+
+        <div class="col-lg-6">
+            <input type="text" class="form-control input-sm" placeholder="eg 100" name="parcel_charges"
+                   data-required="true" data-type="number" value="{{Input::old('parcel_charges')}}">
+        </div>
+        <!-- /.col -->
+    </div>
 <div class="form-group">
     <label class="control-label col-lg-2">Pickup Available</label>
-
+    <?php
+    $is_pickup_available = Input::old('is_pickup_available');
+    if(is_null(Input::old('is_pickup_available'))) {
+        $is_pickup_available =3;
+    }
+    ?>
     <div class="col-lg-6">
         <label class="label-radio inline">
-            <input name="is_pickup_available" type="radio" value="1">
+            <input name="is_pickup_available" type="radio" value="1" @if($is_pickup_available==1) checked @endif >
 
             <span class="custom-radio"></span>
             Yes
         </label>
         <label class="label-radio inline">
-            <input name="is_pickup_available" type="radio" value="0">
+            <input name="is_pickup_available" type="radio" value="0" @if($is_pickup_available==0) checked @endif>
 
             <span class="custom-radio"></span>
             No
@@ -196,16 +231,21 @@
 </div>
 <div class="form-group">
     <label class="control-label col-lg-2">Outdoor Catering</label>
-
+    <?php
+    $is_outdoor_catering = Input::old('is_outdoor_catering');
+    if(is_null(Input::old('is_outdoor_catering'))) {
+        $is_outdoor_catering =3;
+    }
+    ?>
     <div class="col-lg-6">
         <label class="label-radio inline">
-            <input name="is_outdoor_catering" type="radio" value="1">
+            <input name="is_outdoor_catering" type="radio" value="1" @if($is_outdoor_catering==0) checked @endif >
 
             <span class="custom-radio"></span>
             Yes
         </label>
         <label class="label-radio inline">
-            <input name="is_outdoor_catering" type="radio" value="0">
+            <input name="is_outdoor_catering" type="radio" value="0" @if($is_outdoor_catering==0) checked @endif>
 
             <span class="custom-radio"></span>
             No
@@ -221,16 +261,21 @@
 </div>
 <div class="form-group">
     <label class="control-label col-lg-2">Party Hall</label>
-
+    <?php
+    $is_party_hall = Input::old('is_party_hall');
+    if(is_null(Input::old('is_party_hall'))) {
+        $is_party_hall =3;
+    }
+    ?>
     <div class="col-lg-6">
         <label class="label-radio inline">
-            <input name="is_party_hall" type="radio" value="1">
+            <input name="is_party_hall" type="radio" value="1" @if($is_party_hall==1) checked @endif>
 
             <span class="custom-radio"></span>
             Yes
         </label>
         <label class="label-radio inline">
-            <input name="is_party_hall" type="radio" value="0">
+            <input name="is_party_hall" type="radio" value="0" @if($is_party_hall==0) checked @endif>
 
             <span class="custom-radio"></span>
             No
@@ -246,16 +291,21 @@
 </div>
 <div class="form-group">
     <label class="control-label col-lg-2">Buffet</label>
-
+    <?php
+    $is_buffet = Input::old('is_buffet');
+    if(is_null(Input::old('is_buffet'))) {
+        $is_buffet =3;
+    }
+    ?>
     <div class="col-lg-6">
         <label class="label-radio inline">
-            <input name="is_buffet" type="radio" value="1">
+            <input name="is_buffet" type="radio" value="1" @if($is_buffet==1) checked @endif>
 
             <span class="custom-radio"></span>
             Yes
         </label>
         <label class="label-radio inline">
-            <input name="is_buffet" type="radio" value="0">
+            <input name="is_buffet" type="radio" value="0" @if($is_buffet==0) checked @endif>
 
             <span class="custom-radio"></span>
             No
@@ -264,16 +314,21 @@
 </div>
 <div class="form-group">
     <label class="control-label col-lg-2">Midnight Buffet</label>
-
+    <?php
+    $is_midnight_buffet= Input::old('is_midnight_buffet');
+    if(is_null(Input::old('is_midnight_buffet'))) {
+        $is_midnight_buffet =3;
+    }
+    ?>
     <div class="col-lg-6">
         <label class="label-radio inline">
-            <input name="is_midnight_buffet" type="radio" value="1">
+            <input name="is_midnight_buffet" type="radio" value="1" @if($is_midnight_buffet==1) checked @endif>
 
             <span class="custom-radio"></span>
             Yes
         </label>
         <label class="label-radio inline">
-            <input name="is_midnight_buffet" type="radio" value="0">
+            <input name="is_midnight_buffet" type="radio" value="0" @if($is_midnight_buffet==0) checked @endif>
 
             <span class="custom-radio"></span>
             No
@@ -282,16 +337,21 @@
 </div>
 <div class="form-group">
     <label class="control-label col-lg-2">Wifi Available</label>
-
+    <?php
+    $is_wifi_available= Input::old('is_wifi_available');
+    if(is_null(Input::old('is_wifi_available'))) {
+        $is_wifi_available =3;
+    }
+    ?>
     <div class="col-lg-6">
         <label class="label-radio inline">
-            <input name="is_wifi_available" type="radio" value="1">
+            <input name="is_wifi_available" type="radio" value="1" @if($is_wifi_available==1) checked @endif>
 
             <span class="custom-radio"></span>
             Yes
         </label>
         <label class="label-radio inline">
-            <input name="is_wifi_available" type="radio" value="0">
+            <input name="is_wifi_available" type="radio" value="0" @if($is_wifi_available==0) checked @endif>
 
             <span class="custom-radio"></span>
             No
@@ -300,16 +360,21 @@
 </div>
 <div class="form-group">
     <label class="control-label col-lg-2">Children Play Area</label>
-
+    <?php
+    $is_children_play_area= Input::old('is_wifi_available');
+    if(is_null(Input::old('is_wifi_available'))) {
+        $is_children_play_area =3;
+    }
+    ?>
     <div class="col-lg-6">
         <label class="label-radio inline">
-            <input name="is_children_play_area" type="radio" value="1">
+            <input name="is_children_play_area" type="radio" value="1" @if($is_children_play_area==1) checked @endif>
 
             <span class="custom-radio"></span>
             Yes
         </label>
         <label class="label-radio inline">
-            <input name="is_children_play_area" type="radio" value="0">
+            <input name="is_children_play_area" type="radio" value="0" @if($is_children_play_area==0) checked @endif>
 
             <span class="custom-radio"></span>
             No
@@ -318,16 +383,21 @@
 </div>
 <div class="form-group">
     <label class="control-label col-lg-2">Garden Restaurant</label>
-
+    <?php
+    $is_garden_restaurant= Input::old('is_wifi_available');
+    if(is_null(Input::old('is_wifi_available'))) {
+    $is_garden_restaurant =3;
+    }
+    ?>
     <div class="col-lg-6">
         <label class="label-radio inline">
-            <input name="is_garden_restaurant" type="radio" value="1">
+            <input name="is_garden_restaurant" type="radio" value="1" @if($is_garden_restaurant==1) checked @endif>
 
             <span class="custom-radio"></span>
             Yes
         </label>
         <label class="label-radio inline">
-            <input name="is_garden_restaurant" type="radio" value="0">
+            <input name="is_garden_restaurant" type="radio" value="0" @if($is_garden_restaurant==0) checked @endif>
 
             <span class="custom-radio"></span>
             No
@@ -336,16 +406,21 @@
 </div>
 <div class="form-group">
     <label class="control-label col-lg-2">Roof Top Available</label>
-
+    <?php
+    $is_roof_top= Input::old('is_roof_top');
+    if(is_null(Input::old('is_roof_top'))) {
+        $is_roof_top =3;
+    }
+    ?>
     <div class="col-lg-6">
         <label class="label-radio inline">
-            <input name="is_roof_top" type="radio" value="1">
+            <input name="is_roof_top" type="radio" value="1" @if($is_roof_top==1) checked @endif>
 
             <span class="custom-radio"></span>
             Yes
         </label>
         <label class="label-radio inline">
-            <input name="is_roof_top" type="radio" value="0">
+            <input name="is_roof_top" type="radio" value="0" @if($is_roof_top==0) checked @endif>
 
             <span class="custom-radio"></span>
             No
@@ -354,16 +429,21 @@
 </div>
 <div class="form-group">
     <label class="control-label col-lg-2">Valet Parking</label>
-
+    <?php
+    $is_valet_parking= Input::old('is_valet_parking');
+    if(is_null(Input::old('is_valet_parking'))) {
+        $is_valet_parking =3;
+    }
+    ?>
     <div class="col-lg-6">
         <label class="label-radio inline">
-            <input name="is_valet_parking" type="radio" value="1">
+            <input name="is_valet_parking" type="radio" value="1" @if($is_valet_parking==1) checked @endif>
 
             <span class="custom-radio"></span>
             Yes
         </label>
         <label class="label-radio inline">
-            <input name="is_valet_parking" type="radio" value="0">
+            <input name="is_valet_parking" type="radio" @if($is_valet_parking==0) checked @endif value="0">
 
             <span class="custom-radio"></span>
             No
@@ -372,16 +452,21 @@
 </div>
 <div class="form-group">
     <label class="control-label col-lg-2">Boarding</label>
-
+    <?php
+    $is_boarding= Input::old('is_boarding');
+    if(is_null(Input::old('is_boarding'))) {
+        $is_boarding =3;
+    }
+    ?>
     <div class="col-lg-6">
         <label class="label-radio inline">
-            <input name="is_boarding" type="radio" value="1">
+            <input name="is_boarding" type="radio" @if($is_boarding==1) checked @endif value="1">
 
             <span class="custom-radio"></span>
             Yes
         </label>
         <label class="label-radio inline">
-            <input name="is_boarding" type="radio" value="0">
+            <input name="is_boarding" type="radio" @if($is_boarding==0) checked @endif value="0">
 
             <span class="custom-radio"></span>
             No
@@ -397,16 +482,21 @@
 </div>
 <div class="form-group">
     <label class="control-label col-lg-2">Bar Attached</label>
-
+    <?php
+    $is_bar_attached= Input::old('is_bar_attached');
+    if(is_null(Input::old('is_bar_attached'))) {
+        $is_bar_attached =3;
+    }
+    ?>
     <div class="col-lg-6">
         <label class="label-radio inline">
-            <input name="is_bar_attached" type="radio" value="1">
+            <input name="is_bar_attached" type="radio" value="1" @if($is_bar_attached==1) checked @endif>
 
             <span class="custom-radio"></span>
             Yes
         </label>
         <label class="label-radio inline">
-            <input name="is_bar_attached" type="radio" value="0">
+            <input name="is_bar_attached" type="radio" value="0" @if($is_bar_attached==0) checked @endif>
 
             <span class="custom-radio"></span>
             No
@@ -415,16 +505,21 @@
 </div>
 <div class="form-group">
     <label class="control-label col-lg-2">Highway Restaurant</label>
-
+    <?php
+    $is_highway_res= Input::old('is_highway_res');
+    if(is_null(Input::old('is_highway_res'))) {
+        $is_highway_res =3;
+    }
+    ?>
     <div class="col-lg-6">
         <label class="label-radio inline">
-            <input name="is_highway_res" type="radio" value="1">
+            <input name="is_highway_res" type="radio" value="1" @if($is_highway_res==1) checked @endif>
 
             <span class="custom-radio"></span>
             Yes
         </label>
         <label class="label-radio inline">
-            <input name="is_highway_res" type="radio" value="0">
+            <input name="is_highway_res" type="radio" value="0" @if($is_highway_res==0) checked @endif>
 
             <span class="custom-radio"></span>
             No
@@ -443,13 +538,13 @@
 
         <div class="col-lg-6">
             <label class="label-radio inline">
-                <input name="ischeckout_enable" type="radio" value="1">
+                <input name="ischeckout_enable" type="radio" value="1" @if(Input::old('ischeckout_enable')==1) checked @endif>
 
                 <span class="custom-radio"></span>
                 Yes
             </label>
             <label class="label-radio inline">
-                <input name="ischeckout_enable" type="radio" value="0">
+                <input name="ischeckout_enable" type="radio" value="0" @if(Input::old('ischeckout_enable')==0) checked @endif>
 
                 <span class="custom-radio"></span>
                 No
@@ -461,7 +556,7 @@
 
     <div class="col-lg-6">
         <input type="text" class="form-control input-sm" placeholder="http://www.example.com"
-               name="website" type="url">
+               name="website" type="url" value="{{Input::old('website')}}">
     </div>
 </div>
 <div class="form-group">
@@ -469,7 +564,7 @@
 
     <div class="col-lg-6">
         <input type="text" class="form-control input-sm" placeholder="Hour:Minute:Second"
-               name="avg_delivery_time" data-required="true">
+               name="avg_delivery_time" data-required="true" value="{{Input::old('avg_delivery_time')}}">
     </div>
 </div>
 </div>
@@ -479,7 +574,7 @@
 
         <div class="col-lg-6">
             <input type="text" class="form-control input-sm" name="address_line_1"
-                   data-required="true">
+                   data-required="true" value="{{Input::old('address_line_1')}}">
         </div>
     </div>
     <div class="form-group">
@@ -487,28 +582,29 @@
 
         <div class="col-lg-6">
             <input type="text" class="form-control input-sm" name="address_line_2"
-                   data-required="true">
+                   data-required="true" value="{{Input::old('address_line_2')}}">
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-lg-2">Address Landmark</label>
 
         <div class="col-lg-6">
-            <input type="text" class="form-control input-sm" name="address_landmark">
+            <input type="text" class="form-control input-sm" name="address_landmark" value="{{Input::old('address_landmark')}}">
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-lg-2">Address GPS Location</label>
 
         <div class="col-lg-6">
-            <input type="text" class="form-control input-sm" name="address_gps_location">
+            <input type="text" class="form-control input-sm" name="address_gps_location" value="{{Input::old('address_gps_location')}}">
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-lg-2">Postal Code</label>
 
         <div class="col-lg-6">
-            <input type="text" class="form-control input-sm" name="postal_code" data-type="digits" data-required="true">
+            <input type="text" class="form-control input-sm" name="postal_code" data-type="digits"
+                   value="{{Input::old('postal_code')}}" data-required="true">
         </div>
     </div>
     <div class="form-group">
@@ -532,13 +628,15 @@
                     <div class="col-lg-3">
                          <span class="form-group">
                               <label class="label-checkbox inline">
-                                  <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][available]" value="{{$time->id}}"/>
+                                  <input type="checkbox" class="bu-close"  name="hours[{{$time->id}}][available]" value="{{$time->id}}"
+                                         @if(Input::old('hours.{$time->id}.available')==$time->id) checked @endif
+                                      />
                                   <span class="custom-checkbox"></span>
                                   {{$time->category_description}}
                               </label>
                              <br/>
-                             From:  <input type="text" class="open-time form-control"  name="hours[{{$time->id}}][open_time]"/><br/>
-                             To:<input type="text" class="close-time form-control"  name="hours[{{$time->id}}][close_time]"/><br/>
+                             From:  <input type="text" class="open-time form-control" value="{{Input::old('hours[$time->id][open_time]')}}" name="hours[{{$time->id}}][open_time]"/><br/>
+                             To:<input type="text" class="close-time form-control" value="{{Input::old('hours[$time->id][close_time]')}}" name="hours[{{$time->id}}][close_time]"/><br/>
                          </span>
                     </div>
                     <div class="col-lg-9">
