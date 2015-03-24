@@ -283,7 +283,7 @@
                                         <li>
                                       <span class="pdRight addon-btn text-primary">  {{$addon->addon_description}}
                                           (<span class="badge"><i class="fa fa-inr"></i>{{$addon->addon_price}}</span>)
-                                           <span class="addOrder addon label label-success ">
+                                           <span class="addOrder addon label label-success " role="button" data-container="body" data-toggle="popover">
                                              <i class="fa fa-plus"></i>
                                              Add
                                            </span>

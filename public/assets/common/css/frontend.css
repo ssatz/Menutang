@@ -648,6 +648,7 @@ footer ul.list-inline {
     min-width: 65px;
 }
 .mobile-order-summary {
+    z-index: 1000;
     color: white;
     border-radius: 6px;
     background: gray;
