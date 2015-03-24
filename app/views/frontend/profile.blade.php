@@ -307,13 +307,13 @@
                             <?php $itemFlag=0;?>
                             @foreach($item->businessHours as $hours)
                                 <?php
-                                    $openTime = new DateTime($hours->open_time);
-                                    $closeTime = new DateTime($hours->close_time);
-                                    $now = new DateTime('now');
-                                   if($now>=$openTime && $now<=$closeTime)
-                                   {
-                                       $itemFlag=1;
-                                   }
+                                $date1 = new \DateTime();
+                                $date2 = new \DateTime($hour->open_time);
+                                $date3 = new \DateTime($hour->close_time);
+                                if ($date1->getTimestamp() >= $date2->getTimestamp() && $date1->getTimestamp() <= $date3->getTimestamp())
+                                {
+                                    $flag =1;
+                                }
                                 ?>
                             @endforeach
                             <input type="hidden" value="{{$itemFlag}}" class="item-available" name="item_available">
