@@ -30,7 +30,7 @@ class BusinessInfo extends Eloquent
      */
     public function businessUser()
     {
-        return $this->belongsTo('BusinessUser', 'business_users_id');
+        return $this->belongsTo('BusinessUser', 'business_user_id');
     }
     /**
      * @return mixed

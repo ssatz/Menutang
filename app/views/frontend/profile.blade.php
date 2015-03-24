@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Menutang</title>
+    <title>{{$businessdetails->business_name}}-{{Setting::get('site_name')}}</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('assets/common/css/bootstrap.min.css')}}" rel="stylesheet">

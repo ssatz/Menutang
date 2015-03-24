@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
         $this->command->info("Payments table seeded :)");
         $this->call('TimeCategorySeeder');
         $this->command->info("Time category table seeded :)");
+        $this->call("WeekDaysSeeder");
+        $this->command->info("weekdays seeder created");
 
     }
 
