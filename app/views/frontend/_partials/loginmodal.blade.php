@@ -138,7 +138,7 @@ last_name:$('#last-name').val(),
 _token: '{{Session::get('_token')}}'
 }
 ajax('{{action('FrontEndController@userRegistration')}}', 'POST', $data, 'json', function (msg) {
-if(msg===true){
+if($.parseJSON(msg)===true){
 return window.location.replace('{{Setting::get('site_url')}}');
 }
 $(".match-error").hide();
@@ -160,7 +160,7 @@ password : $('#login-password').val(),
 _token: '{{Session::get('_token')}}'
 }
 ajax('{{action('FrontEndController@userLogin')}}', 'POST', $data, 'json', function (msg) {
-if(msg===true){
+if($.parseJSON(msg)===true){
 return window.location.replace('{{Setting::get('site_url')}}');
 }
 $(".error").each(function(){

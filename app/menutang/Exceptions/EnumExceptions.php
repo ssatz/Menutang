@@ -10,7 +10,6 @@
 
 namespace Exceptions;
 use Exception;
-
 class EnumExceptions extends Exception {
 
 }
