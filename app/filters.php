@@ -18,7 +18,7 @@ App::before(function ($request) {
 
 App::after(function ($request, $response) {
     // Compress output
-  /*  ini_set("pcre.recursion_limit", "16777");
+ ini_set("pcre.recursion_limit", "16777");
     $buffer = $response->getContent();
     $re = '%# Collapse whitespace everywhere but in blacklisted elements.
 		(?>             # Match all whitespans other than single space.
@@ -47,7 +47,7 @@ App::after(function ($request, $response) {
         $new_buffer = $buffer;
     }
 
-    $response->setContent($new_buffer);*/
+    $response->setContent($new_buffer);
 });
 
 /*
