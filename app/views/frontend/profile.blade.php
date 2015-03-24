@@ -424,7 +424,9 @@
                         </h4>
                         <hr>
                         <!-- Place Order Button -->
+                        @if($businessdetails->ischeckout_enable)
                         <a href="#" class="btn btn-primary btn-block" data-bind="attr: { 'disabled': orderButton() }">Place Your Order!</a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -482,13 +484,71 @@
             <div style="padding: 9px; max-height: 200px; overflow: auto;">
                 <i class="fa fa-times pull-right" data-toggle="collapse" data-target="#demo"></i>
                 <h3>Items:</h3>
-                <ul>
-                    <li>Item One</li>
-                    <li>Item Two</li>
+                <!-- Order Items Summary -->
+                <ul class="list-unstyled order-summary-list" data-bind="foreach:cart">
+                    <!-- ko foreach: cart_item -->
+                    <li>
+
+                        <div class="number-select">
+                            <a href="#minus" data-bind="click:$root.cartItemMinus"><i class="fa fa-minus-circle"></i></a>
+                            <!-- ko text: quantity --> <!-- /ko -->
+                            <a href="#add" id="cartItem-plus" data-bind="click:$root.cartItemAdd"><i class="fa fa-plus-circle"></i></a>
+                        </div>
+                        <div data-bind="text:menu_item.item_name"></div>
+                        <div class="pull-right"><i class="fa fa-rupee"></i>
+                            <!-- ko text: price --> <!-- /ko -->
+                            <a href="#delete" id="cartItem-minus" data-bind="click:$root.cartItemDelete"><i class="fa fa-times-circle-o"></i></a>
+                        </div>
+                        <!-- ko if: item_addon -->
+                        <span class="clearfix"></span>
+                        <div class="small text-primary" style="padding-left: 80px">Choices: <!-- ko text:item_addon.addon_description --> <!-- /ko --></div>
+                        <!-- /ko -->
+                        <input type="hidden" name="item_id" data-bind="value:id">
+                    </li>
+                    <!-- /ko -->
                 </ul>
-                <div style="height: 300px;"></div>
                 <hr>
+                <!-- Subtotal -->
+                <strong>
+                    <span class="pull-left">Subtotal:</span>
+                    <span class="pull-right"><i class="fa fa-rupee"></i><!-- ko text: subTotal --> <!-- /ko --></span>
+                    <span class="clearfix"></span>
+                </strong>
+                <hr>
+                <!-- Discounts -->
+                <h4>Discounts:</h4>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="optionsRadiosx" id="optionsRadios1" value="option1" checked> 35% off your first order!
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="optionsRadiosx" id="optionsRadios2" value="option2"> Your loyalty credits (0 remaining)
+                    </label>
+                </div>
+                <hr>
+                <strong>
+                    <span class="pull-left">Package Fee</span>
+                    <span class="pull-right"><i class="fa fa-rupee"></i>{{$businessdetails->parcel_charges}}</span>
+                    <span class="clearfix"></span>
+                    <input type="hidden" name="parcel_charges" id="parcel-charge" value="{{$businessdetails->parcel_charges}}">
+                </strong>
+                <!--ko if:display --><hr> <!--/ko-->
+                <!-- Taxes and Fees -->
+                <strong data-bind="template:{name:'fee-template'}"> </strong>
+                <div style="height: 300px;">
+                    <h4 class="text-primary">
+                        <span class="pull-left">Total:</span>
+                        <span class="pull-right"><i class="fa fa-rupee"></i><!-- ko  text: grandTotal --> <!-- /ko --></span>
+                        <input type="hidden" name="grand_total" data-bind="value:grandTotal">
+                        <span class="clearfix"></span>
+                    </h4>
+                </div>
+                <hr>
+                @if($businessdetails->ischeckout_enable)
                 <a href="#" class="btn btn-primary">Place Order</a>
+                @endif
                 <hr>
             </div>
         </div>

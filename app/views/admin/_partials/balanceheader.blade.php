@@ -1,7 +1,6 @@
 <div class="main-header clearfix">
 				<div class="page-title">
 					<h3 class="no-margin">Dashboard</h3>
-					<span>Welcome back Mr.John Doe</span>
 				</div><!-- /page-title -->
 
 				<ul class="page-stats">

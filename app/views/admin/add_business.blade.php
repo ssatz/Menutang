@@ -628,7 +628,7 @@
                     <div class="col-lg-3">
                          <span class="form-group">
                               <label class="label-checkbox inline">
-                                  <input type="checkbox" class="bu-close"  name="hours[{{$time->id}}][available]" value="{{$time->id}}"
+                                  <input type="checkbox" class="bu-close bu-time"  name="hours[{{$time->id}}][available]" value="{{$time->id}}"
                                          @if(Input::old('hours.{$time->id}.available')==$time->id) checked @endif
                                       />
                                   <span class="custom-checkbox"></span>

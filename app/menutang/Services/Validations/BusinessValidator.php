@@ -11,6 +11,8 @@
 namespace Services\Validations;
 
 
+use Services\TimeCategoryEnum;
+
 class BusinessValidator extends BaseValidator
 {
     /**
@@ -51,6 +53,21 @@ class BusinessValidator extends BaseValidator
         'address_line_1' => 'required',
         'city_id' => 'required',
         'payments' => 'required',
-        'fileToUpload'=>'required|mimes:jpg,jpeg,png,gif'
+        'fileToUpload'=>'required|mimes:jpg,jpeg,png,gif',
+        'hours.'.TimeCategoryEnum::BREAKFAST.'.open_time'=>'required_if:hours.'.TimeCategoryEnum::BREAKFAST.'.available,'.TimeCategoryEnum::BREAKFAST,
+        'hours.'.TimeCategoryEnum::BREAKFAST.'.close_time'=>'required_if:hours.'.TimeCategoryEnum::BREAKFAST.'.available,'.TimeCategoryEnum::BREAKFAST,
+        'hours.'.TimeCategoryEnum::LUNCH.'.open_time'=>'required_if:hours.'.TimeCategoryEnum::LUNCH.'.available,'.TimeCategoryEnum::LUNCH,
+        'hours.'.TimeCategoryEnum::LUNCH.'.close_time'=>'required_if:hours.'.TimeCategoryEnum::LUNCH.'.available,'.TimeCategoryEnum::LUNCH,
+        'hours.'.TimeCategoryEnum::DINNER.'.open_time'=>'required_if:hours.'.TimeCategoryEnum::DINNER.'.available,'.TimeCategoryEnum::DINNER,
+        'hours.'.TimeCategoryEnum::DINNER.'.close_time'=>'required_if:hours.'.TimeCategoryEnum::DINNER.'.available,'.TimeCategoryEnum::DINNER,
+    ];
+
+    public static $messages=[
+        'hours.'.TimeCategoryEnum::BREAKFAST.'.open_time.required_id'=>'If businessHours Breakfast enabled, then Open time and close time required',
+        'hours.'.TimeCategoryEnum::BREAKFAST.'.close_time.required_id'=>'If businessHours Breakfast enabled, then Open time and close time required',
+        'hours.'.TimeCategoryEnum::LUNCH.'.open_time.required_id'=>'If businessHours Lunch enabled, then Open time and close time required',
+        'hours.'.TimeCategoryEnum::LUNCH.'.close_time.required_id'=>'If businessHours Lunch enabled, then Open time and close time required',
+        'hours.'.TimeCategoryEnum::DINNER.'.open_time.required_id'=>'If businessHours Dinner enabled, then Open time and close time required',
+        'hours.'.TimeCategoryEnum::DINNER.'.close_time.required_id'=>'If businessHours Dinner enabled, then Open time and close time required',
     ];
 }
