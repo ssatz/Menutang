@@ -308,11 +308,11 @@
                             @foreach($item->businessHours as $hours)
                                 <?php
                                 $date1 = new \DateTime();
-                                $date2 = new \DateTime($hour->open_time);
-                                $date3 = new \DateTime($hour->close_time);
+                                $date2 = new \DateTime($hours->open_time);
+                                $date3 = new \DateTime($hours->close_time);
                                 if ($date1->getTimestamp() >= $date2->getTimestamp() && $date1->getTimestamp() <= $date3->getTimestamp())
                                 {
-                                    $flag =1;
+                                    $itemFlag =1;
                                 }
                                 ?>
                             @endforeach
