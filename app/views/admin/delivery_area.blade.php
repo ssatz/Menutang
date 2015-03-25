@@ -52,7 +52,7 @@
             <td>{{$areas->area_pincode}}</td>
             <td>
                 <select class="form-control chzn-select"  name="city" data-required="true">
-                    <option value="">-- select --</option>
+                    <option value="-1">-- select --</option>
                     @foreach($cities as $city)
                     <option value="{{$city->id}}" @if($city->id==$areas->city->id)selected @endif>{{$city->city_description}}</option>
                     @endforeach
@@ -96,7 +96,6 @@
            var $html = '<input  class="input-sm form-control" type="text">';
            $(this).closest("tr").find("td:eq(0)").html($html).find("input").val($area);
            $(this).closest("tr").find("td:eq(1)").html($html).find("input").val($pincode);
-
            $currentObject=this;
            var $input=$(this).closest("tr").find("td:eq(0) input");
            var autocomplete = new google.maps.places.Autocomplete($($input)[0], {
@@ -193,12 +192,11 @@
                 search_query : query,
                 _token: $token
             };
-
             ajax('{{action('AdminAuthController@addOrUpdateDeliveryArea')}}', 'POST', $data, 'json', function (msg) {
                 if(msg.pincode!='') {
                     $("#area-add").val(query);
                     $("#area-pincode").val(msg.pincode);
-                    $($currentObject).closest('tr').find(".chzn-select option").filter(function(){
+                    $("#area-pincode option").filter(function(){
                         return $.trim($(this).text().toLowerCase()) == $.trim($locality.toLowerCase());
                     }).prop('selected', true);
                     $(".chzn-select").trigger("chosen:updated");

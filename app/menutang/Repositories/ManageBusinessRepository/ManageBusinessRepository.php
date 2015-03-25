@@ -232,6 +232,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         $businessInfo->avg_delivery_time = $input['avg_delivery_time'];
         $businessInfo->ischeckout_enable = $input['ischeckout_enable'];
         $businessInfo->status_id = $input['status_id'];
+        $businessInfo->business_about = $input['business_about'];
         $businessInfo->save();
         $slug = $this->slug($input['business_name']);
         if (!empty($this->findBusinessBySlug($slug))) {
@@ -245,11 +246,12 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         if(!$this->fileHelper->isDirectory(public_path('uploads/'.$slug))) {
             $this->fileHelper->makeDirectory(public_path('uploads/' . $slug), 0775);
         }
-        $this->imageHelper->make($input['fileToUpload']->getRealPath())->resize(75, 75)->save(public_path('uploads/'.$slug.'/logo.png'));
+        $this->imageHelper->make($input['fileToUpload']->getRealPath())->resize(75, 75)->save(public_path('uploads/'.$slug.'/logo75.png'));
+        $this->imageHelper->make($input['fileToUpload']->getRealPath())->resize(220, 220)->save(public_path('uploads/'.$slug.'/logo220.png'));
 
         $image = new BusinessPhoto();
         $image->business_info_id =$businessInfo->id;
-        $image->image_name = 'logo.png';
+        $image->image_name = 'logo75.png';
 
 
         $businessInfo->businessPhoto()->save($image);
@@ -267,11 +269,12 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
 
         foreach($input['hours'] as $key => $value)
         {
+
             if(isset($input['hours'][$key]['available']))
             {
                 $hours = new BusinessHours([
                     'business_info_id'=>$businessInfo->id,
-                    'time_category_id'=>(int)$input['hours'][$key]['available'],
+                    'time_category_id'=>(int) $input['hours'][$key]['available'],
                     'open_time'=>$this->helper->timeConverter($input['hours'][$key]['open_time'], "H:i:s"),
                     'close_time'=>$this->helper->timeConverter($input['hours'][$key]['close_time'], "H:i:s"),
                 ]);

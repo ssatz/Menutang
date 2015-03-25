@@ -137,17 +137,6 @@ function validateType(e, t) {
     return "" !== e ? n.test(e) : false;
 }
 $(document).ready(function () {
-    $(".bu-close").click(function () {
-        if ($(this).is(":checked")) {
-            $(this).val(1);
-            $(this).closest("td").find("input").data('required', false);
-            $(this).closest("td").find(".required").remove();
-            $(this).closest("td").find(".form-group").removeClass('has-error').addClass('has-success')
-        } else {
-            $(this).closest("td").find("input").attr('data-required', true);
-
-        }
-    });
 
     $("input[type=radio]").click(function () {
         if ($(this).val() == '0') {
@@ -163,13 +152,14 @@ $(document).ready(function () {
     $("body").on("click", ".close", function (e) {
         $(this).parent().remove();
     });
-    /*$("body").on("focusout", ".area", function (e) {
-        var $area = $(this).val();
-        var $this = this;
-        $.getJSON("http://www.getpincode.info/api/pincode?q=" + $area + "&callback=?", function (data) {
-            $result = JSON.parse(data);
-            $($this).parent().next().find('.pincode').val($result.pincode);
-        });
-
-    });*/
+    $(".bu-time").click(function () {
+        if($(this).is(":checked"))
+        {
+            $(this).closest(".form-group").find(".open-time,.close-time").attr('data-required','true');
+        }
+        else{
+            $(this).closest(".form-group").find(".open-time,.close-time").attr('data-required','false');
+            $(this).closest(".form-group").find("span.required").remove();
+        }
+    });
 });

@@ -551,6 +551,13 @@
             </label>
         </div>
     </div>
+    <div class="form-group">
+        <label class="control-label col-lg-2">About</label>
+
+        <div class="col-lg-6">
+           <textarea name="business_about" class="form-control input-sm">{{Input::old('business_about')}}</textarea>
+        </div>
+    </div>
 <div class="form-group">
     <label class="control-label col-lg-2">Website</label>
 
@@ -628,7 +635,7 @@
                     <div class="col-lg-3">
                          <span class="form-group">
                               <label class="label-checkbox inline">
-                                  <input type="checkbox" class="bu-close bu-time"  name="hours[{{$time->id}}][available]" value="{{$time->id}}"
+                                  <input type="checkbox" class="bu-time"  name="hours[{{$time->id}}][available]" value="{{$time->id}}"
                                          @if(Input::old('hours.{$time->id}.available')==$time->id) checked @endif
                                       />
                                   <span class="custom-checkbox"></span>
@@ -657,7 +664,7 @@
                                 <td>
                         <span class="form-group">
                             <label class="label-checkbox inline">
-                                <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][sunday]" checked value="sunday"/>
+                                <input type="checkbox"  name="hours[{{$time->id}}][sunday]" checked value="sunday"/>
                                 <span class="custom-checkbox"></span>
                                 is Available?
                             </label>
@@ -666,7 +673,7 @@
                                 <td>
                             <span class="form-group">
                                 <label class="label-checkbox inline">
-                                    <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][monday]" checked value="monday"/>
+                                    <input type="checkbox"  name="hours[{{$time->id}}][monday]" checked value="monday"/>
                                     <span class="custom-checkbox"></span>
                                     is Available?
                                 </label>
@@ -676,7 +683,7 @@
                             <span class="form-group">
 
                         <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][tuesday]" checked value="tuesday"/>
+                            <input type="checkbox"  name="hours[{{$time->id}}][tuesday]" checked value="tuesday"/>
                             <span class="custom-checkbox"></span>
                             is Available?
                         </label>
@@ -685,7 +692,7 @@
                                 <td>
                             <span class="form-group">
                         <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][wednesday]" checked value="wednesday"/>
+                            <input type="checkbox"  name="hours[{{$time->id}}][wednesday]" checked value="wednesday"/>
                             <span class="custom-checkbox"></span>
                             is Available?
                         </label>
@@ -695,7 +702,7 @@
                             <span class="form-group">
 
                         <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][thursday]" checked value="thursday"/>
+                            <input type="checkbox"  name="hours[{{$time->id}}][thursday]" checked value="thursday"/>
                             <span class="custom-checkbox"></span>
                             is Available?
                         </label>
@@ -704,7 +711,7 @@
                                 <td>
                             <span class="form-group">
                         <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][friday]" checked value="friday"/>
+                            <input type="checkbox"  name="hours[{{$time->id}}][friday]" checked value="friday"/>
                             <span class="custom-checkbox"></span>
                             is Available?
                         </label>
@@ -713,7 +720,7 @@
                                 <td><span class="form-group">
 
                         <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][saturday]" checked value="saturday"/>
+                            <input type="checkbox"  name="hours[{{$time->id}}][saturday]" checked value="saturday"/>
                             <span class="custom-checkbox"></span>
                             is Available?
                         </label>

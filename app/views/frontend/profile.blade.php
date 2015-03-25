@@ -123,7 +123,8 @@
         <div class="well">
             <div class="row">
                 <div class="col-lg-2 col-md-3 col-sm-4">
-                    <img class="img-responsive img-centered" src="{{asset('uploads/'.$businessdetails->business_slug.'/logo.png')}}" alt="{{$businessdetails->business_name}}">
+                    <img class="img-responsive img-centered" width="220" height="220" title="{{$businessdetails->business_name}}"
+                         src="{{asset('uploads/'.$businessdetails->business_slug.'/logo220.png')}}" alt="{{$businessdetails->business_name}}">
                 </div>
                 <div class="col-lg-10 col-md-9 col-sm-8 profile-content">
 

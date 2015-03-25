@@ -210,11 +210,13 @@ class ManageBusinessController extends BaseController
             $cities = $this->manage->getAllCity();
             $cuisineType= $this->manage->getAllCuisineType();
             $time = $this->manage->getAllBusinessTimes();
+            $deliveryArea = $this->manage->getAllDeliveryArea();
             return $this->view->make('admin.add_business')->withButypes($buTypes)
                 ->withPayments($payments)
                 ->withStatus($status)
                 ->withCities($cities)
                 ->withTimes($time)
+                ->withDeliveryarea($deliveryArea)
                 ->withCusinetypes($cuisineType);
         }
         if ($this->manage->insertBusinessInfo($this->request->all())) {

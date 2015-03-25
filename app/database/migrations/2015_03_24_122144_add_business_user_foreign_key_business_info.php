@@ -14,7 +14,7 @@ class AddBusinessUserForeignKeyBusinessInfo extends Migration {
 	{
 		Schema::table('business_info', function(Blueprint $table)
 		{
-            $table->text('business_about');
+            $table->text('business_about')->after('website');
 			$table->unsignedBigInteger('business_user_id')->after('status_id')->nullable();
 			$table->foreign('business_user_id')->references('id')->on('business_users');
 			$table->index('business_user_id');

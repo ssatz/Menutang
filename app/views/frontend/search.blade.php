@@ -21,7 +21,9 @@
             <tbody>
             @foreach($results as $buDetails)
             <tr>
-                <td><img src="http://placehold.it/75x75" class="pull-left hidden-sm hidden-xs" alt="">
+                <?php $image='uploads/'.$buDetails->business_slug.'/logo75.png' ?>
+                <td><img src="{{asset($image)}}" width="75" height="75"  title="{{$buDetails->business_name}}"
+                         class="pull-left hidden-sm hidden-xs" alt="{{$buDetails->business_name}}">
                     <a href="#"><h4>{{$buDetails->business_name}}</h4></a>
                     <p>
                         {{$buDetails->address->address_line_1}},{{$buDetails->address->address_line_2}} <a href="#"><i class="fa fa-fw fa-map-marker"></i></a>

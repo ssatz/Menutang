@@ -1,4 +1,5 @@
 <?php
+\Illuminate\Support\Facades\Cache::flush();
 Route::get('info',function(){
     echo phpinfo();
 });

@@ -609,7 +609,13 @@
                                         <td>
                             <span class="form-group">
                                 <label class="label-checkbox inline">
-                                    <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][monday]" checked value="monday"/>
+                                    <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][monday]"
+                                           @if(!is_null($weekdays))
+                                           @foreach($weekdays as $day)
+                                           @if($day['day']=='Monday') checked @endif
+                                    @endforeach
+                                    @endif
+                                           value="monday"/>
                                     <span class="custom-checkbox"></span>
                                     is Available?
                                 </label>
@@ -619,7 +625,13 @@
                             <span class="form-group">
 
                         <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][tuesday]" checked value="tuesday"/>
+                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][tuesday]"
+                                   @if(!is_null($weekdays))
+                                   @foreach($weekdays as $day)
+                                   @if($day['day']=='Tuesday') checked @endif
+                            @endforeach
+                            @endif
+                                   value="tuesday"/>
                             <span class="custom-checkbox"></span>
                             is Available?
                         </label>
@@ -628,7 +640,13 @@
                                         <td>
                             <span class="form-group">
                         <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][wednesday]" checked value="wednesday"/>
+                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][wednesday]"
+                                   @if(!is_null($weekdays))
+                                   @foreach($weekdays as $day)
+                                   @if($day['day']=='Wednesday') checked @endif
+                            @endforeach
+                            @endif
+                                   value="wednesday"/>
                             <span class="custom-checkbox"></span>
                             is Available?
                         </label>
@@ -638,7 +656,13 @@
                             <span class="form-group">
 
                         <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][thursday]" checked value="thursday"/>
+                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][thursday]"
+                                   @if(!is_null($weekdays))
+                                   @foreach($weekdays as $day)
+                                   @if($day['day']=='Thursday') checked @endif
+                            @endforeach
+                            @endif
+                                   value="thursday"/>
                             <span class="custom-checkbox"></span>
                             is Available?
                         </label>
@@ -647,7 +671,13 @@
                                         <td>
                             <span class="form-group">
                         <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][friday]" checked value="friday"/>
+                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][friday]"
+                                   @if(!is_null($weekdays))
+                                   @foreach($weekdays as $day)
+                                   @if($day['day']=='Friday') checked @endif
+                            @endforeach
+                            @endif
+                                   value="friday"/>
                             <span class="custom-checkbox"></span>
                             is Available?
                         </label>
@@ -656,7 +686,13 @@
                                         <td><span class="form-group">
 
                         <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][saturday]" checked value="saturday"/>
+                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][saturday]"
+                                   @if(!is_null($weekdays))
+                                   @foreach($weekdays as $day)
+                                   @if($day['day']=='Saturday') checked @endif
+                            @endforeach
+                            @endif
+                                   value="saturday"/>
                             <span class="custom-checkbox"></span>
                             is Available?
                         </label>
