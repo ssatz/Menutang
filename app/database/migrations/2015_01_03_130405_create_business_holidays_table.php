@@ -17,12 +17,12 @@ class CreateBusinessHolidaysTable extends Migration {
 			$table->bigIncrements('id');
 			$table->unsignedBigInteger('business_info_id');
 			$table->string('title');
-			$table->time('start_time');
-			$table->time('end_time');
 			$table->date('holiday_date');
 			$table->string('holiday_reason');
-			$table->timestamps();
 			$table->foreign('business_info_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');
+            $table->index('id');
+            $table->index('business_info_id');
+            $table->index('holiday_date');
 		});
 	}
 

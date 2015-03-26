@@ -54,6 +54,7 @@ class BusinessValidator extends BaseValidator
         'city_id' => 'required',
         'payments' => 'required',
         'fileToUpload'=>'required|mimes:jpg,jpeg,png,gif',
+        'mobile'=>'required',
         'hours.'.TimeCategoryEnum::BREAKFAST.'.open_time'=>'required_if:hours.'.TimeCategoryEnum::BREAKFAST.'.available,'.TimeCategoryEnum::BREAKFAST,
         'hours.'.TimeCategoryEnum::BREAKFAST.'.close_time'=>'required_if:hours.'.TimeCategoryEnum::BREAKFAST.'.available,'.TimeCategoryEnum::BREAKFAST,
         'hours.'.TimeCategoryEnum::LUNCH.'.open_time'=>'required_if:hours.'.TimeCategoryEnum::LUNCH.'.available,'.TimeCategoryEnum::LUNCH,

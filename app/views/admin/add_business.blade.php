@@ -607,6 +607,14 @@
         </div>
     </div>
     <div class="form-group">
+        <label class="control-label col-lg-2">Mobile No</label>
+
+        <div class="col-lg-6">
+            <input type="text" class="form-control input-sm" name="mobile" data-type="digits"
+                   value="{{Input::old('mobile')}}" data-required="true">
+        </div>
+    </div>
+    <div class="form-group">
         <label class="control-label col-lg-2">Postal Code</label>
 
         <div class="col-lg-6">

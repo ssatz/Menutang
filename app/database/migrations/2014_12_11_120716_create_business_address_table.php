@@ -22,9 +22,13 @@ class CreateBusinessAddressTable extends Migration
             $table->text('address_line_2');
             $table->string('address_landmark');
             $table->string('address_gps_location');
+            $table->bigInteger('mobile')->unique();
             $table->foreign('business_info_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('city_id')->references('id')->on('city');
             $table->timestamps();
+            $table->index('mobile');
+            $table->index('city_id');
+            $table->index('business_info_id');
         });
     }
 
