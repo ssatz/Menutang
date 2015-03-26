@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Translation\Translator;
 use Services\BusinessManager;
+use Services\TimeCategoryEnum;
 
 
 class ManageBusinessController extends BaseController
@@ -157,9 +158,11 @@ class ManageBusinessController extends BaseController
     {
         $this->viewShareSlug($slug);
         if ($this->request->isMethod('GET')) {
-            return $this->view->make('admin.menu_item')->withCategories($this->manage->getAllMenuCategory());
+            $time =TimeCategoryEnum::toArray();
+            return $this->view->make('admin.menu_item')
+                ->withTimecategory($time)
+                ->withCategories($this->manage->getAllMenuCategory());
         }
-        $this->request->all();
         if($this->manage->insertOrUpdateMenuItem($this->request->except('_token'), $slug))
         {
             return $this->redirector->back()->withMessage($this->translator->get('business.success'));
