@@ -91,12 +91,12 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
                 $menuItem->item_name = $item['item_name'];
                 $menuItem->item_description = $item['item_description'];
                 $menuItem->item_price = $item['item_price'];
-                $menuItem->is_veg = $this->arrayExists('is_veg', $item) ? true : false;
-                $menuItem->is_non_veg = $this->arrayExists('is_non_veg', $item) ? true : false;
-                $menuItem->is_egg = $this->arrayExists('is_egg', $item) ? true : false;
-                $menuItem->is_spicy = $this->arrayExists('is_spicy', $item) ? true : false;
-                $menuItem->is_popular = $this->arrayExists('is_popular', $item) ? true : false;
-                $menuItem->item_status = $this->arrayExists('item_status', $item) ? true : false;
+                $menuItem->is_veg = isset($item['is_veg'])?true:false;
+                $menuItem->is_non_veg = isset($item['is_non_veg'])?true:false;
+                $menuItem->is_egg = isset($item['is_egg'])?true:false;
+                $menuItem->is_spicy = isset($item['is_spicy'])?true:false;
+                $menuItem->is_popular = isset($item['is_popular'])?true:false;
+                $menuItem->item_status = isset($item['item_status'])?true:false;
                 $menuItem->save();
                 $numerickeys = array_filter(array_keys($item), 'is_int');
                 foreach ($numerickeys as $key) {

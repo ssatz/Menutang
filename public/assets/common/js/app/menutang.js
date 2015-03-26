@@ -91,7 +91,7 @@ function formValidation(formId)
     var $flag =true;
     $(formId).find('input[type=text]').not(".tt-hint").each(function() {
         $(this).next('.label-danger').remove();
-        if($(this).val()=='' || $(this).val().length==0)
+        if(($(this).val()=='' || $(this).val().length==0) && $(this).data('required')==true)
         {
             $flag=false;
             $(this).after('<span class="required label-danger">This is a required field</span>');

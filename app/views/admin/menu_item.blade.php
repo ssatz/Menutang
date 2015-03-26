@@ -93,11 +93,11 @@
 				<tr class="menu">
 					<td><a class="accordion-toggle"><span class="glyphicon gi-2x glyphicon-minus"></span></a></td>
 					<td><input type="text" class="form-control input-sm" id="item_0_name"
-							   name="item[0][item_name]" style="width: 140px;"></td>
+							   name="item[0][item_name]" style="width: 140px;" data-required="true"></td>
 					<td><input type="text" class="form-control input-sm" id="item_0_description"
-							   name="item[0][item_description]"></td>
+							   name="item[0][item_description]" data-required="false"></td>
 					<td><input type="text" class="form-control input-sm" style="width: 80px;" data-type="number"
-							   id="item_0_price" name="item[0][item_price]"></td>
+							   id="item_0_price" name="item[0][item_price]" data-required="true"></td>
 					<td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_0_veg"
 							   class="veg" name="item[0][is_veg]"></td>
 					<td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_0_non_veg"
@@ -130,9 +130,9 @@
 							<tbody>
 							<tr>
 								<td><input type="text" class="form-control input-sm" id="item_0_0_addon_description"
-										   name="item[0][0][addon_description]" style="width: 140px;"></td>
+										   name="item[0][0][addon_description]" data-required="true" style="width: 140px;"></td>
 								<td><input type="text" class="form-control input-sm" id="item_0_0_addon_price"
-										   name="item[0][0][addon_price]" data-type="number" style="width: 140px;"></td>
+										   name="item[0][0][addon_price]" data-type="number" data-required="true" style="width: 140px;"></td>
 								<td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
 										   id="item_0_0_addon_price" name="item[0][0][addon_status]"></td>
 								<td><span class="btn btn-xs btn-info delete">Delete</span>
@@ -165,11 +165,11 @@
 			<tr class="menu">
 				<td><a class="accordion-toggle"><span class="glyphicon gi-2x glyphicon-minus"></span></a></td>
 				<td><input type="text" class="form-control input-sm" id="item_0_name"
-						   name="item[0][item_name]" style="width: 140px;"></td>
+						   name="item[0][item_name]" data-required="true" style="width: 140px;"></td>
 				<td><input type="text" class="form-control input-sm" id="item_0_description"
-						   name="item[0][item_description]"></td>
+						   name="item[0][item_description]" data-required="false"></td>
 				<td><input type="text" class="form-control input-sm" style="width: 80px;" data-type="number"
-						   id="item_0_price" name="item[0][item_price]"></td>
+						   id="item_0_price" name="item[0][item_price]" data-required="true"></td>
 				<td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_0_is_veg"
 						   class="veg" name="item[0][is_veg]"></td>
 				<td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_0_non_veg"
@@ -201,9 +201,9 @@
 						<tbody>
 						<tr>
 							<td><input type="text" class="form-control input-sm" id="item_0_0_addon_description" data-required="true"
-									   name="item[0][0][addon_description]" style="width: 140px;"></td>
+									   name="item[0][0][addon_description]" style="width: 140px;" data-required="true"></td>
 							<td><input type="text" class="form-control input-sm" id="item_0_0_addon_price" data-required="true" data-type="number"
-									   name="item[0][0][addon_price]" style="width: 140px;"></td>
+									   name="item[0][0][addon_price]" style="width: 140px;" data-required="true"></td>
 							<td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
 									   id="item_0_0_addon_status" name="item[0][0][addon_status]"></td>
 							<td><span class="btn btn-xs btn-info delete">Delete</span>
