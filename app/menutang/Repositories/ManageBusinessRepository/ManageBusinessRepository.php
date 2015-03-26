@@ -98,40 +98,84 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function update(array $input, $slug)
     {
-        $input['cuisine_type_id'] = $input['business_type_id']==1?$input['cuisine_type_id']:null;
         $key = md5('slug.' . $slug);
         $this->cache->remove($key);
         $result = $this->helper->match($input, ['business_info', 'business_address','business_hours']);
         $businessInfo = $this->model->where('business_slug', '=', $slug)->first();
         $this->model->where('business_slug', '=', $slug)->update($result['business_info']);
         $this->model->find($businessInfo->id)->address()->update($result['business_address']);
-        $businessInfo->payment()->sync($input['payments']);
+        $businessInfo->payment()->attach($input['payments']);
         if(!$this->fileHelper->isDirectory(public_path('uploads/'.$slug))) {
             $this->fileHelper->makeDirectory(public_path('uploads/' . $slug), 0775);
         }
 
         if(isset($input['fileToUpload'])) {
-            $this->fileHelper->delete(public_path('uploads/' . $slug.'/logo.png'));
-            $this->imageHelper->make($input['fileToUpload']->getRealPath())->resize(75, 75)->save(public_path('uploads/' . $slug . '/logo.png'));
+            $this->fileHelper->delete(public_path('uploads/' . $slug.'/logo75.png'));
+            $this->fileHelper->delete(public_path('uploads/' . $slug.'/logo220.png'));
+            $this->imageHelper->make($input['fileToUpload']->getRealPath())->resize(75, 75)->save(public_path('uploads/'.$slug.'/logo75.png'));
+            $this->imageHelper->make($input['fileToUpload']->getRealPath())->resize(220, 220)->save(public_path('uploads/'.$slug.'/logo220.png'));
         }
-        $deliveryAreaId = [];
-       /* foreach ($input['delivery_area'] as $area) {
-            $deliveryArea = DeliveryArea::Where('area','=',strtolower($area['area']))->get();
-            array_push($deliveryAreaId, $deliveryArea->id);
+        if(!empty($input['hour_delete']))
+        {
+            $deleteBUHrs = ltrim($input['hour_delete'], ',');
+            BusinessHours::destroy($deleteBUHrs);
         }
-        $businessInfo->deliveryArea()->attach($deliveryAreaId);*/
-        foreach ($input['hours'] as $key => $value) {
-            $buhr = $this->model->find($businessInfo->id)->businessHours()->where('day','=',$key)->first();
-            $buhr->business_info_id = $businessInfo->id;
-            if (!isset($input['hours'][$key]['is_closed'])) {
-                    $buhr->open_time = isset($input['hours'][$key]['open_time']) ? $this->helper->timeConverter($input['hours'][$key]['open_time'], "H:i:s") : null;
-                    $buhr->close_time = isset($input['hours'][$key]['close_time']) ? $this->helper->timeConverter($input['hours'][$key]['close_time'], "H:i:s") : null;
+        foreach($input['hours'] as $key => $value)
+        {
+
+            if(isset($input['hours'][$key]['available'])) {
+                if ($input['hours'][$key]['available'] == -1) {
+                    $hours = new BusinessHours([
+                        'business_info_id' => $businessInfo->id,
+                        'time_category_id' => (int)$input['hours'][$key]['time'],
+                        'open_time' => $this->helper->timeConverter($input['hours'][$key]['open_time'], "H:i:s"),
+                        'close_time' => $this->helper->timeConverter($input['hours'][$key]['close_time'], "H:i:s"),
+                    ]);
+                    $businessInfo->businessHours()->save($hours);
+                    $weekDays = [];
+                    foreach (WeekdaysEnum::toArray() as $dayKey => $dayValue) {
+                        if (isset($input['hours'][$key][strtolower($dayKey)])) {
+                            $weekDays[] = $dayValue;
+                        }
+                    }
+                    $hours->weekDays()->sync($weekDays);
+                }
+                else{
+                    $data = [
+                        'open_time' => $this->helper->timeConverter($input['hours'][$key]['open_time'], "H:i:s"),
+                        'close_time' => $this->helper->timeConverter($input['hours'][$key]['close_time'], "H:i:s"),
+                    ];
+                    $weekDays = [];
+                    foreach (WeekdaysEnum::toArray() as $dayKey => $dayValue) {
+                        if (isset($input['hours'][$key][strtolower($dayKey)])) {
+                            $weekDays[] = $dayValue;
+                        }
+                    }
+                     BusinessHours::where('id','=',$input['hours'][$key]['available'])->update($data);
+                     BusinessHours::find($input['hours'][$key]['available'])->weekDays()->sync($weekDays);
+
+                }
             }
-            $buhr->is_closed = isset($input['hours'][$key]['is_closed']) ? (int)$input['hours'][$key]['is_closed'] : 0;
-            $buhr->save();
+        }
+
+        if(!is_null($input['cuisines_types'])) {
+            $businessInfo->cuisineType()->sync($input['cuisines_types'],false);
+        }
+
+        $deliveryAreaId = [];
+        foreach ($input['delivery_area'] as $area) {
+            $deliveryArea = DeliveryArea::find($area['id']);
+            if(is_null($deliveryArea)) {
+                $deliveryArea = new DeliveryArea();
+                $deliveryArea->area =(string)$area['area'];
+                $deliveryArea->area_pincode = (int)$area['pincode'];
+                $deliveryArea->city_id = (int)$address->city_id;
+                $deliveryArea->save();
+            }
+            array_push($deliveryAreaId, $deliveryArea->id);
 
         }
-        return;
+        $businessInfo->deliveryArea()->sync(array_unique($deliveryAreaId),false);
     }
 
     /**

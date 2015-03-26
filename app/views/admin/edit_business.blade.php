@@ -44,7 +44,7 @@
                             <div class="col-lg-6">
                                 <input type="file" class="form-control input-sm"  name="fileToUpload" id="fileToUpload">
                             </div>
-                            <img src="{{asset('uploads/'.$business->business_slug.'/logo.png')}}">
+                            <img src="{{asset('uploads/'.$business->business_slug.'/logo75.png')}}">
                         </div>
                         <!-- /form-group -->
                         <div class="form-group">
@@ -63,7 +63,7 @@
                             <label class="control-label col-lg-2">Cuisine Type</label>
 
                             <div class="col-lg-6">
-                                <select multiple class="form-control chzn-select" name="payments[]">
+                                <select multiple class="form-control chzn-select" name="cuisines_types[]">
                                     @foreach($cusinetypes as $cuisineType)
                                     <option value="{{$cuisineType->id}}" @foreach($business->cuisineType as $cutype)
                                         @if($cuisineType->id==$cutype->id)
@@ -127,6 +127,14 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="control-label col-lg-2">Delivery Fee</label>
+
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control input-sm" placeholder="eg 100" name="delivery_fee"
+                                       data-required="true" data-type="number" value="{{$business->delivery_fee}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label col-lg-2">Rail Delivery</label>
 
                             <div class="col-lg-6">
@@ -149,6 +157,15 @@
                                 <input type="text" class="form-control input-sm" placeholder="00.00"
                                        name="minimum_rail_deli_amt" data-type="number" value="{{$business->minimum_rail_deli_amt}}">
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Parcel charges(package fee)</label>
+
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control input-sm" placeholder="eg 100" name="parcel_charges"
+                                       data-required="true" data-type="number" value="{{$business->parcel_charges}}">
+                            </div>
+                            <!-- /.col -->
                         </div>
                         <div class="form-group">
                             <label class="control-label col-lg-2">Pickup Available</label>
@@ -440,6 +457,13 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="control-label col-lg-2">About</label>
+
+                            <div class="col-lg-6">
+                                <textarea name="business_about" class="form-control input-sm">{{$business->business_about}}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label col-lg-2">Website</label>
 
                             <div class="col-lg-6">
@@ -498,6 +522,13 @@
                                     <input type="text" class="form-control input-sm" name="address_gps_location" value="{{$business->address->address_gps_location}}">
                                 </div>
                             </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Mobile</label>
+
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control input-sm" name="mobile" data-type="digits" data-required="true" value="{{$business->address->mobile}}">
+                            </div>
+                        </div>
                             <div class="form-group">
                                 <label class="control-label col-lg-2">Postal Code</label>
 
@@ -532,20 +563,23 @@
             <div  id="collapseThree" class="panel-collapse collapse">
                 <div class="panel-body">
                     <div class="form-group">
+                        <input type="hidden" name="hour_delete" id="hour-delete">
                         @foreach($times as $key=> $time)
                         <div class="row">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
                          <span class="form-group">
                               <label class="label-checkbox inline">
+                                  <?php $hourId=-1; ?>
                                   <input type="checkbox" class="bu-close"
                                          @foreach($business->businessHours as $hour)
-                                         @if($time->id ==$hour->time_category_id ) checked @endif
+                                         @if($time->id ==$hour->time_category_id )<?php $hourId=$hour->id ?> checked @endif
                                          @endforeach
-                                  name="hours[{{$time->id}}][available]" value="{{$time->id}}"/>
+                                  name="hours[{{$time->id}}][available]" value="{{$hourId}}"/>
                                   <span class="custom-checkbox"></span>
                                   {{$time->category_description}}
                               </label>
+                              <input type="hidden" name="hours[{{$time->id}}][time]" value="{{$time->id}}">
                              <br/>
                              <?php
                              $open=null;
@@ -804,6 +838,13 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+            $(".bu-close").click(function(){
+                if(!$(this).is(':checked'))
+                {
+                  var $delete=$("#hour-delete").val()+','+ $(this).val();
+                    $("#hour-delete").val($delete);
+                }
+            });
             $('#edit-businessinfo').submit(function (e) {
                 if(!isFormValid('#edit-businessinfo')) {
                     e.preventDefault;
