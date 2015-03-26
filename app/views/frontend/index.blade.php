@@ -466,7 +466,7 @@ use Illuminate\Support\Facades\Auth;
             duration: 5000,
             fade: 750
         });
-        @yield('auth');
+        @yield('auth')
         @yield('script')
 </script>
 </body>

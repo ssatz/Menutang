@@ -126,77 +126,80 @@
     </div>
 </div>
 @section('auth')
+
 $("#register").click(function(e){
 e.preventDefault();
-$data = {
-email    : $('#email').val(),
-password : $('#password').val(),
-password_confirmation: $('#confirm-password').val(),
-mobile: $('#mobile-no').val(),
-first_name:$('#first-name').val(),
-last_name:$('#last-name').val(),
-_token: '{{Session::get('_token')}}'
-}
-ajax('{{action('FrontEndController@userRegistration')}}', 'POST', $data, 'json', function (msg) {
-if($.parseJSON(msg)===true){
-return window.location.replace('{{Setting::get('site_url')}}');
-}
-$(".match-error").hide();
-$(".error").each(function(){
-$(this).hide().parents('.form-group').find('input').removeClass('fieldHighlight');
-});
-$.each(msg,function(key,value){
-$(".error."+key).text(value).show().parents('.form-group').find('input').addClass('fieldHighlight');
+        $data = {
+        email    : $('#email').val(),
+        password : $('#password').val(),
+        password_confirmation: $('#confirm-password').val(),
+        mobile: $('#mobile-no').val(),
+        first_name:$('#first-name').val(),
+        last_name:$('#last-name').val(),
+        _token: '{{Session::get('_token')}}'
+        }
+        ajax('{{action('FrontEndController@userRegistration')}}', 'POST', $data, 'json', function (msg) {
+            if(typeof msg =='string'){
+                if($.parseJSON(msg)===true){
+                return window.location.replace('{{Setting::get('site_url')}}');
+                }
+            }
+            $(".match-error").hide();
+            $(".error").each(function(){
+            $(this).hide().parents('.form-group').find('input').removeClass('fieldHighlight');
+            });
+            $.each(msg,function(key,value){
+            $(".error."+key).text(value).show().parents('.form-group').find('input').addClass('fieldHighlight');
 
-});
-}
-)
+            });
+            });
 });
 $("#login").click(function(e){
-e.preventDefault();
-$data = {
-email    : $('#login-email').val(),
-password : $('#login-password').val(),
-_token: '{{Session::get('_token')}}'
-}
-ajax('{{action('FrontEndController@userLogin')}}', 'POST', $data, 'json', function (msg) {
-if($.parseJSON(msg)===true){
-return window.location.replace('{{Setting::get('site_url')}}');
-}
-$(".error").each(function(){
-$(this).hide().parents('.form-group').find('input').removeClass('fieldHighlight');
-});
-$.each(msg,function(key,value){
-$(".error.login-"+key).text(value).show().parents('.form-group').find('input').addClass('fieldHighlight');
+        e.preventDefault();
+        $data = {
+        email    : $('#login-email').val(),
+        password : $('#login-password').val(),
+        _token: '{{Session::get('_token')}}'
+        }
+        ajax('{{action('FrontEndController@userLogin')}}', 'POST', $data, 'json', function (msg) {
+       if(typeof msg =='string'){
+            if($.parseJSON(msg)===true){
+            return window.location.replace('{{Setting::get('site_url')}}');
+            }
+        }
+        $(".error").each(function(){
+        $(this).hide().parents('.form-group').find('input').removeClass('fieldHighlight');
+        });
+        $.each(msg,function(key,value){
+        $(".error.login-"+key).text(value).show().parents('.form-group').find('input').addClass('fieldHighlight');
 
-});
-}
-)
+        });
+        });
 });
 
 $("#password-reset-link").click(function(e){
 e.preventDefault();
-$data = {
-email    : $('#forgot-email').val(),
-_token: '{{Session::get('_token')}}'
-}
+        $data = {
+        email    : $('#forgot-email').val(),
+        _token: '{{Session::get('_token')}}'
+        }
 ajax('{{action('FrontEndController@forgotPassword')}}', 'POST', $data, 'json', function (msg) {
-$(".error").each(function(){
-$(this).hide().parents('.form-group').find('input').removeClass('fieldHighlight');
-});
-if(msg.email==='true')
-{
-$(".forgot-error").show('slow');
-return;
-}
-else{
-$(".forgot-error").hide('slow');
-$.each(msg,function(key,value){
-$(".error.forgot-"+key).text(value).show().parents('.form-group').find('input').addClass('fieldHighlight');
+    $(".error").each(function(){
+    $(this).hide().parents('.form-group').find('input').removeClass('fieldHighlight');
+    });
+    if(msg.email==='true')
+    {
+        $(".forgot-error").show('slow');
+    return;
+    }
+    else{
+        $(".forgot-error").hide('slow');
+        $.each(msg,function(key,value){
+        $(".error.forgot-"+key).text(value).show().parents('.form-group').find('input').addClass('fieldHighlight');
 
+        });
+    }
+    });
 });
-}
-}
-)
-});
+
 @endsection
