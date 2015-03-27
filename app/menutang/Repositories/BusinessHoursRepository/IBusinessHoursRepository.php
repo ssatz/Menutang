@@ -12,5 +12,5 @@ namespace Repositories\BusinessHoursRepository;
 
 
 interface IBusinessHoursRepository {
-
+ public function findTimeByBU($buId);
 }

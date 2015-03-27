@@ -375,7 +375,11 @@ class BusinessManager
     {
        return $this->deliveryArea->searchDeliveryArea();
     }
-
+    public function getTimeBuHr($slug)
+    {
+     $business= $this->manageBusiness->findBusinessBySlug($slug) ;
+      return $this->businessHours->findTimeByBU($business->id);
+    }
     /**
      * @param array $data
      * @param $slug

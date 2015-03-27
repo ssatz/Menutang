@@ -11,6 +11,7 @@
 namespace Repositories\BusinessHoursRepository;
 
 
+use Illuminate\Support\Facades\Cache;
 use Repositories\BaseRepository;
 use Services\Cache\ICacheService;
 use BusinessHours;
@@ -25,6 +26,20 @@ class BusinessHoursRepository extends BaseRepository implements IBusinessHoursRe
     {
         $cache->tag(get_class($hours));
         parent::__construct($hours, $cache);
+
+    }
+
+    public function findTimeByBU($buId)
+    {
+        $key = md5(__METHOD__.$buId);
+        if ($this->cache->has($key)) {
+            return $this->cache->get($key);
+        }
+        $buhr= $this->model->with('timeCategory')->where('business_info_id','=',$buId)
+            ->select('id','time_category_id')
+            ->get();
+        $this->cache->put($key, $buhr);
+        return $buhr;
 
     }
 

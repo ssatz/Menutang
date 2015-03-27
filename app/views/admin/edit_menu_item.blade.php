@@ -44,6 +44,8 @@
                 <th>Egg</th>
                 <th>Spicy</th>
                 <th>Popular</th>
+                <th>Time Availability</th>
+                <th>Weekdays(Not Available)</th>
                 <th>Status</th>
                 <th><span class="btn btn-primary pull-right add-menu-item">Add Item</span></th>
             </tr>
@@ -74,10 +76,24 @@
                            id="item_{{$item['id']}}_is_spicy" name="item[{{$item['id']}}][is_spicy]" @if($item['is_spicy']) checked @endif></td>
                 <td><input type="checkbox" data-on-text="Yes" data-off-text="No"
                            id="item_{{$item['id']}}_is_popular" name="item[{{$item['id']}}][is_popular]" @if($item['is_popular']) checked @endif></td>
+                <td><select class="form-control chzn-select" name="item[0][time_category][]" multiple data-required="true">
+                        @foreach($timecategory as $bu)
+                        <option value="{{$bu->id}}" @if(!is_null($item->businessHours)) @foreach($item->businessHours as $timehr)
+                            @if($timehr->id==$bu->id)
+                            selected @endif @endforeach @endif>{{$bu->timeCategory->category_description}}</option>
+                        @endforeach
+                    </select>
+                <td><select class="form-control chzn-select" name="item[0][weekdays][]" multiple data-required="true">
+                        @foreach($weekdays as $key=> $day)
+                        <option value="{{$day}}" @if(!is_null($item->weekDays)) @foreach($item->weekDays as $weekDays)
+                            @if($day==$weekDays->id)
+                            selected @endif @endforeach @endif>{{$key}}</option>
+                        @endforeach
+                    </select></td>
                 <td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
                            id="item_{{$item['id']}}_status" name="item[{{$item['id']}}][item_status]" @if($item['item_status']) checked @endif></td>
                 <td><span class="btn btn-xs btn-info delete">Delete</span>
-                    <input type="hidden" name="item[{{$item['id']}}][id]" class="menu-id" value="{{$item['id']}}"/>
+                    <input type="hidden" name="item[{{$item['id']}}][menu_id]" class="menu-id" value="{{$item['id']}}"/>
                 </td>
 
             </tr>
@@ -103,7 +119,7 @@
                             <td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
                                        id="item_{{$item['id']}}_{{$addon['id']}}_addon_price" name="item[{{$item['id']}}][{{$addon['id']}}][addon_status]" @if($addon['addon_status']) checked @endif></td>
                             <td><span class="btn btn-xs btn-info delete">Delete</span>
-                                <input type="hidden" name="item[{{$item['id']}}][{{$addon['id']}}][id]" class="addon-id" value="{{$addon['id']}}"/>
+                                <input type="hidden" name="item[{{$item['id']}}][{{$addon['id']}}][addon_id]" class="addon-id" value="{{$addon['id']}}"/>
                             </td>
                         </tr>
                         @endforeach
@@ -148,10 +164,20 @@
                        id="item_0_is_spicy" name="item[0][is_spicy]"></td>
             <td><input type="checkbox" data-on-text="Yes" data-off-text="No"
                        id="item_0_is_popular" name="item[0][is_popular]"></td>
+            <td><select class="form-control" name="item[0][time_category][]" multiple data-required="true">
+                    @foreach($timecategory as $bu)
+                    <option value="{{$bu->id}}">{{$bu->timeCategory->category_description}}</option>
+                    @endforeach
+                </select>
+            <td><select class="form-control" name="item[0][weekdays][]" multiple data-required="true">
+                    @foreach($weekdays as $key=> $day)
+                    <option value="{{$day}}">{{$key}}</option>
+                    @endforeach
+                </select></td>
             <td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
                        id="item_0_status" name="item[0][item_status]"></td>
             <td><span class="btn btn-xs btn-info delete">Delete</span>
-                <input type="hidden" name="item[0][id]" class="menu-id" value="-1"/>
+                <input type="hidden" name="item[0][menu_id]" class="menu-id" value="-1"/>
             </td>
         </tr>
         <tr class="addon">
@@ -175,7 +201,7 @@
                         <td><input type="checkbox" data-on-text="Active" data-off-text="InActive"
                                    id="item_0_0_addon_status" name="item[0][0][addon_status]"></td>
                         <td><span class="btn btn-xs btn-info delete">Delete</span>
-                            <input type="hidden" name="item[0][0][id]" class="addon-id" value="-1"/>
+                            <input type="hidden" name="item[0][0][addon_id]" class="addon-id" value="-1"/>
                         </td>
                     </tr>
                     </tbody>

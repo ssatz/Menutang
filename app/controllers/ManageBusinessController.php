@@ -14,6 +14,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Translation\Translator;
 use Services\BusinessManager;
 use Services\TimeCategoryEnum;
+use Services\WeekdaysEnum;
 
 
 class ManageBusinessController extends BaseController
@@ -158,9 +159,11 @@ class ManageBusinessController extends BaseController
     {
         $this->viewShareSlug($slug);
         if ($this->request->isMethod('GET')) {
-            $time =TimeCategoryEnum::toArray();
+            $time =$this->manage->getTimeBuHr($slug);
+            $weekdays = WeekdaysEnum::toArray();
             return $this->view->make('admin.menu_item')
                 ->withTimecategory($time)
+                ->withWeekdays($weekdays)
                 ->withCategories($this->manage->getAllMenuCategory());
         }
         if($this->manage->insertOrUpdateMenuItem($this->request->except('_token'), $slug))
@@ -186,9 +189,13 @@ class ManageBusinessController extends BaseController
         $categoryId = $this->request->query('category_id')==null?1:$this->request->query('category_id');
         $menuItem= $this->manage->getMenuItemAddon($slug,$categoryId); //default 1st category item will be loaded
         if ($this->request->isMethod('GET')) {
-
-            return $this->view->make('admin.edit_menu_item')->withCategories($this->manage->getAllMenuCategory())
-                                                            ->withMenus($menuItem);
+            $time =$this->manage->getTimeBuHr($slug);
+            $weekdays = WeekdaysEnum::toArray();
+            return $this->view->make('admin.edit_menu_item')
+                                    ->withTimecategory($time)
+                                    ->withWeekdays($weekdays)
+                                    ->withCategories($this->manage->getAllMenuCategory())
+                                    ->withMenus($menuItem);
         }
         $categoryId = $this->request->input('menu_category');
        if($this->manage->insertOrUpdateMenuItem($this->request->except('_token'), $slug))

@@ -66,7 +66,7 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
     public function getMenuItemAddon($slug,$categoryId)
     {
         $buID = BusinessInfo::Where('business_slug','=',$slug)->select('id')->first();
-        return $this->model->with('itemAddon')->where('business_info_id','=',$buID->id)->where('menu_category_id','=',$categoryId)->get();
+        return $this->model->with('itemAddon','businessHours','weekDays')->where('business_info_id','=',$buID->id)->where('menu_category_id','=',$categoryId)->get();
     }
     /**
      * @param array $data
@@ -74,46 +74,51 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
      */
     public function insertOrUpdate(array $data, $slug)
     {
-        if(isset($data['item'])) {
-            $menuCategory = $data['menu_category'];
-            $menuDelete = ltrim($data['menu_delete'], ',');
-            $addonDelete = ltrim($data['addon_delete'], ',');
-            $this->itemAddon->destroy($addonDelete);
-            $this->model->destroy($menuDelete);
-            $buId = $this->businessInfo->slug($slug)->first()->id;
-            foreach ($data['item'] as $item) {
-                $menuItem = $this->model->find($item['id']);
-                if (is_null($menuItem)) {
-                    $menuItem = new $this->model;
-                }
-                $menuItem->menu_category_id = $menuCategory;
-                $menuItem->business_info_id = $buId;
-                $menuItem->item_name = $item['item_name'];
-                $menuItem->item_description = $item['item_description'];
-                $menuItem->item_price = $item['item_price'];
-                $menuItem->is_veg = isset($item['is_veg'])?true:false;
-                $menuItem->is_non_veg = isset($item['is_non_veg'])?true:false;
-                $menuItem->is_egg = isset($item['is_egg'])?true:false;
-                $menuItem->is_spicy = isset($item['is_spicy'])?true:false;
-                $menuItem->is_popular = isset($item['is_popular'])?true:false;
-                $menuItem->item_status = isset($item['item_status'])?true:false;
-                $menuItem->save();
-                $numerickeys = array_filter(array_keys($item), 'is_int');
-                foreach ($numerickeys as $key) {
-                    $addon = $this->itemAddon->find($item[$key]['id']);
-                    if (is_null($addon)) {
-                        $addon = new $this->itemAddon;
+            if (isset($data['item'])) {
+                $menuCategory = $data['menu_category'];
+                $menuDelete = ltrim($data['menu_delete'], ',');
+                $addonDelete = ltrim($data['addon_delete'], ',');
+                $this->itemAddon->destroy($addonDelete);
+                $this->model->destroy($menuDelete);
+                $buId = $this->businessInfo->slug($slug)->first()->id;
+                foreach ($data['item'] as $item) {
+                    $menuItem = $this->model->find($item['menu_id']);
+                    if (is_null($menuItem)) {
+                        $menuItem = new $this->model;
                     }
-                    $addon->addon_description = $item[$key]['addon_description'];
-                    $addon->addon_price = $item[$key]['addon_price'];
-                    $addon->addon_status = $this->arrayExists('addon_status', $item[$key]) ? true : false;
-                    $addon->menuItem()->associate($menuItem);
-                    $addon->save();
+                    $menuItem->menu_category_id = $menuCategory;
+                    $menuItem->business_info_id = $buId;
+                    $menuItem->item_name = $item['item_name'];
+                    $menuItem->item_description = $item['item_description'];
+                    $menuItem->item_price = $item['item_price'];
+                    $menuItem->is_veg = isset($item['is_veg']) ? true : false;
+                    $menuItem->is_non_veg = isset($item['is_non_veg']) ? true : false;
+                    $menuItem->is_egg = isset($item['is_egg']) ? true : false;
+                    $menuItem->is_spicy = isset($item['is_spicy']) ? true : false;
+                    $menuItem->is_popular = isset($item['is_popular']) ? true : false;
+                    $menuItem->item_status = isset($item['item_status']) ? true : false;
+                    $menuItem->save();
+                    $numerickeys = array_filter(array_keys($item), 'is_int');
+                     foreach ($numerickeys as $key) {
+                         $addon = $this->itemAddon->find($item[$key]['addon_id']);
+                         if (is_null($addon)) {
+                             $addon = new $this->itemAddon;
+                         }
+                         $addon->addon_description = $item[$key]['addon_description'];
+                         $addon->addon_price = $item[$key]['addon_price'];
+                         $addon->addon_status = isset($item['addon_status']) ? true : false;
+                         $addon->menuItem()->associate($menuItem);
+                         $addon->save();
+                     }
+
+                    if (isset($item['time_category'])) {
+                        $menuItem->businessHours()->sync($item['time_category']);
+                    }
+                    if (isset($item['weekdays'])) {
+                        $menuItem->weekDays()->sync($item['weekdays']);
+                    }
                 }
-
             }
-        }
-
     }
 
     /**
@@ -187,15 +192,5 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
     public function withAddon($menuId)
     {
         return $this->model->with('itemAddon')->find($menuId);
-    }
-
-    /**
-     * @param $key
-     * @param array $input
-     * @return bool
-     */
-    private function arrayExists($key, array $input)
-    {
-        return array_key_exists($key, $input);
     }
 }

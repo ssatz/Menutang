@@ -116,6 +116,7 @@ $(document).ready(function() {
                 'offColor': 'danger',
                 'size': 'small'
             });
+            $(this).closest('table').find("tbody>tr.menu:last").find("select").addClass("chzn-select").chosen();
         });
 
 
