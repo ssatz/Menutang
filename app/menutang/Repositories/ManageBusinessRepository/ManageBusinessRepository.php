@@ -169,7 +169,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
                 $deliveryArea = new DeliveryArea();
                 $deliveryArea->area =(string)$area['area'];
                 $deliveryArea->area_pincode = (int)$area['pincode'];
-                $deliveryArea->city_id = (int)$address->city_id;
+                $deliveryArea->city_id = (int)$input['city_id'];;
                 $deliveryArea->save();
             }
             array_push($deliveryAreaId, $deliveryArea->id);

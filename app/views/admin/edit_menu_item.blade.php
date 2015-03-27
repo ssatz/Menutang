@@ -32,7 +32,7 @@
         <!-- /form-group -->
         {{ Form::open(['url' => action('ManageBusinessController@editItem', [$slug]), 'method'
         =>'POST','class'=>'form-horizontal','id'=>'edit-menuitem']) }}
-        <table class="table table-striped" id="dataTable">
+        <table class="table table-striped table-menu" id="dataTable">
             <thead>
             <tr>
                 <th></th>
@@ -67,7 +67,7 @@
                 <td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_{{$item['id']}}_veg"
                            class="veg" name="item[{{$item['id']}}][is_veg]" @if($item['is_veg']) checked @endif></td>
                 <td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_{{$item['id']}}_non_veg"
-                           class="non-veg" name="item[{{$item['id']}}][is_non_veg]" @if($item['is_non_veg']=='Yes') checked @endif></td>
+                           class="non-veg" name="item[{{$item['id']}}][is_non_veg]" @if($item['is_non_veg']) checked @endif></td>
                 <td><input type="checkbox" data-on-text="Yes" data-off-text="No" id="item_{{$item['id']}}_is_egg"
                            class="egg" name="item[{{$item['id']}}][is_egg]" @if($item['is_egg']) checked @endif></td>
                 <td><input type="checkbox" data-on-text="Yes" data-off-text="No"

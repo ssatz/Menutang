@@ -70,7 +70,7 @@
 			<!-- /form-group -->
 			{{ Form::open(['url' => action('ManageBusinessController@addItem', [$slug]), 'method'
     =>'POST','class'=>'form-horizontal','id'=>'add-menuitem']) }}
-			<table class="table table-striped" id="dataTable">
+                <table class="table table-responsive table-striped table-menu" id="dataTable">
 				<thead>
 				<tr>
 					<th></th>

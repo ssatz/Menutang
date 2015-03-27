@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $(function () {
         $(".chzn-select").chosen();
-        $(".table-responsive").find("[type='checkbox']").bootstrapSwitch({
+        $(".table-menu").find("[type='checkbox']").bootstrapSwitch({
             'onColor': 'success',
             'offColor': 'danger',
             'size': 'small'
@@ -92,25 +92,26 @@ $(document).ready(function() {
         });
         $("body").on("click",".add-menu-item",function () {
             var $html = $("#items").find('table>tbody').html();
-            var $count = $(this).parents('.table-responsive').find("table>tbody>tr.addon:last");
+            var $count = $(this).closest('table').find("tbody>tr.addon:last");
             if ($count == '' || $count.length == 0) {
-                $(this).parents('.table-responsive').find("table>tbody").append($html);
+                $(this).closest('table').find("tbody").append($html);
             }
             else {
-                var $prev = $(this).parents('.table-responsive').find("table>tbody>tr.menu:last>td input").prop('id');
+                debugger;
+                var $prev = $(this).closest('table').find("tbody>tr.menu:last>td input").prop('id');
                 $prev = $prev.split('_')[1];
-                $(this).parents('.table-responsive').find("table>tbody>tr.addon:last").after($html);
+                $(this).closest('table').find("tbody>tr.addon:last").after($html);
 
                 var $count = parseInt($prev) + 1;
-                inputnameFormat($count, 'table>tbody>tr.menu:last>td:input', this, '.table-responsive');
-                inputnameFormat($count, '.innerTable>tbody>tr>td:input', this, '.table-responsive');
+                inputnameFormat($count, 'tbody>tr.menu:last input', this);
+                inputnameFormat($count, '.innerTable>tbody>tr input', this);
             }
-            $(this).parents('.table-responsive').find("table>tbody>tr.menu:last").find("[type='checkbox']").bootstrapSwitch({
+            $(this).closest('table').find("tbody>tr.menu:last").find("[type='checkbox']").bootstrapSwitch({
                 'onColor': 'success',
                 'offColor': 'danger',
                 'size': 'small'
             });
-            $(this).parents('.table-responsive').find("table>tbody>tr.addon:last").find("[type='checkbox']").bootstrapSwitch({
+            $(this).closest('table').find("tbody>tr.addon:last").find("[type='checkbox']").bootstrapSwitch({
                 'onColor': 'success',
                 'offColor': 'danger',
                 'size': 'small'
@@ -118,17 +119,17 @@ $(document).ready(function() {
         });
 
 
-        function inputnameFormat($count, $selector, $currentObject, $parentsSelector) {
-            $($currentObject).parents($parentsSelector).find($selector).each(function () {
-                $name = $(this).find('input').prop('name');
+        function inputnameFormat($count, $selector, $currentObject) {
+            $($currentObject).closest('table').find($selector).each(function () {
+                $name = $(this).prop('name');
                 if ($name != undefined) {
                     $name = $name.replace('item[0]', 'item[' + $count + ']');
-                    $(this).find('input').prop('name', $name);
+                    $(this).prop('name', $name);
                 }
-                $id = $(this).find('input').prop('id');
+                $id = $(this).prop('id');
                 if ($id != undefined) {
                     $id = $id.replace('_0_', '_' + $count + '_');
-                    $(this).find('input').prop('id', $id);
+                    $(this).prop('id', $id);
                 }
             });
         }
