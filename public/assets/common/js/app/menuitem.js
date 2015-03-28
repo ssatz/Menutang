@@ -97,13 +97,12 @@ $(document).ready(function() {
                 $(this).closest('table').find("tbody").append($html);
             }
             else {
-                debugger;
                 var $prev = $(this).closest('table').find("tbody>tr.menu:last>td input").prop('id');
                 $prev = $prev.split('_')[1];
                 $(this).closest('table').find("tbody>tr.addon:last").after($html);
 
                 var $count = parseInt($prev) + 1;
-                inputnameFormat($count, 'tbody>tr.menu:last input', this);
+                inputnameFormat($count, 'tbody>tr.menu:last input,tbody>tr.menu:last select', this);
                 inputnameFormat($count, '.innerTable>tbody>tr input', this);
             }
             $(this).closest('table').find("tbody>tr.menu:last").find("[type='checkbox']").bootstrapSwitch({
