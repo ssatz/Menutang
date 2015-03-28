@@ -113,12 +113,11 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
                             $addon->menuItem()->associate($menuItem);
                             $addon->save();
                         }
-                            dd($item);
                         if (isset($item['time_category'])) {
-                            $menuItem->businessHours()->sync($item[$key]['time_category']);
+                            $menuItem->businessHours()->sync($item['time_category']);
                         }
                         if (isset($item['weekdays'])) {
-                            $menuItem->weekDays()->sync($item[$key]['weekdays']);
+                            $menuItem->weekDays()->sync($item['weekdays']);
                         }
                     }
                 }

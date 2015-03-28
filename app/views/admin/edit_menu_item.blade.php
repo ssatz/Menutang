@@ -76,14 +76,14 @@
                            id="item_{{$item['id']}}_is_spicy" name="item[{{$item['id']}}][is_spicy]" @if($item['is_spicy']) checked @endif></td>
                 <td><input type="checkbox" data-on-text="Yes" data-off-text="No"
                            id="item_{{$item['id']}}_is_popular" name="item[{{$item['id']}}][is_popular]" @if($item['is_popular']) checked @endif></td>
-                <td><select class="form-control chzn-select" id="item_0_time_category"  name="item[0][time_category][]" multiple data-required="true">
+                <td><select class="form-control chzn-select" id="item_{{$item['id']}}_time_category"  name="item[{{$item['id']}}][time_category][]" multiple data-required="true">
                         @foreach($timecategory as $bu)
                         <option value="{{$bu->id}}" @if(!is_null($item->businessHours)) @foreach($item->businessHours as $timehr)
                             @if($timehr->id==$bu->id)
                             selected @endif @endforeach @endif>{{$bu->timeCategory->category_description}}</option>
                         @endforeach
                     </select>
-                <td><select class="form-control chzn-select" name="item[0][weekdays][]" id="item_0_weekdays" multiple data-required="true">
+                <td><select class="form-control chzn-select" name="item[{{$item['id']}}][weekdays][]" id="item_{{$item['id']}}_weekdays" multiple data-required="true">
                         @foreach($weekdays as $key=> $day)
                         <option value="{{$day}}" @if(!is_null($item->weekDays)) @foreach($item->weekDays as $weekDays)
                             @if($day==$weekDays->id)
