@@ -6,7 +6,7 @@ $(document).ready(function() {
             'offColor': 'danger',
             'size': 'small'
         });
-        $(".chzn-select").change(function () {
+        $("#category").change(function () {
             $("table").find('.menu-category').val($(this).val());
         });
         $(".table-responsive").on('switchChange.bootstrapSwitch', '.veg,.non-veg,.egg', function (event, state) {

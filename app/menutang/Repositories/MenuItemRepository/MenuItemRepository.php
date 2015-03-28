@@ -81,41 +81,45 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
                 $this->itemAddon->destroy($addonDelete);
                 $this->model->destroy($menuDelete);
                 $buId = $this->businessInfo->slug($slug)->first()->id;
-                foreach ($data['item'] as $item) {
-                    $menuItem = $this->model->find($item['menu_id']);
-                    if (is_null($menuItem)) {
-                        $menuItem = new $this->model;
-                    }
-                    $menuItem->menu_category_id = $menuCategory;
-                    $menuItem->business_info_id = $buId;
-                    $menuItem->item_name = $item['item_name'];
-                    $menuItem->item_description = $item['item_description'];
-                    $menuItem->item_price = $item['item_price'];
-                    $menuItem->is_veg = isset($item['is_veg']) ? true : false;
-                    $menuItem->is_non_veg = isset($item['is_non_veg']) ? true : false;
-                    $menuItem->is_egg = isset($item['is_egg']) ? true : false;
-                    $menuItem->is_spicy = isset($item['is_spicy']) ? true : false;
-                    $menuItem->is_popular = isset($item['is_popular']) ? true : false;
-                    $menuItem->item_status = isset($item['item_status']) ? true : false;
-                    $menuItem->save();
-                    $numerickeys = array_filter(array_keys($item), 'is_int');
-                     foreach ($numerickeys as $key) {
-                         $addon = $this->itemAddon->find($item[$key]['addon_id']);
-                         if (is_null($addon)) {
-                             $addon = new $this->itemAddon;
-                         }
-                         $addon->addon_description = $item[$key]['addon_description'];
-                         $addon->addon_price = $item[$key]['addon_price'];
-                         $addon->addon_status = isset($item['addon_status']) ? true : false;
-                         $addon->menuItem()->associate($menuItem);
-                         $addon->save();
-                     }
-
-                    if (isset($item['time_category'])) {
-                        $menuItem->businessHours()->sync($item['time_category']);
-                    }
-                    if (isset($item['weekdays'])) {
-                        $menuItem->weekDays()->sync($item['weekdays']);
+                $id = null;
+                    foreach ($data['item'] as $key => $item) {
+                        if (isset($item['menu_id']))
+                        {
+                        $menuItem = $this->model->find($item['menu_id']);
+                        if (is_null($menuItem)) {
+                            $menuItem = new $this->model;
+                        }
+                        $menuItem->menu_category_id = $menuCategory;
+                        $menuItem->business_info_id = $buId;
+                        $menuItem->item_name = $item['item_name'];
+                        $menuItem->item_description = $item['item_description'];
+                        $menuItem->item_price = $item['item_price'];
+                        $menuItem->is_veg = isset($item['is_veg']) ? true : false;
+                        $menuItem->is_non_veg = isset($item['is_non_veg']) ? true : false;
+                        $menuItem->is_egg = isset($item['is_egg']) ? true : false;
+                        $menuItem->is_spicy = isset($item['is_spicy']) ? true : false;
+                        $menuItem->is_popular = isset($item['is_popular']) ? true : false;
+                        $menuItem->item_status = isset($item['item_status']) ? true : false;
+                        $menuItem->save();
+                        $numerickeys = array_filter(array_keys($item), 'is_int');
+                        foreach ($numerickeys as $key) {
+                            $addon = $this->itemAddon->find($item[$key]['addon_id']);
+                            if (is_null($addon)) {
+                                $addon = new $this->itemAddon;
+                            }
+                            $addon->addon_description = $item[$key]['addon_description'];
+                            $addon->addon_price = $item[$key]['addon_price'];
+                            $addon->addon_status = isset($item['addon_status']) ? true : false;
+                            $addon->menuItem()->associate($menuItem);
+                            $addon->save();
+                        }
+                            dd($item);
+                        if (isset($item['time_category'])) {
+                            $menuItem->businessHours()->sync($item[$key]['time_category']);
+                        }
+                        if (isset($item['weekdays'])) {
+                            $menuItem->weekDays()->sync($item[$key]['weekdays']);
+                        }
                     }
                 }
             }
