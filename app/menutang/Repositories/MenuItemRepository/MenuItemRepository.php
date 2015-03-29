@@ -74,13 +74,13 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
      */
     public function insertOrUpdate(array $data, $slug)
     {
+        $menuCategory = $data['menu_category'];
+        $menuDelete =explode(',',ltrim($data['menu_delete'], ','));
+        $addonDelete = explode(',',ltrim($data['addon_delete'], ','));
+        $this->itemAddon->destroy(array_map('intval', $addonDelete));
+        $this->model->destroy(array_map('intval', $menuDelete));
+        $buId = $this->businessInfo->slug($slug)->first()->id;
             if (isset($data['item'])) {
-                $menuCategory = $data['menu_category'];
-                $menuDelete = ltrim($data['menu_delete'], ',');
-                $addonDelete = ltrim($data['addon_delete'], ',');
-                $this->itemAddon->destroy($addonDelete);
-                $this->model->destroy($menuDelete);
-                $buId = $this->businessInfo->slug($slug)->first()->id;
                 $id = null;
                     foreach ($data['item'] as $key => $item) {
                         if (isset($item['menu_id']))
