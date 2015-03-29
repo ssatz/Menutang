@@ -241,10 +241,14 @@ class ManageBusinessController extends BaseController
     public function changeMenuCategory($slug)
     {
         if($this->request->ajax()) {
+            $time =$this->manage->getTimeBuHr($slug);
+            $weekdays = WeekdaysEnum::toArray();
             $categoryId = $this->request->input('category_id');
             $menuItem = $this->manage->getMenuItemAddon($slug, $categoryId);
             $view = $this->view->make('admin._partials.menu_item_table')
                                 ->withMenus($menuItem)
+                                ->withTimecategory($time)
+                                ->withWeekdays($weekdays)
                                 ->withCategoryid($categoryId);
             return $view->render();
         }

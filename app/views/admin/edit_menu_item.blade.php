@@ -270,12 +270,13 @@
         ajax('{{action('ManageBusinessController@changeMenuCategory', [$slug])}}', 'GET', $data, 'html', function (msg) {
 
             $('#dataTable').html(msg);
-            notification('Notification', 'Category Changed successfully', 'gritter-success');
-            $(".table-responsive").find("[type='checkbox']").bootstrapSwitch({
+            $(".table-menu").find("[type='checkbox']").bootstrapSwitch({
                 'onColor': 'success',
                 'offColor': 'danger',
                 'size': 'small'
             });
+            $(".table-menu").find("select").chosen();
+            notification('Notification', 'Category Changed successfully', 'gritter-success');
         });
     });
 </script>
