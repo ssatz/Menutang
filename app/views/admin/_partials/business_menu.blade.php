@@ -22,8 +22,7 @@
                 <span class="menu-hover"></span>
             </a>
         </li>
-        <li class="{{Active::routePattern(" *.edit
-        ");}}">
+        <li class="{{Active::routePattern(" *.edit");}}">
         <a href="{{  action('ManageBusinessController@editBusinessInfo', [$slug])}}">
                         		<span class="menu-icon">
                         				<i class="fa fa-edit fa-lg"></i>
@@ -52,7 +51,18 @@
                                 href="{{URL::action('ManageBusinessController@editItem',[$slug])}}"><span class="submenu-label">Edit Menu</span></a>
                         </li>
                     </ul>
-                </li>
+         </li>
+        <li class="{{Active::routePattern(" *.addOrUpdate");}}">
+        <a href="{{  action('ManageBusinessController@addOrUpdateHolidays', [$slug])}}">
+                        		<span class="menu-icon">
+                        				<i class="fa fa-edit fa-lg"></i>
+                        		</span>
+                        		<span class="text">
+                        									Holidays
+                        		</span>
+            <span class="menu-hover"></span>
+        </a>
+        </li>
 
     </ul>
 </div>

@@ -253,4 +253,10 @@ class ManageBusinessController extends BaseController
             return $view->render();
         }
     }
+
+    public function addORUpdateHolidays($slug)
+    {
+        $this->viewShareSlug($slug);
+        return $this->view->make('admin.holidays');
+    }
 }
