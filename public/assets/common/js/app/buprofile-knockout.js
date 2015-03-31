@@ -1,12 +1,27 @@
 
 var cartModel ={
     cart : ko.observableArray([]),
+    itemOptions:ko.observableArray([]),
     deliveryPick:ko.observable(),
     deliveryPickFee :ko.observable(),
     deliveryPickMinimum:ko.observable(),
     remainingAmount:ko.observable(),
     orderButton:ko.observable('disabled'),
     display:ko.observable(false),
+    selectedChoices:ko.observableArray([]),
+    addOrder:function()
+    {
+        $("#item-options").modal('hide');
+      console.log(ko.toJSON(cartModel.selectedChoices()));
+    },
+    addChoices:function(model){
+        if(model.check()) {
+            cartModel.selectedChoices.push(model);
+            return true;
+        }
+         cartModel.selectedChoices.remove(model);
+        return true;
+    },
     deliveryPickclick:function(data,event){
         var fee=$(event.target).parent('label').find("input[name=delivery_fee]").val();
         var miniAmount=$(event.target).parent('label').find("input[name=minimum_amt]").val();
@@ -42,13 +57,13 @@ cartModel.subTotal = ko.pureComputed(function() {
             total+=parseFloat(item.price);
         })
     }
-    return total;
+    return total.toFixed(2);
 }, cartModel);
 
 cartModel.parcelFee = ko.pureComputed(function() {
     var total = 0;
     total =parseFloat($("#parcel-charge").val());
-    return total;
+    return total.toFixed(2);
 }, cartModel);
 
 cartModel.grandTotal = ko.pureComputed(function() {
@@ -62,9 +77,45 @@ cartModel.grandTotal = ko.pureComputed(function() {
     }else {
         this.remainingAmount(remaining);
     }
-    return total;
+    return total.toFixed(2);
 }, cartModel);
 
+//Components
+
+ko.components.register('checkbox-template', {
+    viewModel: function(params) {
+        var self=this;
+        self.id = ko.observable(params.id || '');
+        self.name=ko.observable(params.name || '');
+        self.price=ko.observable(params.price || '');
+        self.Callback = params.callback;
+        self.check =ko.observable(false);
+        self.submit = function(model, event) {
+               self.Callback(model);
+            return true;
+        };
+    },
+    template: '<input type="checkbox" data-bind="checked:check,click:submit"> <!-- ko text: name --> <!-- /ko --> ' +
+     '<input type="hidden" data-bind="value:id">'+
+    '<span class="badge"><i class="fa fa-inr"><!-- ko text: price --> <!-- /ko --></i></span>'
+});
+
+ko.components.register('radio-template', {
+    viewModel: function(params) {
+        this.id = ko.observable(params.id || '');
+        this.name=ko.observable(params.name || '');
+        this.price=ko.observable(params.price || '');
+        self.Callback = params.callback;
+        self.check =ko.observable(false);
+        self.submit = function(model, event) {
+                self.Callback(model);
+            return true;
+        };
+    },
+    template: '<input type="radio" data-bind="checked:check,click:submit"> <!-- ko text: name --> <!-- /ko --> ' +
+    '<input type="hidden" data-bind="value:id">'+
+    '<span class="badge"><i class="fa fa-inr"><!-- ko text: price --> <!-- /ko --></i></span>'
+});
 
 ko.applyBindings(cartModel);
 

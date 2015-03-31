@@ -87,6 +87,7 @@ Route::post('forgot-password', ['as'=>'password.forgot','uses'=>'FrontEndControl
 Route::any('restaurants/{query}',['as'=>'business','uses'=>'FrontEndController@restaurantsProfile']);
 Route::post('restaurants/{query}/cart',['as'=>'business.cart','uses'=>'CartController@addToCart']);
 Route::get('restaurants/{query}/getcart',['as'=>'business.get.cart','uses'=>'CartController@getCart']);
+Route::get('restaurants/{query}/getoptions',['as'=>'business.get.options','uses'=>'CartController@getOptions']);
 Route::post('restaurants/{query}/cart/update',['as'=>'business.update.cart','uses'=>'CartController@updateCartItem']);
 Route::get('{locality}/{query}',['as'=>'locality.area','uses'=>'FrontEndController@searchBU']);
 Route::get('{locality}',['as'=>'locality','uses'=>'FrontEndController@searchBU']);

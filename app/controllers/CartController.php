@@ -137,4 +137,12 @@ class CartController extends BaseController  {
             return $this->cartManager->getCartItems($slug)->toJson();
         }
     }
+
+    public function getOptions($slug)
+    {
+        if($this->request->ajax()) {
+           return $this->cartManager->getOptions($this->request->except('_token'));
+        }
+
+    }
 }

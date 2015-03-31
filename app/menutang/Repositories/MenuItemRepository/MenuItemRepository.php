@@ -109,7 +109,7 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
                             }
                             $addon->addon_description = $item[$key]['addon_description'];
                             $addon->addon_price = $item[$key]['addon_price'];
-                            $addon->addon_status = isset($item['addon_status']) ? true : false;
+                            $addon->addon_status = isset($item[$key]['addon_status']) ? true : false;
                             $addon->menuItem()->associate($menuItem);
                             $addon->save();
                         }
@@ -194,6 +194,6 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
 
     public function withAddon($menuId)
     {
-        return $this->model->with('itemAddon')->find($menuId);
+        return $this->model->with('itemAddon','topping')->find($menuId);
     }
 }

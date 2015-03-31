@@ -263,7 +263,7 @@
                         <a  class="list-group-item">
                             <input type="hidden" name="menu_item_id" value="{{$item->id}}">
                             @if($item->itemAddon->count()==0)
-                             <span class="addOrder label label-success" role="button" data-container="body" data-toggle="popover">
+                             <span class=" @if($item->optionItem->count()>0)showOptions @else addOrder @endif label label-success" role="button" data-container="body" data-toggle="popover">
                                 <i class="fa fa-plus"></i>
                                 Add
                             </span>
@@ -284,7 +284,7 @@
                                         <li>
                                       <span class="pdRight addon-btn text-primary">  {{$addon->addon_description}}
                                           (<span class="badge"><i class="fa fa-inr"></i>{{$addon->addon_price}}</span>)
-                                           <span class="addOrder addon label label-success " role="button" data-container="body" data-toggle="popover">
+                                           <span class="@if($item->optionItem->count()>0)showOptions @else addOrder @endif addon label label-success " role="button" data-container="body" data-toggle="popover">
                                              <i class="fa fa-plus"></i>
                                              Add
                                            </span>
@@ -353,7 +353,7 @@
                         </div>
 
                         <hr>
-
+                        <span class="preload" data-bind="visible : !cart()">Loading....</span>
                         <!-- Order Items Summary -->
                         <ul class="list-unstyled order-summary-list" data-bind="foreach:cart">
                             <!-- ko foreach: cart_item -->
@@ -559,25 +559,35 @@
 </div>
 
 <!-- Add to Order Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="item-options" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                 </button>
-                <h4 class="modal-title">Add to Order</h4>
+                <h4 class="modal-title">Make Your Choices</h4>
             </div>
             <div class="modal-body">
-                You are adding <strong>Jerry's Famous Fish and Chips</strong> to your order.
-                <hr>
-                <label>Quantity:</label>
-                <input id="demo_vertical" type="text" value="1" name="demo_vertical">
-                <br>
-                <strong>Price: $12.99</strong>
+                <span class="preload" data-bind="visible:!itemOptions()">Loading....</span>
+                <div class="container-fluid" data-bind="foreach:itemOptions">
+                    <h4 class="modal-title" data-bind="text:options_name"></h4>
+                    <div class="row" data-bind="foreach:option_item">
+                        <div class="col-xs-3">
+                            <!-- ko if: $parent.attribute -->
+                                <!-- ko if: $parent.attribute.attribute_group.attribute_type == 'checkbox' -->
+                                <checkbox-template params='name:item_name,id:id,price:price,callback:$root.addChoices'></checkbox-template >
+                                <!--/ko -->
+                                <!-- ko if: $parent.attribute.attribute_group.attribute_type == 'radio' -->
+                                <radio-template params='name:item_name,id:id,price:price,callback:$root.addChoices'></radio-template >
+                                <!--/ko -->
+                            <!--/ko-->
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Add to Order</button>
+                <button type="button" class="btn btn-primary" data-bind="click:addOrder">Add to Order</button>
             </div>
         </div>
     </div>
@@ -595,6 +605,7 @@
 <!-- Bootstrap -->
 <script src="{{asset('assets/common/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('assets/common/js/knockout.min-3.3.0.js')}}"></script>
+<script src="{{asset('assets/common/js/knockout.validation.min.js')}}"></script>
 <!-- Plugin JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
@@ -642,7 +653,7 @@
         verticaldownclass: 'fa fa-minus'
     });
     $("#menuCategory ul>li").first().addClass('active');
-    $(".addOrder").click(function(e){
+    $(".addOrder,.showOptions").click(function(e){
         e.preventDefault();
         var $itemAvailable = $(this).parents(".list-group-item").find(".item-available").val();
         if($itemAvailable==0)
@@ -665,6 +676,16 @@
             delivery_option:$delivery_option,
             _token: '{{Session::get('_token')}}'
         };
+        if($(this).hasClass('showOptions'))
+        {
+            ajax('{{action('CartController@getOptions',[$slug])}}', 'GET', $data, 'json', function (msg) {
+            cartModel.itemOptions(msg);
+            cartModel.selectedChoices([]);
+            $("#item-options").modal('show');
+        }
+        );
+           return;
+        }
         ajax('{{action('CartController@addToCart',[$slug])}}', 'POST', $data, 'json', function (msg) {
 
         cartModel.cart(msg)
@@ -680,6 +701,7 @@
     }
     );
     });
+
     function postAjax(id,action){
         $.post('{{action('CartController@updateCartItem',[$slug])}}',{cart_item_id:id,action:action,_token: '{{Session::get('_token')}}'}, function( data ) {
             cartModel.cart(data);

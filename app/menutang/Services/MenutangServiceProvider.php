@@ -107,6 +107,10 @@ class MenutangServiceProvider extends ServiceProvider
             'Repositories\BusinessHoursRepository\BusinessHoursRepository'
         );
         $app->bind(
+            'Repositories\OptionsCategoryRepository\IOptionsCategoryRepository',
+            'Repositories\OptionsCategoryRepository\OptionsCategoryRepository'
+        );
+        $app->bind(
             'Services\Cache\ICacheService',
             'Services\Cache\CacheService'
         );

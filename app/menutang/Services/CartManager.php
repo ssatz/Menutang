@@ -12,6 +12,7 @@ namespace Services;
 
 
 use Exceptions\EnumExceptions;
+use Illuminate\Support\Facades\Session;
 use Repositories\CartItemRepository\ICartItemRepository;
 use Repositories\CartRepository\ICartRepository;
 use Illuminate\Foundation\Application;
@@ -19,6 +20,7 @@ use Repositories\MenuAddonRepository\IMenuAddonRepository;
 use Repositories\MenuItemRepository\IMenuItemRepository;
 use Services\DeliveryOptionEnum;
 use Repositories\ManageBusinessRepository\IManageBusinessRepository;
+use Repositories\OptionsCategoryRepository\IOptionsCategoryRepository;
 use stdClass;
 use ItemAddon;
 use MenuItem;
@@ -65,6 +67,7 @@ class CartManager {
     protected $menuItemRepo;
 
     protected $itemAddonRepo;
+    protected $optionsRepo;
 
     /**
      * @param Application $app
@@ -77,7 +80,8 @@ class CartManager {
         ICartItemRepository $cartItemRepository,
         IMenuItemRepository $menuItemRepository,
         IManageBusinessRepository $businessRepository,
-        IMenuAddonRepository $addonRepository
+        IMenuAddonRepository $addonRepository,
+        IOptionsCategoryRepository $optionsCategoryRepository
 
     ) {
         $this->app = $app;
@@ -90,6 +94,7 @@ class CartManager {
         $this->hash = $this->app->make('hash');
         $this->request = $this->app->make('request');
         $this->itemAddonRepo=$addonRepository;
+        $this->optionsRepo = $optionsCategoryRepository;
     }
 
     /**
@@ -343,6 +348,13 @@ class CartManager {
             }
         }
         return $cart;
+    }
+
+    public  function getOptions(array $data)
+    {
+        Session::put('cartOptions',$data);
+       return $this->optionsRepo->getOptions((int)$data['menu_item_id'])->toJson();
+
     }
 
 

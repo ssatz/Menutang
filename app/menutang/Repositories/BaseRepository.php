@@ -66,8 +66,7 @@ abstract class BaseRepository
      */
     public function create(array $data)
     {
-        $key = md5($this->getObjectName() . '.all');
-        $this->cache->remove($key);
+        $this->cache->flush(get_class($this->model));
         return $this->model->create($data);
     }
 
@@ -98,10 +97,7 @@ abstract class BaseRepository
      */
     public function update(array $data, $id)
     {
-        $key = md5($this->getObjectName() . '.all');
-        $keystate = md5($this->getObjectName() . '.State');
-        $this->cache->remove($key);
-        $this->cache->remove($keystate);
+        $this->cache->flush(get_class($this->model));
         return $this->model->where('id', '=', $id)->update($data);
     }
 
