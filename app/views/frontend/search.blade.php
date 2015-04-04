@@ -24,23 +24,30 @@
                 <?php $image='uploads/'.$buDetails->business_slug.'/logo75.png' ?>
                 <td><img src="{{asset($image)}}" width="75" height="75"  title="{{$buDetails->business_name}}"
                          class="pull-left hidden-sm hidden-xs" alt="{{$buDetails->business_name}}">
-                    <a href="#"><h4>{{$buDetails->business_name}}</h4></a>
+                    <a href="{{action('FrontEndController@restaurantsProfile',[$buDetails->business_slug])}}"><h4>{{$buDetails->business_name}}</h4></a>
                     <p>
                         {{$buDetails->address->address_line_1}},{{$buDetails->address->address_line_2}} <a href="#"><i class="fa fa-fw fa-map-marker"></i></a>
                     </p>
                     <p>
                         <i class="fa fa-clock-o"></i>
+                        <?php $time=''; ?>
                         @foreach($buDetails->businessHours as $buHours)
-                                    @formattime($buHours->open_time)
-                                        -
-                                    @formattime($buHours->close_time),
+                        <?php
+                              $OpenTime= new \DateTime($buHours->open_time);
+                              $closeTime= new \DateTime($buHours->close_time);
+                                $time.= $OpenTime->format('g:i a').'-'.$closeTime->format('g:i a').',';
+                            ?>
                         @endforeach
+                        @replaceComma($time)
                     </p>
                     <div class="clearfix"></div>
                 </td>
-                <td>@foreach($buDetails->cuisineType as $cuisines)
-                    {{ $cuisines->cuisine_description}},
+                <td>
+                    <?php $type='';?>
+                    @foreach($buDetails->cuisineType as $cuisines)
+                    <?php $type.='<a href="#">'.$cuisines->cuisine_description.'</a>,'; ?>
                     @endforeach
+                    @replaceComma($type)
                 </td>
                 <td>Fast</td>
                 <td>{{$buDetails->minimum_delivery_amt}}</td>
@@ -60,7 +67,7 @@
                         <i class="fa fa-star-half-o"></i>
                         <i class="fa fa-star-o"></i>
                     </div>
-                    <a href="#" class="btn btn-primary btn-xs">Order Now</a>
+                    <a href="{{action('FrontEndController@restaurantsProfile',[$buDetails->business_slug])}}" class="btn btn-primary btn-xs">Order Now</a>
                 </td>
             </tr>
             @endforeach

@@ -27,3 +27,8 @@ Blade::extend(function($value) {
     return preg_replace('/\{\?(.+)\?\}/', '<?php ${1} ?>', $value);
 });
 
+Blade::extend(function($view, $compiler)
+{
+    $pattern = $compiler->createMatcher('replaceComma');
+    return preg_replace($pattern, '$1<?php echo rtrim($2,\',\'); ?>', $view);
+});

@@ -8,8 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="">5
-
+    <meta name="author" content="">
     <title>{{$businessdetails->business_name}}-{{Setting::get('site_name')}}</title>
 
     <!-- Bootstrap Core CSS -->
@@ -22,6 +21,7 @@
     <link href='http://fonts.googleapis.com/css?family=Hind:400,300,500,600,700' rel='stylesheet' type='text/css'>
     <!-- Theme CSS -->
     <link href={{asset('assets/common/css/frontend.css')}} rel="stylesheet">
+    <link href={{asset('assets/common/css/chosen/chosen.min.css')}} rel="stylesheet">
     <link href={{asset('assets/common/css/jquery.bootstrap-touchspin.min.css')}} rel="stylesheet">
     <link href="{{asset('assets/common/css/menutang.css')}}" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -46,7 +46,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">{{Setting::get('site_name')}}</a>
+                <a class="navbar-brand" href="{{Setting::get('site_url')}}">{{Setting::get('site_name')}}</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -191,9 +191,11 @@
                                 <!-- Food Types/Categories -->
 
                                 <strong>Food:</strong>
+                                <?php $type='';?>
                                 @foreach($businessdetails->cuisineType as $cuisine)
-                                <a href="#">{{$cuisine->cuisine_description}}</a>,
+                                <?php $type.='<a href="#">'.$cuisine->cuisine_description.'</a>,'; ?>
                                 @endforeach
+                                @replaceComma($type)
                             </p>
                         </div>
                         <div class="col-lg-3 col-md-2">
@@ -337,7 +339,7 @@
                                 <input type="hidden" name="delivery_fee" value="{{$businessdetails->delivery_fee}}">
                                 <input type="hidden" name="minimum_amt" value="{{$businessdetails->minimum_delivery_amt}}">
                             </label>
-                            <select class="form-control"  style="margin-top: 5px;">
+                            <select class="form-control chosen"   style="margin-top: 5px;">
                                 <option selected disabled>Select Your Area:</option>
                                 @foreach($businessdetails->deliveryArea as $area)
                                     <option value="{{$area->id}}">{{$area->area}}</option>
@@ -629,6 +631,7 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places"></script>
 <!-- Theme Scripts -->
+<script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
 <script src="{{asset('assets/common/js/jquery.bootstrap-touchspin.min.js')}}"></script>
 <script src="{{asset('assets/common/js/app/frontend.js')}}"></script>
 <script src="{{asset('assets/common/js/app/buprofile-knockout.js')}}"></script>
@@ -730,6 +733,7 @@
             cartModel.cart(data);
         }, 'json');
     }
+    $(".chosen").chosen();
 </script>
 
 </body>

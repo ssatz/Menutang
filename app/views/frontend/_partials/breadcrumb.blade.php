@@ -1,10 +1,10 @@
 <div class="container">
     <ol class="breadcrumb hidden-xs">
         <li>
-            <a href="#">Home</a>
+            <a href="{{action('FrontEndController@index')}}">Home</a>
         </li>
         <li>
-            <a href="#">Hyderabad Food Delivery</a>
+            <a href="{{action('FrontEndController@searchBU',[$locality])}}">{{ucfirst($locality)}} Food Delivery</a>
         </li>
         <li>
             <div class="btn-group dropdown-breadcrumb">
@@ -31,5 +31,5 @@
             </div>
         </li>
     </ol>
-    <h1 class="page-header">North Adelaide Food Delivery and Takeaway SA</h1>
+    <h1 class="page-header">{{ucfirst($locality)}} Food Delivery and Pickup</h1>
 </div>
