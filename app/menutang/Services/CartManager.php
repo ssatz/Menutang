@@ -11,7 +11,9 @@
 namespace Services;
 
 
+use Carbon\Carbon;
 use Exceptions\EnumExceptions;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 use Repositories\CartItemRepository\ICartItemRepository;
 use Repositories\CartRepository\ICartRepository;
@@ -21,6 +23,9 @@ use Repositories\MenuItemRepository\IMenuItemRepository;
 use Services\DeliveryOptionEnum;
 use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use Repositories\OptionsCategoryRepository\IOptionsCategoryRepository;
+use Repositories\CartOptionRepository\ICartOptionRepository;
+use Illuminate\Database\DatabaseManager;
+use Repositories\OptionItemRepository\IOptionItemRepository;
 use stdClass;
 use ItemAddon;
 use MenuItem;
@@ -66,9 +71,26 @@ class CartManager {
      */
     protected $menuItemRepo;
 
+    /**
+     * @var IMenuAddonRepository
+     */
     protected $itemAddonRepo;
+    /**
+     * @var IOptionsCategoryRepository
+     */
     protected $optionsRepo;
-
+    /**
+     * @var ICartOptionRepository
+     */
+    protected $cartOptionRepo;
+    /**
+     * @var DatabaseManager
+     */
+    protected $db;
+    /**
+     * @var IOptionItemRepository
+     */
+    protected $optionItemRepo;
     /**
      * @param Application $app
      * @param ICartRepository $cartRepo
@@ -81,7 +103,11 @@ class CartManager {
         IMenuItemRepository $menuItemRepository,
         IManageBusinessRepository $businessRepository,
         IMenuAddonRepository $addonRepository,
-        IOptionsCategoryRepository $optionsCategoryRepository
+        IOptionsCategoryRepository $optionsCategoryRepository,
+        ICartOptionRepository $cartOptionRepository,
+        DatabaseManager $databaseManager,
+        IOptionItemRepository $optionItemRepository
+
 
     ) {
         $this->app = $app;
@@ -95,6 +121,9 @@ class CartManager {
         $this->request = $this->app->make('request');
         $this->itemAddonRepo=$addonRepository;
         $this->optionsRepo = $optionsCategoryRepository;
+        $this->cartOptionRepo = $cartOptionRepository;
+        $this->db = $databaseManager;
+        $this->optionItemRepo = $optionItemRepository;
     }
 
     /**
@@ -186,49 +215,51 @@ class CartManager {
             $this->emptyCart();
         }
         if(is_null($itemAddon)) {
-            $item = $this->getCartMenuItem($menuItem->id, $cartId);
+            $cartItem = $this->getCartMenuItem($menuItem->id, $cartId);
 
         }
         else{
-            $item = $this->getCartMenuItem($menuItem->id,$cartId, $itemAddondetails->id);
+            $cartItem = $this->getCartMenuItem($menuItem->id,$cartId, $itemAddondetails->id);
         }
-        if(!is_null($item)) {
-            if ($item->count() > 0) {
-                (int)$quantity = ((int)$quantity) + ((int)$item->quantity);
+        if(!is_null($cartItem)) {
+            if ($cartItem->count() > 0) {
+                (int)$quantity = ((int)$quantity) + ((int)$cartItem->quantity);
                 $price = $quantity * $price;
-                $this->updateItemQuantity($item->id, (int)$quantity, $price);
-                return;
+                $this->updateItemQuantity($cartItem->data_hash, (int)$quantity, $price);
+                return $cartItem->id;
             }
         }
+        $encrypt =$this->encrypt($cartId.$menuItem->id.$itemAddon);
         $data = [
             'cart_id'      => (int)$cartId,
             'menu_item_id'   =>(int) $menuItem->id,
             'quantity'     => (int)$quantity,
             'menu_item_addon_id'=>$itemAddon,
+            'data_hash'=>$encrypt,
             'price'   =>$price,
         ];
 
-        $this->cartItemRepo->create($data);
+       return $this->cartItemRepo->create($data);
     }
     /**
      * @param $id
      * @param $quantity
      */
-    public function updateItemQuantity($id, $quantity,$price)
+    public function updateItemQuantity($hash, $quantity,$price)
     {
         $data = [
             'quantity' => $quantity,
             'price'=>$price
         ];
-        $this->cartItemRepo->update($data,$id);
+        $this->cartItemRepo->updateByHash($data,$hash);
     }
 
     /**
      * @param $id
      */
-    public function removeItemFromCart($id)
+    public function removeItemFromCart($cartHash)
     {
-       $this->cartItemRepo->delete($id);
+       $this->cartItemRepo->deleteByHash($cartHash);
     }
 
 
@@ -236,9 +267,9 @@ class CartManager {
      * @param $id
      * @param $slug
      */
-    public function minusItemQuantity($id)
+    public function minusItemQuantity($cartHash)
     {
-       $cartItem= $this->cartItemRepo->find($id);
+       $cartItem= $this->cartItemRepo->findByHash($cartHash);
         if(!is_null($cartItem)){
             $menu = $this->getMenuItem($cartItem->menu_item_id,$cartItem->menu_item_addon_id);
             if(!is_null($menu)){
@@ -256,7 +287,7 @@ class CartManager {
                     'quantity' => $quantity,
                     'price'=>$price
                 ];
-                $this->cartItemRepo->update($data,$id);
+                $this->cartItemRepo->updateByHash($data,$cartHash);
             }
         }
     }
@@ -266,9 +297,9 @@ class CartManager {
      * @param $id
      * @param $slug
      */
-    public function addItemQuantity($id)
+    public function addItemQuantity($cartHash)
     {
-        $cartItem= $this->cartItemRepo->find($id);
+        $cartItem= $this->cartItemRepo->findByHash($cartHash);
         if(!is_null($cartItem)){
             $menu = $this->getMenuItem($cartItem->menu_item_id,$cartItem->menu_item_addon_id);
             if(!is_null($menu)){
@@ -283,7 +314,7 @@ class CartManager {
                     'quantity' => $quantity,
                     'price'=>$price
                 ];
-                $this->cartItemRepo->update($data,$id);
+                $this->cartItemRepo->updateByHash($data,$cartHash);
             }
         }
     }
@@ -350,6 +381,10 @@ class CartManager {
         return $cart;
     }
 
+    /**
+     * @param array $data
+     * @return mixed
+     */
     public  function getOptions(array $data)
     {
         Session::put('cartOptions',$data);
@@ -357,5 +392,85 @@ class CartManager {
 
     }
 
+    /**
+     * @param $slug
+     * @param array $options
+     */
+    public function addOrUpdateCartOptions($slug,array $options)
+    {
+        $menuItemId = Session::get('cartOptions.menu_item_id');
+        $quantity = Session::get('cartOptions.quantity');
+        $deliveryOption = Session::get('cartOptions.delivery_option');
+        $itemAddon = Session::get('cartOptions.item_addon_id');
+        $cart = $this->getOrCreate($deliveryOption);
+        $cartId = $cart->id;
+        $encrypt = $cartId.$menuItemId.$itemAddon;
+        $optionsId=[];
+        foreach($options as $key=> $item)
+        {
+           $encrypt.=$item->id;
+            $optionsId[]=$item->id;
+        }
+        $isMenuItemId = $this->cartItemRepo->findByHash($this->encrypt($encrypt));
+        if(is_null($isMenuItemId)) {
+            $menuItem = $this->getMenuItem((int)$menuItemId);
+            $price =(int) $menuItem->item_price;
+            if(!is_null($itemAddon)) {
+                $itemAddondetails = $menuItem->itemAddon->filter(function ($item) use ($itemAddon) {
+                    return $item->id ==(int) $itemAddon;
+                })->first();
+                $price =(int) $itemAddondetails->addon_price;
+                $itemAddon = (int) $itemAddondetails->id;
+            }
+            $data=[
+                'cart_id'=>(int)$cartId,
+                'menu_item_id'=>(int)$menuItemId,
+                'menu_item_addon_id'=> empty($itemAddon)?null:(int)$itemAddon,
+                'quantity'=>(int)$quantity,
+                'data_hash'=>$this->encrypt($encrypt),
+                'price'=>(int)($price*$quantity)
+            ];
+            $this->cartItemRepo->create($data);
+            $array =[];
+            foreach($options as $key=> $item)
+            {
+                $array[$key]['options_items_id']=$item->id;
+                $array[$key]['price'] =(int)($item->price*$quantity);
+                $array[$key]['quantity']=(int)$quantity;
+                $array[$key]['cart_item_hash']=$this->encrypt($encrypt);
+                $array[$key]['created_at']= Carbon::now();
+                $array[$key]['updated_at']=Carbon::now();
+            }
+            $this->cartOptionRepo->insertBulk($array);
+            return;
+        }
 
+        $menuItem = $this->getMenuItem((int)$menuItemId);
+        $price =(int) $menuItem->item_price;
+        if(!is_null($itemAddon)) {
+            $itemAddondetails = $menuItem->itemAddon->filter(function ($item) use ($itemAddon) {
+                return $item->id ==(int) $itemAddon;
+            })->first();
+            $price =(int) $itemAddondetails->addon_price;
+        };
+        (int)$menuQuantity = ((int)$quantity) + ((int)$isMenuItemId->quantity);
+        $price = $menuQuantity * $price;
+        $this->updateItemQuantity($isMenuItemId->data_hash, (int)$menuQuantity, $price);
+        $optionsItems= $this->cartOptionRepo->findCartOptions($optionsId,$isMenuItemId->data_hash);
+        foreach ($optionsItems as $updateOptions) {
+            (int)$price = $this->optionItemRepo->findPriceById($updateOptions->options_items_id);
+            $data=[
+                'quantity'=> $menuQuantity,
+                'price'=> $price * $menuQuantity,
+                'updated_at'=> Carbon::now()
+            ];
+            $this->cartOptionRepo->updateByHash($updateOptions->options_items_id,$updateOptions->cart_item_hash,$data);
+        }
+        return;
+    }
+
+    public function encrypt($data)
+    {
+       return md5(base64_encode($data));
+    }
 }

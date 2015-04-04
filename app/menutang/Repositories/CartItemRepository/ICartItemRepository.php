@@ -17,4 +17,7 @@ interface ICartItemRepository {
     public function update(array $data, $id);
     public function delete($id);
     public function findMenuItemId($menuItemId,$cartId,$itemAddon=null);
+    public function findByHash($hash);
+    public function updateByHash(array $data,$hash);
+    public function deleteByHash($hash);
 }

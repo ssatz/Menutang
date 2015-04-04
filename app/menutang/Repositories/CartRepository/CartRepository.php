@@ -224,7 +224,7 @@ class CartRepository extends BaseRepository implements ICartRepository {
     {
         return $this->model->with(['cartItem'=>function($query)
         {
-            $query->with('menuItem','itemAddon');
+            $query->with('menuItem','itemAddon','optionCart.optionItem');
         }
         ])->where('uid', $uid)->first();
     }
@@ -237,7 +237,7 @@ class CartRepository extends BaseRepository implements ICartRepository {
     {
         return $this->model->with(['cartItem'=>function($query)
         {
-            $query->with('menuItem','itemAddon');
+            $query->with('menuItem','itemAddon','optionCart.optionItem');
         }
         ])->where('user_id', $userId)->first();
     }

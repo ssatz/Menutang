@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="">5
 
     <title>{{$businessdetails->business_name}}-{{Setting::get('site_name')}}</title>
 
@@ -373,7 +373,14 @@
                                 <span class="clearfix"></span>
                                 <div class="small text-primary" style="padding-left: 80px">Choices: <!-- ko text:item_addon.addon_description --> <!-- /ko --></div>
                                 <!-- /ko -->
-                                <input type="hidden" name="item_id" data-bind="value:id">
+                                <!-- ko if: option_cart -->
+                                <!-- ko foreach: option_cart -->
+                                <span class="clearfix"></span>
+                                <div class="small text-primary" style="padding-left: 80px">Add: <!-- ko text:option_item.item_name --> <!-- /ko --></div>
+                                <div class="small text-primary pull-right"><i class="fa fa-rupee"></i><!-- ko text:price --> <!-- /ko -->  </div>
+                                <!--/ko-->
+                                <!-- /ko -->
+                                <input type="hidden" name="data_hash" data-bind="value:data_hash">
                             </li>
                             <!-- /ko -->
                         </ul>
@@ -504,7 +511,18 @@
                         <span class="clearfix"></span>
                         <div class="small text-primary" style="padding-left: 80px">Choices: <!-- ko text:item_addon.addon_description --> <!-- /ko --></div>
                         <!-- /ko -->
-                        <input type="hidden" name="item_id" data-bind="value:id">
+                        <!-- ko if: item_addon -->
+                        <span class="clearfix"></span>
+                        <div class="small text-primary" style="padding-left: 80px">Choices: <!-- ko text:item_addon.addon_description --> <!-- /ko --></div>
+                        <!-- /ko -->
+                        <!-- ko if: option_cart -->
+                        <!-- ko foreach: option_cart -->
+                        <span class="clearfix"></span>
+                        <div class="small text-primary" style="padding-left: 80px">Add: <!-- ko text:option_item.Onion --> <!-- /ko --></div>
+                        <div class="small text-primary pull-right"><i class="fa fa-rupee"></i><!-- ko text:price --> <!-- /ko -->  </div>
+                        <!--/ko-->
+                        <!-- /ko -->
+                        <input type="hidden" name="data_hash" data-bind="value:data_hash">
                     </li>
                     <!-- /ko -->
                 </ul>
@@ -702,8 +720,13 @@
     );
     });
 
-    function postAjax(id,action){
-        $.post('{{action('CartController@updateCartItem',[$slug])}}',{cart_item_id:id,action:action,_token: '{{Session::get('_token')}}'}, function( data ) {
+    function postAjax(hash,action){
+        $.post('{{action('CartController@updateCartItem',[$slug])}}',{cart_hash:hash,action:action,_token: '{{Session::get('_token')}}'}, function( data ) {
+            cartModel.cart(data);
+        }, 'json');
+    }
+    function postAddOptionsAjax(data){
+        $.post('{{action('CartController@addToCartOptions',[$slug])}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
             cartModel.cart(data);
         }, 'json');
     }

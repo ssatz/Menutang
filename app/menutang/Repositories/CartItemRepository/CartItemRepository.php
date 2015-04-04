@@ -178,8 +178,9 @@ class CartItemRepository extends BaseRepository implements ICartItemRepository {
         $item->quantity = $data['quantity'];
         $item->menu_item_addon_id = $data['menu_item_addon_id'];
         $item->price    = $data['price'];
+        $item->data_hash= $data['data_hash'];
         $item->save();
-        return $item->id;
+        return $item->data_hash;
     }
 
     public function findMenuItemId($menuItemId,$cartId,$itemAddon=null)
@@ -190,6 +191,18 @@ class CartItemRepository extends BaseRepository implements ICartItemRepository {
        }
         return $this->model->where('menu_item_id', '=', $menuItemId)->where('menu_item_addon_id','=',$itemAddon)
             ->where('cart_id', '=', $cartId)->first();
+    }
+    public function findByHash($hash){
+        return $this->model->where('data_hash','=',$hash)->first();
+    }
+
+    public function deleteByHash($hash)
+    {
+        return $this->model->where('data_hash','=',$hash)->delete();
+    }
+    public function updateByHash(array $data,$hash){
+
+        return $this->model->where('data_hash', '=', $hash)->update($data);
     }
 
 }

@@ -194,6 +194,6 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
 
     public function withAddon($menuId)
     {
-        return $this->model->with('itemAddon','topping')->find($menuId);
+        return $this->model->with('itemAddon')->find($menuId);
     }
 }

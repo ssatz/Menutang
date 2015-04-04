@@ -111,6 +111,14 @@ class MenutangServiceProvider extends ServiceProvider
             'Repositories\OptionsCategoryRepository\OptionsCategoryRepository'
         );
         $app->bind(
+            'Repositories\CartOptionRepository\ICartOptionRepository',
+            'Repositories\CartOptionRepository\CartOptionRepository'
+        );
+        $app->bind(
+            'Repositories\OptionItemRepository\IOptionItemRepository',
+            'Repositories\OptionItemRepository\OptionItemRepository'
+        );
+        $app->bind(
             'Services\Cache\ICacheService',
             'Services\Cache\CacheService'
         );

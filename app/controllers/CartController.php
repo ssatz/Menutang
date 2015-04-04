@@ -36,6 +36,9 @@ class CartController extends BaseController  {
      */
     protected  $translator;
 
+    /**
+     * @var Response
+     */
     protected $response;
     /**
      * @var View
@@ -119,18 +122,18 @@ class CartController extends BaseController  {
     public function updateCartItem($slug)
     {
         if($this->request->ajax()) {
-            $cartItemId = $this->request->get('cart_item_id');
+            $cartHash = $this->request->get('cart_hash');
             $action = $this->request->get('action');
             switch($action)
             {
                 case ActionEnum::Minus:
-                    $this->cartManager->minusItemQuantity($cartItemId);
+                    $this->cartManager->minusItemQuantity($cartHash);
                     break;
                 case ActionEnum::Add:
-                    $this->cartManager->addItemQuantity($cartItemId);
+                    $this->cartManager->addItemQuantity($cartHash);
                     break;
                 case ActionEnum::Delete:
-                    $this->cartManager->removeItemFromCart($cartItemId);
+                    $this->cartManager->removeItemFromCart($cartHash);
                     break;
             }
 
@@ -138,11 +141,28 @@ class CartController extends BaseController  {
         }
     }
 
+    /**
+     * @param $slug
+     * @return mixed
+     */
     public function getOptions($slug)
     {
         if($this->request->ajax()) {
            return $this->cartManager->getOptions($this->request->except('_token'));
         }
 
+    }
+
+    public function addToCartOptions($slug)
+    {
+        if($this->request->ajax()) {
+           $data =json_decode($this->request->get('data'));
+            $this->cartManager->addOrUpdateCartOptions($slug,$data);
+            $cartItem = $this->cartManager->getCartItems($slug);
+            if(!is_null($cartItem)) {
+                return $cartItem->toJson();
+            }
+            return $this->response->json('');
+        }
     }
 }

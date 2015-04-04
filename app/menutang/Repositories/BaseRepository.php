@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+use Illuminate\Support\Facades\DB;
 use RuntimeException;
 use NumberFormatter;
 abstract class BaseRepository
@@ -68,6 +69,11 @@ abstract class BaseRepository
     {
         $this->cache->flush(get_class($this->model));
         return $this->model->create($data);
+    }
+
+    public function insertBulk(array $data)
+    {
+        DB::table($this->model->getTable())->insert($data);
     }
 
     /**

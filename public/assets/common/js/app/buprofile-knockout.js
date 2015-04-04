@@ -12,7 +12,7 @@ var cartModel ={
     addOrder:function()
     {
         $("#item-options").modal('hide');
-      console.log(ko.toJSON(cartModel.selectedChoices()));
+        postAddOptionsAjax(ko.toJSON(cartModel.selectedChoices()));
     },
     addChoices:function(model){
         if(model.check()) {
@@ -31,17 +31,17 @@ var cartModel ={
         return true;
     },
     cartItemMinus:function(data,event){
-        var cartItemId = $(event.target).parents("li").find("input[name=item_id]").val();
+        var cartItemId = $.trim($(event.target).parents("li").find("input[name=data_hash]").val());
          postAjax(cartItemId,"Minus");
         return true;
     },
     cartItemAdd:function(data,event){
-        var cartItemId = $(event.target).parents("li").find("input[name=item_id]").val();
+        var cartItemId = $.trim($(event.target).parents("li").find("input[name=data_hash]").val());
         postAjax(cartItemId,"Add");
         return true;
     },
     cartItemDelete:function(data,event){
-        var cartItemId = $(event.target).parents("li").find("input[name=item_id]").val();
+        var cartItemId = $.trim($(event.target).parents("li").find("input[name=data_hash]").val());
          postAjax(cartItemId,"Delete");
         return true;
     }
@@ -57,13 +57,23 @@ cartModel.subTotal = ko.pureComputed(function() {
             total+=parseFloat(item.price);
         })
     }
-    return total.toFixed(2);
+    if(this.cart().length ==undefined)
+    {
+        $.each(this.cart().cart_item,function(index,item){
+            if(item.option_cart!=null) {
+                $.each(item.option_cart, function (index, item) {
+                    total += parseFloat(item.price);
+                });
+            }
+        });
+    }
+    return total;
 }, cartModel);
 
 cartModel.parcelFee = ko.pureComputed(function() {
     var total = 0;
     total =parseFloat($("#parcel-charge").val());
-    return total.toFixed(2);
+    return total;
 }, cartModel);
 
 cartModel.grandTotal = ko.pureComputed(function() {
@@ -77,7 +87,7 @@ cartModel.grandTotal = ko.pureComputed(function() {
     }else {
         this.remainingAmount(remaining);
     }
-    return total.toFixed(2);
+    return total;
 }, cartModel);
 
 //Components

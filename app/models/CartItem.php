@@ -13,6 +13,7 @@ class CartItem extends Eloquent {
      * @var string
      */
     protected $table = 'cart_items';
+    protected $primaryKey = 'data_hash';
     /**
      * @var array
      */
@@ -40,6 +41,11 @@ class CartItem extends Eloquent {
     public function itemAddon()
     {
         return $this->belongsTo('ItemAddon','menu_item_addon_id');
+    }
+
+    public function optionCart()
+    {
+        return $this->hasMany('OptionCart','cart_item_hash');
     }
 
 }
