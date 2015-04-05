@@ -396,7 +396,8 @@ class BusinessManager
             $this->excel->load($file, function ($reader) use ($collection, $budID) {
                 $reader->each(function ($sheet) use ($collection, $budID) {
                     (int)$count = -1;
-                    $category_id = $this->manageCategory->findOrCreate($sheet->getTitle());
+                    $title = str_replace(' ', '_', $sheet->getTitle());
+                    $category_id = $this->manageCategory->findOrCreate($title);
                     foreach ($sheet as $row) {
                         if (!is_null($row['item_name'])) {
                             $cell = [];

@@ -47,7 +47,7 @@ use Illuminate\Support\Facades\Auth;
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{Setting::get('site_url')}}">Menutang</a>
+            <a class="navbar-brand" href="{{Setting::get('site_url')}}"><a class="navbar-brand" href="#"><img width="146" height="65" class="img-responsive" src="{{asset('assets/common/img/app/Logo.png')}}"></a></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
