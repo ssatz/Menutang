@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Auth;
     <meta name="author" content="">
 
     <title>{{Setting::get('site_name')}}</title>
-
+    <link rel="shortcut icon" href="{{asset('assets/common/img/app/favicon.ico')}}" type="image/x-icon">
+    <link rel="icon" href="{{asset('assets/common/img/app/favicon.ico')}}" type="image/x-icon">
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('assets/common/css/bootstrap.min.css')}}" rel="stylesheet">
 
