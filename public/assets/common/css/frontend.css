@@ -1004,3 +1004,6 @@ footer ul.list-inline {
     color: #fff;
     background-color: #dddddd;
 }
+.logo{
+    margin-top: -41px !important;
+}

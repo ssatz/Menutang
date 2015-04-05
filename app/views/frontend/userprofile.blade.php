@@ -2,7 +2,7 @@
 
 @section('content')
 
-<header class="home" style="height: 55px" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<header class="home">
 </header>
 <div class="content bg-light">
     <div class="container">
