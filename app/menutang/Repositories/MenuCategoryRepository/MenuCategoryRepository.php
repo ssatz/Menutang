@@ -57,6 +57,10 @@ class MenuCategoryRepository extends BaseRepository implements IMenuCategoryRepo
      */
     public function findByProfile($businessId)
     {
+       $key = md5('buProfile'.$businessId);
+        if ($this->cache->has($key)) {
+            return $this->cache->get($key);
+        }
         $profileDetails =$this->model->wherehas('menuItem',function($query) use($businessId) {
             $query->where('business_info_id', '=', $businessId);
         })->with('menuItem.businessHours')
@@ -64,6 +68,7 @@ class MenuCategoryRepository extends BaseRepository implements IMenuCategoryRepo
             ->with('menuItem.weekDays')
             ->with('menuItem.optionItem')
             ->get();
+        $this->cache->put($key, $profileDetails);
         return $profileDetails;
     }
 
