@@ -73,5 +73,6 @@
             @endforeach
             </tbody>
             </table>
-
+<hr>
+{{$results->links('frontend._partials.pagination')}}
 @endsection
