@@ -15,4 +15,5 @@ interface ICartRepository {
     public function create(Array $data);
     public function findByUid($uid);
     public function findByUserId($userId);
+    public function delete($id);
 }

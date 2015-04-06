@@ -182,9 +182,7 @@ class CartManager {
     public function emptyCart()
     {
         if ($cart = $this->get()) {
-            foreach ($cart->items as $item) {
-                $this->cartItemRepo->delete($item->id);
-            }
+            $this->cartRepo->delete($cart->id);
         }
     }
 

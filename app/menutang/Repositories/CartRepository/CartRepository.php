@@ -241,4 +241,9 @@ class CartRepository extends BaseRepository implements ICartRepository {
         }
         ])->where('user_id', $userId)->first();
     }
+
+    public function delete($id)
+    {
+        return $this->model->where('id','=',$id)->delete();
+    }
 }
