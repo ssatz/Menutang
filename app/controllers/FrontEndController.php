@@ -16,6 +16,8 @@ use Services\FrontEndManager;
 use Services\CartManager;
 use Illuminate\Support\Facades\Response;
 use Services\UserAuth;
+use Services\BusinessManager;
+use Services\DeliveryOptionEnum;
 
 
 
@@ -64,6 +66,7 @@ class FrontEndController extends BaseController  {
 
     protected $auth;
 
+    protected $buManager;
     /**
      * @param Request $request
      * @param Redirector $redirector
@@ -77,6 +80,7 @@ class FrontEndController extends BaseController  {
                                 Response $response,
                                 CartManager $cartManager,
                                 UserAuth $userAuth,
+                                BusinessManager $businessManager,
                                 FrontEndManager $frontEndManager)
     {
         $this->app = $app;
@@ -87,6 +91,7 @@ class FrontEndController extends BaseController  {
         $this->cart = $cartManager;
         $this->response = $response;
         $this->userAuth = $userAuth;
+        $this->buManager = $businessManager;
         $this->view = $this->app->make('view');
         $this->auth =$this->app->make('auth');
     }
@@ -107,8 +112,15 @@ class FrontEndController extends BaseController  {
     {
         $this->view->share('locality', $locality);
         $this->view->share('area', $area);
+        $buType = $this->buManager->getAllBusinessType();
+        $cusineType = $this->buManager->getAllCuisineType();
+        $serviceType = DeliveryOptionEnum::toArray();
         $result= $this->frontEndManager->searchQuery($locality,$area);
-        return $this->view->make('frontend.search')->withResults($result);
+        return $this->view->make('frontend.search')
+                            ->withButype($buType)
+                            ->withCuisinetype($cusineType)
+                            ->withServicetype($serviceType)
+                            ->withResults($result);
     }
 
     /**

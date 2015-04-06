@@ -127,7 +127,7 @@ return [
         'anlutro\LaravelSettings\ServiceProvider',
         'Services\Reminders\ReminderServiceProvider',
         'Maatwebsite\Excel\ExcelServiceProvider',
-
+        'Flatten\FlattenServiceProvider',
     ],
 
     /*
@@ -198,6 +198,7 @@ return [
         'Image' => 'Intervention\Image\Facades\Image',
         'Setting' => 'anlutro\LaravelSettings\Facade',
         'Excel' => 'Maatwebsite\Excel\Facades\Excel',
+        'Flatten' => 'Flatten\Facades\Flatten',
 
     ],
 

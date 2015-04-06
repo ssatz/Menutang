@@ -17,16 +17,14 @@
                 </a>
 
                 <div id="type" class="collapse in">
+                    @foreach($butype as $type)
                     <div class="radio">
                         <label>
-                            <input type="radio" name="type" id="type1" value="type1" checked> Restaraunt
+                            <input type="radio" name="butype_{{$type->business_code}}" id="type1" value="{{$type->business_type}}"
+                             @if($type->business_code=='RES') checked @endif   > {{$type->business_type}}
                         </label>
                     </div>
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="type" id="type2" value="type2"> Dish
-                        </label>
-                    </div>
+                    @endforeach
 
                     <div class="form-group">
                         <input type="text" class="form-control input-sm" placeholder="Name contains...">
@@ -43,16 +41,13 @@
                 </a>
 
                 <div id="service" class="collapse in">
+                    @foreach($servicetype as $key => $type)
                     <div class="radio">
                         <label>
-                            <input type="radio" name="service" id="service1" value="service1" checked> Delivery
+                            <input type="radio" name="servicetype_{{$key}}" id="type1" value="{{$type}}"> {{ucfirst(strtolower($key))}}
                         </label>
                     </div>
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="service" id="service2" value="service2"> Pickup
-                        </label>
-                    </div>
+                    @endforeach
                 </div>
 
                 <hr>
@@ -67,71 +62,14 @@
                             <input type="checkbox" checked value=""> All
                         </label>
                     </div>
+                    @foreach($cuisinetype as $type)
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" value=""> Bakery
+                            <input type="checkbox" name="cutype_{{$type->cuisine_code}}" value=""> {{$type->cuisine_description}}
                         </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value=""> Chinese
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value=""> Coffee
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value=""> Desserts
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value=""> Juices
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value=""> Pizza
-                        </label>
-                    </div>
+                     </div>
+                    @endforeach
                     <small><a href="#">+ More</a></small>
-                </div>
-
-                <hr>
-
-                <!-- Filter by Specials -->
-                <a href="javascript:void(0)" data-toggle="collapse" data-target="#specials">
-                    <h5>Specials</h5>
-                </a>
-                <div id="specials" class="collapse in">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" checked value=""> All
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value=""> First Order
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value=""> Loyalty
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value=""> Minimum Spend
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value=""> Meal Deals
-                        </label>
-                    </div>
                 </div>
 
                 <hr>
@@ -189,26 +127,6 @@
                 </div>
 
                 <hr>
-
-                <!-- Filter by Date/Time -->
-                <a href="javascript:void(0)" data-toggle="collapse" data-target="#datetime">
-                    <h5>Open Date/Time</h5>
-                </a>
-                <div id="datetime" class="collapse">
-
-                    <!-- Datepicker -->
-                    <div class="form-group">
-                        <label>Date:</label>
-                        <input id="datepicker" type="text" type="text" class="form-control input-sm">
-                    </div>
-
-                    <!-- Time Picker -->
-                    <div class="form-group">
-                        <label>Time:</label>
-                        <input id="timepicker" type="text" type="text" class="form-control input-sm">
-                    </div>
-
-                </div>
 
             </div>
         </div>
