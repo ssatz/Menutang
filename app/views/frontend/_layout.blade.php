@@ -151,8 +151,9 @@
 
 <!-- Theme Scripts -->
 <script src="{{asset('assets/common/js/app/frontend.js')}}"></script>
-
-
+<script type="text/javascript">
+@yield('scripts')
+</script>
 </body>
 
 </html>

@@ -17,20 +17,20 @@
                 </a>
 
                 <div id="type" class="collapse in">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="buType"  value="All"
+                                   @if(Input::get('buType')=='All' || !Input::get('buType')) checked @endif   >All
+                        </label>
+                    </div>
                     @foreach($butype as $type)
                     <div class="radio">
                         <label>
-                            <input type="radio" name="butype_{{$type->business_code}}" id="type1" value="{{$type->business_type}}"
-                             @if($type->business_code=='RES') checked @endif   > {{$type->business_type}}
+                            <input type="radio" name="buType" id="type1" value="{{$type->business_code}}"
+                             @if(Input::get('buType')==$type->business_code) checked @endif   > {{$type->business_type}}
                         </label>
                     </div>
                     @endforeach
-
-                    <div class="form-group">
-                        <input type="text" class="form-control input-sm" placeholder="Name contains...">
-                    </div>
-
-                    <button class="btn btn-sm btn-primary">Search</button>
                 </div>
 
                 <hr>
@@ -41,10 +41,15 @@
                 </a>
 
                 <div id="service" class="collapse in">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="serviceType" @if(Input::get('serviceType')=='All' || !Input::get('serviceType')) checked @endif  value="All"> All
+                        </label>
+                    </div>
                     @foreach($servicetype as $key => $type)
                     <div class="radio">
                         <label>
-                            <input type="radio" name="servicetype_{{$key}}" id="type1" value="{{$type}}"> {{ucfirst(strtolower($key))}}
+                            <input type="radio" name="serviceType" @if(Input::get('serviceType')==ucfirst(strtolower($key))) checked @endif   value="{{$type}}"> {{ucfirst(strtolower($key))}}
                         </label>
                     </div>
                     @endforeach
@@ -59,13 +64,13 @@
                 <div id="cuisine" class="collapse in">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" checked value=""> All
+                            <input type="checkbox" name="cuisineType" @if(Input::get('cuisineType')) checked @endif value="all"> All
                         </label>
                     </div>
                     @foreach($cuisinetype as $type)
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="cutype_{{$type->cuisine_code}}" value=""> {{$type->cuisine_description}}
+                            <input type="checkbox" name="cuisineType"  value="{{$type->cuisine_code}}"> {{$type->cuisine_description}}
                         </label>
                      </div>
                     @endforeach
@@ -81,49 +86,16 @@
                 <div id="payment" class="collapse">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" checked value=""> All
+                            <input type="checkbox" name="paymentType" checked value="all"> All
                         </label>
                     </div>
+                    @foreach($paymenttype as $type)
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" value=""> Cash
+                            <input type="checkbox" name="paymentType"  value="{{$type->payment_code}}"> {{ucfirst($type->payment_description)}}
                         </label>
                     </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value=""> Visa
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value=""> Mastercard
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value=""> Discover
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value=""> American Express
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value=""> PayPal
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value=""> Google Wallet
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value=""> Apple Pay
-                        </label>
-                    </div>
+                    @endforeach
                 </div>
 
                 <hr>
@@ -133,3 +105,52 @@
         <a href="#top" class="btn btn-link page-scroll"><i class="fa fa-fw fa-angle-up"></i> Back to Top</a>
     </div>
 </div>
+@section('scripts')
+function getUrlVars()
+{
+var vars = [], hash;
+var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+for(var i = 0; i < hashes.length; i++)
+{
+hash = hashes[i].split('=');
+vars.push(hash[0]);
+vars[hash[0]] = hash[1];
+}
+return vars;
+}
+$(function() {
+    $("input[type='radio']").change(function() {
+        var url=window.location.href,
+        seperator = (url.indexOf("?")===-1)?"?":"";
+        var pattern = new RegExp($(this).prop('name')+'(.*?)&','g');
+        var newUrl=url;
+        if(pattern.test(url)){
+        newUrl=url.replace(pattern,$(this).prop('name')+'='+$(this).val()+'&');
+        }
+        else{
+        newParam=seperator + $(this).prop('name')+'='+ $(this).val()+'&';
+        newUrl+=newParam;
+        }
+        window.location.href =newUrl;
+    });
+    $("input[type='checkbox']").change(function() {
+           var value = $(this).val();
+            var url=window.location.href,
+            seperator = (url.indexOf("?")===-1)?"?":"";
+           var newUrl;
+            if(getUrlVars()[$(this).prop('name')] ==undefined || value=='All')
+            {
+                newParam =seperator + $(this).prop('name')+'='+ $(this).val()+'&';
+                url+=newParam;
+                newUrl = url;
+            }
+            else{
+                var alValue = getUrlVars()[$(this).prop('name')];
+                var pattern = new RegExp($(this).prop('name')+'(.*?)&','g');
+                newParam = alValue+','+value;
+                newUrl =    url.replace(pattern,$(this).prop('name')+'='+newParam+'&');
+            }
+        window.location.href =newUrl;
+    });
+});
+@endsection

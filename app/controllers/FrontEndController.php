@@ -115,11 +115,13 @@ class FrontEndController extends BaseController  {
         $buType = $this->buManager->getAllBusinessType();
         $cusineType = $this->buManager->getAllCuisineType();
         $serviceType = DeliveryOptionEnum::toArray();
+        $paymentType = $this->buManager->getAllPayments();
         $result= $this->frontEndManager->searchQuery($locality,$area);
         return $this->view->make('frontend.search')
                             ->withButype($buType)
                             ->withCuisinetype($cusineType)
                             ->withServicetype($serviceType)
+                            ->withPaymenttype($paymentType)
                             ->withResults($result);
     }
 
