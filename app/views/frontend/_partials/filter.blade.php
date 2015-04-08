@@ -146,9 +146,20 @@ $(function() {
             }
             else{
                 var alValue = getUrlVars()[$(this).prop('name')];
-                var pattern = new RegExp($(this).prop('name')+'(.*?)&','g');
-                newParam = alValue+','+value;
-                newUrl =    url.replace(pattern,$(this).prop('name')+'='+newParam+'&');
+                var pattern =  new RegExp('('+value+',?|$)','g')
+                if(pattern.test(alValue)){
+                    alValue =  alValue.replace(pattern,'');
+                    alert(alValue);
+                }
+                var newPattern = new RegExp($(this).prop('name')+'(.*?)&','g');
+                if($(this).is(':checked')){
+                    newParam = alValue+','+value;
+                    newUrl =    url.replace(newPattern,$(this).prop('name')+'='+newParam+'&');
+                }
+                else{
+                    newParam = alValue;
+                    newUrl =    url.replace(newPattern,$(this).prop('name')+'='+newParam+'&');
+                }
             }
         window.location.href =newUrl;
     });
