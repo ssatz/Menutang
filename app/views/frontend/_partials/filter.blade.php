@@ -64,13 +64,13 @@
                 <div id="cuisine" class="collapse in">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="cuisineType" @if(Input::get('cuisineType')) checked @endif value="all"> All
+                            <input type="checkbox" name="cuisineType" @if(preg_match('/all/i',Input::get('cuisineType')) || !Input::get('cuisineType')) checked @endif value="all"> All
                         </label>
                     </div>
                     @foreach($cuisinetype as $type)
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="cuisineType"  value="{{$type->cuisine_code}}"> {{$type->cuisine_description}}
+                            <input type="checkbox" name="cuisineType" @if(preg_match('/'.$type->cuisine_code.'/i',Input::get('cuisineType'))) checked @endif  value="{{$type->cuisine_code}}"> {{$type->cuisine_description}}
                         </label>
                      </div>
                     @endforeach
@@ -83,16 +83,17 @@
                 <a href="javascript:void(0)" data-toggle="collapse" data-target="#payment">
                     <h5>Payment Method</h5>
                 </a>
-                <div id="payment" class="collapse">
+                <div id="payment" class="collapse @if(Input::get('paymentType')) in @endif">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="paymentType" checked value="all"> All
+                            <input type="checkbox" name="paymentType" @if(preg_match('/all/i',Input::get('paymentType')) || !Input::get('paymentType'))
+                                   checked @endif  value="all"> All
                         </label>
                     </div>
                     @foreach($paymenttype as $type)
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="paymentType"  value="{{$type->payment_code}}"> {{ucfirst($type->payment_description)}}
+                            <input type="checkbox" name="paymentType" @if(preg_match('/'.$type->payment_code.'/i',Input::get('paymentType')))  checked @endif  value="{{$type->payment_code}}"> {{ucfirst($type->payment_description)}}
                         </label>
                     </div>
                     @endforeach
@@ -149,7 +150,6 @@ $(function() {
                 var pattern =  new RegExp('('+value+',?|$)','g')
                 if(pattern.test(alValue)){
                     alValue =  alValue.replace(pattern,'');
-                    alert(alValue);
                 }
                 var newPattern = new RegExp($(this).prop('name')+'(.*?)&','g');
                 if($(this).is(':checked')){
