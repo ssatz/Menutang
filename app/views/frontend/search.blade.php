@@ -50,7 +50,7 @@
                     @replaceComma($type)
                 </td>
                 <td>Fast</td>
-                <td>{{$buDetails->minimum_delivery_amt}}</td>
+                <td><span class="badge"><i class="fa fa-inr"></i>{{$buDetails->minimum_delivery_amt}}</span></td>
                 <td>
                     <ul class="list-unstyled">
                         <li>First Order</li>
