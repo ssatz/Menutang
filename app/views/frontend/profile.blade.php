@@ -628,6 +628,7 @@
 <script src="{{asset('assets/common/js/knockout.min-3.3.0.js')}}"></script>
 <script src="{{asset('assets/common/js/knockout.validation.min.js')}}"></script>
 <!-- Theme Scripts -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 <script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
 <script src="{{asset('assets/common/js/jquery.bootstrap-touchspin.min.js')}}"></script>
 <script src="{{asset('assets/common/js/app/frontend.js')}}"></script>
