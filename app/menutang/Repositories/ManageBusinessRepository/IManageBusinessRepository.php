@@ -48,14 +48,14 @@ interface IManageBusinessRepository
      * @param $locality
      * @return mixed
      */
-    public function findByLocality($locality);
+    public function findByLocality($locality,$business=null,$serviceType=null,$cuisineType=null,$paymentType=null);
 
     /**
      * @param $locality
      * @param $area
      * @return mixed
      */
-    public function findByArea($locality,$area);
+    public function findByArea($locality,$area,$business=null,$serviceType=null,$cuisineType=null,$paymentType=null);
 
     /**
      * @param $name

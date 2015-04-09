@@ -14,6 +14,7 @@ namespace Services;
 use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use Repositories\MenuCategoryRepository\IMenuCategoryRepository;
 use Repositories\BusinessTypeRepository\IBusinessTypeRepository;
+use Illuminate\Support\Facades\Input;
 
 
 class FrontEndManager {
@@ -52,13 +53,13 @@ class FrontEndManager {
      * @param null $area
      * @return mixed
      */
-    public function searchQuery($locality,$area=null)
+    public function searchQuery($locality,$area=null,$business,$serviceType,$cuisineType,$paymentType)
     {
         if(is_null($area))
         {
-            return $this->buManager->findByLocality($locality);
+            return $this->buManager->findByLocality($locality,$business,$serviceType,$cuisineType,$paymentType);
         }
-        return $this->buManager->findByArea($locality,$area);
+        return $this->buManager->findByArea($locality,$area,$business,$serviceType,$cuisineType,$paymentType);
     }
 
     /**

@@ -73,7 +73,7 @@ class BusinessInfo extends Eloquent
      */
     public function  business()
     {
-        return $this->belongsTo('BusinessType');
+        return $this->belongsTo('BusinessType','business_type_id');
     }
 
     /**

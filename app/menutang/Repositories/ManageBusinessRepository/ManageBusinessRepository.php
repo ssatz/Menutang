@@ -13,8 +13,10 @@ namespace Repositories\ManageBusinessRepository;
 
 use BusinessInfo;
 use Illuminate\Database\DatabaseManager;
+use Illuminate\Support\Facades\Cache;
 use Repositories\BaseRepository;
 use Services\Cache\ICacheService;
+use Services\DeliveryOptionEnum;
 use Services\Helper;
 use DeliveryArea;
 use BusinessAddress;
@@ -22,6 +24,7 @@ use BusinessHours;
 use BusinessPhoto;
 use Intervention\Image\ImageManager;
 use Illuminate\Filesystem\Filesystem;
+use Services\SearchEnum;
 use Services\WeekdaysEnum;
 
 
@@ -157,7 +160,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
                 }
             }
         }
-
+        if(isset($input['cuisines_types']))
         if(!is_null($input['cuisines_types'])) {
             $businessInfo->cuisineType()->sync($input['cuisines_types'],false);
         }
@@ -197,16 +200,39 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      * @param $locality
      * @return mixed
      */
-    public function findByLocality($locality)
+    public function findByLocality($locality,$business=null,$serviceType=null,$cuisineType=null,$paymentType=null)
     {
-       $businessInfo=  $this->model->with('businessHours','cuisineType','address')->whereHas('address',function($q) use($locality)
+
+       $businessInfo=  $this->model->with('businessHours','business','cuisineType','address')->whereHas('address',function($q) use($locality)
        {
             $q->whereHas('city',function($q) use($locality)
             {
                 $q->where('city_description','=',$locality);
             });
-       })->remember(10)->paginate(15);
-        return $businessInfo;
+       })->whereHas('business',function($q)use($business,$cuisineType)
+       {
+           if(is_null($business) || $business==SearchEnum::ALL()) {
+              return $q;
+           }
+           else{
+               $q->where('business_code','=',$business);
+           }
+
+       })->whereHas('payment',function($q)use($paymentType){
+           if(is_null($paymentType) || $paymentType==SearchEnum::ALL()) {
+               return $q;
+           }
+           else{
+              $q->whereIn('payment_code',[$paymentType]);
+           }
+        });
+        if(!is_null($serviceType) && DeliveryOptionEnum::DELIVERY ==ucfirst(strtolower($serviceType)) ){
+            $businessInfo = $businessInfo->where('is_door_delivery',true)->where('is_pickup_available',false);
+        }
+        if(!is_null($serviceType) && DeliveryOptionEnum::PICKUP == ucfirst(strtolower($serviceType)) ){
+            $businessInfo = $businessInfo->where('is_door_delivery',false)->where('is_pickup_available',true);
+        }
+        return $businessInfo->remember(10)->paginate(15);
     }
 
     /**
@@ -214,10 +240,11 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      * @param $area
      * @return mixed
      */
-    public function findByArea($locality, $area)
+    public function findByArea($locality, $area,$business=null,$serviceType=null,$cuisineType=null,$paymentType=null)
     {
         $area = explode('-',$area);
-        $businessInfo=  $this->model->with('businessHours','cuisineType','address','deliveryArea')->whereHas('address',function($q) use($locality)
+        $businessInfo=  $this->model->with('businessHours','business','cuisineType','address','deliveryArea')
+            ->whereHas('address',function($q) use($locality)
         {
             $q->whereHas('city',function($q) use($locality)
             {
@@ -226,9 +253,30 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         })->whereHas('deliveryArea',function($q) use($area)
         {
             $q->where('area','LIKE','%'.$area[0].'%');
+        })->whereHas('business',function($q)use($business,$cuisineType)
+            {
+                if(is_null($business) || $business==SearchEnum::ALL()) {
+                    return $q;
+                }
+                else{
+                    $q->where('business_code','=',$business);
+                }
+
+            })->whereHas('payment',function($q)use($paymentType){
+                if(is_null($paymentType) || $paymentType==SearchEnum::ALL()) {
+                    return $q;
+                }
+                else{
+                    $q->whereIn('payment_code',[$paymentType]);
+                }
+            });
+        if(!is_null($serviceType) && DeliveryOptionEnum::DELIVERY ==ucfirst(strtolower($serviceType)) ){
+            $businessInfo = $businessInfo->where('is_door_delivery',true)->where('is_pickup_available',false);
         }
-        )->remember(10)->paginate(15);
-        return $businessInfo;
+        if(!is_null($serviceType) && DeliveryOptionEnum::PICKUP == ucfirst(strtolower($serviceType)) ){
+            $businessInfo = $businessInfo->where('is_door_delivery',false)->where('is_pickup_available',true);
+        }
+        return $businessInfo->remember(10)->paginate(15);
     }
 
     /**
@@ -335,7 +383,9 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
             }
         }
 
-        if(!is_null($input['cuisines_types'])) {
+
+        if(isset($input['cuisines_types']))
+            if(!is_null($input['cuisines_types'])) {
             $businessInfo->cuisineType()->attach($input['cuisines_types']);
         }
 

@@ -1,3 +1,7 @@
+<?php use Services\SearchEnum;
+$all = SearchEnum::ALL();
+?>
+
 <div class="col-lg-2 col-md-2 col-sm-3 hidden-xs">
     <!-- Menu Navigation -->
     <div class="search-side-menu side-menu">
@@ -19,8 +23,8 @@
                 <div id="type" class="collapse in">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="buType"  value="All"
-                                   @if(Input::get('buType')=='All' || !Input::get('buType')) checked @endif   >All
+                            <input type="radio" name="buType"  value="{{$all}}"
+                                   @if(Input::get('buType')== $all || !Input::get('buType')) checked @endif>All
                         </label>
                     </div>
                     @foreach($butype as $type)
@@ -43,7 +47,7 @@
                 <div id="service" class="collapse in">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="serviceType" @if(Input::get('serviceType')=='All' || !Input::get('serviceType')) checked @endif  value="All"> All
+                            <input type="radio" name="serviceType" @if(Input::get('serviceType')==$all || !Input::get('serviceType')) checked @endif  value="{{$all}}"> All
                         </label>
                     </div>
                     @foreach($servicetype as $key => $type)
@@ -64,13 +68,13 @@
                 <div id="cuisine" class="collapse in">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="cuisineType" @if(preg_match('/all/i',Input::get('cuisineType')) || !Input::get('cuisineType')) checked @endif value="all"> All
+                            <input type="checkbox" name="cuisineType" @if(preg_match('/'.$all.'/i',Input::get('cuisineType')) || !Input::get('cuisineType')) checked @endif value="{{$all}}"> All
                         </label>
                     </div>
                     @foreach($cuisinetype as $type)
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="cuisineType" @if(preg_match('/'.$type->cuisine_code.'/i',Input::get('cuisineType'))) checked @endif  value="{{$type->cuisine_code}}"> {{$type->cuisine_description}}
+                            <input type="checkbox" name="cuisineType" @if(preg_match('/'.$type->cuisine_code.'/',Input::get('cuisineType'))) checked @endif  value="{{$type->cuisine_code}}"> {{$type->cuisine_description}}
                         </label>
                      </div>
                     @endforeach
@@ -86,14 +90,14 @@
                 <div id="payment" class="collapse @if(Input::get('paymentType')) in @endif">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="paymentType" @if(preg_match('/all/i',Input::get('paymentType')) || !Input::get('paymentType'))
-                                   checked @endif  value="all"> All
+                            <input type="checkbox" name="paymentType" @if(preg_match('/'.$all.'/i',Input::get('paymentType')) || !Input::get('paymentType'))
+                                   checked @endif  value="{{$all}}"> All
                         </label>
                     </div>
                     @foreach($paymenttype as $type)
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="paymentType" @if(preg_match('/'.$type->payment_code.'/i',Input::get('paymentType')))  checked @endif  value="{{$type->payment_code}}"> {{ucfirst($type->payment_description)}}
+                            <input type="checkbox" name="paymentType" @if(preg_match('/'.$type->payment_code.'/',Input::get('paymentType')))  checked @endif  value="{{$type->payment_code}}"> {{ucfirst($type->payment_description)}}
                         </label>
                     </div>
                     @endforeach
@@ -139,8 +143,12 @@ $(function() {
             var url=window.location.href,
             seperator = (url.indexOf("?")===-1)?"?":"";
            var newUrl;
-            if(getUrlVars()[$(this).prop('name')] ==undefined || value=='All')
+            if(value.toLowerCase()=='all' || getUrlVars()[$(this).prop('name')] ==undefined)
             {
+                    var pattern =  new RegExp('('+$(this).prop('name')+'.*?)&','g')
+                    if(pattern.test(url)){
+                        url =  url.replace(pattern,'');
+                    }
                 newParam =seperator + $(this).prop('name')+'='+ $(this).val()+'&';
                 url+=newParam;
                 newUrl = url;
