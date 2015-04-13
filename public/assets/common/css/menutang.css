@@ -1920,3 +1920,9 @@
         color: #fff;
     }
 }
+.validationMessage {
+    color: #f00;
+}
+.padR40{
+    padding-right: 40px;
+}

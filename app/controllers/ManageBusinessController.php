@@ -15,6 +15,7 @@ use Illuminate\Translation\Translator;
 use Services\BusinessManager;
 use Services\TimeCategoryEnum;
 use Services\WeekdaysEnum;
+use Illuminate\Support\Facades\Response;
 
 
 class ManageBusinessController extends BaseController
@@ -39,6 +40,7 @@ class ManageBusinessController extends BaseController
      * @var Translator
      */
     protected $translator;
+    protected $response;
 
     /**
      * @var Application
@@ -53,13 +55,15 @@ class ManageBusinessController extends BaseController
     /**
      * @param BusinessManager $manage
      */
-    public function __construct(BusinessManager $manage, Request $request, Redirector $redirector, Translator $translator, Application $app)
+    public function __construct(BusinessManager $manage, Request $request, Redirector $redirector,
+                                Translator $translator, Application $app,Response $response)
     {
         $this->app = $app;
         $this->manage = $manage;
         $this->request = $request;
         $this->redirector = $redirector;
         $this->translator = $translator;
+        $this->response = $response;
         $this->view = $this->app->make('view');
     }
 
@@ -258,5 +262,14 @@ class ManageBusinessController extends BaseController
     {
         $this->viewShareSlug($slug);
         return $this->view->make('admin.holidays');
+    }
+
+    public function timeDay()
+    {
+        $data = [
+            'time'=> $this->manage->getAllBusinessTimes(),
+            'day' => $this->manage->getAllWeekDays(),
+        ];
+        return $this->response->json($data);
     }
 }

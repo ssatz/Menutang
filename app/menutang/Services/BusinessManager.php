@@ -31,6 +31,7 @@ use Maatwebsite\Excel\Excel;
 use Services\Validations\MenuUploadValidator;
 use Repositories\BusinessHoursRepository\IBusinessHoursRepository;
 use Repositories\TimeCategoryRepository\ITimeCategoryRepository;
+use Repositories\WeekdaysRepository\IWeekdaysRepository;
 
 
 class BusinessManager
@@ -124,6 +125,7 @@ class BusinessManager
     protected $businessHours;
 
     protected $businessTimes;
+    protected $weekdays;
     /**
      * @param IManageBusinessRepository $manageBusiness
      * @param ICacheService $cacheService
@@ -155,6 +157,7 @@ class BusinessManager
                                 IStatusRepository $statusRepository,
                                 MenuUploadValidator $menuUploadValidator,
                                 ITimeCategoryRepository $timeCategoryRepository,
+                                IWeekdaysRepository $weekdaysRepository,
                                 Excel $excel)
     {
         $this->manageBusiness = $manageBusiness;
@@ -175,6 +178,7 @@ class BusinessManager
         $this->menuUploadValidator = $menuUploadValidator;
         $this->businessHours = $businessHoursRepository;
         $this->businessTimes = $timeCategoryRepository;
+        $this->weekdays = $weekdaysRepository;
     }
 
     /**
@@ -204,7 +208,10 @@ class BusinessManager
     {
         return $this->manageCity->getAll();
     }
-
+    public function getAllWeekDays()
+    {
+        return $this->weekdays->getAll();
+    }
     /**
      * @return mixed
      */

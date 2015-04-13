@@ -13,14 +13,15 @@ namespace Repositories\WeekdaysRepository;
 
 use Repositories\BaseRepository;
 use Services\Cache\ICacheService;
+use WeekDays;
 
 class WeekdaysRepository extends BaseRepository implements IWeekdaysRepository {
     /**
      * @param City $manageCity
      */
-    public function __construct(City $manageCity, ICacheService $cache)
+    public function __construct(WeekDays $weekDays, ICacheService $cache)
     {
-        $cache->tag(get_class($manageCity));
-        parent::__construct($manageCity, $cache);
+        $cache->tag(get_class($weekDays));
+        parent::__construct($weekDays, $cache);
     }
 }

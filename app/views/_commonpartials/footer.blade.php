@@ -1,5 +1,4 @@
-<footer>
-			<div class="row">
+<footer>			<div class="row">
 				<div class="col-sm-6">
 					<span class="footer-brand">
 						<strong class="text-danger">menutang</strong> Admin
