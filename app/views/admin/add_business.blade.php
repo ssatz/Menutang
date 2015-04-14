@@ -365,12 +365,15 @@
                         <div class="form-group">
 
                             <label class="control-label col-lg-2">Logo Upload</label>
-                                    <input type="file" accept="image/*" data-bind="file: imageFile, fileObjectURL: imageObjectURL, fileBinaryData: imageBinary"/>
+                            <div data-bind="fileDrag: fileData">
+                                <div class="image-upload-preview">
+                                    <img data-bind="attr: { src: fileData().dataURL }, visible: fileData().dataURL">
+                                </div>
+                                <div class="image-upload-input">
+                                    <input type="file" data-bind="fileInput: fileData, , customFileInput: {}">
+                                </div>
+                            </div>
                         </div>
-                        <div data-bind="if: imageObjectURL">
-                                <img class="thumb"  data-bind="attr: { src: imageObjectURL }"/>
-                        </div>
-
                     </div>
                     <div class="tab-pane fade" id="address">
                         <div class="form-group">
@@ -490,6 +493,8 @@
 @section('css')
 <link href="{{asset('assets/common/css/chosen/chosen.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/common/css/jquery.timepicker.css')}}" rel="stylesheet">
+<link href="{{asset('assets/common/css/knockout-file-bindings.css')}}" rel="stylesheet">
+
 @endsection
 @section('scripts')
 <script src="{{asset('assets/common/js/knockout.min-3.3.0.js')}}"></script>
@@ -505,6 +510,12 @@
             businessVM.day(data.day);
             console.log(data);
         });
+
     });
+    function postAjax(data){
+        $.post('{{action('ManageBusinessController@addBusinessInfo')}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
+            businessVM.removeAll();
+        }, 'json');
+    }
 </script>
 @endsection

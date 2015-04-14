@@ -10,7 +10,6 @@
 
 namespace Repositories\ManageBusinessRepository;
 
-
 interface IManageBusinessRepository
 {
 

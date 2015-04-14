@@ -13,7 +13,6 @@ namespace Repositories\ManageBusinessRepository;
 
 use BusinessInfo;
 use Illuminate\Database\DatabaseManager;
-use Illuminate\Support\Facades\Cache;
 use Repositories\BaseRepository;
 use Services\Cache\ICacheService;
 use Services\DeliveryOptionEnum;
@@ -26,6 +25,8 @@ use Intervention\Image\ImageManager;
 use Illuminate\Filesystem\Filesystem;
 use Services\SearchEnum;
 use Services\WeekdaysEnum;
+use stdClass;
+use TijsVerkoyen\CssToInlineStyles\Exception;
 
 
 class ManageBusinessRepository extends BaseRepository implements IManageBusinessRepository
@@ -293,115 +294,46 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function insert(array $input)
     {
-        $businessInfo = new $this->model;
-        $businessInfo->business_name = $input['business_name'];
-        $businessInfo->budget = $input['budget'];
-        /*Always Restaurants should come First */
-        $businessInfo->business_type_id = $input['business_type_id'];
-        $businessInfo->is_outdoor_catering = $input['is_outdoor_catering'];
-        $businessInfo->outdoor_catering_comments = $input['outdoor_catering_comments'];
-        $businessInfo->is_door_delivery = $input['is_door_delivery'];
-        $businessInfo->minimum_delivery_amt = $input['is_door_delivery'] ? $input['minimum_delivery_amt'] : 0.00;
-        $businessInfo->is_rail_delivery = $input['is_rail_delivery'];
-        $businessInfo->minimum_rail_deli_amt = $input['is_rail_delivery'] ? $input['minimum_rail_deli_amt'] : 0.00;
-        $businessInfo->is_pickup_available = $input['is_pickup_available'];
-        $businessInfo->minimum_pickup_amt = $input['is_pickup_available'] ? $input['minimum_pickup_amt'] : 0.00;
-        $businessInfo->is_party_hall = $input['is_party_hall'];
-        $businessInfo->party_hall_comments = $input['party_hall_comments'];
-        $businessInfo->is_buffet = $input['is_buffet'];
-        $businessInfo->is_midnight_buffet = $input['is_midnight_buffet'];
-        $businessInfo->is_wifi_available = $input['is_wifi_available'];
-        $businessInfo->is_children_play_area = $input['is_children_play_area'];
-        $businessInfo->is_garden_restaurant = $input['is_garden_restaurant'];
-        $businessInfo->is_roof_top = $input['is_roof_top'];
-        $businessInfo->is_valet_parking = $input['is_valet_parking'];
-        $businessInfo->is_boarding = $input['is_boarding'];
-        $businessInfo->boarding_comments = $input['boarding_comments'];
-        $businessInfo->is_bar_attached = $input['is_bar_attached'];
-        $businessInfo->is_highway_res = $input['is_highway_res'];
-        $businessInfo->highway_details = $input['highway_details'];
-        $businessInfo->website = $input['website'];
-        $businessInfo->avg_delivery_time = $input['avg_delivery_time'];
-        $businessInfo->ischeckout_enable = $input['ischeckout_enable'];
-        $businessInfo->status_id = $input['status_id'];
-        $businessInfo->business_about = $input['business_about'];
-        $businessInfo->save();
-        $slug = $this->slug($input['business_name']);
-        if (!empty($this->findBusinessBySlug($slug))) {
-            $slug = $slug . '-' . $businessInfo->id;
-        }
-        $buuniqueId = $this->dbManager->table('business_type')->where('id', $input['business_type_id'])->pluck('business_code');
-        $buuniqueId =$buuniqueId.'00000'.$businessInfo->id;
+            $businessInfo = $this->model->create($input['businessInfo']);
+            $slug = $this->slug($input['businessInfo']['business_name']);
+            if (!empty($this->findBusinessBySlug($slug))) {
+                $slug = $slug . '-' . $businessInfo->id;
+            }
+            $buUniqueId = $this->dbManager->table('business_type')->where('id', (int)$input['businessInfo']['business_type_id'])->pluck('business_code');
+            $buUniqueId = $buUniqueId . '00000' . $businessInfo->id;
 
-        $businessInfo->fill(['business_slug' => $slug,'business_unique_id'=>$buuniqueId]);
-        $businessInfo->save();
+            $businessInfo->fill(['business_slug' => $slug, 'business_unique_id' => $buUniqueId]);
+            $businessInfo->save();
+            $businessInfo->cuisineType()->attach($input['cuisineType']);
+            $address = new BusinessAddress();
+            $address->city_id = $input['address']['city_id'];
+            $address->address_line_1 = $input['address']['address_line_1'];
+            $address->address_line_2 = $input['address']['address_line_2'];
+            $address->address_landmark = $input['address']['address_landmark'];
+            $address->address_gps_location = $input['address']['address_gps_location'];
+            $address->postal_code = $input['address']['postal_code'];
+            $address->mobile = $input['address']['mobile'];
+            $businessInfo->address()->save($address);
+            $businessInfo->payment()->attach($input['payments']);
+            foreach ($input['time'] as $key => $value) {
+                $hours = new BusinessHours([
+                    'business_info_id' => $businessInfo->id,
+                    'time_category_id' => $value['time_category_id'],
+                    'open_time' => $value['open_time'],
+                    'close_time' => $value['close_time']
+                ]);
+                $businessInfo->businessHours()->save($hours);
+                $hours->weekDays()->attach($value['day']);
+            }
+
         if(!$this->fileHelper->isDirectory(public_path('uploads/'.$slug))) {
             $this->fileHelper->makeDirectory(public_path('uploads/' . $slug), 0775);
         }
-        $this->imageHelper->make($input['fileToUpload']->getRealPath())->resize(75, 75)->save(public_path('uploads/'.$slug.'/logo75.png'));
-        $this->imageHelper->make($input['fileToUpload']->getRealPath())->resize(220, 220)->save(public_path('uploads/'.$slug.'/logo220.png'));
+        $this->imageHelper->make($input['fileData']->dataURL)->resize(75, 75)->save(public_path('uploads/'.$slug.'/logo75.png'));
+        $this->imageHelper->make($input['fileData']->dataURL)->resize(220, 220)->save(public_path('uploads/'.$slug.'/logo220.png'));
 
         $image = new BusinessPhoto();
         $image->business_info_id =$businessInfo->id;
         $image->image_name = 'logo75.png';
-
-
-        $businessInfo->businessPhoto()->save($image);
-
-        $address = new BusinessAddress();
-        $address->city_id = $input['city_id'];
-        $address->address_line_1 = $input['address_line_1'];
-        $address->address_line_2 = $input['address_line_2'];
-        $address->address_landmark = $input['address_landmark'];
-        $address->address_gps_location = $input['address_gps_location'];
-        $address->postal_code = $input['postal_code'];
-        $address->mobile = $input['mobile'];
-        $businessInfo->address()->save($address);
-
-        $businessInfo->payment()->attach($input['payments']);
-
-        foreach($input['hours'] as $key => $value)
-        {
-
-            if(isset($input['hours'][$key]['available']))
-            {
-                $hours = new BusinessHours([
-                    'business_info_id'=>$businessInfo->id,
-                    'time_category_id'=>(int) $input['hours'][$key]['available'],
-                    'open_time'=>$this->helper->timeConverter($input['hours'][$key]['open_time'], "H:i:s"),
-                    'close_time'=>$this->helper->timeConverter($input['hours'][$key]['close_time'], "H:i:s"),
-                ]);
-                $businessInfo->businessHours()->save($hours);
-                $weekDays=[];
-                foreach(WeekdaysEnum::toArray() as $dayKey => $dayValue)
-                {
-                    if(isset($input['hours'][$key][strtolower($dayKey)])) {
-                        $weekDays[] = $dayValue;
-                    }
-                }
-                $hours->weekDays()->attach($weekDays);
-            }
-        }
-
-
-        if(isset($input['cuisines_types']))
-            if(!is_null($input['cuisines_types'])) {
-            $businessInfo->cuisineType()->attach($input['cuisines_types']);
-        }
-
-        $deliveryAreaId = [];
-        foreach ($input['delivery_area'] as $area) {
-            $deliveryArea = DeliveryArea::find($area['id']);
-            if(is_null($deliveryArea)) {
-                $deliveryArea = new DeliveryArea();
-                $deliveryArea->area =(string)$area['area'];
-                $deliveryArea->area_pincode = (int)$area['pincode'];
-                $deliveryArea->city_id = (int)$address->city_id;
-                $deliveryArea->save();
-            }
-            array_push($deliveryAreaId, $deliveryArea->id);
-
-        }
-        $businessInfo->deliveryArea()->attach(array_unique($deliveryAreaId));
-    }
+      }
 }

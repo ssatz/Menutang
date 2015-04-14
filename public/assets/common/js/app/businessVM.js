@@ -43,6 +43,7 @@ ko.validation.rules['url'] = {
 };
 ko.validation.registerExtenders();
 ko.validation.init({insertMessages: false});
+ko.validation.init( { grouping: { deep: true } } )
 var businessVM = {
     businessName : ko.observable('').extend({ required: true,
                                                 pattern: {
@@ -106,20 +107,27 @@ var businessVM = {
             params: '^[7-9][0-9]{9}$'
         }
     }),
-    imageFile:ko.observable(),
-    imageObjectURL:ko.observable(),
-    imageBinary:ko.observable(),
     timeDay:ko.observableArray().extend({required:true}),
     time:ko.observableArray(),
     day:ko.observableArray(),
     payments:ko.observableArray().extend({required:true}),
     addDeliveryArea:function(model,event){
         businessVM.deliveryArea.push({
-            area:ko.observable('').extend({
-                required:true
-            }),
-            pincode:ko.observable('').extend({
-                required: true,
+            area:ko.observable().extend({required:{ onlyIf:function(){
+                if(businessVM.doorDelivery()=='true'){
+                    return true;
+                }
+
+            }
+            }}),
+            pincode:ko.observable().extend({
+                required: { onlyIf:function(){
+                    if(businessVM.doorDelivery()=='true'){
+                        return true;
+                    }
+
+                }
+                },
                 pattern: {
                     message: 'should have only 6 digits',
                     params: '^([1-9])([0-9]){5}$'
@@ -155,27 +163,37 @@ var businessVM = {
     },
     submit: function() {
         if (businessVM.errors().length === 0) {
-           console.log(ko.toJSON(businessVM));
+            console.log('sathish');
+            postAjax(ko.toJSON(businessVM));
         }
         else {
             businessVM.errors.showAllMessages();
-            console.log( businessVM.errors.showAllMessages());
         }
     }
 }
 
-businessVM.minimumDeliveryAmount=ko.observable().extend({ required: { onlyIf: function() {
+businessVM.minimumDeliveryAmount=ko.observable(0).extend({ required: { onlyIf: function() {
     if(businessVM.doorDelivery()==='true' )
     {
         return true;
     }
 } } });
 businessVM.deliveryArea=ko.observableArray([{
-    area:ko.observable('').extend({
-        required:true
-    }),
-    pincode:ko.observable('').extend({
-        required: true,
+    area:ko.observable().extend({required:{ onlyIf:function(){
+        if(businessVM.doorDelivery()=='true'){
+            return true;
+        }
+
+    }
+    }}),
+    pincode:ko.observable().extend({
+        required: { onlyIf:function(){
+            if(businessVM.doorDelivery()=='true'){
+                return true;
+            }
+
+        }
+        },
         pattern: {
             message: 'should have only 6 digits',
             params: '^([1-9])([0-9]){5}$'
@@ -188,13 +206,13 @@ businessVM.deliveryArea=ko.observableArray([{
 
 }
 }});
-businessVM.minimumRailDeliveryAmount=ko.observable().extend({ required: { onlyIf: function() {
+businessVM.minimumRailDeliveryAmount=ko.observable(0).extend({ required: { onlyIf: function() {
     if(businessVM.railDelivery()==='true' )
     {
         return true;
     }
 } } });
-businessVM.minimumPickupAmount=ko.observable().extend({ required: { onlyIf: function() {
+businessVM.minimumPickupAmount=ko.observable(0).extend({ required: { onlyIf: function() {
     if(businessVM.pickupAvailable()==='true' )
     {
         return true;
@@ -224,7 +242,17 @@ businessVM.highwayRestaurantDetails=ko.observable().extend({ required: { onlyIf:
         return true;
     }
 } } });
-
+businessVM.isdeliveryEnable= ko.observable(function () {
+    console.log('sathish');
+    if(businessVM.doorDelivery()=='true'){
+        return true;
+    }
+   return businessVM.deliveryArea([]);
+});
+businessVM.fileData = ko.observable({
+    file: ko.observable(),
+    dataURL: ko.observable()
+});
 ko.components.register('timehr-template', {
     viewModel: function(params) {
         var self=this;

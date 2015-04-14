@@ -40,6 +40,9 @@ class ManageBusinessController extends BaseController
      * @var Translator
      */
     protected $translator;
+    /**
+     * @var Response
+     */
     protected $response;
 
     /**
@@ -177,6 +180,11 @@ class ManageBusinessController extends BaseController
         return $this->redirector->back()->withErrors($this->manage->errors)->withInput();
     }
 
+    /**
+     * @param $slug
+     * @return $this
+     * @throws Exception
+     */
     public function upload($slug)
     {
        if($this->manage->uploadMenu($this->request->all(),$slug))
@@ -187,6 +195,12 @@ class ManageBusinessController extends BaseController
         return $this->redirector->to($slug.'/menu/add-item')
                                 ->withErrors($this->manage->errors);
     }
+
+    /**
+     * @param $slug
+     * @return $this
+     * @throws Exception
+     */
     public function editItem($slug)
     {
         $this->viewShareSlug($slug);
@@ -233,10 +247,13 @@ class ManageBusinessController extends BaseController
                 ->withDeliveryarea($deliveryArea)
                 ->withCusinetypes($cuisineType);
         }
-        if ($this->manage->insertBusinessInfo($this->request->all())) {
-            return $this->redirector->back()->withMessage($this->translator->get('business.success'));
+        if($this->request->ajax()&& $this->request->isMethod('POST')){
+            $data= $this->request->get('data');
+           if(!$this->manage->insertBusinessInfo(json_decode($data))){
+               return $this->response->json($this->manage->errors);
+           }
         }
-        return $this->redirector->back()->withErrors($this->manage->errors)->withInput();
+
     }
 
     /**
@@ -258,12 +275,19 @@ class ManageBusinessController extends BaseController
         }
     }
 
+    /**
+     * @param $slug
+     * @return mixed
+     */
     public function addORUpdateHolidays($slug)
     {
         $this->viewShareSlug($slug);
         return $this->view->make('admin.holidays');
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function timeDay()
     {
         $data = [
