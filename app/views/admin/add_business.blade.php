@@ -17,6 +17,7 @@
                 </ul>
                 <div class="tab-content" style="width: 250px;">
                     <div class="tab-pane fade in active" id="business">
+                        <div style="margin: 20px;width: 250px">
                         <div class="form-group">
                             <label for="businessName">Business Name<i class="validationMessage">*</i></label>
                             <input type="text" tabindex="1" class="form-control input-sm" data-bind="value:businessName" id="businessName" placeholder="Business Name">
@@ -35,11 +36,7 @@
                         </div>
                         <div class="form-group">
                             <label for="businessType">Cuisine Type</label>
-                            <select data-bind=" chosen: {width: '100%'},selectedOptions:cuisineType" tabindex="3">
-                                <option value="-1">-- select --</option>
-                                @foreach($cusinetypes as $cuisineType)
-                                <option value="{{$cuisineType->id}}">{{$cuisineType->cuisine_description}}</option>
-                                @endforeach
+                            <select data-bind="options:cuisinesData,optionsText:'cuisine_description',value:'id',optionsCaption: 'Select...',selectedOptions:cuisineType" tabindex="3">
                             </select>
                             <p class="validationMessage" data-bind="validationMessage: cuisineType"></p>
                         </div>
@@ -360,9 +357,10 @@
                             </label>
                             <p class="validationMessage" data-bind="validationMessage: checkOutEnable"></p>
                         </div>
+                            </div>
                     </div>
                     <div class="tab-pane fade" id="logo">
-                        <div class="form-group">
+                        <div class="form-group" style="margin: 20px">
 
                             <label class="control-label col-lg-2">Logo Upload</label>
                             <div data-bind="fileDrag: fileData">
@@ -376,6 +374,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="address">
+                      <div style="margin: 20px;">
                         <div class="form-group">
                             <label for="businessAddress1">Business Address1</label>
                             <input type="text" tabindex="1" class="form-control input-sm" data-bind="value:businessAddress1"></textarea>
@@ -416,14 +415,16 @@
                                 </select>
                             <p class="validationMessage" data-bind="validationMessage: city"></p>
                         </div>
-
+                    </div>
                     </div>
                     <div class="tab-pane fade" id="timeday">
+                         <p class="alert alert-error" data-bind="validationMessage: timeDay"></p>
                         <!--ko foreach:time -->
                          <timehr-template params='category:category_description,timeCategory:id,callback:$root.addTime'></timehr-template >
                         <!--/ko -->
                     </div>
                     <div class="tab-pane fade" id="payment">
+                        <div style="margin: 20px">
                         <label for="">Payment</label>
                         <select multiple data-bind="chosen: {width: '100%'},selectedOptions:payments">
                             @foreach($payments as $payment)
@@ -431,23 +432,34 @@
                             @endforeach
                         </select>
                         <p class="validationMessage" data-bind="validationMessage: payments"></p>
+                         </div>
                     </div>
                     <div class="tab-pane fade" id="deliveryarea" data-bind="if:doorDelivery()=='true'">
-                        <table class="table table-responsive">
+                        <table class="table table-responsive" style="width:489px;margin: 20px">
                             <tr>
                                 <th>Area</th>
                                 <th>Pincode</th>
+                                <th>City</th>
                                 <th><button class="btn btn-success btn-sm" data-bind="click:$root.addDeliveryArea">Add</button></th>
                             </tr>
                             <tbody data-bind="foreach:deliveryArea">
                                 <tr>
                                     <td>
-                                        <input type="text" class="form-control input-sm" data-bind="value:area">
+                                        <input type="text" class="form-control input-sm" data-bind="typeahead:{url:'{{action('ManageBusinessController@deliveryAreaSearch')}}'},value:area">
                                         <p class="validationMessage" data-bind="validationMessage: area"></p>
                                     </td>
                                     <td>
                                         <input type="text" class="form-control input-sm" data-bind="value:pincode">
                                         <p class="validationMessage" data-bind="validationMessage: pincode"></p>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" tabindex="7" data-bind="chosen: {width: '100%'},selectedOptions:city">
+                                            <option value="-1">-- Select --</option>
+                                            @foreach($cities as $city)
+                                            <option value="{{$city->id}}">{{$city->city_description}}</option>
+                                            @endforeach
+                                        </select>
+                                        <p class="validationMessage" data-bind="validationMessage: city"></p>
                                     </td>
                                     <td><button class="btn btn-danger btn-sm" data-bind="click:$parent.removeDeliveryArea">Remove</button></td>
                                 </tr>
@@ -501,6 +513,8 @@
 <script src="{{asset('assets/common/js/knockout.validation.min.js')}}"></script>
 <script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
 <script src ="{{asset('assets/common/js/jquery.timepicker.min.js')}}"></script>
+<script src="{{asset('assets/common/js/typeahead.bundle.min.js')}}"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places"></script>
 <script src="{{asset('assets/common/js/app/fileUploadAPI.js')}}"></script>
 <script src="{{asset('assets/common/js/app/businessVM.js')}}"></script>
 <script type="text/javascript">
@@ -508,13 +522,14 @@
         $.getJSON("{{action('ManageBusinessController@timeDay')}}", null, function (data) {
             businessVM.time(data.time);
             businessVM.day(data.day);
-            console.log(data);
+            businessVM.cuisines(data.cuisineType)
         });
 
     });
     function postAjax(data){
         $.post('{{action('ManageBusinessController@addBusinessInfo')}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
-            businessVM.removeAll();
+        console.log(data);
+
         }, 'json');
     }
 </script>

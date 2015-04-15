@@ -153,7 +153,8 @@ class ManageBusinessController extends BaseController
      */
     public function deliveryAreaSearch()
     {
-        return $this->manage->deliverySearch();
+        $area = $this->request->get('q');
+        return $this->manage->deliverySearch($area);
     }
 
 
@@ -293,6 +294,7 @@ class ManageBusinessController extends BaseController
         $data = [
             'time'=> $this->manage->getAllBusinessTimes(),
             'day' => $this->manage->getAllWeekDays(),
+            'cuisineType'=>$this->manage->getAllCuisineType()
         ];
         return $this->response->json($data);
     }

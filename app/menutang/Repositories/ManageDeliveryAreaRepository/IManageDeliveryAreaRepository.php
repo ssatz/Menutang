@@ -15,5 +15,5 @@ interface IManageDeliveryAreaRepository {
 
     public function getAllPaginate($pagination);
 
-    public function searchDeliveryArea();
+    public function searchDeliveryArea($area);
 }

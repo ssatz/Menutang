@@ -335,5 +335,21 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         $image = new BusinessPhoto();
         $image->business_info_id =$businessInfo->id;
         $image->image_name = 'logo75.png';
+        $image->save();
+
+        $deliveryAreaId = [];
+        foreach ($input['deliveryArea'] as $area) {
+            $deliveryArea = DeliveryArea::find($area['id']);
+            if(is_null($deliveryArea)) {
+                $deliveryArea = new DeliveryArea();
+                $deliveryArea->area =(string)$area['area'];
+                $deliveryArea->area_pincode = (int)$area['pincode'];
+                $deliveryArea->city_id = (int)$area['city'];
+                $deliveryArea->save();
+            }
+            array_push($deliveryAreaId, $deliveryArea->id);
+
+        }
+        $businessInfo->deliveryArea()->attach(array_unique($deliveryAreaId));
       }
 }

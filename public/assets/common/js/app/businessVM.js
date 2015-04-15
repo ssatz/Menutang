@@ -1,34 +1,89 @@
 /**
  * Created by satz on 4/9/2015.
  */
-
-ko.bindingHandlers.chosen = {
-    init: function(element, valueAccessor, allBindings, viewModel, bindingContext){
+ko.bindingHandlers.typeahead =
+{
+    init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         var $element = $(element);
-        var options = ko.unwrap(valueAccessor());
+        var allBindings = allBindingsAccessor();
+        var url = ko.unwrap(valueAccessor().url);
+        var data = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('area'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            limit: 10,
+            remote: url+'?q=%QUERY'
+        });
+        data.initialize();
+        $(element).typeahead(null, {
+            name: 'deliveryArea',
+            displayKey: 'area',
+            source: data.ttAdapter()
 
-        if (typeof options === 'object')
-            $element.chosen(options);
+        }).bind("typeahead:selected", function(obj, datum, name) {
+            var id=obj.currentTarget.id.split('_')[2];
+            viewModel.area(datum.area);
+            viewModel.pincode(datum.area_pincode);
+            viewModel.id(datum.id);
+            viewModel.city(datum.city_id);
+        });
+    },
+    update: function(element, valueAccessor, allBindings) {
+        ko.bindingHandlers.value.update(element, valueAccessor);
+    }
+};
 
-        ['options', 'selectedOptions'].forEach(function(propName){
-            if (allBindings.has(propName)){
-                var prop = allBindings.get(propName);
-                if (ko.isObservable(prop)){
-                    prop.subscribe(function(){
-                        $element.trigger('chosen:updated');
-                    });
-                }
-            }
+ko.bindingHandlers.addressAutocomplete = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var value = valueAccessor(),
+            allBindings = allBindingsAccessor();
+
+        var options = {
+            componentRestrictions: {country: "in"}
+        };
+        ko.utils.extend(options, allBindings.autocompleteOptions)
+
+        var autocomplete = new google.maps.places.Autocomplete(element, options);
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            result = autocomplete.getPlace();
+            console.log(result);
+        });
+    },
+    update: function (element, valueAccessor, allBindingsAccessor) {
+        ko.bindingHandlers.value.update(element, valueAccessor);
+    }
+};
+ko.bindingHandlers.chosen = {
+    listenBindings: ['value', 'disable', 'options', 'foreach'],
+    init: function( element, valueAccessor, allBindings ) {
+        var options = ko.unwrap(valueAccessor()), $_ = $(element);
+        $_.chosen( $.extend( options, {
+            width: '100%'
+        } ) );
+
+        ko.computed(function() {
+            $.each(ko.bindingHandlers.chosen.listenBindings, function( i, binding ) {
+                var b = allBindings.get(binding);
+                b = $.isFunction(b) ? b() : b;
+                ko.unwrap(b);
+
+                $_.trigger('chosen:updated');
+            } );
+
+        }, null, { disposeWhenNodeIsRemoved: element });
+
+        ko.utils.domNodeDisposal.addDisposeCallback(element, function(node) {
+            $(node).chosen('destroy');
         });
     }
-}
+};
 ko.bindingHandlers.timePicker = {
     init: function(element, valueAccessor) {
         var options = ko.unwrap(valueAccessor());
         $(element).timepicker(options);
     },
     update: function(element, valueAccessor, allBindings) {
-
+        ko.bindingHandlers.value.update(element, valueAccessor);
     }
 };
 ko.validation.rules['url'] = {
@@ -107,9 +162,14 @@ var businessVM = {
             params: '^[7-9][0-9]{9}$'
         }
     }),
-    timeDay:ko.observableArray().extend({required:true}),
+    timeDay:ko.observableArray().extend({required:{
+        params:true,
+        message: 'At least one of the Time need to be Selected'
+    }}),
     time:ko.observableArray(),
     day:ko.observableArray(),
+    cuisines:ko.observableArray(),
+    cuisinesData:ko.observableArray(),
     payments:ko.observableArray().extend({required:true}),
     addDeliveryArea:function(model,event){
         businessVM.deliveryArea.push({
@@ -132,7 +192,9 @@ var businessVM = {
                     message: 'should have only 6 digits',
                     params: '^([1-9])([0-9]){5}$'
                 }
-            })
+            }),
+            city:ko.observable(-1).extend({required:true,notEqual:-1}),
+            id:ko.observable()
         });
         return true;
     },
@@ -163,7 +225,7 @@ var businessVM = {
     },
     submit: function() {
         if (businessVM.errors().length === 0) {
-            console.log('sathish');
+            console.log(ko.toJSON(businessVM));
             postAjax(ko.toJSON(businessVM));
         }
         else {
@@ -171,7 +233,15 @@ var businessVM = {
         }
     }
 }
-
+businessVM.businessType.subscribe(function(model){
+    businessVM.cuisinesData([]);
+    ko.utils.arrayForEach(businessVM.cuisines(), function(cu) {
+        if(cu.business_type_id == ko.toJS(parseInt(model)))
+        {
+            businessVM.cuisinesData.push(cu);
+        }
+    });
+});
 businessVM.minimumDeliveryAmount=ko.observable(0).extend({ required: { onlyIf: function() {
     if(businessVM.doorDelivery()==='true' )
     {
@@ -179,14 +249,14 @@ businessVM.minimumDeliveryAmount=ko.observable(0).extend({ required: { onlyIf: f
     }
 } } });
 businessVM.deliveryArea=ko.observableArray([{
-    area:ko.observable().extend({required:{ onlyIf:function(){
+    area:ko.observable(undefined).extend({required:{ onlyIf:function(){
         if(businessVM.doorDelivery()=='true'){
             return true;
         }
-
+        return false;
     }
     }}),
-    pincode:ko.observable().extend({
+    pincode:ko.observable(undefined).extend({
         required: { onlyIf:function(){
             if(businessVM.doorDelivery()=='true'){
                 return true;
@@ -198,7 +268,15 @@ businessVM.deliveryArea=ko.observableArray([{
             message: 'should have only 6 digits',
             params: '^([1-9])([0-9]){5}$'
         }
-    })
+    }),
+    city:ko.observable(undefined).extend({required:{ onlyIf:function(){
+        if(businessVM.doorDelivery()=='true'){
+            return true;
+        }
+
+    }
+    },notEqual:-1}),
+    id:ko.observable()
 }]).extend({required:{ onlyIf:function(){
  if(businessVM.doorDelivery()=='true'){
      return true;

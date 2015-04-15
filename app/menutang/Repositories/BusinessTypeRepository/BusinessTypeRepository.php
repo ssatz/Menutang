@@ -40,4 +40,9 @@ class BusinessTypeRepository extends BaseRepository implements IBusinessTypeRepo
         $this->cache->put($key, $types);
         return $types;
     }
+
+    public function getBUTypeWithCuisineType()
+    {
+       return $this->model->with('cuisineType')->get();
+    }
 }

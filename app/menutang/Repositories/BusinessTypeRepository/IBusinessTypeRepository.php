@@ -14,4 +14,5 @@ namespace Repositories\BusinessTypeRepository;
 interface IBusinessTypeRepository
 {
     public function getAllTypes();
+    public function getBUTypeWithCuisineType();
 }

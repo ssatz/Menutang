@@ -279,7 +279,10 @@ class BusinessManager
     {
         return $this->menuItemrepo->getAll();
     }
-
+    public function getBUTypeWithCuisineType()
+    {
+        return $this->buTyperepo->getBUTypeWithCuisineType();
+    }
     /**
      * @param $slug
      * @return mixed
@@ -380,9 +383,9 @@ class BusinessManager
     /**
      * @return mixed
      */
-    public function deliverySearch()
+    public function deliverySearch($area)
     {
-       return $this->deliveryArea->searchDeliveryArea();
+       return $this->deliveryArea->searchDeliveryArea($area);
     }
     public function getTimeBuHr($slug)
     {
