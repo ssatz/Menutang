@@ -294,62 +294,63 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function insert(array $input)
     {
-            $businessInfo = $this->model->create($input['businessInfo']);
-            $slug = $this->slug($input['businessInfo']['business_name']);
-            if (!empty($this->findBusinessBySlug($slug))) {
-                $slug = $slug . '-' . $businessInfo->id;
-            }
-            $buUniqueId = $this->dbManager->table('business_type')->where('id', (int)$input['businessInfo']['business_type_id'])->pluck('business_code');
-            $buUniqueId = $buUniqueId . '00000' . $businessInfo->id;
+        $businessInfo = $this->model->create($input['businessInfo']);
+        $slug = $this->slug($input['businessInfo']['business_name']);
+        if (!empty($this->findBusinessBySlug($slug))) {
+            $slug = $slug . '-' . $businessInfo->id;
+        }
+        $buUniqueId = $this->dbManager->table('business_type')->where('id', (int)$input['businessInfo']['business_type_id'])->pluck('business_code');
+        $buUniqueId = $buUniqueId . '00000' . $businessInfo->id;
 
-            $businessInfo->fill(['business_slug' => $slug, 'business_unique_id' => $buUniqueId]);
-            $businessInfo->save();
-            $businessInfo->cuisineType()->attach($input['cuisineType']);
-            $address = new BusinessAddress();
-            $address->city_id = $input['address']['city_id'];
-            $address->address_line_1 = $input['address']['address_line_1'];
-            $address->address_line_2 = $input['address']['address_line_2'];
-            $address->address_landmark = $input['address']['address_landmark'];
-            $address->address_gps_location = $input['address']['address_gps_location'];
-            $address->postal_code = $input['address']['postal_code'];
-            $address->mobile = $input['address']['mobile'];
-            $businessInfo->address()->save($address);
-            $businessInfo->payment()->attach($input['payments']);
-            foreach ($input['time'] as $key => $value) {
-                $hours = new BusinessHours([
-                    'business_info_id' => $businessInfo->id,
-                    'time_category_id' => $value['time_category_id'],
-                    'open_time' => $value['open_time'],
-                    'close_time' => $value['close_time']
-                ]);
-                $businessInfo->businessHours()->save($hours);
-                $hours->weekDays()->attach($value['day']);
-            }
+        $businessInfo->fill(['business_slug' => $slug, 'business_unique_id' => $buUniqueId]);
+        $businessInfo->save();
+        $businessInfo->cuisineType()->attach($input['cuisineType']);
+        $address = new BusinessAddress();
+        $address->city_id = $input['address']['city_id'];
+        $address->address_line_1 = $input['address']['address_line_1'];
+        $address->address_line_2 = $input['address']['address_line_2'];
+        $address->address_landmark = $input['address']['address_landmark'];
+        $address->address_gps_location = $input['address']['address_gps_location'];
+        $address->postal_code = $input['address']['postal_code'];
+        $address->mobile = $input['address']['mobile'];
+        $businessInfo->address()->save($address);
+        $businessInfo->payment()->attach($input['payments']);
+        foreach ($input['time'] as $key => $value) {
+            $hours = new BusinessHours([
+                'business_info_id' => $businessInfo->id,
+                'time_category_id' => $value['time_category_id'],
+                'open_time' => $value['open_time'],
+                'close_time' => $value['close_time']
+            ]);
+            $businessInfo->businessHours()->save($hours);
+            $hours->weekDays()->attach($value['day']);
+        }
 
-        if(!$this->fileHelper->isDirectory(public_path('uploads/'.$slug))) {
+        if (!$this->fileHelper->isDirectory(public_path('uploads/' . $slug))) {
             $this->fileHelper->makeDirectory(public_path('uploads/' . $slug), 0775);
         }
-        $this->imageHelper->make($input['fileData']->dataURL)->resize(75, 75)->save(public_path('uploads/'.$slug.'/logo75.png'));
-        $this->imageHelper->make($input['fileData']->dataURL)->resize(220, 220)->save(public_path('uploads/'.$slug.'/logo220.png'));
+        $this->imageHelper->make($input['fileData']->dataURL)->resize(75, 75)->save(public_path('uploads/' . $slug . '/logo75.png'));
+        $this->imageHelper->make($input['fileData']->dataURL)->resize(220, 220)->save(public_path('uploads/' . $slug . '/logo220.png'));
 
         $image = new BusinessPhoto();
-        $image->business_info_id =$businessInfo->id;
+        $image->business_info_id = $businessInfo->id;
         $image->image_name = 'logo75.png';
         $image->save();
-
         $deliveryAreaId = [];
-        foreach ($input['deliveryArea'] as $area) {
-            $deliveryArea = DeliveryArea::find($area['id']);
-            if(is_null($deliveryArea)) {
-                $deliveryArea = new DeliveryArea();
-                $deliveryArea->area =(string)$area['area'];
-                $deliveryArea->area_pincode = (int)$area['pincode'];
-                $deliveryArea->city_id = (int)$area['city'];
-                $deliveryArea->save();
-            }
-            array_push($deliveryAreaId, $deliveryArea->id);
+        if (count($input['delivery']) > 0) {
+            foreach ($input['delivery'] as $area) {
+                $deliveryArea = DeliveryArea::where('area', $area['area'])->where('area_pincode', (int)$area['pincode'])->first();
+                if (is_null($deliveryArea)) {
+                    $deliveryArea = new DeliveryArea();
+                    $deliveryArea->area = (string)$area['area'];
+                    $deliveryArea->area_pincode = (int)$area['pincode'];
+                    $deliveryArea->city_id = (int)$area['city'];
+                    $deliveryArea->save();
+                }
+                array_push($deliveryAreaId, $deliveryArea->id);
 
+            }
+            $businessInfo->deliveryArea()->attach(array_unique($deliveryAreaId));
         }
-        $businessInfo->deliveryArea()->attach(array_unique($deliveryAreaId));
-      }
+    }
 }

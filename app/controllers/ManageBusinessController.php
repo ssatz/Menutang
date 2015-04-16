@@ -253,6 +253,7 @@ class ManageBusinessController extends BaseController
            if(!$this->manage->insertBusinessInfo(json_decode($data))){
                return $this->response->json($this->manage->errors);
            }
+            return $this->response->json(true);
         }
 
     }
@@ -294,7 +295,7 @@ class ManageBusinessController extends BaseController
         $data = [
             'time'=> $this->manage->getAllBusinessTimes(),
             'day' => $this->manage->getAllWeekDays(),
-            'cuisineType'=>$this->manage->getAllCuisineType()
+            'cuisineType'=>$this->manage->getAllCuisineType(),
         ];
         return $this->response->json($data);
     }

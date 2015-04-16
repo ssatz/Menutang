@@ -39,6 +39,6 @@ class ManageDeliveryAreaRepository extends BaseRepository implements IManageDeli
 
     public function searchDeliveryArea($area)
     {
-        return $this->model->where('area', 'LIKE', '%'.$area.'%')->select('id','area','area_pincode')->get();
+        return $this->model->where('area', 'LIKE', '%'.$area.'%')->select('id','area','area_pincode','city_id')->get();
     }
 }

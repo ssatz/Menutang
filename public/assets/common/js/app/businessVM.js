@@ -23,8 +23,8 @@ ko.bindingHandlers.typeahead =
             var id=obj.currentTarget.id.split('_')[2];
             viewModel.area(datum.area);
             viewModel.pincode(datum.area_pincode);
-            viewModel.id(datum.id);
             viewModel.city(datum.city_id);
+            console.log(ko.toJSON(viewModel));
         });
     },
     update: function(element, valueAccessor, allBindings) {
@@ -106,7 +106,7 @@ var businessVM = {
                                                     params: '^[a-zA-Z0-9_ ]*$'
                                                 }
                                             }),
-    businessType : ko.observable('').extend({ required: true,
+    businessType : ko.observable(-1).extend({ required: true,
                                                 notEqual:-1
                                             }),
     cuisineType  :ko.observable('').extend({ required: true,
@@ -193,8 +193,7 @@ var businessVM = {
                     params: '^([1-9])([0-9]){5}$'
                 }
             }),
-            city:ko.observable(-1).extend({required:true,notEqual:-1}),
-            id:ko.observable()
+            city:ko.observable(-1).extend({required:true,notEqual:-1})
         });
         return true;
     },
@@ -225,11 +224,11 @@ var businessVM = {
     },
     submit: function() {
         if (businessVM.errors().length === 0) {
-            console.log(ko.toJSON(businessVM));
             postAjax(ko.toJSON(businessVM));
         }
         else {
-            businessVM.errors.showAllMessages();
+            businessVM.errors.showAllMessages(true);
+            notification('Error','Please fix errors before submit','gritter-danger');
         }
     }
 }
@@ -275,8 +274,7 @@ businessVM.deliveryArea=ko.observableArray([{
         }
 
     }
-    },notEqual:-1}),
-    id:ko.observable()
+    },notEqual:-1})
 }]).extend({required:{ onlyIf:function(){
  if(businessVM.doorDelivery()=='true'){
      return true;

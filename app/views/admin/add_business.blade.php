@@ -34,12 +34,14 @@
                             </select>
                             <p class="validationMessage" data-bind="validationMessage: businessType"></p>
                         </div>
+                            <!-- ko ifnot: businessType()==-1-->
                         <div class="form-group">
                             <label for="businessType">Cuisine Type</label>
-                            <select data-bind="options:cuisinesData,optionsText:'cuisine_description',value:'id',optionsCaption: 'Select...',selectedOptions:cuisineType" tabindex="3">
+                            <select multiple data-bind="options:cuisinesData,optionsText:'cuisine_description',value:'id',selectedOptions:cuisineType" tabindex="3">
                             </select>
                             <p class="validationMessage" data-bind="validationMessage: cuisineType"></p>
                         </div>
+                            <!--/ko-->
                         <div class="form-group">
                             <label for="businessType">Status</label>
                             <select data-bind=" chosen: {width: '100%'},selectedOptions:status" tabindex="4">
@@ -453,7 +455,7 @@
                                         <p class="validationMessage" data-bind="validationMessage: pincode"></p>
                                     </td>
                                     <td>
-                                        <select class="form-control" tabindex="7" data-bind="chosen: {width: '100%'},selectedOptions:city">
+                                        <select class="form-control" tabindex="7" data-bind="chosen,value:city">
                                             <option value="-1">-- Select --</option>
                                             @foreach($cities as $city)
                                             <option value="{{$city->id}}">{{$city->city_description}}</option>
@@ -506,6 +508,7 @@
 <link href="{{asset('assets/common/css/chosen/chosen.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/common/css/jquery.timepicker.css')}}" rel="stylesheet">
 <link href="{{asset('assets/common/css/knockout-file-bindings.css')}}" rel="stylesheet">
+<link href="{{asset('assets/common/css/gritter/jquery.gritter.css')}}" rel="stylesheet">
 
 @endsection
 @section('scripts')
@@ -513,6 +516,7 @@
 <script src="{{asset('assets/common/js/knockout.validation.min.js')}}"></script>
 <script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
 <script src ="{{asset('assets/common/js/jquery.timepicker.min.js')}}"></script>
+<script src="{{asset('assets/common/js/jquery.gritter.min.js')}}"></script>
 <script src="{{asset('assets/common/js/typeahead.bundle.min.js')}}"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places"></script>
 <script src="{{asset('assets/common/js/app/fileUploadAPI.js')}}"></script>
@@ -522,14 +526,24 @@
         $.getJSON("{{action('ManageBusinessController@timeDay')}}", null, function (data) {
             businessVM.time(data.time);
             businessVM.day(data.day);
-            businessVM.cuisines(data.cuisineType)
+            businessVM.cuisines(data.cuisineType);
         });
 
     });
     function postAjax(data){
         $.post('{{action('ManageBusinessController@addBusinessInfo')}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
-        console.log(data);
-
+         if(data!=true)
+         {
+             var error='';
+             $.each(data,function(key,value)
+             {
+                error = error+'<br/>'+value
+             });
+             notification('Error',error,'gritter-danger');
+             return;
+         }
+            notification('Success','Hurray!Business Created','gritter-success');
+            window.location.reload();
         }, 'json');
     }
 </script>

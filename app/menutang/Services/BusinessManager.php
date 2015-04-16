@@ -474,11 +474,15 @@ class BusinessManager
        foreach ($object->deliveryArea as $key=>$area) {
            if(!empty($area->area) && !empty($area->pincode) && $area->area!='' && $area->pincode!='')
            $deliveryArea[$key]=[
+               'id'=>(int)$area->id,
                'area'=>$area->area,
                'pincode'=>(int)$area->pincode
            ];
        }
-
+       $cuisineType=[];
+       foreach ($object->cuisineType  as $key=>$cuisine) {
+           $cuisineType[$key]=$cuisine->id;
+       }
 
        $data =[
          'businessInfo'=>[
@@ -528,10 +532,7 @@ class BusinessManager
               create_function('$value', 'return (int)$value;'),
               $object->payments
           ),
-           'cuisineType'=>array_map(
-               create_function('$value', 'return (int)$value;'),
-               $object->cuisineType
-           ),
+           'cuisineType'=>$cuisineType,
           'time' => $time,
            'delivery'=>$deliveryArea,
            'fileData'=>$object->fileData
