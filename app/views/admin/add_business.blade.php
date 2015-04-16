@@ -342,7 +342,7 @@
                         </div>
                         <div class="form-group">
                             <label for="website">Website</label>
-                            <input tabindex="46" type="text" class="form-control input-sm" data-bind="value:website" id="website" placeholder="">
+                            <input tabindex="46" type="text" class="form-control input-sm" data-bind="value:website" id="website" placeholder="www.example.com">
                             <p class="validationMessage" data-bind="validationMessage: website"></p>
                         </div>
                         <div class="form-group">

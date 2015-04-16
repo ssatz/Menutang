@@ -86,17 +86,6 @@ ko.bindingHandlers.timePicker = {
         ko.bindingHandlers.value.update(element, valueAccessor);
     }
 };
-ko.validation.rules['url'] = {
-    validator: function(val, required) {
-        if (!val) {
-            return !required
-        }
-        val = val.replace(/^\s+|\s+$/, '');
-        return val.match(/^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.‌​\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[‌​6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1‌​,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00‌​a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u‌​00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/i);
-    },
-    message: 'This field has to be a valid URL'
-};
-ko.validation.registerExtenders();
 ko.validation.init({insertMessages: false});
 ko.validation.init( { grouping: { deep: true } } )
 var businessVM = {
@@ -134,7 +123,7 @@ var businessVM = {
     boarding:ko.observable('').extend({required:true}),
     barAttached:ko.observable('').extend({required:true}),
     highwayRestaurant:ko.observable('').extend({required:true}),
-    website:ko.observable('').extend({url:true}),
+    website:ko.observable('').extend({ pattern: {params:'^(www.)([a-zA-Z0-9]*).([a-z]*)$',message:'Invalid format'}}),
     aboutBusiness:ko.observable(''),
     checkOutEnable:ko.observable('').extend({required:true}),
     avgDeliveryTime:ko.observable('').extend({ required: true,
@@ -319,7 +308,6 @@ businessVM.highwayRestaurantDetails=ko.observable().extend({ required: { onlyIf:
     }
 } } });
 businessVM.isdeliveryEnable= ko.observable(function () {
-    console.log('sathish');
     if(businessVM.doorDelivery()=='true'){
         return true;
     }
