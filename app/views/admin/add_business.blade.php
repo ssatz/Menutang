@@ -9,6 +9,7 @@
             <div class="panel-tab">
                 <ul class="tab-bar">
                     <li class="active"><a href="#business" data-toggle="tab"><i class="fa fa-home"></i>Business Details</a></li>
+                    <li><a href="#feature" data-toggle="tab"><i class="fa fa-home"></i>Features</a></li>
                     <li><a href="#logo" data-toggle="tab"><i class="fa fa-home"></i>Logo</a></li>
                     <li><a href="#address" data-toggle="tab"><i class="fa fa-envelope"></i> Address</a></li>
                     <li><a href="#timeday" data-toggle="tab"><i class="fa fa-times-circle-o"></i>Time & Day</a></li>
@@ -63,270 +64,6 @@
                             <p class="validationMessage" data-bind="validationMessage: parcelCharges"></p>
                         </div>
                         <div class="form-group">
-                            <label for="deliveryEnable">Delivery Enable</label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="deliveryEnable" value="true" tabindex="7" data-bind="checked:doorDelivery,click:radioClick">
-                                <span class="custom-radio"></span>
-                                Yes
-                            </label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="deliveryEnable" value="false" tabindex="8" data-bind="checked:doorDelivery,click:radioClick">
-                                <span class="custom-radio"></span>
-                                No
-                            </label>
-                            <p class="validationMessage" data-bind="validationMessage: doorDelivery"></p>
-                        </div>
-                        <!-- ko if: doorDelivery()=='true' -->
-                        <div class="form-group">
-                            <label for="mindeliveryAmount">Minimum Delivery Amount</label>
-                            <input tabindex="9" type="text" class="form-control input-sm" id="mindeliveryAmount" data-bind="value:minimumDeliveryAmount" value="0"  placeholder="0">
-                            <p class="validationMessage" data-bind="validationMessage: minimumDeliveryAmount"></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="deliveryFee">Delivery Fee</label>
-                            <input type="text" tabindex="10" class="form-control input-sm" id="deliveryFee" data-bind="value:deliveryFee" value="0"  placeholder="0">
-                            <p class="validationMessage" data-bind="validationMessage: deliveryFee"></p>
-                        </div>
-                        <!-- /ko -->
-                        <div class="form-group">
-                            <label for="deliveryEnable" >Pickup Enable</label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="pickupEnable" tabindex="11" value="true" data-bind="checked:pickupAvailable,click:radioClick">
-                                <span class="custom-radio"></span>
-                                Yes
-                            </label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="deliveryEnable" value="false" tabindex="12" data-bind="checked:pickupAvailable,click:radioClick">
-                                <span class="custom-radio"></span>
-                                No
-                            </label>
-                            <p class="validationMessage" data-bind="validationMessage: pickupAvailable"></p>
-                        </div>
-                        <!-- ko if: pickupAvailable()=='true' -->
-                        <div class="form-group">
-                            <label for="minimumPickupAmount">Minimum Pickup Amount</label>
-                            <input tabindex="13" type="text" class="form-control input-sm" id="minimumPickupAmount" data-bind="value:minimumPickupAmount" value="0"  placeholder="0">
-                            <p class="validationMessage" data-bind="validationMessage: minimumPickupAmount"></p>
-                        </div>
-                        <!--/ko-->
-                        <div class="form-group">
-                            <label for="deliveryEnable" >Rail Delivery Enable</label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="pickupEnable" value="true" tabindex="14" data-bind="checked:railDelivery,click:radioClick">
-                                <span class="custom-radio"></span>
-                                Yes
-                            </label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="deliveryEnable" value="false" tabindex="15" data-bind="checked:railDelivery,click:radioClick">
-                                <span class="custom-radio"></span>
-                                No
-                            </label>
-                            <p class="validationMessage" data-bind="validationMessage: railDelivery"></p>
-                        </div>
-                        <!-- ko if: railDelivery()=='true' -->
-                        <div class="form-group">
-                            <label for="minimumRailDeliveryAmount">Minimum Rail Delivery Amount</label>
-                            <input tabindex="16" type="text" class="form-control input-sm" id="minimumRailDeliveryAmount" data-bind="value:minimumRailDeliveryAmount" value="0"  placeholder="0">
-                            <p class="validationMessage" data-bind="validationMessage: minimumRailDeliveryAmount"></p>
-                        </div>
-                        <!--/ko-->
-                        <div class="form-group">
-                            <label for="deliveryEnable" >Outdoor Catering</label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="outdoorCatering" tabindex="17" value="true" data-bind="checked:outdoorCatering,click:radioClick">
-                                <span class="custom-radio"></span>
-                                Yes
-                            </label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="outdoorCatering" tabindex="18" value="false" data-bind="checked:outdoorCatering,click:radioClick">
-                                <span class="custom-radio"></span>
-                                No
-                            </label>
-                            <p class="validationMessage" data-bind="validationMessage: outdoorCatering"></p>
-                        </div>
-                        <!-- ko if: outdoorCatering()=='true' -->
-                        <div class="form-group">
-                            <label for="outdoorCateringComments">Outdoor Catering Comments</label>
-                            <textarea   tabindex="19" style="margin: 0px; width: 523px; height: 91px;" data-bind="value:outdoorCateringComments"></textarea>
-                            <p class="validationMessage" data-bind="validationMessage: outdoorCateringComments"></p>
-                        </div>
-                        <!--/ko -->
-                            <div class="form-group">
-                            <label for="deliveryEnable" >Party Hall</label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" tabindex="20" name="partyHall" value="true" data-bind="checked:partyHall,click:radioClick">
-                                <span class="custom-radio"></span>
-                                Yes
-                            </label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="partyHall" tabindex="21" value="false" data-bind="checked:partyHall,click:radioClick">
-                                <span class="custom-radio"></span>
-                                No
-                            </label>
-                                <p class="validationMessage" data-bind="validationMessage: partyHall"></p>
-                        </div>
-                        <!-- ko if: partyHall()=='true' -->
-                        <div class="form-group">
-                            <label for="partyHallComments">Outdoor Catering Comments</label>
-                            <textarea tabindex="22" style="margin: 0px; width: 523px; height: 91px;" data-bind="value:partyHallComments"></textarea>
-                            <p class="validationMessage" data-bind="validationMessage: partyHallComments"></p>
-                        </div>
-                        <!--/ko -->
-                        <div class="form-group">
-                            <label for="deliveryEnable" >Buffet</label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" tabindex="23" name="buffet" value="true" data-bind="checked:buffet,click:radioClick">
-                                <span class="custom-radio"></span>
-                                Yes
-                            </label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="buffet" tabindex="23" value="false" data-bind="checked:buffet,click:radioClick">
-                                <span class="custom-radio"></span>
-                                No
-                            </label>
-                            <p class="validationMessage" data-bind="validationMessage: buffet"></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="deliveryEnable" >Midnight Buffet</label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="midnightBuffet" tabindex="24" value="true" data-bind="checked:midnightBuffet,click:radioClick">
-                                <span class="custom-radio"></span>
-                                Yes
-                            </label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="midnightBuffet" tabindex="25" value="false" data-bind="checked:midnightBuffet,click:radioClick">
-                                <span class="custom-radio"></span>
-                                No
-                            </label>
-                            <p class="validationMessage" data-bind="validationMessage: midnightBuffet"></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="deliveryEnable" >Wifi</label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="wifi" tabindex="26" value="true" data-bind="checked:wifi,click:radioClick">
-                                <span class="custom-radio"></span>
-                                Yes
-                            </label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="wifi" tabindex="27" value="false" data-bind="checked:wifi,click:radioClick">
-                                <span class="custom-radio"></span>
-                                No
-                            </label>
-                            <p class="validationMessage" data-bind="validationMessage: wifi"></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="deliveryEnable" >Children Play Area</label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" tabindex="28" name="childrenPlayArea" value="true" data-bind="checked:childrenPlayArea,click:radioClick">
-                                <span class="custom-radio"></span>
-                                Yes
-                            </label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" tabindex="29" name="childrenPlayArea" value="false" data-bind="checked:childrenPlayArea,click:radioClick">
-                                <span class="custom-radio"></span>
-                                No
-                            </label>
-                            <p class="validationMessage" data-bind="validationMessage: childrenPlayArea"></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="deliveryEnable" >Garden Restaurant</label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="gardenRestaurant" tabindex="30" value="true" data-bind="checked:gardenRestaurant,click:radioClick">
-                                <span class="custom-radio"></span>
-                                Yes
-                            </label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="gardenRestaurant" tabindex="31" value="false" data-bind="checked:gardenRestaurant,click:radioClick">
-                                <span class="custom-radio"></span>
-                                No
-                            </label>
-                            <p class="validationMessage" data-bind="validationMessage: gardenRestaurant"></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="deliveryEnable" >Roof Top</label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="roofTop" tabindex="32" value="true" data-bind="checked:roofTop,click:radioClick">
-                                <span class="custom-radio"></span>
-                                Yes
-                            </label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="roofTop" tabindex="33" value="false" data-bind="checked:roofTop,click:radioClick">
-                                <span class="custom-radio"></span>
-                                No
-                            </label>
-                            <p class="validationMessage" data-bind="validationMessage: roofTop"></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="deliveryEnable" >Valet Parking</label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="valetParking" tabindex="34" value="true" data-bind="checked:valetParking,click:radioClick">
-                                <span class="custom-radio"></span>
-                                Yes
-                            </label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="valetParking" tabindex="35" value="false" data-bind="checked:valetParking,click:radioClick">
-                                <span class="custom-radio"></span>
-                                No
-                            </label>
-                            <p class="validationMessage" data-bind="validationMessage: valetParking"></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="deliveryEnable" >Boarding</label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="boarding" value="true" tabindex="36" data-bind="checked:boarding,click:radioClick">
-                                <span class="custom-radio"></span>
-                                Yes
-                            </label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="boarding" value="false" tabindex="37" data-bind="checked:boarding,click:radioClick">
-                                <span class="custom-radio"></span>
-                                No
-                            </label>
-                            <p class="validationMessage" data-bind="validationMessage: boarding"></p>
-                        </div>
-                        <!-- ko if: boarding()=='true' -->
-                        <div class="form-group">
-                            <label for="boardingComments">Outdoor Catering Comments</label>
-                            <textarea style="margin: 0px; width: 523px; height: 91px;" tabindex="38" data-bind="value:boardingComments"></textarea>
-                            <p class="validationMessage" data-bind="validationMessage: boardingComments"></p>
-                        </div>
-                        <!--/ko -->
-                        <div class="form-group">
-                            <label for="deliveryEnable" >Bar Attached</label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="barAttached" value="true" tabindex="39" data-bind="checked:barAttached,click:radioClick">
-                                <span class="custom-radio"></span>
-                                Yes
-                            </label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="barAttached" value="false" tabindex="40" data-bind="checked:barAttached,click:radioClick">
-                                <span class="custom-radio"></span>
-                                No
-                            </label>
-                            <p class="validationMessage" data-bind="validationMessage: barAttached"></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="deliveryEnable" >Highway Restaurant</label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="highwayRestaurant" tabindex="41" value="true" data-bind="checked:highwayRestaurant,click:radioClick">
-                                <span class="custom-radio"></span>
-                                Yes
-                            </label>
-                            <label class="label-radio inline badge badge-info">
-                                <input type="radio" name="highwayRestaurant" tabindex="42" value="false" data-bind="checked:highwayRestaurant,click:radioClick">
-                                <span class="custom-radio"></span>
-                                No
-                            </label>
-                            <p class="validationMessage" data-bind="validationMessage: highwayRestaurant"></p>
-                        </div>
-                        <!-- ko if: highwayRestaurant()=='true' -->
-                        <div class="form-group">
-                            <label for="boardingComments">Highway Restaurant Details</label>
-                            <textarea tabindex="43" style="margin: 0px; width: 523px; height: 91px;"  data-bind="value:highwayRestaurantDetails"></textarea>
-                            <p class="validationMessage" data-bind="validationMessage: highwayRestaurantDetails"></p>
-                        </div>
-                        <!--/ko -->
-                        <div class="form-group">
                             <label for="boardingComments">About restaurant</label>
                             <textarea tabindex="44" style="margin: 0px; width: 523px; height: 91px;" data-bind="value:aboutBusiness"></textarea>
                             <p class="validationMessage" data-bind="validationMessage: aboutBusiness"></p>
@@ -361,10 +98,277 @@
                         </div>
                             </div>
                     </div>
+                    <div class="tab-pane fade" id="feature">
+                        <div style="margin: 20px;width: 250px">
+                            <div class="form-group">
+                                <label for="deliveryEnable">Delivery Enable</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="deliveryEnable" value="true" tabindex="7" data-bind="checked:doorDelivery,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="deliveryEnable" value="false" tabindex="8" data-bind="checked:doorDelivery,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: doorDelivery"></p>
+                            </div>
+                            <!-- ko if: doorDelivery()=='true' -->
+                            <div class="form-group">
+                                <label for="mindeliveryAmount">Minimum Delivery Amount</label>
+                                <input tabindex="9" type="text" class="form-control input-sm" id="mindeliveryAmount" data-bind="value:minimumDeliveryAmount" value="0"  placeholder="0">
+                                <p class="validationMessage" data-bind="validationMessage: minimumDeliveryAmount"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryFee">Delivery Fee</label>
+                                <input type="text" tabindex="10" class="form-control input-sm" id="deliveryFee" data-bind="value:deliveryFee" value="0"  placeholder="0">
+                                <p class="validationMessage" data-bind="validationMessage: deliveryFee"></p>
+                            </div>
+                            <!-- /ko -->
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Pickup Enable</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="pickupEnable" tabindex="11" value="true" data-bind="checked:pickupAvailable,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="deliveryEnable" value="false" tabindex="12" data-bind="checked:pickupAvailable,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: pickupAvailable"></p>
+                            </div>
+                            <!-- ko if: pickupAvailable()=='true' -->
+                            <div class="form-group">
+                                <label for="minimumPickupAmount">Minimum Pickup Amount</label>
+                                <input tabindex="13" type="text" class="form-control input-sm" id="minimumPickupAmount" data-bind="value:minimumPickupAmount" value="0"  placeholder="0">
+                                <p class="validationMessage" data-bind="validationMessage: minimumPickupAmount"></p>
+                            </div>
+                            <!--/ko-->
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Rail Delivery Enable</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="pickupEnable" value="true" tabindex="14" data-bind="checked:railDelivery,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="deliveryEnable" value="false" tabindex="15" data-bind="checked:railDelivery,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: railDelivery"></p>
+                            </div>
+                            <!-- ko if: railDelivery()=='true' -->
+                            <div class="form-group">
+                                <label for="minimumRailDeliveryAmount">Minimum Rail Delivery Amount</label>
+                                <input tabindex="16" type="text" class="form-control input-sm" id="minimumRailDeliveryAmount" data-bind="value:minimumRailDeliveryAmount" value="0"  placeholder="0">
+                                <p class="validationMessage" data-bind="validationMessage: minimumRailDeliveryAmount"></p>
+                            </div>
+                            <!--/ko-->
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Outdoor Catering</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="outdoorCatering" tabindex="17" value="true" data-bind="checked:outdoorCatering,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="outdoorCatering" tabindex="18" value="false" data-bind="checked:outdoorCatering,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: outdoorCatering"></p>
+                            </div>
+                            <!-- ko if: outdoorCatering()=='true' -->
+                            <div class="form-group">
+                                <label for="outdoorCateringComments">Outdoor Catering Comments</label>
+                                <textarea   tabindex="19" style="margin: 0px; width: 523px; height: 91px;" data-bind="value:outdoorCateringComments"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: outdoorCateringComments"></p>
+                            </div>
+                            <!--/ko -->
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Party Hall</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" tabindex="20" name="partyHall" value="true" data-bind="checked:partyHall,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="partyHall" tabindex="21" value="false" data-bind="checked:partyHall,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: partyHall"></p>
+                            </div>
+                            <!-- ko if: partyHall()=='true' -->
+                            <div class="form-group">
+                                <label for="partyHallComments">Party Hall Comments</label>
+                                <textarea tabindex="22" style="margin: 0px; width: 523px; height: 91px;" data-bind="value:partyHallComments"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: partyHallComments"></p>
+                            </div>
+                            <!--/ko -->
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Buffet</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" tabindex="23" name="buffet" value="true" data-bind="checked:buffet,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="buffet" tabindex="23" value="false" data-bind="checked:buffet,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: buffet"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Midnight Buffet</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="midnightBuffet" tabindex="24" value="true" data-bind="checked:midnightBuffet,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="midnightBuffet" tabindex="25" value="false" data-bind="checked:midnightBuffet,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: midnightBuffet"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Wifi</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="wifi" tabindex="26" value="true" data-bind="checked:wifi,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="wifi" tabindex="27" value="false" data-bind="checked:wifi,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: wifi"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Children Play Area</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" tabindex="28" name="childrenPlayArea" value="true" data-bind="checked:childrenPlayArea,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" tabindex="29" name="childrenPlayArea" value="false" data-bind="checked:childrenPlayArea,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: childrenPlayArea"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Garden Restaurant</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="gardenRestaurant" tabindex="30" value="true" data-bind="checked:gardenRestaurant,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="gardenRestaurant" tabindex="31" value="false" data-bind="checked:gardenRestaurant,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: gardenRestaurant"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Roof Top</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="roofTop" tabindex="32" value="true" data-bind="checked:roofTop,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="roofTop" tabindex="33" value="false" data-bind="checked:roofTop,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: roofTop"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Valet Parking</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="valetParking" tabindex="34" value="true" data-bind="checked:valetParking,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="valetParking" tabindex="35" value="false" data-bind="checked:valetParking,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: valetParking"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Boarding</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="boarding" value="true" tabindex="36" data-bind="checked:boarding,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="boarding" value="false" tabindex="37" data-bind="checked:boarding,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: boarding"></p>
+                            </div>
+                            <!-- ko if: boarding()=='true' -->
+                            <div class="form-group">
+                                <label for="boardingComments">Boarding Comments</label>
+                                <textarea style="margin: 0px; width: 523px; height: 91px;" tabindex="38" data-bind="value:boardingComments"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: boardingComments"></p>
+                            </div>
+                            <!--/ko -->
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Bar Attached</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="barAttached" value="true" tabindex="39" data-bind="checked:barAttached,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="barAttached" value="false" tabindex="40" data-bind="checked:barAttached,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: barAttached"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Highway Restaurant</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="highwayRestaurant" tabindex="41" value="true" data-bind="checked:highwayRestaurant,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="highwayRestaurant" tabindex="42" value="false" data-bind="checked:highwayRestaurant,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: highwayRestaurant"></p>
+                            </div>
+                            <!-- ko if: highwayRestaurant()=='true' -->
+                            <div class="form-group">
+                                <label for="boardingComments">Highway Restaurant Details</label>
+                                <textarea tabindex="43" style="margin: 0px; width: 523px; height: 91px;"  data-bind="value:highwayRestaurantDetails"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: highwayRestaurantDetails"></p>
+                            </div>
+                            <!--/ko -->
+                        </div>
+                    </div>
                     <div class="tab-pane fade" id="logo">
                         <div class="form-group" style="margin: 20px">
-
-                            <label class="control-label col-lg-2">Logo Upload</label>
+                            <p class="validationMessage" data-bind="validationMessage: fileData().dataURL"></p>
                             <div data-bind="fileDrag: fileData">
                                 <div class="image-upload-preview">
                                     <img data-bind="attr: { src: fileData().dataURL }, visible: fileData().dataURL">

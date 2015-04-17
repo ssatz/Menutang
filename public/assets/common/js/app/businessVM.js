@@ -283,30 +283,10 @@ businessVM.minimumPickupAmount=ko.observable(0).extend({ required: { onlyIf: fun
         return true;
     }
 } } });
-businessVM.outdoorCateringComments=ko.observable().extend({ required: { onlyIf: function() {
-    if(businessVM.outdoorCatering()==='true' )
-    {
-        return true;
-    }
-} } });
-businessVM.partyHallComments=ko.observable().extend({ required: { onlyIf: function() {
-    if(businessVM.partyHall()==='true' )
-    {
-        return true;
-    }
-} } });
-businessVM.boardingComments=ko.observable().extend({ required: { onlyIf: function() {
-    if(businessVM.boarding()==='true' )
-    {
-        return true;
-    }
-} } });
-businessVM.highwayRestaurantDetails=ko.observable().extend({ required: { onlyIf: function() {
-    if(businessVM.highwayRestaurant()==='true' )
-    {
-        return true;
-    }
-} } });
+businessVM.outdoorCateringComments=ko.observable();
+businessVM.partyHallComments=ko.observable();
+businessVM.boardingComments=ko.observable();
+businessVM.highwayRestaurantDetails=ko.observable();
 businessVM.isdeliveryEnable= ko.observable(function () {
     if(businessVM.doorDelivery()=='true'){
         return true;
@@ -314,9 +294,9 @@ businessVM.isdeliveryEnable= ko.observable(function () {
    return businessVM.deliveryArea([]);
 });
 businessVM.fileData = ko.observable({
-    file: ko.observable(),
-    dataURL: ko.observable()
-});
+    file: ko.observable().extend({required:true}),
+    dataURL: ko.observable().extend({required:true})
+}).extend({required:true});
 ko.components.register('timehr-template', {
     viewModel: function(params) {
         var self=this;
