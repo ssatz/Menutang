@@ -16,7 +16,7 @@ class CuisineType extends Eloquent {
     /**
      * @var array
      */
-    protected $fillable = ['cuisine_code', 'cuisine_description'];
+    protected $fillable = ['cuisine_code', 'cuisine_description','business_type_id'];
 
     /**
      * @return mixed

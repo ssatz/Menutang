@@ -19,7 +19,7 @@ class BusinessType extends Eloquent
     /**
      * @var array
      */
-    protected $fillable = ['business_code', 'business_description'];
+    protected $fillable = ['business_code', 'business_type'];
 
     /**
      * @return mixed

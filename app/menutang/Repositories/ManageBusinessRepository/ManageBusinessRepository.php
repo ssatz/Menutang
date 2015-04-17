@@ -25,8 +25,6 @@ use Intervention\Image\ImageManager;
 use Illuminate\Filesystem\Filesystem;
 use Services\SearchEnum;
 use Services\WeekdaysEnum;
-use stdClass;
-use TijsVerkoyen\CssToInlineStyles\Exception;
 
 
 class ManageBusinessRepository extends BaseRepository implements IManageBusinessRepository

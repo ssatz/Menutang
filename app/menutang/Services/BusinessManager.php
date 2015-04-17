@@ -34,6 +34,8 @@ use Services\Validations\MenuUploadValidator;
 use Repositories\BusinessHoursRepository\IBusinessHoursRepository;
 use Repositories\TimeCategoryRepository\ITimeCategoryRepository;
 use Repositories\WeekdaysRepository\IWeekdaysRepository;
+use Services\Validations\BusinessTypeValidator;
+use Services\Validations\CuisineTypeValidator;
 
 
 class BusinessManager
@@ -128,6 +130,8 @@ class BusinessManager
 
     protected $businessTimes;
     protected $weekdays;
+    protected $businessTypeValidator;
+    protected $cuisineTypeValidator;
     /**
      * @param IManageBusinessRepository $manageBusiness
      * @param ICacheService $cacheService
@@ -160,6 +164,8 @@ class BusinessManager
                                 MenuUploadValidator $menuUploadValidator,
                                 ITimeCategoryRepository $timeCategoryRepository,
                                 IWeekdaysRepository $weekdaysRepository,
+                                BusinessTypeValidator $businessTypeValidator,
+                                CuisineTypeValidator $cuisineTypeValidator,
                                 Excel $excel)
     {
         $this->manageBusiness = $manageBusiness;
@@ -181,6 +187,8 @@ class BusinessManager
         $this->businessHours = $businessHoursRepository;
         $this->businessTimes = $timeCategoryRepository;
         $this->weekdays = $weekdaysRepository;
+        $this->businessTypeValidator = $businessTypeValidator;
+        $this->cuisineTypeValidator = $cuisineTypeValidator;
     }
 
     /**
@@ -386,6 +394,60 @@ class BusinessManager
     public function deliverySearch($area)
     {
        return $this->deliveryArea->searchDeliveryArea($area);
+    }
+    public function addBusinessType(array $input)
+    {
+        $this->businessTypeValidator->with($input);
+        if($this->businessTypeValidator->passes()) {
+            $this->db->beginTransaction();
+            try {
+               $buType= $this->buTyperepo->create($input);
+            } catch (Exception $e) {
+                $this->db->rollback();
+                $error =[
+                    'result'=>false
+                    ];
+                return $error;
+            }
+            $this->db->commit();
+            $error =[
+                'result'=>true,
+                'buType'=>json_decode($buType,true)
+            ];
+            return $error;
+        }
+        $error =[
+            'result'=>false,
+            'error'=>json_decode($this->businessTypeValidator->getErrors(),true)
+        ];
+        return $error;
+    }
+    public function addCuisineType(array $input)
+    {
+        $this->cuisineTypeValidator->with($input);
+        if($this->cuisineTypeValidator->passes()) {
+            $this->db->beginTransaction();
+            try {
+                 $this->cuisineType->create($input);
+            } catch (Exception $e) {
+                $this->db->rollback();
+                $error =[
+                    'result'=>false
+                ];
+                return $error;
+            }
+            $this->db->commit();
+            $error =[
+                'result'=>true,
+                'cuType'=>json_decode($this->getAllCuisineType(),true)
+            ];
+            return $error;
+        }
+        $error =[
+            'result'=>false,
+            'error'=>json_decode($this->cuisineTypeValidator->getErrors(),true)
+        ];
+        return $error;
     }
     public function getTimeBuHr($slug)
     {

@@ -1,6 +1,6 @@
 @extends('admin._layout')
 @section('content')
-<div class="col-md-8">
+<div class="col-md-8" id="add-bu">
     <div class="panel panel-default">
         <div class="panel-heading">
             Add Business Information
@@ -26,7 +26,7 @@
                         </div>
                         <div class="form-group">
                             <label for="businessType">Business Type<i class="validationMessage">*</i></label>
-                            <select data-bind=" chosen: {width: '100%'},selectedOptions:businessType" tabindex="2">
+                            <select class="buTypeSelect" data-bind="chosen,selectedOptions:businessType" tabindex="2">
                                 <option value="-1">-- select --</option>
                                 @foreach($butypes as $buType)
                                 <option value="{{$buType->id}}">{{$buType->business_type}}
@@ -486,21 +486,52 @@
             Basic Settings
         </div>
         <div class="panel-body no-padding">
-            <div class="tab-right">
+            <div class="panel-tab">
                 <ul class="tab-bar">
-                    <li class="active"><a href="#home4" data-toggle="tab"><i class="fa fa-home"></i> Home</a></li>
-                    <li><a href="#profile4" data-toggle="tab"><i class="fa fa-pencil"></i> Profile</a></li>
-                    <li><a href="#message4" data-toggle="tab"><i class="fa fa-envelope"></i> Message</a></li>
+                    <li class="active"><a href="#buType" data-toggle="tab"><i class="fa fa-home"></i>Add Restaurant Type</a></li>
+                    <li><a href="#cuType" data-toggle="tab"><i class="fa fa-pencil"></i> Add Cuisine Type</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane fade in active" id="home4">
-                        <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                    <div class="tab-pane fade in active" id="buType">
+                        <div class="form-group">
+                            <label for="buType">Add Business Code</label>
+                            <input type="text" class="form-control input-sm" data-bind="value:buCode">
+                            <p class="validationMessage" data-bind="validationMessage: buCode"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="buType">Add Business Type</label>
+                            <input type="text" class="form-control input-sm" data-bind="value:buDescription">
+                            <p class="validationMessage" data-bind="validationMessage: buDescription"></p>
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-success"  data-bind="click:submit"><i class="fa fa-edit fa-lg"></i>Add Business Type</a>
+                        </div>
                     </div>
-                    <div class="tab-pane fade" id="profile4">
-                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
-                    </div>
-                    <div class="tab-pane fade" id="message4">
-                        <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
+                    <div class="tab-pane fade" id="cuType">
+                        <div class="form-group">
+                            <label for="businessType">Business Type</label>
+                            <select class="buTypeSelect" data-bind=" chosen: {width: '100%'},value:buID" tabindex="2">
+                                <option value="-1">-- select --</option>
+                                @foreach($butypes as $buType)
+                                <option value="{{$buType->id}}">{{$buType->business_type}}
+                                </option>
+                                @endforeach
+                            </select>
+                            <p class="validationMessage" data-bind="validationMessage: buID"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="buType"> Cuisine Code</label>
+                            <input type="text" class="form-control input-sm" data-bind="value:cuCode">
+                            <p class="validationMessage" data-bind="validationMessage: cuCode"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="buType">Cuisine Description</label>
+                            <input type="text" class="form-control input-sm" data-bind="value:cuDescription">
+                            <p class="validationMessage" data-bind="validationMessage: cuDescription"></p>
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-success"  data-bind="click:submit"><i class="fa fa-edit fa-lg"></i>Add Cuisine Type</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -548,6 +579,46 @@
          }
             notification('Success','Hurray!Business Created','gritter-success');
             window.location.reload();
+        }, 'json');
+    }
+    function addbuAjax(data){
+        $.post('{{action('ManageBusinessController@addBuType')}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
+           if(data.result==true) {
+               $('.buTypeSelect').append(
+                   $("<option></option>")
+                       .attr("value", data.buType.id)
+                       .text(data.buType.business_type)
+               );
+               $('.buTypeSelect').chosen().trigger("chosen:updated");
+               notification('Success', 'Hurray!Business Type Created', 'gritter-success');
+               return;
+           }
+            var error='';
+            $.each(data.error,function(key,value)
+            {
+                error = error+'<br/>'+value
+            });
+            notification('Error',error,'gritter-danger');
+            return;
+        }, 'json');
+    }
+    function addcuAjax(data){
+        $.post('{{action('ManageBusinessController@addCuType')}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
+            if(data.result==true) {
+                console.log(data.cuType);
+                businessVM.cuisines(data.cuType);
+                businessVM.businessType(-1);
+                addcuType();
+                notification('Success', 'Hurray!Cuisine Type Created', 'gritter-success');
+                return;
+            }
+            var error='';
+            $.each(data.error,function(key,value)
+            {
+                error = error+'<br/>'+value
+            });
+            notification('Error',error,'gritter-danger');
+            return;
         }, 'json');
     }
 </script>

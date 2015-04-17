@@ -299,4 +299,37 @@ class ManageBusinessController extends BaseController
         ];
         return $this->response->json($data);
     }
+
+    public function addBuType()
+    {
+        $buType=json_decode($this->request->get('data'));
+        $data=[
+          'business_code'=>$buType->buCode,
+          'business_type'=>$buType->buDescription
+        ];
+        $bu =$this->manage->addBusinessType($data);
+        if($bu['result'])
+        {
+            return json_encode($bu);
+        }
+
+        return json_encode($bu);
+    }
+    public function addCuType()
+    {
+        $cuType=json_decode($this->request->get('data'));
+
+        $data=[
+            'cuisine_code'=>$cuType->cuCode,
+            'cuisine_description'=>$cuType->cuDescription,
+            'business_type_id'=>(int)$cuType->buID
+        ];
+        $cu =$this->manage->addCuisineType($data);
+        if($cu['result'])
+        {
+            return json_encode($cu);
+        }
+
+        return json_encode($cu);
+    }
 }
