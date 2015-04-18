@@ -69,15 +69,6 @@
                             <p class="validationMessage" data-bind="validationMessage: aboutBusiness"></p>
                         </div>
                         <div class="form-group">
-                            <label for="avgDeliveryTime">Avg Delivery Time</label>
-                            <input tabindex="45" type="text" class="form-control input-sm" data-bind="timePicker:{
-            'timeFormat': 'H:i:s',
-            'minTime': '00:10:00',
-            'maxTime': '03:00:00'
-        },value:avgDeliveryTime" id="avgDeliveryTime" placeholder="00:00:00">
-                            <p class="validationMessage" data-bind="validationMessage: avgDeliveryTime"></p>
-                        </div>
-                        <div class="form-group">
                             <label for="website">Website</label>
                             <input tabindex="46" type="text" class="form-control input-sm" data-bind="value:website" id="website" placeholder="www.example.com">
                             <p class="validationMessage" data-bind="validationMessage: website"></p>
@@ -124,6 +115,15 @@
                                 <label for="deliveryFee">Delivery Fee</label>
                                 <input type="text" tabindex="10" class="form-control input-sm" id="deliveryFee" data-bind="value:deliveryFee" value="0"  placeholder="0">
                                 <p class="validationMessage" data-bind="validationMessage: deliveryFee"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="avgDeliveryTime">Avg Delivery Time</label>
+                                <input tabindex="45" type="text" class="form-control input-sm" data-bind="timePicker:{
+            'timeFormat': 'H:i:s',
+            'minTime': '00:10:00',
+            'maxTime': '03:00:00'
+        },value:avgDeliveryTime" id="avgDeliveryTime" placeholder="00:00:00">
+                                <p class="validationMessage" data-bind="validationMessage: avgDeliveryTime"></p>
                             </div>
                             <!-- /ko -->
                             <div class="form-group">
@@ -397,10 +397,15 @@
                             <p class="validationMessage" data-bind="validationMessage: businessLandmark"></p>
                         </div>
                         <div class="form-group">
-                            <label for="gpsLocation">Business GPS Location</label>
-                            <input type="text" tabindex="4" class="form-control input-sm" data-bind="value:gpsLocation"></textarea>
-                            <p class="validationMessage" data-bind="validationMessage: gpsLocation"></p>
+                            <label for="gpsLocation">GPS Latitude</label>
+                            <input type="text" tabindex="4" class="form-control input-sm" data-bind="value:gpsLatitude"></textarea>
+                            <p class="validationMessage" data-bind="validationMessage: gpsLatitude"></p>
                         </div>
+                          <div class="form-group">
+                              <label for="gpsLocation">GPS Longitude</label>
+                              <input type="text" tabindex="4" class="form-control input-sm" data-bind="value:gpsLongitude"></textarea>
+                              <p class="validationMessage" data-bind="validationMessage: gpsLongitude"></p>
+                          </div>
                         <div class="form-group">
                             <label for="businessMobile">Business Mobile</label>
                             <input type="text" tabindex="5" class="form-control input-sm" data-bind="value:businessMobile"></textarea>
@@ -413,7 +418,7 @@
                         </div>
                         <div class="form-group">
                             <label for="businessCity">Select City</label>
-                                <select class="form-control" tabindex="7" data-bind="chosen: {width: '100%'},selectedOptions:city" name="city_id">
+                                <select class="form-control" tabindex="7" data-bind="chosen: {width: '100%'},value:city" name="city_id">
                                     <option value="-1">-- Select --</option>
                                     @foreach($cities as $city)
                                     <option value="{{$city->id}}">{{$city->city_description}}</option>
@@ -554,8 +559,9 @@
 <script src="{{asset('assets/common/js/jquery.gritter.min.js')}}"></script>
 <script src="{{asset('assets/common/js/typeahead.bundle.min.js')}}"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places"></script>
-<script src="{{asset('assets/common/js/app/fileUploadAPI.js')}}"></script>
+<script src="{{asset('assets/common/js/app/knockout.bindings.js')}}"></script>
 <script src="{{asset('assets/common/js/app/businessVM.js')}}?<?php echo mt_getrandmax(); ?>"></script>
+<script src="{{asset('assets/common/js/app/BuCuType.js')}}"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $.getJSON("{{action('ManageBusinessController@timeDay')}}", null, function (data) {

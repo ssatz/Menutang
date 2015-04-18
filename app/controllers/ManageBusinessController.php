@@ -98,7 +98,10 @@ class ManageBusinessController extends BaseController
             $cities = $this->manage->getAllCity();
             $cuisineType= $this->manage->getAllCuisineType();
             $time = $this->manage->getAllBusinessTimes();
-            return $this->view->make('admin.edit_business')->withBusiness($businessInfo)
+            if($this->request->ajax()){
+                return $this->response->json($businessInfo);
+            }
+            return $this->view->make('admin.edit_business')
                                                             ->withButypes($buTypes)
                                                             ->withPayments($payments)
                                                             ->withStatus($status)
@@ -304,8 +307,8 @@ class ManageBusinessController extends BaseController
     {
         $buType=json_decode($this->request->get('data'));
         $data=[
-          'business_code'=>$buType->buCode,
-          'business_type'=>$buType->buDescription
+          'business_code'=>trim($buType->buCode),
+          'business_type'=>trim($buType->buDescription)
         ];
         $bu =$this->manage->addBusinessType($data);
         if($bu['result'])
@@ -320,8 +323,8 @@ class ManageBusinessController extends BaseController
         $cuType=json_decode($this->request->get('data'));
 
         $data=[
-            'cuisine_code'=>$cuType->cuCode,
-            'cuisine_description'=>$cuType->cuDescription,
+            'cuisine_code'=>trim($cuType->cuCode),
+            'cuisine_description'=>trim($cuType->cuDescription),
             'business_type_id'=>(int)$cuType->buID
         ];
         $cu =$this->manage->addCuisineType($data);

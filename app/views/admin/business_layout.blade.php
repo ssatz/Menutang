@@ -72,7 +72,6 @@
     @yield('content')
 
 </div>
-@include('_commonpartials.footer')
 @include('_commonpartials.modalpopup')
 </div>
 <!-- /wrapper -->

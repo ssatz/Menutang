@@ -1,930 +1,627 @@
 @extends('admin.business_layout')
-
 @section('content')
-    <div class="panel-group" id="accordion">
-        <p>
-            @if(Session::has('message'))
-
-        <div class="alert alert-success alertCenter">
-            {{ Session::get('message') }}
+<div class="col-md-8" id="add-bu">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Add Business Information
         </div>
-        @endif
-        @if($errors->has())
-            <div class="alert alert-danger alertCenter">
-                @foreach ($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
-            </div>
-            @endif
-            </p>
-            {{ Form::open(['url' => action('ManageBusinessController@editBusinessInfo', [$slug]), 'method'
-            =>'POST','class'=>'form-horizontal','id'=>'edit-businessinfo' ,'enctype'=>'multipart/form-data']) }}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                            Business Info
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Business Name</label>
-
-                            <div class="col-lg-6">
-                                <input type="text" placeholder="Business Name" name="business_name"
-                                       class="form-control input-sm" data-required="true" value="{{$business->business_name}}">
+        <div class="panel-body no-padding">
+            <div class="panel-tab">
+                <ul class="tab-bar">
+                    <li class="active"><a href="#business" data-toggle="tab"><i class="fa fa-home"></i>Business Details</a></li>
+                    <li><a href="#feature" data-toggle="tab"><i class="fa fa-home"></i>Features</a></li>
+                    <li><a href="#logo" data-toggle="tab"><i class="fa fa-home"></i>Logo</a></li>
+                    <li><a href="#address" data-toggle="tab"><i class="fa fa-envelope"></i> Address</a></li>
+                    <li><a href="#timeday" data-toggle="tab"><i class="fa fa-times-circle-o"></i>Time & Day</a></li>
+                    <li><a href="#payment" data-toggle="tab"><i class="fa fa-money"></i>Payments</a></li>
+                    <li><a href="#deliveryarea" data-bind="if:is_door_delivery" data-toggle="tab"><i class="fa fa-dropbox"></i>Delivery</a></li>
+                </ul>
+                <div class="tab-content" style="width: 250px;">
+                    <div class="tab-pane fade in active" id="business">
+                        <div style="margin: 20px;width: 250px">
+                            <div class="form-group">
+                                <label for="businessName">Business Name<i class="validationMessage">*</i></label>
+                                <input type="text" tabindex="1" class="form-control input-sm" data-bind="value:business_name" id="businessName" placeholder="Business Name">
+                                <p class="validationMessage" data-bind="validationMessage: business_name"></p>
                             </div>
-                            <!-- /.col -->
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Logo Upload</label>
-
-                            <div class="col-lg-6">
-                                <input type="file" class="form-control input-sm"  name="fileToUpload" id="fileToUpload">
-                            </div>
-                            <img src="{{asset('uploads/'.$business->business_slug.'/logo75.png')}}">
-                        </div>
-                        <!-- /form-group -->
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Business Type</label>
-
-                            <div class="col-lg-6">
-                                <select class="form-control chzn-select" id="business_type_id" name="business_type_id" data-required="true">
+                            <div class="form-group">
+                                <label for="businessType">Business Type<i class="validationMessage">*</i></label>
+                                <select class="buTypeSelect" data-bind="chosen,value:business_type_id" tabindex="2">
+                                    <option value="-1">-- select --</option>
                                     @foreach($butypes as $buType)
-                                    <option value="{{$buType->id}}" @if($buType->id==$business->business_type_id)selected @endif>{{$buType->business_type}}</option>
+                                    <option value="{{$buType->id}}">{{$buType->business_type}}
+                                    </option>
                                     @endforeach
                                 </select>
+                                <p class="validationMessage" data-bind="validationMessage: business_type_id"></p>
                             </div>
-                            <!-- /.col -->
-                        </div>
-                        <div class="form-group @if($business->business_type_id!=1) displayNone @endif cuisine-type">
-                            <label class="control-label col-lg-2">Cuisine Type</label>
 
-                            <div class="col-lg-6">
-                                <select multiple class="form-control chzn-select" name="cuisines_types[]">
-                                    @foreach($cusinetypes as $cuisineType)
-                                    <option value="{{$cuisineType->id}}" @foreach($business->cuisineType as $cutype)
-                                        @if($cuisineType->id==$cutype->id)
-                                        selected @endif @endforeach>{{$cuisineType->cuisine_description}}</option>
-                                    @endforeach
-                                </select>
-
-                            </div>
-                            <!-- /.col -->
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Status</label>
-
-                            <div class="col-lg-6">
-                                <select class="form-control chzn-select" name="status_id" data-required="true">
+                            <div class="form-group">
+                                <label for="businessType">Status</label>
+                                <select data-bind=" chosen: {width: '100%'},value:status_id" tabindex="4">
+                                    <option value="-1">-- select --</option>
                                     @foreach($status as $stat)
-                                    <option value="{{$stat->id}}" @if($stat->id==$business->status_id)selected @endif>{{$stat->status_description}}</option>
+                                    <option value="{{$stat->id}}">{{$stat->status_description}}</option>
                                     @endforeach
                                 </select>
+                                <p class="validationMessage" data-bind="validationMessage: status_id"></p>
                             </div>
-                            <!-- /.col -->
-                        </div>
-                        <!-- /form-group -->
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Budget</label>
-
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control input-sm" placeholder="100" name="budget"
-                                       data-required="true" data-type="number" value="{{$business->budget}}">
+                            <div class="form-group">
+                                <label for="budget">Budget</label>
+                                <input type="text" tabindex="5"  class="form-control input-sm" id="budget" data-bind="value:budget" placeholder="Cost for two people">
+                                <p class="validationMessage" data-bind="validationMessage: budget"></p>
                             </div>
-                            <!-- /.col -->
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Door Delivery</label>
-
-                            <div class="col-lg-6">
-                                <label class="label-radio inline">
-                                    <input name="is_door_delivery" type="radio" value="1" @if($business->is_door_delivery==1)
-                                    checked @endif>
-
+                            <div class="form-group">
+                                <label for="parcelCharge">Parcel charge</label>
+                                <input type="text" tabindex="6" class="form-control input-sm" id="parcelCharge" data-bind="value:parcel_charges" value="0" placeholder="0">
+                                <p class="validationMessage" data-bind="validationMessage: parcel_charges"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="boardingComments">About restaurant</label>
+                                <textarea tabindex="44" style="margin: 0px; width: 523px; height: 91px;" data-bind="value:business_about"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: business_about"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="avgDeliveryTime">Avg Delivery Time</label>
+                                <input tabindex="45" type="text" class="form-control input-sm" data-bind="timePicker:{
+            'timeFormat': 'H:i:s',
+            'minTime': '00:10:00',
+            'maxTime': '03:00:00'
+        },value:avg_delivery_time" id="avgDeliveryTime" placeholder="00:00:00">
+                                <p class="validationMessage" data-bind="validationMessage: avg_delivery_time"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="website">Website</label>
+                                <input tabindex="46" type="text" class="form-control input-sm" data-bind="value:website" id="website" placeholder="www.example.com">
+                                <p class="validationMessage" data-bind="validationMessage: website"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Order Enable</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" tabindex="47" name="checkOutEnable" value="true" data-bind="checked:ischeckout_enable">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
-                                <label class="label-radio inline">
-                                    <input name="is_door_delivery" type="radio" value="0" @if($business->is_door_delivery==0)
-                                    checked @endif>
-
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" tabindex="48" name="checkOutEnable" value="false" data-bind="checked:ischeckout_enable">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
-
-                            </div>
-                        </div>
-
-                        <div class="form-group fa-comment @if($business->is_door_delivery==0) displayNone @endif">
-                            <label class="control-label col-lg-2">Minimum Delivery Amount</label>
-
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control input-sm" placeholder="00.00"
-                                       name="minimum_delivery_amt" data-type="number"  value="{{$business->minimum_delivery_amt}}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Delivery Fee</label>
-
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control input-sm" placeholder="eg 100" name="delivery_fee"
-                                       data-required="true" data-type="number" value="{{$business->delivery_fee}}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Rail Delivery</label>
-
-                            <div class="col-lg-6">
-                                <label class="label-radio inline">
-                                    <input name="is_rail_delivery" type="radio" value="1" @if($business->is_rail_delivery==1)checked @endif>
-                                    <span class="custom-radio"></span>
-                                    Yes
-                                </label>
-                                <label class="label-radio inline">
-                                    <input name="is_rail_delivery" type="radio" value="0" @if($business->is_rail_delivery==0)checked @endif>
-                                    <span class="custom-radio"></span>
-                                    No
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group fa-comment @if($business->is_rail_delivery==0) displayNone @endif">
-                            <label class="control-label col-lg-2">Minimum Rail Delivery Amount</label>
-
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control input-sm" placeholder="00.00"
-                                       name="minimum_rail_deli_amt" data-type="number" value="{{$business->minimum_rail_deli_amt}}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Parcel charges(package fee)</label>
-
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control input-sm" placeholder="eg 100" name="parcel_charges"
-                                       data-required="true" data-type="number" value="{{$business->parcel_charges}}">
-                            </div>
-                            <!-- /.col -->
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Pickup Available</label>
-
-                            <div class="col-lg-6">
-                                <label class="label-radio inline">
-                                    <input name="is_pickup_available" type="radio" value="1" @if($business->is_pickup_available==1)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    Yes
-                                </label>
-                                <label class="label-radio inline">
-                                    <input name="is_pickup_available" type="radio" value="0" @if($business->is_pickup_available==0)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    No
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="form-group fa-comment @if($business->is_pickup_available==0) displayNone @endif">
-                            <label class="control-label col-lg-2">Minimum Pickup Amount</label>
-
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control input-sm" placeholder="00.00"
-                                       name="minimum_pickup_amt" data-type="number" value="{{$business->minimum_pickup_amt}}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Outdoor Catering</label>
-
-                            <div class="col-lg-6">
-                                <label class="label-radio inline">
-                                    <input name="is_outdoor_catering" type="radio" value="1" @if($business->is_outdoor_catering==1)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    Yes
-                                </label>
-                                <label class="label-radio inline">
-                                    <input name="is_outdoor_catering" type="radio" value="0" @if($business->is_outdoor_catering==0)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    No
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group fa-comment @if($business->is_outdoor_catering==0) displayNone @endif">
-                            <label class="control-label col-lg-2">Outdoor Catering Comments</label>
-
-                            <div class="col-lg-6">
-                                <textarea name="outdoor_catering_comments" class="form-control input-sm">{{$business->outdoor_catering_comments}}</textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Party Hall</label>
-
-                            <div class="col-lg-6">
-                                <label class="label-radio inline">
-                                    <input name="is_party_hall" type="radio" value="1" @if($business->is_party_hall==1)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    Yes
-                                </label>
-                                <label class="label-radio inline">
-                                    <input name="is_party_hall" type="radio" value="0" @if($business->is_party_hall==0)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    No
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group fa-comment @if($business->is_party_hall==0) displayNone @endif">
-                            <label class="control-label col-lg-2">Party Hall Comments</label>
-
-                            <div class="col-lg-6">
-                                <textarea name="party_hall_comments" class="form-control input-sm">{{$business->party_hall_comments}}</textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Buffet</label>
-
-                            <div class="col-lg-6">
-                                <label class="label-radio inline">
-                                    <input name="is_buffet" type="radio" value="1" @if($business->is_buffet==1)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    Yes
-                                </label>
-                                <label class="label-radio inline">
-                                    <input name="is_buffet" type="radio" value="0" @if($business->is_buffet==0)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    No
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Midnight Buffet</label>
-
-                            <div class="col-lg-6">
-                                <label class="label-radio inline">
-                                    <input name="is_midnight_buffet" type="radio" value="1" @if($business->is_midnight_buffet==1)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    Yes
-                                </label>
-                                <label class="label-radio inline">
-                                    <input name="is_midnight_buffet" type="radio" value="0" @if($business->is_midnight_buffet==0)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    No
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Wifi Available</label>
-
-                            <div class="col-lg-6">
-                                <label class="label-radio inline">
-                                    <input name="is_wifi_available" type="radio" value="1" @if($business->is_wifi_available==1)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    Yes
-                                </label>
-                                <label class="label-radio inline">
-                                    <input name="is_wifi_available" type="radio" value="0" @if($business->is_wifi_available==0)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    No
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Children Play Area</label>
-
-                            <div class="col-lg-6">
-                                <label class="label-radio inline">
-                                    <input name="is_children_play_area" type="radio" value="1" @if($business->is_children_play_area==1)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    Yes
-                                </label>
-                                <label class="label-radio inline">
-                                    <input name="is_children_play_area" type="radio" value="0" @if($business->is_children_play_area==0)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    No
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Garden Restaurant</label>
-
-                            <div class="col-lg-6">
-                                <label class="label-radio inline">
-                                    <input name="is_garden_restaurant" type="radio" value="1" @if($business->is_garden_restaurant==1)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    Yes
-                                </label>
-                                <label class="label-radio inline">
-                                    <input name="is_garden_restaurant" type="radio" value="0" @if($business->is_garden_restaurant==0)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    No
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Roof Top Available</label>
-
-                            <div class="col-lg-6">
-                                <label class="label-radio inline">
-                                    <input name="is_roof_top" type="radio" value="1" @if($business->is_roof_top==1)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    Yes
-                                </label>
-                                <label class="label-radio inline">
-                                    <input name="is_roof_top" type="radio" value="0" @if($business->is_roof_top==0)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    No
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Valet Parking</label>
-
-                            <div class="col-lg-6">
-                                <label class="label-radio inline">
-                                    <input name="is_valet_parking" type="radio" value="1" @if($business->is_valet_parking==1)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    Yes
-                                </label>
-                                <label class="label-radio inline">
-                                    <input name="is_valet_parking" type="radio" value="0" @if($business->is_valet_parking==0)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    No
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Boarding</label>
-
-                            <div class="col-lg-6">
-                                <label class="label-radio inline">
-                                    <input name="is_boarding" type="radio" value="1" @if($business->is_boarding==1)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    Yes
-                                </label>
-                                <label class="label-radio inline">
-                                    <input name="is_boarding" type="radio" value="0" @if($business->is_boarding==0)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    No
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group fa-comment @if($business->is_boarding==0) displayNone @endif">
-                            <label class="control-label col-lg-2">Boarding Comments</label>
-
-                            <div class="col-lg-6">
-                                <textarea name="boarding_comments" class="form-control input-sm">{{$business->boarding_comments}}</textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Bar Attached</label>
-
-                            <div class="col-lg-6">
-                                <label class="label-radio inline">
-                                    <input name="is_bar_attached" type="radio" value="1" @if($business->is_bar_attached==1)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    Yes
-                                </label>
-                                <label class="label-radio inline">
-                                    <input name="is_bar_attached" type="radio" value="0" @if($business->is_bar_attached==0)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    No
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Highway Restaurant</label>
-
-                            <div class="col-lg-6">
-                                <label class="label-radio inline">
-                                    <input name="is_highway_res" type="radio" value="1" @if($business->is_highway_res==1)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    Yes
-                                </label>
-                                <label class="label-radio inline">
-                                    <input name="is_highway_res" type="radio" value="0" @if($business->is_highway_res==0)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    No
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group fa-comment @if($business->is_highway_res==0) displayNone @endif">
-                            <label class="control-label col-lg-2">Highway Details</label>
-
-                            <div class="col-lg-6">
-                                <textarea name="highway_details" class="form-control input-sm">{{$business->highway_details}}</textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Ready for food Order</label>
-
-                            <div class="col-lg-6">
-                                <label class="label-radio inline">
-                                    <input name="ischeckout_enable" type="radio" value="1" @if($business->ischeckout_enable==1)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    Yes
-                                </label>
-                                <label class="label-radio inline">
-                                    <input name="ischeckout_enable" type="radio" value="0" @if($business->ischeckout_enable==0)checked @endif>
-
-                                    <span class="custom-radio"></span>
-                                    No
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">About</label>
-
-                            <div class="col-lg-6">
-                                <textarea name="business_about" class="form-control input-sm">{{$business->business_about}}</textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Website</label>
-
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control input-sm" placeholder="http://www.example.com"
-                                       name="website" type="url" value="{{$business->website}}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Average Delivery Time</label>
-
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control input-sm" placeholder="Hour:Minute:Second"
-                                       name="avg_delivery_time" data-required="true" value="{{$business->avg_delivery_time}}">
+                                <p class="validationMessage" data-bind="validationMessage: ischeckout_enable"></p>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                            Business Address
-                        </a>
-                    </h4>
-                </div>
-                <div  id="collapseTwo" class="panel-collapse collapse">
-                    <div class="panel-body">
+                    <div class="tab-pane fade" id="feature">
+                        <div style="margin: 20px;width: 250px">
                             <div class="form-group">
-                                <label class="control-label col-lg-2">Address Line 1</label>
-
-                                <div class="col-lg-6">
-                                    <input type="text" class="form-control input-sm" name="address_line_1"
-                                           data-required="true" value="{{$business->address->address_line_1}}">
-                                </div>
+                                <label for="deliveryEnable">Delivery Enable</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="deliveryEnable" value="true" tabindex="7" data-bind="checked:is_door_delivery">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="deliveryEnable" value="false" tabindex="8" data-bind="checked:is_door_delivery">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_door_delivery"></p>
+                            </div>
+                            <!-- ko if: is_door_delivery() -->
+                            <div class="form-group">
+                                <label for="mindeliveryAmount">Minimum Delivery Amount</label>
+                                <input tabindex="9" type="text" class="form-control input-sm" id="mindeliveryAmount" data-bind="value:minimum_delivery_amt" value="0"  placeholder="0">
+                                <p class="validationMessage" data-bind="validationMessage: minimum_delivery_amt"></p>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-lg-2">Address Line 2</label>
-
-                                <div class="col-lg-6">
-                                    <input type="text" class="form-control input-sm" name="address_line_2"
-                                           data-required="true" value="{{$business->address->address_line_2}}">
-                                </div>
+                                <label for="deliveryFee">Delivery Fee</label>
+                                <input type="text" tabindex="10" class="form-control input-sm" id="deliveryFee" data-bind="value:delivery_fee" value="0"  placeholder="0">
+                                <p class="validationMessage" data-bind="validationMessage: delivery_fee"></p>
+                            </div>
+                            <!-- /ko -->
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Pickup Enable</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="pickupEnable" tabindex="11" value="true" data-bind="checked:is_pickup_available">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="deliveryEnable" value="false" tabindex="12" data-bind="checked:is_pickup_available">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_pickup_available"></p>
+                            </div>
+                            <!-- ko if: is_pickup_available() -->
+                            <div class="form-group">
+                                <label for="minimumPickupAmount">Minimum Pickup Amount</label>
+                                <input tabindex="13" type="text" class="form-control input-sm" id="minimumPickupAmount" data-bind="value:minimum_pickup_amt" value="0"  placeholder="0">
+                                <p class="validationMessage" data-bind="validationMessage: minimum_pickup_amt"></p>
+                            </div>
+                            <!--/ko-->
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Rail Delivery Enable</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="pickupEnable" value="true" tabindex="14" data-bind="checked:is_rail_delivery">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="deliveryEnable" value="false" tabindex="15" data-bind="checked:is_rail_delivery">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_rail_delivery"></p>
+                            </div>
+                            <!-- ko if: is_rail_delivery() -->
+                            <div class="form-group">
+                                <label for="minimumRailDeliveryAmount">Minimum Rail Delivery Amount</label>
+                                <input tabindex="16" type="text" class="form-control input-sm" id="minimumRailDeliveryAmount" data-bind="value:minimum_rail_deli_amt" value="0"  placeholder="0">
+                                <p class="validationMessage" data-bind="validationMessage: minimum_rail_deli_amt"></p>
+                            </div>
+                            <!--/ko-->
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Outdoor Catering</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="outdoorCatering" tabindex="17" value="true" data-bind="checked:is_outdoor_catering">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="outdoorCatering" tabindex="18" value="false" data-bind="checked:is_outdoor_catering">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_outdoor_catering"></p>
+                            </div>
+                            <!-- ko if: is_outdoor_catering -->
+                            <div class="form-group">
+                                <label for="outdoorCateringComments">Outdoor Catering Comments</label>
+                                <textarea   tabindex="19" style="margin: 0px; width: 523px; height: 91px;" data-bind="value:outdoor_catering_comments"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: outdoor_catering_comments"></p>
+                            </div>
+                            <!--/ko -->
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Party Hall</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" tabindex="20" name="partyHall" value="true" data-bind="checked:is_party_hall">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="partyHall" tabindex="21" value="false" data-bind="checked:is_party_hall">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_party_hall"></p>
+                            </div>
+                            <!-- ko if: is_party_hall -->
+                            <div class="form-group">
+                                <label for="partyHallComments">Party Hall Comments</label>
+                                <textarea tabindex="22" style="margin: 0px; width: 523px; height: 91px;" data-bind="value:partyHallComments"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: partyHallComments"></p>
+                            </div>
+                            <!--/ko -->
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Buffet</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" tabindex="23" name="buffet" value="true" data-bind="checked:is_buffet">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="buffet" tabindex="23" value="false" data-bind="checked:is_buffet">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_buffet"></p>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-lg-2">Address Landmark</label>
-
-                                <div class="col-lg-6">
-                                    <input type="text" class="form-control input-sm" name="address_landmark" value="{{$business->address->address_landmark}}">
-                                </div>
+                                <label for="deliveryEnable" >Midnight Buffet</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="midnightBuffet" tabindex="24" value="true" data-bind="checked:is_midnight_buffet">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="midnightBuffet" tabindex="25" value="false" data-bind="checked:is_midnight_buffet">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_midnight_buffet"></p>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-lg-2">Address GPS Location</label>
-
-                                <div class="col-lg-6">
-                                    <input type="text" class="form-control input-sm" name="address_gps_location" value="{{$business->address->address_gps_location}}">
+                                <label for="deliveryEnable" >Wifi</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="wifi" tabindex="26" value="true" data-bind="checked:is_wifi_available">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="wifi" tabindex="27" value="false" data-bind="checked:is_wifi_available">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_wifi_available"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Children Play Area</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" tabindex="28" name="childrenPlayArea" value="true" data-bind="checked:is_children_play_area">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" tabindex="29" name="childrenPlayArea" value="false" data-bind="checked:is_children_play_area">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_children_play_area"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Garden Restaurant</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="gardenRestaurant" tabindex="30" value="true" data-bind="checked:is_garden_restaurant">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="gardenRestaurant" tabindex="31" value="false" data-bind="checked:is_garden_restaurant">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_garden_restaurant"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Roof Top</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="roofTop" tabindex="32" value="true" data-bind="checked:is_roof_top">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="roofTop" tabindex="33" value="false" data-bind="checked:is_roof_top">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_roof_top"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Valet Parking</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="valetParking" tabindex="34" value="true" data-bind="checked:is_valet_parking">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="valetParking" tabindex="35" value="false" data-bind="checked:is_valet_parking">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_valet_parking"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Boarding</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="boarding" value="true" tabindex="36" data-bind="checked:is_boarding">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="boarding" value="false" tabindex="37" data-bind="checked:is_boarding">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_boarding"></p>
+                            </div>
+                            <!-- ko if: is_boarding -->
+                            <div class="form-group">
+                                <label for="boardingComments">Boarding Comments</label>
+                                <textarea style="margin: 0px; width: 523px; height: 91px;" tabindex="38" data-bind="value:boarding_comments"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: boarding_comments"></p>
+                            </div>
+                            <!--/ko -->
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Bar Attached</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="barAttached" value="true" tabindex="39" data-bind="checked:is_bar_attached">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="barAttached" value="false" tabindex="40" data-bind="checked:is_bar_attached">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_bar_attached"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryEnable" >Highway Restaurant</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="highwayRestaurant" tabindex="41" value="true" data-bind="checked:is_highway_res">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="highwayRestaurant" tabindex="42" value="false" data-bind="checked:is_highway_res">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_highway_res"></p>
+                            </div>
+                            <!-- ko if: is_highway_res -->
+                            <div class="form-group">
+                                <label for="boardingComments">Highway Restaurant Details</label>
+                                <textarea tabindex="43" style="margin: 0px; width: 523px; height: 91px;"  data-bind="value:	highway_details"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: 	highway_details"></p>
+                            </div>
+                            <!--/ko -->
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="logo">
+                      <!--  <div class="form-group" style="margin: 20px">
+                            <p class="validationMessage" data-bind="validationMessage: fileData().dataURL"></p>
+                            <div data-bind="fileDrag: fileData">
+                                <div class="image-upload-preview">
+                                    <img data-bind="attr: { src: fileData().dataURL }, visible: fileData().dataURL">
+                                </div>
+                                <div class="image-upload-input">
+                                    <input type="file" data-bind="fileInput: fileData, , customFileInput: {}">
                                 </div>
                             </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-2">Mobile</label>
-
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control input-sm" name="mobile" data-type="digits" data-required="true" value="{{$business->address->mobile}}">
+                        </div>-->
+                    </div>
+                    <div class="tab-pane fade" id="address">
+                        <div style="margin: 20px;">
+                            <div class="form-group">
+                                <label for="businessAddress1">Business Address1</label>
+                                <input type="text" tabindex="1" class="form-control input-sm" data-bind="value:businessAddress1"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: businessAddress1"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="businessAddress2">Business Address2</label>
+                                <input type="text" tabindex="2" class="form-control input-sm" data-bind="value:businessAddress2"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: businessAddress2"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="businessLandmark">Business Landmark</label>
+                                <input type="text" tabindex="3" class="form-control input-sm" data-bind="value:businessLandmark"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: businessLandmark"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="gpsLocation">Business GPS Location</label>
+                                <input type="text" tabindex="4" class="form-control input-sm" data-bind="value:gpsLocation"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: gpsLocation"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="businessMobile">Business Mobile</label>
+                                <input type="text" tabindex="5" class="form-control input-sm" data-bind="value:businessMobile"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: businessMobile"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="businessMobile">Postal Code</label>
+                                <input type="text" tabindex="5" class="form-control input-sm" data-bind="value:postalCode"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: postalCode"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="businessCity">Select City</label>
+                                <select class="form-control" tabindex="7" data-bind="chosen: {width: '100%'},selectedOptions:city" name="city_id">
+                                    <option value="-1">-- Select --</option>
+                                    @foreach($cities as $city)
+                                    <option value="{{$city->id}}">{{$city->city_description}}</option>
+                                    @endforeach
+                                </select>
+                                <p class="validationMessage" data-bind="validationMessage: city"></p>
                             </div>
                         </div>
-                            <div class="form-group">
-                                <label class="control-label col-lg-2">Postal Code</label>
-
-                                <div class="col-lg-6">
-                                    <input type="text" class="form-control input-sm" name="postal_code" data-type="digits" data-required="true" value="{{$business->address->postal_code}}">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">Select City</label>
-
-                                <div class="col-lg-6">
-                                    <select class="form-control chzn-select" name="city_id">
+                    </div>
+                    <div class="tab-pane fade" id="timeday">
+                        <p class="alert alert-error" data-bind="validationMessage: timeDay"></p>
+                        <!--ko foreach:time -->
+                        <timehr-template params='category:category_description,timeCategory:id,callback:$root.addTime'></timehr-template >
+                        <!--/ko -->
+                    </div>
+                    <div class="tab-pane fade" id="payment">
+                        <div style="margin: 20px">
+                            <label for="">Payment</label>
+                            <select multiple data-bind="chosen: {width: '100%'},selectedOptions:payments">
+                                @foreach($payments as $payment)
+                                <option value="{{$payment->id}}"> {{$payment->payment_description}}</option>
+                                @endforeach
+                            </select>
+                            <p class="validationMessage" data-bind="validationMessage: payments"></p>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="deliveryarea" data-bind="if:is_door_delivery">
+                        <table class="table table-responsive" style="width:489px;margin: 20px">
+                            <tr>
+                                <th>Area</th>
+                                <th>Pincode</th>
+                                <th>City</th>
+                                <th><button class="btn btn-success btn-sm" data-bind="click:$root.addDeliveryArea">Add</button></th>
+                            </tr>
+                            <tbody data-bind="foreach:deliveryArea">
+                            <tr>
+                                <td>
+                                    <input type="text" class="form-control input-sm" data-bind="typeahead:{url:'{{action('ManageBusinessController@deliveryAreaSearch')}}'},value:area">
+                                    <p class="validationMessage" data-bind="validationMessage: area"></p>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control input-sm" data-bind="value:pincode">
+                                    <p class="validationMessage" data-bind="validationMessage: pincode"></p>
+                                </td>
+                                <td>
+                                    <select class="form-control" tabindex="7" data-bind="chosen,value:city">
+                                        <option value="-1">-- Select --</option>
                                         @foreach($cities as $city)
-                                        <option value="{{$city->id}}"  @if($business->address->city_id==$city->id)
-                                            selected @endif>{{$city->city_description}}</option>
+                                        <option value="{{$city->id}}">{{$city->city_description}}</option>
                                         @endforeach
                                     </select>
-                                </div>
-                        </div>
+                                    <p class="validationMessage" data-bind="validationMessage: city"></p>
+                                </td>
+                                <td><button class="btn btn-danger btn-sm" data-bind="click:$parent.removeDeliveryArea">Remove</button></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                       href="#collapseThree">
-                        Business Hours
-                    </a>
-                </h4>
-            </div>
-            <div  id="collapseThree" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <div class="form-group">
-                        <input type="hidden" name="hour_delete" id="hour-delete">
-                        @foreach($times as $key=> $time)
-                        <div class="row">
-                            <div class="col-lg-1"></div>
-                            <div class="col-lg-3">
-                         <span class="form-group">
-                              <label class="label-checkbox inline">
-                                  <?php $hourId=-1; ?>
-                                  <input type="checkbox" class="bu-close"
-                                         @foreach($business->businessHours as $hour)
-                                         @if($time->id ==$hour->time_category_id )<?php $hourId=$hour->id ?> checked @endif
-                                         @endforeach
-                                  name="hours[{{$time->id}}][available]" value="{{$hourId}}"/>
-                                  <span class="custom-checkbox"></span>
-                                  {{$time->category_description}}
-                              </label>
-                              <input type="hidden" name="hours[{{$time->id}}][time]" value="{{$time->id}}">
-                             <br/>
-                             <?php
-                             $open=null;
-                             $weekdays =null;
-                             foreach($business->businessHours as $hour):
-                                                if($time->id ==$hour->time_category_id ):
-                                                    $datTime= new \DateTime($hour->open_time);
-                                                    $open = $datTime->format('g:i a');
-                                                    $weekdays = $hour->weekDays;
-                                                endif;
-                                    endforeach;
-                            ?>
-
-                             From:  <input type="text" class="open-time form-control"
-                                        value="{{$open}}"
-                                           name="hours[{{$time->id}}][open_time]"/><br/>
-                             <?php
-                             $close=null;
-                             foreach($business->businessHours as $hour):
-                                 if($time->id ==$hour->time_category_id ):
-                                     $datTime= new \DateTime($hour->close_time);
-                                     $close = $datTime->format('g:i a');
-                                 endif;
-                             endforeach;
-                             ?>
-                             To:<input type="text" class="close-time form-control"
-                                       value="{{$close}}"
-                                       name="hours[{{$time->id}}][close_time]"/><br/>
-                         </span>
-                            </div>
-                            <div class="col-lg-7">
-                                <table class="table table-responsive">
-                                    <thead>
-
-                                    <th>Sunday</th>
-                                    <th>Monday</th>
-                                    <th>Tuesday</th>
-                                    <th>Wednesday</th>
-                                    <th>Thursday</th>
-                                    <th>Friday</th>
-                                    <th>Saturday</th>
-
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                        <span class="form-group">
-                            <label class="label-checkbox inline">
-                                <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][sunday]"
-                                       @if(!is_null($weekdays))
-                                       @foreach($weekdays as $day)
-                                       @if($day['day']=='Sunday') checked @endif
-                                       @endforeach
-                                       @endif
-                                value="sunday"/>
-                                <span class="custom-checkbox"></span>
-                                is Available?
-                            </label>
-                        </span>
-                                        </td>
-                                        <td>
-                            <span class="form-group">
-                                <label class="label-checkbox inline">
-                                    <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][monday]"
-                                           @if(!is_null($weekdays))
-                                           @foreach($weekdays as $day)
-                                           @if($day['day']=='Monday') checked @endif
-                                    @endforeach
-                                    @endif
-                                           value="monday"/>
-                                    <span class="custom-checkbox"></span>
-                                    is Available?
-                                </label>
-                                </span>
-                                        </td>
-                                        <td>
-                            <span class="form-group">
-
-                        <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][tuesday]"
-                                   @if(!is_null($weekdays))
-                                   @foreach($weekdays as $day)
-                                   @if($day['day']=='Tuesday') checked @endif
-                            @endforeach
-                            @endif
-                                   value="tuesday"/>
-                            <span class="custom-checkbox"></span>
-                            is Available?
-                        </label>
-                                </span>
-                                        </td>
-                                        <td>
-                            <span class="form-group">
-                        <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][wednesday]"
-                                   @if(!is_null($weekdays))
-                                   @foreach($weekdays as $day)
-                                   @if($day['day']=='Wednesday') checked @endif
-                            @endforeach
-                            @endif
-                                   value="wednesday"/>
-                            <span class="custom-checkbox"></span>
-                            is Available?
-                        </label>
-                                </span>
-                                        </td>
-                                        <td>
-                            <span class="form-group">
-
-                        <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][thursday]"
-                                   @if(!is_null($weekdays))
-                                   @foreach($weekdays as $day)
-                                   @if($day['day']=='Thursday') checked @endif
-                            @endforeach
-                            @endif
-                                   value="thursday"/>
-                            <span class="custom-checkbox"></span>
-                            is Available?
-                        </label>
-                                </span>
-                                        </td>
-                                        <td>
-                            <span class="form-group">
-                        <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][friday]"
-                                   @if(!is_null($weekdays))
-                                   @foreach($weekdays as $day)
-                                   @if($day['day']=='Friday') checked @endif
-                            @endforeach
-                            @endif
-                                   value="friday"/>
-                            <span class="custom-checkbox"></span>
-                            is Available?
-                        </label>
-                                </span>
-                                        </td>
-                                        <td><span class="form-group">
-
-                        <label class="label-checkbox inline">
-                            <input type="checkbox" class="bu-close" name="hours[{{$time->id}}][saturday]"
-                                   @if(!is_null($weekdays))
-                                   @foreach($weekdays as $day)
-                                   @if($day['day']=='Saturday') checked @endif
-                            @endforeach
-                            @endif
-                                   value="saturday"/>
-                            <span class="custom-checkbox"></span>
-                            is Available?
-                        </label>
-                                </span>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
+            <div class="form-group" style="padding-top: 30px;">
+                <a class="btn btn-success" tabindex="33" data-bind="click:submit"><i class="fa fa-edit fa-lg"></i>Submit</a>
             </div>
         </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                           href="#collapseFour">
-                            Payments
-                        </a>
-                    </h4>
-                </div>
-                <div  id="collapseFour" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <div class="col-lg-6">
-                            <label class="col-lg-2 control-label">Select Payments</label>
-
-                            <div class="col-lg-10">
-                                <select multiple class="form-control chzn-select" name="payments[]">
-                                    @foreach($payments as $payment)
-                                        <option value="{{$payment->id}}" @foreach($business->payment as $businessPayments)
-                                            @if($businessPayments->id==$payment->id)
-                                                selected @endif @endforeach>{{$payment->payment_description}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                       href="#collapseFive">
-                        Delivery Area
-                    </a>
-                </h4>
-            </div>
-            <div  id="collapseFive" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label class="control-label col-lg-2">Delivery Area</label>
-
-                        <div class="col-lg-6">
-                            <button class="btn btn-sm btn-success pull-right add-delivery">Add</button>
-                           @foreach($business->deliveryArea as $deliveryArea)
-                            <div class="padBot30">
-                                <button type="button" class="close displayNone" aria-label="Close"><span aria-hidden="true">×</span>
-                                </button>
-                <span class="pad10"><input type="text" id="delivery_area_0_area" class="form-control width60 area typeahead"
-                                           data-required="true"  name="delivery_area[0][area]" value="{{$deliveryArea['area']}}"></span>
-                <span class="pad10"><input type="text" id="delivery_area_0_pincode" class="form-control width60 pincode"
-                                           data-required="true" name="delivery_area[0][pincode]" data-type="digits" value="{{$deliveryArea['area_pincode']}}">
-                                       <input type="hidden" name="delivery_area[0][id]" class="area-id" id="delivery_area_0_id" value="{{$deliveryArea['id']}}">
-                </span>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-            <div class="panel-footer">
-                <div class="form-group">
-                    <div class="col-lg-offset-2 col-lg-10">
-                        <button type="submit" class="btn btn-success btn-sm">Update</button>
-                    </div>
-                    <!-- /.col -->
-                </div>
-            </div>
-            {{ Form::close() }}
-        <div class="delivery-area-type displayNone">
-        <div class="padBot30">
-            <button type="button" class="close displayNone" aria-label="Close"><span aria-hidden="true">×</span>
-            </button>
-                <span class="pad10"><input type="text" id="delivery_area_0_area" class="form-control width60 area"
-                                           data-required="true"  name="delivery_area[0][area]" value=""></span>
-                <span class="pad10"><input type="text" id="delivery_area_0_pincode" class="form-control width60 pincode"
-                                           data-required="true" name="delivery_area[0][pincode]" data-type="digits" value="">
-                    <input type="hidden" name="delivery_area[0][id]" class="area-id" id="delivery_area_0_id" value="-1">
-                </span>
-        </div>
-            </div>
     </div>
+</div>
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Basic Settings
+        </div>
+        <div class="panel-body no-padding">
+            <div class="panel-tab">
+                <ul class="tab-bar">
+                    <li class="active"><a href="#buType" data-toggle="tab"><i class="fa fa-home"></i>Add Restaurant Type</a></li>
+                    <li><a href="#cuType" data-toggle="tab"><i class="fa fa-pencil"></i> Add Cuisine Type</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="buType">
+                        <div class="form-group">
+                            <label for="buType">Add Business Code</label>
+                            <input type="text" class="form-control input-sm" data-bind="value:buCode">
+                            <p class="validationMessage" data-bind="validationMessage: buCode"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="buType">Add Business Type</label>
+                            <input type="text" class="form-control input-sm" data-bind="value:buDescription">
+                            <p class="validationMessage" data-bind="validationMessage: buDescription"></p>
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-success"  data-bind="click:submit"><i class="fa fa-edit fa-lg"></i>Add Business Type</a>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="cuType">
+                        <div class="form-group">
+                            <label for="businessType">Business Type</label>
+                            <select class="buTypeSelect" data-bind=" chosen: {width: '100%'},value:buID" tabindex="2">
+                                <option value="-1">-- select --</option>
+                                @foreach($butypes as $buType)
+                                <option value="{{$buType->id}}">{{$buType->business_type}}
+                                </option>
+                                @endforeach
+                            </select>
+                            <p class="validationMessage" data-bind="validationMessage: buID"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="buType"> Cuisine Code</label>
+                            <input type="text" class="form-control input-sm" data-bind="value:cuCode">
+                            <p class="validationMessage" data-bind="validationMessage: cuCode"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="buType">Cuisine Description</label>
+                            <input type="text" class="form-control input-sm" data-bind="value:cuDescription">
+                            <p class="validationMessage" data-bind="validationMessage: cuDescription"></p>
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-success"  data-bind="click:submit"><i class="fa fa-edit fa-lg"></i>Add Cuisine Type</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- panel -->
+</div><!-- /.col -->
 @endsection
 @section('css')
-    <link href="{{asset('assets/common/css/chosen/chosen.min.css')}}" rel="stylesheet">
+<link href="{{asset('assets/common/css/chosen/chosen.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/common/css/jquery.timepicker.css')}}" rel="stylesheet">
-    <link href="{{asset('assets/common/css/menutang.css')}}" rel="stylesheet">
+<link href="{{asset('assets/common/css/knockout-file-bindings.css')}}" rel="stylesheet">
+<link href="{{asset('assets/common/css/gritter/jquery.gritter.css')}}" rel="stylesheet">
+
 @endsection
 @section('scripts')
-    <script src="{{asset('assets/common/js/typeahead.bundle.min.js')}}"></script>
-    <script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
-    <script src = "{{asset('assets/common/js/jquery.timepicker.min.js')}}"></script>
-    <script src="{{asset('assets/common/js/app/menutang.js')}}"></script>
+<script src="{{asset('assets/common/js/knockout.min-3.3.0.js')}}"></script>
+<script src="{{asset('assets/common/js/knockout.validation.min.js')}}"></script>
+<script src="{{asset('assets/common/js/knockout.mapping.min.js')}}"></script>
+<script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
+<script src ="{{asset('assets/common/js/jquery.timepicker.min.js')}}"></script>
+<script src="{{asset('assets/common/js/jquery.gritter.min.js')}}"></script>
+<script src="{{asset('assets/common/js/typeahead.bundle.min.js')}}"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places"></script>
+<script src="{{asset('assets/common/js/app/knockout.bindings.js')}}"></script>
+<script src="{{asset('assets/common/js/app/BuCuType.js')}}"></script>
+<script src="{{asset('assets/common/js/app/editBusinessVM.js')}}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.getJSON("{{action('ManageBusinessController@editBusinessInfo',[$slug])}}", null, function (data) {
 
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $(".bu-close").click(function(){
-                if(!$(this).is(':checked'))
-                {
-                  var $delete=$("#hour-delete").val()+','+ $(this).val();
-                    $("#hour-delete").val($delete);
-                }
-            });
-            $('#edit-businessinfo').submit(function (e) {
-                if(!isFormValid('#edit-businessinfo')) {
-                    e.preventDefault;
-                    return false;
-                }
-            });
-            $(".chzn-select").chosen();
-            $('input[name=avg_delivery_time]').timepicker({
-                'timeFormat': 'H:i:s',
-                'minTime': '00:30:00',
-                'maxTime': '03:00:00'
-            });
-            $('.close-time,.open-time').timepicker();
-            $("#business_type_id").change(function(){
-                if($(this).val().toLowerCase()==1)
-                {
-                    return  $(".cuisine-type").show().removeClass('displayNone');
-                }
-                return $(".cuisine-type").hide().addClass('displayNone');
-            });
-            $("input[type=radio]").click(function () {
-                if ($(this).val() == '0') {
-                    $(this).parents('.form-group').next('.fa-comment').hide('slow').find('textarea,input').text('');
-                    $(this).parents('.form-group').next('.fa-comment').hide('slow').find('input').val('');
-
-                }
-                else {
-                    $(this).parents('.form-group').next('.fa-comment').show('slow');
-                }
-            });
-            var deliveryArea = new Bloodhound({
-                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('area'),
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                limit: 10,
-                prefetch: {
-                    url: "{{action('ManageBusinessController@deliveryAreaSearch')}}"
-                }
-            });
-
-            deliveryArea.initialize();
-
-            $("body").on("click", ".add-delivery", function (e) {
-                e.preventDefault();
-                debugger;
-                var clone = $('.delivery-area-type').html();
-                $(this).parent().find(".padBot30:last").after(clone);
-                clone = $(this).parent().find(".padBot30:last");
-                $(clone).find(".close").show();
-                $(clone).find("input").val('');
-                $(clone).find(".area").addClass('typeahead');
-                var $count =parseInt($(this).parents(".form-group").find(".padBot30").length)-1;
-                $(clone).find('.area').prop('name', 'delivery_area[' + $count + '][area]');
-                $(clone).find('.area').prop('id', 'delivery_area_' + $count + '_area');
-                $(clone).find('.pincode').prop('name', 'delivery_area[' + $count + '][pincode]');
-                $(clone).find('.pincode').prop('id', 'delivery_area_' + $count + '_pincode');
-                $(clone).find('.area-id').prop('name', 'delivery_area[' + $count + '][id]');
-                $(clone).find('.area-id').prop('id', 'delivery_area_' + $count + '_id');
-                $(clone).find('.area').css('margin-left', '9px');
-                $(clone).find(".typeahead").typeahead('destroy');
-                $(clone).find(".typeahead").typeahead(null, {
-                    name: 'deliveryArea',
-                    displayKey: 'area',
-                    source: deliveryArea.ttAdapter()
-                }).bind("typeahead:selected", function(obj, datum, name) {
-                    var id=obj.currentTarget.id.split('_')[2];
-                    $("#delivery_area_"+id+"_pincode").val(datum.area_pincode);
-                    $("#delivery_area_"+id+"_id").val(datum.id);
-                });
-            });
-
-           $(".typeahead").typeahead(null, {
-                name: 'deliveryArea',
-                displayKey: 'area',
-                source: deliveryArea.ttAdapter()
-
-            }).bind("typeahead:selected", function(obj, datum, name) {
-               var id=obj.currentTarget.id.split('_')[2];
-               $("#delivery_area_"+id+"_pincode").val(datum.area_pincode);
-               $("#delivery_area_"+id+"_id").val(datum.id);
-           });
+            var editBusinessInfo = ko.validatedObservable(ko.mapping.fromJS(data),validationMapping);
+            ko.applyBindings(editBusinessInfo,$('#add-bu')[0]);
         });
-    </script>
+
+    });
+    function postAjax(data){
+        $.post('{{action('ManageBusinessController@addBusinessInfo')}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
+            if(data!=true)
+            {
+                var error='';
+                $.each(data,function(key,value)
+                {
+                    error = error+'<br/>'+value
+                });
+                notification('Error',error,'gritter-danger');
+                return;
+            }
+            notification('Success','Hurray!Business Created','gritter-success');
+            window.location.reload();
+        }, 'json');
+    }
+    function addbuAjax(data){
+        $.post('{{action('ManageBusinessController@addBuType')}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
+            if(data.result==true) {
+                $('.buTypeSelect').append(
+                    $("<option></option>")
+                        .attr("value", data.buType.id)
+                        .text(data.buType.business_type)
+                );
+                var element = $('#buType')[0];
+                ko.cleanNode(element);
+                ko.applyBindings(new addbuType(),document.getElementById("buType"));
+                notification('Success', 'Hurray!Business Type Created', 'gritter-success');
+                $('.buTypeSelect').chosen().trigger("chosen:updated");
+                return;
+            }
+            var error='';
+            $.each(data.error,function(key,value)
+            {
+                error = error+'<br/>'+value
+            });
+            notification('Error',error,'gritter-danger');
+            return;
+        }, 'json');
+    }
+    function addcuAjax(data){
+        $.post('{{action('ManageBusinessController@addCuType')}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
+            if(data.result==true) {
+                console.log(data.cuType);
+                businessVM.cuisines(data.cuType);
+                businessVM.businessType(undefined);
+                var element = $('#cuType')[0];
+                ko.cleanNode(element);
+                ko.applyBindings(new addcuType(),document.getElementById("cuType"));
+                $('.buTypeSelect').chosen().trigger("chosen:updated");
+                $('.cuTypeSelect').chosen().trigger("chosen:updated");
+                notification('Success', 'Hurray!Cuisine Type Created', 'gritter-success');
+                return;
+            }
+            var error='';
+            $.each(data.error,function(key,value)
+            {
+                error = error+'<br/>'+value
+            });
+            notification('Error',error,'gritter-danger');
+            return;
+        }, 'json');
+    }
+</script>
 @endsection

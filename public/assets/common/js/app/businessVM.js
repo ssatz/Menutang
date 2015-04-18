@@ -1,94 +1,10 @@
 /**
  * Created by satz on 4/9/2015.
  */
-ko.bindingHandlers.typeahead =
-{
-    init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-        var $element = $(element);
-        var allBindings = allBindingsAccessor();
-        var url = ko.unwrap(valueAccessor().url);
-        var data = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('area'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            limit: 10,
-            remote: url+'?q=%QUERY'
-        });
-        data.initialize();
-        $(element).typeahead(null, {
-            name: 'deliveryArea',
-            displayKey: 'area',
-            source: data.ttAdapter()
-
-        }).bind("typeahead:selected", function(obj, datum, name) {
-            var id=obj.currentTarget.id.split('_')[2];
-            viewModel.area(datum.area);
-            viewModel.pincode(datum.area_pincode);
-            viewModel.city(datum.city_id);
-            console.log(ko.toJSON(viewModel));
-        });
-    },
-    update: function(element, valueAccessor, allBindings) {
-        ko.bindingHandlers.value.update(element, valueAccessor);
-    }
-};
-
-ko.bindingHandlers.addressAutocomplete = {
-    init: function (element, valueAccessor, allBindingsAccessor) {
-        var value = valueAccessor(),
-            allBindings = allBindingsAccessor();
-
-        var options = {
-            componentRestrictions: {country: "in"}
-        };
-        ko.utils.extend(options, allBindings.autocompleteOptions)
-
-        var autocomplete = new google.maps.places.Autocomplete(element, options);
-
-        google.maps.event.addListener(autocomplete, 'place_changed', function () {
-            result = autocomplete.getPlace();
-            console.log(result);
-        });
-    },
-    update: function (element, valueAccessor, allBindingsAccessor) {
-        ko.bindingHandlers.value.update(element, valueAccessor);
-    }
-};
-ko.bindingHandlers.chosen = {
-    listenBindings: ['value', 'disable', 'options', 'foreach'],
-    init: function( element, valueAccessor, allBindings ) {
-        var options = ko.unwrap(valueAccessor()), $_ = $(element);
-        $_.chosen( $.extend( options, {
-            width: '100%'
-        } ) );
-
-        ko.computed(function() {
-            $.each(ko.bindingHandlers.chosen.listenBindings, function( i, binding ) {
-                var b = allBindings.get(binding);
-                b = $.isFunction(b) ? b() : b;
-                ko.unwrap(b);
-
-                $_.trigger('chosen:updated');
-            } );
-
-        }, null, { disposeWhenNodeIsRemoved: element });
-
-        ko.utils.domNodeDisposal.addDisposeCallback(element, function(node) {
-            $(node).chosen('destroy');
-        });
-    }
-};
-ko.bindingHandlers.timePicker = {
-    init: function(element, valueAccessor) {
-        var options = ko.unwrap(valueAccessor());
-        $(element).timepicker(options);
-    },
-    update: function(element, valueAccessor, allBindings) {
-        ko.bindingHandlers.value.update(element, valueAccessor);
-    }
-};
 ko.validation.init({insertMessages: false});
 ko.validation.init( { grouping: { deep: true } } )
 var businessVM = {
+    businessId :ko.observable(),
     businessName : ko.observable('').extend({ required: true,
                                                 pattern: {
                                                     message: 'Hey this is not a valid Business Name',
@@ -108,7 +24,11 @@ var businessVM = {
     budget:ko.observable('').extend({required:true,number: true }),
     parcelCharges:ko.observable(0).extend({required:true,number: true }),
     doorDelivery:ko.observable('').extend({required:true}),
-    deliveryFee :ko.observable(0).extend({number: true}),
+    deliveryFee :ko.observable(0).extend({
+        pattern:{
+    params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+        message:'Enter  a valid amount'
+}}),
     railDelivery:ko.observable('').extend({required:true}),
     pickupAvailable:ko.observable('').extend({required:true}),
     outdoorCatering:ko.observable('').extend({required:true}),
@@ -126,17 +46,12 @@ var businessVM = {
     website:ko.observable('').extend({ pattern: {params:'^(www.)([a-zA-Z0-9]*).([a-z]*)$',message:'Invalid format'}}),
     aboutBusiness:ko.observable(''),
     checkOutEnable:ko.observable('').extend({required:true}),
-    avgDeliveryTime:ko.observable('').extend({ required: true,
-                                                    pattern: {
-                                                        message: 'Hey this is not a valid time format, format:00:00:00',
-                                                        params: '([0-9][0-9]:[0-9][0-9]:[0-9][0-9])'
-                                                    }
-    }),
     city:ko.observable('').extend({required:true,notEqual:-1}),
     businessAddress1:ko.observable('').extend({required:true}),
     businessAddress2:ko.observable(''),
     businessLandmark:ko.observable(''),
-    gpsLocation :ko.observable(''),
+    gpsLatitude :ko.observable(''),
+    gpsLongitude :ko.observable(''),
     postalCode :ko.observable('').extend({
         required: true,
         pattern: {
@@ -230,12 +145,28 @@ businessVM.businessType.subscribe(function(model){
         }
     });
 });
+businessVM.avgDeliveryTime=ko.observable('').extend({ required: { onlyIf:function(){
+    if(businessVM.doorDelivery()=='true'){
+        return true;
+    }
+
+}
+},
+    pattern: {
+        message: 'Hey this is not a valid time format, format:00:00:00',
+        params: '([0-9][0-9]:[0-9][0-9]:[0-9][0-9])'
+    }
+}),
 businessVM.minimumDeliveryAmount=ko.observable(0).extend({ required: { onlyIf: function() {
     if(businessVM.doorDelivery()==='true' )
     {
         return true;
     }
-} } });
+} },
+    pattern:{
+        params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+        message:'Enter  a valid amount'
+    } });
 businessVM.deliveryArea=ko.observableArray([{
     area:ko.observable(undefined).extend({required:{ onlyIf:function(){
         if(businessVM.doorDelivery()=='true'){
@@ -276,13 +207,23 @@ businessVM.minimumRailDeliveryAmount=ko.observable(0).extend({ required: { onlyI
     {
         return true;
     }
-} } });
+} },
+    pattern:{
+        params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+        message:'Enter  a valid amount'
+    }
+});
 businessVM.minimumPickupAmount=ko.observable(0).extend({ required: { onlyIf: function() {
     if(businessVM.pickupAvailable()==='true' )
     {
         return true;
     }
-} } });
+} },
+    pattern:{
+    params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+        message:'Enter  a valid amount'
+}
+});
 businessVM.outdoorCateringComments=ko.observable();
 businessVM.partyHallComments=ko.observable();
 businessVM.boardingComments=ko.observable();
@@ -380,46 +321,3 @@ ko.components.register('timehr-template', {
 
 businessVM.errors = ko.validation.group(businessVM,{deep:true});
 ko.applyBindings(businessVM,document.getElementById("add-bu"));
-
-var addbuType= function()
-{
-    this.buCode=ko.observable().extend({required:true,pattern:
-    {
-       params:'^[A-Z]*$',
-       message:'Should be in Capital Letter'
-    }});
-    this.buDescription =ko.observable().extend({required:true});
-    this.errors= ko.validation.group(this);
-    this.submit = function()
-    {
-        if (this.errors().length === 0) {
-             addbuAjax(ko.toJSON(this));
-        }
-        else {
-            this.errors.showAllMessages();
-        }
-    }.bind(this);
-}
-var addcuType =function()
-{
-    this.buID =ko.observable().extend({required:true});
-
-    this.cuCode=ko.observable().extend({required:true,pattern:
-    {
-        params:'^[A-Z]*$',
-        message:'Should be in Capital Letter'
-    }});
-    this.cuDescription =ko.observable().extend({required:true});
-    this.errors= ko.validation.group(this);
-    this.submit = function()
-    {
-        if (this.errors().length === 0) {
-            addcuAjax(ko.toJSON(this));
-        }
-        else {
-            this.errors.showAllMessages();
-        }
-    }.bind(this);
-}
-ko.applyBindings(new addbuType(),document.getElementById("buType"));
-ko.applyBindings(new addcuType(),document.getElementById("cuType"));

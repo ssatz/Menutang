@@ -261,3 +261,89 @@
     ko.fileBindings = fileBindings;
     return fileBindings;
 }));
+
+ko.bindingHandlers.typeahead =
+{
+    init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        var $element = $(element);
+        var allBindings = allBindingsAccessor();
+        var url = ko.unwrap(valueAccessor().url);
+        var data = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('area'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            limit: 10,
+            remote: url+'?q=%QUERY'
+        });
+        data.initialize();
+        $(element).typeahead(null, {
+            name: 'deliveryArea',
+            displayKey: 'area',
+            source: data.ttAdapter()
+
+        }).bind("typeahead:selected", function(obj, datum, name) {
+            var id=obj.currentTarget.id.split('_')[2];
+            viewModel.area(datum.area);
+            viewModel.pincode(datum.area_pincode);
+            viewModel.city(datum.city_id);
+            console.log(ko.toJSON(viewModel));
+        });
+    },
+    update: function(element, valueAccessor, allBindings) {
+        ko.bindingHandlers.value.update(element, valueAccessor);
+    }
+};
+
+ko.bindingHandlers.addressAutocomplete = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var value = valueAccessor(),
+            allBindings = allBindingsAccessor();
+
+        var options = {
+            componentRestrictions: {country: "in"}
+        };
+        ko.utils.extend(options, allBindings.autocompleteOptions)
+
+        var autocomplete = new google.maps.places.Autocomplete(element, options);
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            result = autocomplete.getPlace();
+            console.log(result);
+        });
+    },
+    update: function (element, valueAccessor, allBindingsAccessor) {
+        ko.bindingHandlers.value.update(element, valueAccessor);
+    }
+};
+ko.bindingHandlers.chosen = {
+    listenBindings: ['value', 'disable', 'options', 'foreach'],
+    init: function( element, valueAccessor, allBindings ) {
+        var options = ko.unwrap(valueAccessor()), $_ = $(element);
+        $_.chosen( $.extend( options, {
+            width: '100%'
+        } ) );
+
+        ko.computed(function() {
+            $.each(ko.bindingHandlers.chosen.listenBindings, function( i, binding ) {
+                var b = allBindings.get(binding);
+                b = $.isFunction(b) ? b() : b;
+                ko.unwrap(b);
+
+                $_.trigger('chosen:updated');
+            } );
+
+        }, null, { disposeWhenNodeIsRemoved: element });
+
+        ko.utils.domNodeDisposal.addDisposeCallback(element, function(node) {
+            $(node).chosen('destroy');
+        });
+    }
+};
+ko.bindingHandlers.timePicker = {
+    init: function(element, valueAccessor) {
+        var options = ko.unwrap(valueAccessor());
+        $(element).timepicker(options);
+    },
+    update: function(element, valueAccessor, allBindings) {
+        ko.bindingHandlers.value.update(element, valueAccessor);
+    }
+};
