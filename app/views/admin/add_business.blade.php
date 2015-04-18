@@ -607,8 +607,9 @@
             if(data.result==true) {
                 console.log(data.cuType);
                 businessVM.cuisines(data.cuType);
-                businessVM.businessType(-1);
-                addcuType();
+                businessVM.businessType(undefined);
+                $('.buTypeSelect').chosen().trigger("chosen:updated");
+               new addcuType();
                 notification('Success', 'Hurray!Cuisine Type Created', 'gritter-success');
                 return;
             }

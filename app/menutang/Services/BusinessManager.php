@@ -536,7 +536,6 @@ class BusinessManager
        foreach ($object->deliveryArea as $key=>$area) {
            if(!empty($area->area) && !empty($area->pincode) && $area->area!='' && $area->pincode!='')
            $deliveryArea[$key]=[
-               'id'=>(int)$area->id,
                'area'=>$area->area,
                'pincode'=>(int)$area->pincode
            ];
