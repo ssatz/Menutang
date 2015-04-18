@@ -589,8 +589,11 @@
                        .attr("value", data.buType.id)
                        .text(data.buType.business_type)
                );
-               $('.buTypeSelect').chosen().trigger("chosen:updated");
+               var element = $('#buType')[0];
+               ko.cleanNode(element);
+               ko.applyBindings(new addbuType(),document.getElementById("buType"));
                notification('Success', 'Hurray!Business Type Created', 'gritter-success');
+               $('.buTypeSelect').chosen().trigger("chosen:updated");
                return;
            }
             var error='';
@@ -608,8 +611,11 @@
                 console.log(data.cuType);
                 businessVM.cuisines(data.cuType);
                 businessVM.businessType(undefined);
+                var element = $('#cuType')[0];
+                ko.cleanNode(element);
+                ko.applyBindings(new addcuType(),document.getElementById("cuType"));
                 $('.buTypeSelect').chosen().trigger("chosen:updated");
-               new addcuType();
+                $('.cuTypeSelect').chosen().trigger("chosen:updated");
                 notification('Success', 'Hurray!Cuisine Type Created', 'gritter-success');
                 return;
             }
