@@ -555,7 +555,7 @@
 <script src="{{asset('assets/common/js/typeahead.bundle.min.js')}}"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places"></script>
 <script src="{{asset('assets/common/js/app/fileUploadAPI.js')}}"></script>
-<script src="{{asset('assets/common/js/app/businessVM.js')}}"></script>
+<script src="{{asset('assets/common/js/app/businessVM.js')}}?<?php echo mt_getrandmax(); ?>"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $.getJSON("{{action('ManageBusinessController@timeDay')}}", null, function (data) {
