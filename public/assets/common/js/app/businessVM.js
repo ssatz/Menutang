@@ -50,6 +50,9 @@ var businessVM = {
     businessAddress1:ko.observable('').extend({required:true}),
     businessAddress2:ko.observable(''),
     businessLandmark:ko.observable(''),
+    halal:ko.observable('').extend({required:true}),
+    businessAC:ko.observable(false),
+    businessNonAC:ko.observable(true),
     gpsLatitude :ko.observable(''),
     gpsLongitude :ko.observable(''),
     postalCode :ko.observable('').extend({

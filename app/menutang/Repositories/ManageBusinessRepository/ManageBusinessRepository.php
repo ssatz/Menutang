@@ -308,7 +308,8 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         $address->address_line_1 = $input['address']['address_line_1'];
         $address->address_line_2 = $input['address']['address_line_2'];
         $address->address_landmark = $input['address']['address_landmark'];
-        $address->address_gps_location = $input['address']['address_gps_location'];
+        $address->gps_latitude = $input['address']['gps_latitude'];
+        $address->gps_longitude = $input['address']['gps_longitude'];
         $address->postal_code = $input['address']['postal_code'];
         $address->mobile = $input['address']['mobile'];
         $businessInfo->address()->save($address);

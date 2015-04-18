@@ -182,6 +182,32 @@
                                 </label>
                                 <p class="validationMessage" data-bind="validationMessage: outdoorCatering"></p>
                             </div>
+                            <div class="form-group">
+                                <label for="deliveryEnable">Halal Food</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="deliveryEnable" value="true" tabindex="7" data-bind="checked:halal,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="deliveryEnable" value="false" tabindex="8" data-bind="checked:halal,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: halal"></p>
+                            </div>
+                            <div class="form-group badge badge-info">
+                                <label class="label-checkbox inline">
+                                    <input type="checkbox" name="Ac"  tabindex="7" data-bind="checked:businessAC,value:businessAC">
+                                    <span class="custom-checkbox"></span>
+                                    A/C
+                                </label>
+                                <label class="label-checkbox inline">
+                                    <input type="checkbox" name="Ac"  tabindex="8" data-bind="checked:businessNonAC,value:businessNonAC">
+                                    <span class="custom-checkbox"></span>
+                                    Non A/C
+                                </label>
+                            </div>
                             <!-- ko if: outdoorCatering()=='true' -->
                             <div class="form-group">
                                 <label for="outdoorCateringComments">Outdoor Catering Comments</label>

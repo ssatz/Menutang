@@ -579,6 +579,9 @@ class BusinessManager
             'business_about'=>isset($object->aboutBusiness)?$object->aboutBusiness:'',
             'ischeckout_enable'=> $object->checkOutEnable,
             'avg_delivery_time'=> isset($object->avgDeliveryTime)?$object->avgDeliveryTime:'',
+             'is_halal'=>(bool)$object->halal,
+             'is_ac'=>(bool)$object->businessAC,
+             'is_non_ac'=>(bool)$object->businessNonAC
              ],
           'address'=>[
               'city_id'=>(int)$object->city,

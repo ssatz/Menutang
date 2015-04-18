@@ -14,9 +14,9 @@ class AddAcNonAcHalalColumn extends Migration {
 	{
 		Schema::table('business_info', function(Blueprint $table)
 		{
-			$table->boolean('is_halal');
-            $table->boolean('is_ac');
-            $table->boolean('is_non_ac');
+			$table->boolean('is_halal')->after('budget');
+            $table->boolean('is_ac')->after('is_halal');
+            $table->boolean('is_non_ac')->after('is_ac');
 		});
 	}
 
