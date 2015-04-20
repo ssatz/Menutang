@@ -95,19 +95,20 @@
                         <div style="margin: 20px;width: 250px">
                             <div class="form-group">
                                 <label for="deliveryEnable">Delivery Enable</label>
+
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="deliveryEnable" value="true" tabindex="7" data-bind="checked:is_door_delivery">
+                                    <input type="radio" name="deliveryEnable"  tabindex="7" value="1" data-bind="radio,checked:is_door_delivery">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="deliveryEnable" value="false" tabindex="8" data-bind="checked:is_door_delivery">
+                                    <input type="radio" name="deliveryEnable"  tabindex="8" value="0" data-bind="radio,checked:is_door_delivery">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
                                 <p class="validationMessage" data-bind="validationMessage: is_door_delivery"></p>
                             </div>
-                            <!-- ko if: is_door_delivery() -->
+                            <!-- ko if: is_door_delivery()==1 -->
                             <div class="form-group">
                                 <label for="mindeliveryAmount">Minimum Delivery Amount</label>
                                 <input tabindex="9" type="text" class="form-control input-sm" id="mindeliveryAmount" data-bind="value:minimum_delivery_amt" value="0"  placeholder="0">
@@ -122,18 +123,18 @@
                             <div class="form-group">
                                 <label for="deliveryEnable" >Pickup Enable</label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="pickupEnable" tabindex="11" value="true" data-bind="checked:is_pickup_available">
+                                    <input type="radio" name="pickupEnable" tabindex="11" value="1" data-bind="radio,checked:is_pickup_available">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="deliveryEnable" value="false" tabindex="12" data-bind="checked:is_pickup_available">
+                                    <input type="radio" name="deliveryEnable" value="0" tabindex="12" data-bind="radio,checked:is_pickup_available">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
                                 <p class="validationMessage" data-bind="validationMessage: is_pickup_available"></p>
                             </div>
-                            <!-- ko if: is_pickup_available() -->
+                            <!-- ko if: is_pickup_available()==1 -->
                             <div class="form-group">
                                 <label for="minimumPickupAmount">Minimum Pickup Amount</label>
                                 <input tabindex="13" type="text" class="form-control input-sm" id="minimumPickupAmount" data-bind="value:minimum_pickup_amt" value="0"  placeholder="0">
@@ -143,18 +144,18 @@
                             <div class="form-group">
                                 <label for="deliveryEnable" >Rail Delivery Enable</label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="pickupEnable" value="true" tabindex="14" data-bind="checked:is_rail_delivery">
+                                    <input type="radio" name="pickupEnable" value="1" tabindex="14" data-bind="radio,checked:is_rail_delivery">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="deliveryEnable" value="false" tabindex="15" data-bind="checked:is_rail_delivery">
+                                    <input type="radio" name="deliveryEnable" value="0" tabindex="15" data-bind="radio,checked:is_rail_delivery">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
                                 <p class="validationMessage" data-bind="validationMessage: is_rail_delivery"></p>
                             </div>
-                            <!-- ko if: is_rail_delivery() -->
+                            <!-- ko if: is_rail_delivery()==1 -->
                             <div class="form-group">
                                 <label for="minimumRailDeliveryAmount">Minimum Rail Delivery Amount</label>
                                 <input tabindex="16" type="text" class="form-control input-sm" id="minimumRailDeliveryAmount" data-bind="value:minimum_rail_deli_amt" value="0"  placeholder="0">
@@ -164,18 +165,18 @@
                             <div class="form-group">
                                 <label for="deliveryEnable" >Outdoor Catering</label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="outdoorCatering" tabindex="17" value="true" data-bind="checked:is_outdoor_catering">
+                                    <input type="radio" name="outdoorCatering" tabindex="17" value="1" data-bind="radio,checked:is_outdoor_catering">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="outdoorCatering" tabindex="18" value="false" data-bind="checked:is_outdoor_catering">
+                                    <input type="radio" name="outdoorCatering" tabindex="18" value="0" data-bind="radio,checked:is_outdoor_catering">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
                                 <p class="validationMessage" data-bind="validationMessage: is_outdoor_catering"></p>
                             </div>
-                            <!-- ko if: is_outdoor_catering -->
+                            <!-- ko if: is_outdoor_catering()==1 -->
                             <div class="form-group">
                                 <label for="outdoorCateringComments">Outdoor Catering Comments</label>
                                 <textarea   tabindex="19" style="margin: 0px; width: 523px; height: 91px;" data-bind="value:outdoor_catering_comments"></textarea>
@@ -185,33 +186,33 @@
                             <div class="form-group">
                                 <label for="deliveryEnable" >Party Hall</label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" tabindex="20" name="partyHall" value="true" data-bind="checked:is_party_hall">
+                                    <input type="radio" tabindex="20" name="partyHall" value="1" data-bind="radio,checked:is_party_hall">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="partyHall" tabindex="21" value="false" data-bind="checked:is_party_hall">
+                                    <input type="radio" name="partyHall" tabindex="21" value="0" data-bind="radio,checked:is_party_hall">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
                                 <p class="validationMessage" data-bind="validationMessage: is_party_hall"></p>
                             </div>
-                            <!-- ko if: is_party_hall -->
+                            <!-- ko if: is_party_hall()==1 -->
                             <div class="form-group">
                                 <label for="partyHallComments">Party Hall Comments</label>
-                                <textarea tabindex="22" style="margin: 0px; width: 523px; height: 91px;" data-bind="value:partyHallComments"></textarea>
-                                <p class="validationMessage" data-bind="validationMessage: partyHallComments"></p>
+                                <textarea tabindex="22" style="margin: 0px; width: 523px; height: 91px;" data-bind="value:party_hall_comments"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: party_hall_comments"></p>
                             </div>
                             <!--/ko -->
                             <div class="form-group">
                                 <label for="deliveryEnable" >Buffet</label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" tabindex="23" name="buffet" value="true" data-bind="checked:is_buffet">
+                                    <input type="radio" tabindex="23" name="buffet" value="1" data-bind="radio,checked:is_buffet">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="buffet" tabindex="23" value="false" data-bind="checked:is_buffet">
+                                    <input type="radio" name="buffet" tabindex="23" value="0" data-bind="radio,checked:is_buffet">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
@@ -220,12 +221,12 @@
                             <div class="form-group">
                                 <label for="deliveryEnable" >Midnight Buffet</label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="midnightBuffet" tabindex="24" value="true" data-bind="checked:is_midnight_buffet">
+                                    <input type="radio" name="midnightBuffet" tabindex="24" value="1" data-bind="radio,checked:is_midnight_buffet">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="midnightBuffet" tabindex="25" value="false" data-bind="checked:is_midnight_buffet">
+                                    <input type="radio" name="midnightBuffet" tabindex="25" value="0" data-bind="radio,checked:is_midnight_buffet">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
@@ -234,12 +235,12 @@
                             <div class="form-group">
                                 <label for="deliveryEnable" >Wifi</label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="wifi" tabindex="26" value="true" data-bind="checked:is_wifi_available">
+                                    <input type="radio" name="wifi" tabindex="26" value="1" data-bind="radio,checked:is_wifi_available">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="wifi" tabindex="27" value="false" data-bind="checked:is_wifi_available">
+                                    <input type="radio" name="wifi" tabindex="27" value="0" data-bind="radio,checked:is_wifi_available">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
@@ -248,12 +249,12 @@
                             <div class="form-group">
                                 <label for="deliveryEnable" >Children Play Area</label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" tabindex="28" name="childrenPlayArea" value="true" data-bind="checked:is_children_play_area">
+                                    <input type="radio" tabindex="28" name="childrenPlayArea" value="1" data-bind="radio,checked:is_children_play_area">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" tabindex="29" name="childrenPlayArea" value="false" data-bind="checked:is_children_play_area">
+                                    <input type="radio" tabindex="29" name="childrenPlayArea" value="0" data-bind="radio,checked:is_children_play_area">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
@@ -262,12 +263,12 @@
                             <div class="form-group">
                                 <label for="deliveryEnable" >Garden Restaurant</label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="gardenRestaurant" tabindex="30" value="true" data-bind="checked:is_garden_restaurant">
+                                    <input type="radio" name="gardenRestaurant" tabindex="30" value="1" data-bind="radio,checked:is_garden_restaurant">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="gardenRestaurant" tabindex="31" value="false" data-bind="checked:is_garden_restaurant">
+                                    <input type="radio" name="gardenRestaurant" tabindex="31" value="0" data-bind="radio,checked:is_garden_restaurant">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
@@ -276,12 +277,12 @@
                             <div class="form-group">
                                 <label for="deliveryEnable" >Roof Top</label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="roofTop" tabindex="32" value="true" data-bind="checked:is_roof_top">
+                                    <input type="radio" name="roofTop" tabindex="32" value="1" data-bind="radio,checked:is_roof_top">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="roofTop" tabindex="33" value="false" data-bind="checked:is_roof_top">
+                                    <input type="radio" name="roofTop" tabindex="33" value="0" data-bind="radio,checked:is_roof_top">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
@@ -290,12 +291,12 @@
                             <div class="form-group">
                                 <label for="deliveryEnable" >Valet Parking</label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="valetParking" tabindex="34" value="true" data-bind="checked:is_valet_parking">
+                                    <input type="radio" name="valetParking" tabindex="34" value="1" data-bind="radio,checked:is_valet_parking">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="valetParking" tabindex="35" value="false" data-bind="checked:is_valet_parking">
+                                    <input type="radio" name="valetParking" tabindex="35" value="0" data-bind="radio,checked:is_valet_parking">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
@@ -304,18 +305,18 @@
                             <div class="form-group">
                                 <label for="deliveryEnable" >Boarding</label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="boarding" value="true" tabindex="36" data-bind="checked:is_boarding">
+                                    <input type="radio" name="boarding" value="1" tabindex="36" data-bind="radio,checked:is_boarding">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="boarding" value="false" tabindex="37" data-bind="checked:is_boarding">
+                                    <input type="radio" name="boarding" value="0" tabindex="37" data-bind="radio,checked:is_boarding">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
                                 <p class="validationMessage" data-bind="validationMessage: is_boarding"></p>
                             </div>
-                            <!-- ko if: is_boarding -->
+                            <!-- ko if: is_boarding()==1 -->
                             <div class="form-group">
                                 <label for="boardingComments">Boarding Comments</label>
                                 <textarea style="margin: 0px; width: 523px; height: 91px;" tabindex="38" data-bind="value:boarding_comments"></textarea>
@@ -325,12 +326,12 @@
                             <div class="form-group">
                                 <label for="deliveryEnable" >Bar Attached</label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="barAttached" value="true" tabindex="39" data-bind="checked:is_bar_attached">
+                                    <input type="radio" name="barAttached" value="1" tabindex="39" data-bind="radio,checked:is_bar_attached">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="barAttached" value="false" tabindex="40" data-bind="checked:is_bar_attached">
+                                    <input type="radio" name="barAttached" value="0" tabindex="40" data-bind="radio,checked:is_bar_attached">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
@@ -339,18 +340,18 @@
                             <div class="form-group">
                                 <label for="deliveryEnable" >Highway Restaurant</label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="highwayRestaurant" tabindex="41" value="true" data-bind="checked:is_highway_res">
+                                    <input type="radio" name="highwayRestaurant" tabindex="41" value="1" data-bind="radio,checked:is_highway_res">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="highwayRestaurant" tabindex="42" value="false" data-bind="checked:is_highway_res">
+                                    <input type="radio" name="highwayRestaurant" tabindex="42" value="0" data-bind="radio,checked:is_highway_res">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
                                 <p class="validationMessage" data-bind="validationMessage: is_highway_res"></p>
                             </div>
-                            <!-- ko if: is_highway_res -->
+                            <!-- ko if: is_highway_res()==1 -->
                             <div class="form-group">
                                 <label for="boardingComments">Highway Restaurant Details</label>
                                 <textarea tabindex="43" style="margin: 0px; width: 523px; height: 91px;"  data-bind="value:	highway_details"></textarea>
@@ -376,64 +377,92 @@
                         <div style="margin: 20px;">
                             <div class="form-group">
                                 <label for="businessAddress1">Business Address1</label>
-                                <input type="text" tabindex="1" class="form-control input-sm" data-bind="value:businessAddress1"></textarea>
-                                <p class="validationMessage" data-bind="validationMessage: businessAddress1"></p>
+                                <input type="text" tabindex="1" class="form-control input-sm" data-bind="value:address.address_line_1"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: address.address_line_1"></p>
                             </div>
                             <div class="form-group">
                                 <label for="businessAddress2">Business Address2</label>
-                                <input type="text" tabindex="2" class="form-control input-sm" data-bind="value:businessAddress2"></textarea>
-                                <p class="validationMessage" data-bind="validationMessage: businessAddress2"></p>
+                                <input type="text" tabindex="2" class="form-control input-sm" data-bind="value:address.address_line_2"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: address.address_line_2"></p>
                             </div>
                             <div class="form-group">
                                 <label for="businessLandmark">Business Landmark</label>
-                                <input type="text" tabindex="3" class="form-control input-sm" data-bind="value:businessLandmark"></textarea>
-                                <p class="validationMessage" data-bind="validationMessage: businessLandmark"></p>
+                                <input type="text" tabindex="3" class="form-control input-sm" data-bind="value:address.address_landmark"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: address.address_landmark"></p>
                             </div>
                             <div class="form-group">
-                                <label for="gpsLocation">Business GPS Location</label>
-                                <input type="text" tabindex="4" class="form-control input-sm" data-bind="value:gpsLocation"></textarea>
-                                <p class="validationMessage" data-bind="validationMessage: gpsLocation"></p>
+                                <label for="gpsLocation">GPS Latitude</label>
+                                <input type="text" tabindex="4" class="form-control input-sm" data-bind="value:address.gps_latitude"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: address.gps_latitude"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="gpsLocation">GPS Longitude</label>
+                                <input type="text" tabindex="4" class="form-control input-sm" data-bind="value:address.gps_longitude"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: address.gps_longitude"></p>
                             </div>
                             <div class="form-group">
                                 <label for="businessMobile">Business Mobile</label>
-                                <input type="text" tabindex="5" class="form-control input-sm" data-bind="value:businessMobile"></textarea>
-                                <p class="validationMessage" data-bind="validationMessage: businessMobile"></p>
+                                <input type="text" tabindex="5" class="form-control input-sm" data-bind="value:address.mobile"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: address.mobile"></p>
                             </div>
                             <div class="form-group">
                                 <label for="businessMobile">Postal Code</label>
-                                <input type="text" tabindex="5" class="form-control input-sm" data-bind="value:postalCode"></textarea>
-                                <p class="validationMessage" data-bind="validationMessage: postalCode"></p>
+                                <input type="text" tabindex="5" class="form-control input-sm" data-bind="value:address.postal_code"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: address.postal_code"></p>
                             </div>
                             <div class="form-group">
                                 <label for="businessCity">Select City</label>
-                                <select class="form-control" tabindex="7" data-bind="chosen: {width: '100%'},selectedOptions:city" name="city_id">
+                                <select class="form-control" tabindex="7" data-bind="chosen: {width: '100%'},value:address.city_id" name="city_id">
                                     <option value="-1">-- Select --</option>
                                     @foreach($cities as $city)
                                     <option value="{{$city->id}}">{{$city->city_description}}</option>
                                     @endforeach
                                 </select>
-                                <p class="validationMessage" data-bind="validationMessage: city"></p>
+                                <p class="validationMessage" data-bind="validationMessage: address.city_id"></p>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="timeday">
-                        <p class="alert alert-error" data-bind="validationMessage: timeDay"></p>
-                        <!--ko foreach:time -->
-                        <timehr-template params='category:category_description,timeCategory:id,callback:$root.addTime'></timehr-template >
-                        <!--/ko -->
+                    <div class="tab-pane fade" id="timeday" style="width: 645px;">
+                      <!--ko foreach:timeDay -->
+                        <div class="form-group" style="width: 100px !important;">
+                            <label class="label-checkbox inline">
+                                <input type="checkbox"  data-bind="value:time_category_id,checked:enabled"/>
+                                <span class="custom-checkbox"></span>
+                            </label>
+                            <!--ko text:category_description --><!--/ko-->
+                        </div>
+                        <div class="form-group" style="width: 100px !important;">
+                            <label for="openTime">Open Time</label>
+                            <input type="text" data-bind="timePicker,value:open_time" class="form-control input-sm">
+                            <p class="validationMessage" data-bind="validationMessage: open_time"></p>
+                        </div>
+                        <div class="form-group" style="width: 100px !important;">
+                            <label for="closeTime">Close Time</label>
+                            <input type="text" data-bind="timePicker,value:close_time" class="form-control input-sm">
+                            <p class="validationMessage" data-bind="validationMessage: close_time"></p>
+                        </div>
+                            <!--ko foreach:$root.day -->
+                            <label class="badge badge-info label-checkbox inline">
+                                <input type="checkbox"  data-bind="checked:$parent.week_days,value:$data.id"/>
+                                <span class="custom-checkbox"></span>
+                                <!-- ko text:$data.day --><!--/ko-->
+                            </label>
+                            <!--/ko-->
+                        <hr/>
+                        <!--/ko-->
                     </div>
                     <div class="tab-pane fade" id="payment">
                         <div style="margin: 20px">
                             <label for="">Payment</label>
-                            <select multiple data-bind="chosen: {width: '100%'},selectedOptions:payments">
+                            <select multiple data-bind="chosen: {width: '100%'},value:selectedPayments">
                                 @foreach($payments as $payment)
                                 <option value="{{$payment->id}}"> {{$payment->payment_description}}</option>
                                 @endforeach
                             </select>
-                            <p class="validationMessage" data-bind="validationMessage: payments"></p>
+                            <p class="validationMessage" data-bind="validationMessage: payment"></p>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="deliveryarea" data-bind="if:is_door_delivery">
+                    <div class="tab-pane fade" id="deliveryarea" data-bind="if:is_door_delivery()==1">
                         <table class="table table-responsive" style="width:489px;margin: 20px">
                             <tr>
                                 <th>Area</th>
@@ -529,8 +558,8 @@
                 </div>
             </div>
         </div>
-    </div><!-- panel -->
-</div><!-- /.col -->
+    </div>
+</div>
 @endsection
 @section('css')
 <link href="{{asset('assets/common/css/chosen/chosen.min.css')}}" rel="stylesheet">
@@ -544,6 +573,7 @@
 <script src="{{asset('assets/common/js/knockout.validation.min.js')}}"></script>
 <script src="{{asset('assets/common/js/knockout.mapping.min.js')}}"></script>
 <script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
+<script src ="{{asset('assets/common/js/moment.min.js')}}"></script>
 <script src ="{{asset('assets/common/js/jquery.timepicker.min.js')}}"></script>
 <script src="{{asset('assets/common/js/jquery.gritter.min.js')}}"></script>
 <script src="{{asset('assets/common/js/typeahead.bundle.min.js')}}"></script>
@@ -554,9 +584,9 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $.getJSON("{{action('ManageBusinessController@editBusinessInfo',[$slug])}}", null, function (data) {
+            console.log(data);
+        new viewModel(data);
 
-            var editBusinessInfo = ko.validatedObservable(ko.mapping.fromJS(data),validationMapping);
-            ko.applyBindings(editBusinessInfo,$('#add-bu')[0]);
         });
 
     });
