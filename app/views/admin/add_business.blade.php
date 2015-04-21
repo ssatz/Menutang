@@ -26,7 +26,7 @@
                         </div>
                         <div class="form-group">
                             <label for="businessType">Business Type<i class="validationMessage">*</i></label>
-                            <select class="buTypeSelect" data-bind="chosen,selectedOptions:businessType" tabindex="2">
+                            <select class="buTypeSelect" data-bind="chosen,value:businessType" tabindex="2">
                                 <option value="-1">-- select --</option>
                                 @foreach($butypes as $buType)
                                 <option value="{{$buType->id}}">{{$buType->business_type}}
@@ -45,7 +45,7 @@
                             <!--/ko-->
                         <div class="form-group">
                             <label for="businessType">Status</label>
-                            <select data-bind=" chosen: {width: '100%'},selectedOptions:status" tabindex="4">
+                            <select data-bind=" chosen: {width: '100%'},value:status" tabindex="4">
                                 <option value="-1">-- select --</option>
                                 @foreach($status as $stat)
                                 <option value="{{$stat->id}}">{{$stat->status_description}}</option>

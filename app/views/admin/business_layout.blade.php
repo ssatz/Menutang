@@ -26,6 +26,7 @@
     <!-- Perfect -->
     <link href="{{asset('assets/common/css/app.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/common/css/app-skin.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/common/css/menutang.css')}}" rel="stylesheet">
     @yield('css')
 </head>
 

@@ -1,9 +1,8 @@
 /**
  * Created by Admin on 4/18/2015.
  */
-
-ko.validation.init({insertMessages: false});
-ko.validation.init( { grouping: { deep: true } } )
+ko.validation.init({insertMessages: false,
+    grouping: { deep: true } },true);
 
 ko.bindingHandlers.radio = {
     init: function(element, valueAccessor, allBindings) {
@@ -24,19 +23,45 @@ ko.bindingHandlers.radio = {
 
     }
 };
+
 var validationMapping = {
     'business_name': {
         create: function(options) {
             return ko.observable(options.data).extend({required: true});
         }
+    },
+    'business_type_id': {
+        create: function(options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'status_id': {
+        create: function(options) {
+            return ko.observable(options.data).extend({required: true});
+        }
     }
+
 }
 
 var viewModel=function(data){
     var self=this;
-    self.timeDay=ko.observableArray();
-    self.selectedPayments=ko.observableArray();
-    self.deliveryArea=ko.observableArray();
+    self.timeDay=ko.observableArray().extend({required:true});
+    self.selectedPayments=ko.observableArray().extend({required:true});
+    self.deliveryArea=ko.observableArray().extend({required:{ onlyIf:function(){
+        if(self.is_door_delivery==1){
+            return true;
+        }
+
+    }
+    }});
+    self.cuisineTypes=ko.observableArray();
+    self.cuisineTypeSelected=ko.observableArray().extend({ required: true,
+        notEqual:-1
+    });
+    new time(data,self);
+    new selectedPayments(data.payment,self);
+    new deliveryArea(data.delivery_area,self);
+    new cuisinesTypeSelected(data.cuisine_type,self);
     self.addDeliveryArea=function(model,event){
         self.deliveryArea.push({
             area:ko.observable().extend({required:{ onlyIf:function(){
@@ -77,11 +102,21 @@ var viewModel=function(data){
             notification('Error','Please fix errors before submit','gritter-danger');
         }
     }
-    new time(data,self);
-    new selectedPayments(data.payment,self);
-    new deliveryArea(data.delivery_area,self);
+    self.reset =function(){
+        resetViewModel();
+    }
     ko.validatedObservable(ko.mapping.fromJS(data,validationMapping,self));
-    ko.applyBindings(self,$('#add-bu')[0]);
+    self.business_type_id.subscribe(function(model){
+        self.cuisineTypes.removeAll();
+        ko.utils.arrayForEach(self.cuisines(), function(cu) {
+            if(ko.toJSON(cu.business_type_id) == model)
+            {
+                self.cuisineTypes.push(cu);
+            }
+        });
+
+        console.log(ko.toJSON(self.cuisineTypeSelected));
+    },self);
 }
 var time =function(data,object){
     var self=this;
@@ -123,13 +158,6 @@ var time =function(data,object){
         });
     });
 }
-var selectedPayments=function(payment,object)
-{
-    ko.utils.arrayForEach(payment,function(item)
-    {
-       object.selectedPayments.push(item.id);
-    });
-}
 
 var deliveryArea =function(deliveryarea,object){
     ko.utils.arrayForEach(deliveryarea,function(item)
@@ -158,4 +186,18 @@ var deliveryArea =function(deliveryarea,object){
            city:ko.observable(item.city_id).extend({required:true,notEqual:-1})
        })
     });
+}
+var selectedPayments=function(payment,object)
+{
+    ko.utils.arrayForEach(payment, function(item) {
+        object.selectedPayments.push(item.id);
+    });
+    console.log(ko.toJSON(object.selectedPayments));
+}
+
+var cuisinesTypeSelected=function(cuisineType,object){
+    ko.utils.arrayForEach(cuisineType, function(item) {
+        object.cuisineTypeSelected.push(item.id);
+    });
+
 }

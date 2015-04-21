@@ -101,7 +101,8 @@ class ManageBusinessController extends BaseController
             if($this->request->ajax()){
                 $businessInfo->time=$this->manage->getAllBusinessTimes();
                 $businessInfo->day= $this->manage->getAllWeekDays();
-                $businessInfo->cuisineType=$this->manage->getAllCuisineType();
+                $businessInfo->cuisines=$this->manage->getAllCuisineType();
+                $businessInfo->paymentsType=$this->manage->getAllPayments();
                 return $this->response->json($businessInfo);
             }
             return $this->view->make('admin.edit_business')

@@ -35,7 +35,15 @@
                                 </select>
                                 <p class="validationMessage" data-bind="validationMessage: business_type_id"></p>
                             </div>
-
+                            <!-- ko if: business_type_id()!=-1-->
+                            <div class="form-group">
+                                <label for="businessType">Cuisine Type</label>
+                                <select multiple style="width:120px"
+                                        data-bind="options:cuisineTypes,selectedOptions:cuisineTypeSelected,optionsText:'cuisine_description',optionsValue: 'id'" tabindex="3">
+                                </select>
+                                <p class="validationMessage" data-bind="validationMessage: cuisineTypeSelected"></p>
+                            </div>
+                            <!--/ko-->
                             <div class="form-group">
                                 <label for="businessType">Status</label>
                                 <select data-bind=" chosen: {width: '100%'},value:status_id" tabindex="4">
@@ -454,12 +462,8 @@
                     <div class="tab-pane fade" id="payment">
                         <div style="margin: 20px">
                             <label for="">Payment</label>
-                            <select multiple data-bind="chosen: {width: '100%'},value:selectedPayments">
-                                @foreach($payments as $payment)
-                                <option value="{{$payment->id}}"> {{$payment->payment_description}}</option>
-                                @endforeach
-                            </select>
-                            <p class="validationMessage" data-bind="validationMessage: payment"></p>
+                            <select class="form-control" data-bind="options: $root.paymentsType, selectedOptions: $root.selectedPayments, optionsText: 'payment_description', optionsValue: 'id'" multiple="multiple"></select>
+                            <p class="validationMessage" data-bind="validationMessage: selectedPayments"></p>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="deliveryarea" data-bind="if:is_door_delivery()==1">
@@ -498,6 +502,7 @@
             </div>
             <div class="form-group" style="padding-top: 30px;">
                 <a class="btn btn-success" tabindex="33" data-bind="click:submit"><i class="fa fa-edit fa-lg"></i>Submit</a>
+                <a class="btn btn-success" tabindex="33" data-bind="click:reset"><i class="fa fa-edit fa-lg"></i>Reset</a>
             </div>
         </div>
     </div>
@@ -584,12 +589,19 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $.getJSON("{{action('ManageBusinessController@editBusinessInfo',[$slug])}}", null, function (data) {
-            console.log(data);
-        new viewModel(data);
-
+            ko.applyBindingsWithValidation( new viewModel(data),$('#add-bu')[0]);
         });
 
     });
+
+    function resetViewModel(){
+        $.getJSON("{{action('ManageBusinessController@editBusinessInfo',[$slug])}}", null, function (data) {
+          //  var element = $('#add-bu')[0];
+          //  ko.cleanNode(element);
+           // ko.applyBindingsWithValidation( new viewModel(data),$('#add-bu')[0]);
+        new viewModel(data);
+        });
+    }
     function postAjax(data){
         $.post('{{action('ManageBusinessController@addBusinessInfo')}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
             if(data!=true)
