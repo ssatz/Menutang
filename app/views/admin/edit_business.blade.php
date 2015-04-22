@@ -86,12 +86,12 @@
                             <div class="form-group">
                                 <label for="deliveryEnable" >Order Enable</label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" tabindex="47" name="checkOutEnable" value="true" data-bind="checked:ischeckout_enable">
+                                    <input type="radio" tabindex="47" name="checkOutEnable" value="1" data-bind="radio,checked:ischeckout_enable">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" tabindex="48" name="checkOutEnable" value="false" data-bind="checked:ischeckout_enable">
+                                    <input type="radio" tabindex="48" name="checkOutEnable" value="0"  data-bind="radio,checked:ischeckout_enable">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
@@ -594,12 +594,17 @@
 
     });
 
-    function resetViewModel(){
+    function resetViewModel(object){
         $.getJSON("{{action('ManageBusinessController@editBusinessInfo',[$slug])}}", null, function (data) {
-          //  var element = $('#add-bu')[0];
-          //  ko.cleanNode(element);
-           // ko.applyBindingsWithValidation( new viewModel(data),$('#add-bu')[0]);
-        new viewModel(data);
+            object.timeDay.removeAll();
+            object.selectedPayments.removeAll();
+            object.deliveryArea.removeAll();
+            object.cuisineTypeSelected.removeAll();
+            ko.validatedObservable(ko.mapping.fromJS(data,validationMapping,object));
+            new time(data,object);
+            new selectedPayments(data.payment,object);
+            new deliveryArea(data.delivery_area,object);
+            new cuisinesTypeSelected(data.cuisine_type,object);
         });
     }
     function postAjax(data){

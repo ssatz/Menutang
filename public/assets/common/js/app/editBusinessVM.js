@@ -26,17 +26,202 @@ ko.bindingHandlers.radio = {
 
 var validationMapping = {
     'business_name': {
-        create: function(options) {
+        create: function (options) {
             return ko.observable(options.data).extend({required: true});
         }
     },
     'business_type_id': {
-        create: function(options) {
+        create: function (options) {
             return ko.observable(options.data).extend({required: true});
         }
     },
     'status_id': {
-        create: function(options) {
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'budget': {
+        create: function (options) {
+            return ko.observable(options.data).extend({
+                required: true,
+                pattern: {
+                    params: '^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+                    message: 'Enter  a valid amount'
+                }
+            })
+        }
+
+    },
+    'parcel_charges':{
+        create: function (options) {
+            return ko.observable(options.data).extend({
+                required: true,
+                pattern: {
+                    params: '^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+                    message: 'Enter  a valid amount'
+                }
+            })
+        }
+
+    },
+    'is_door_delivery':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'minimum_delivery_amt':{
+        create: function (options) {
+            return ko.observable(options.data).extend({ required: { onlyIf: function() {
+                if(options.parent.is_door_delivery()==1 )
+                {
+                    return true;
+                }
+            } },
+                pattern:{
+                    params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+                    message:'Enter  a valid amount'
+                }
+            });
+        }
+    },
+    'delivery_fee':{
+        create: function (options) {
+            return ko.observable(options.data).extend({ required: { onlyIf: function() {
+                if(options.parent.is_door_delivery()==1 )
+                {
+                    return true;
+                }
+            } },
+                pattern:{
+                    params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+                    message:'Enter  a valid amount'
+                }
+            });
+        }
+    },
+    'avg_delivery_time':{
+        create: function (options) {
+            return ko.observable(options.data).extend({ required: { onlyIf:function(){
+                if(options.parent.is_door_delivery()==1){
+                    return true;
+                }
+
+            }
+            },
+                pattern: {
+                    message: 'Hey this is not a valid time format, format:00:00:00',
+                    params: '([0-9][0-9]:[0-9][0-9]:[0-9][0-9])'
+                }
+            })
+        }
+    },
+    'is_pickup_available':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'minimum_pickup_amt':{
+        create: function (options) {
+            return ko.observable(options.data).extend({ required: { onlyIf: function() {
+                if(options.parent.is_pickup_available()==1 )
+                {
+                    return true;
+                }
+            } },
+                pattern:{
+                    params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+                    message:'Enter  a valid amount'
+                }
+            });
+        }
+    },
+    'is_rail_delivery':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'minimum_rail_deli_amt':{
+        create: function (options) {
+            return ko.observable(options.data).extend({ required: { onlyIf: function() {
+                if(options.parent.is_rail_delivery()==1 )
+                {
+                    return true;
+                }
+            } },
+                pattern:{
+                    params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+                    message:'Enter  a valid amount'
+                }
+            });
+        }
+    },
+    'is_outdoor_catering':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+   'is_party_hall':{
+       create: function (options) {
+           return ko.observable(options.data).extend({required: true});
+       }
+   },
+   'is_buffet': {
+       create: function (options) {
+           return ko.observable(options.data).extend({required: true});
+       }
+   },
+    'is_midnight_buffet':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'is_wifi_available':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'is_children_play_area':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'is_garden_restaurant':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'is_roof_top':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'is_valet_parking':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'is_boarding':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'is_bar_attached':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'is_highway_res':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'ischeckout_enable':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'is_halal':{
+        create: function (options) {
             return ko.observable(options.data).extend({required: true});
         }
     }
@@ -94,7 +279,8 @@ var viewModel=function(data){
         return true;
     };
     self.submit= function() {
-        if(self.isValid){
+
+        if(self.errors().length === 0){
             postAjax(ko.toJSON(self));
         }
         else {
@@ -103,9 +289,12 @@ var viewModel=function(data){
         }
     }
     self.reset =function(){
-        resetViewModel();
+        resetViewModel(self);
+        console.log(ko.toJSON(self));
+
     }
     ko.validatedObservable(ko.mapping.fromJS(data,validationMapping,self));
+    self.errors = ko.validation.group(self,{deep:true});
     self.business_type_id.subscribe(function(model){
         self.cuisineTypes.removeAll();
         ko.utils.arrayForEach(self.cuisines(), function(cu) {
@@ -120,13 +309,13 @@ var viewModel=function(data){
 }
 var time =function(data,object){
     var self=this;
-    var flag=true;
+    var timeID=new Array();
     var buhr={};
-    ko.utils.arrayForEach(data.business_hours, function(hr) {
-        ko.utils.arrayForEach(data.time, function(time) {
+    ko.utils.arrayForEach(data.time, function(time) {
+        ko.utils.arrayForEach(data.business_hours, function(hr) {
             if(time.id===hr.time_category_id){
-                flag=false;
                 var array = new Array();
+                timeID.push(hr.time_category_id);
                 ko.utils.arrayForEach(hr.week_days,function(item)
                 {
                     array.push(item.id);
@@ -142,21 +331,25 @@ var time =function(data,object){
                 }
                 object.timeDay.push(buhr);
             }
-            if(flag) {
-                buhr= {
-                    business_hr_id : ko.observable(-1),
-                    time_category_id : ko.observable(time.id),
-                    open_time : ko.observable(),
-                    close_time : ko.observable(),
-                    enabled : ko.observable(false),
-                    week_days : ko.observableArray([1, 2, 3, 4, 5, 6, 7]),
-                    category_description : time.category_description
-                }
-                object.timeDay.push(buhr);
-            }
-            flag=true;
+
         });
     });
+    ko.utils.arrayForEach(data.time, function(time) {
+       if($.inArray(time.id,timeID)==-1)
+       {
+           buhr= {
+               business_hr_id : ko.observable(-1),
+               time_category_id : ko.observable(time.id),
+               open_time : ko.observable(),
+               close_time : ko.observable(),
+               enabled : ko.observable(false),
+               week_days : ko.observableArray([1, 2, 3, 4, 5, 6, 7]),
+               category_description : time.category_description
+           }
+           object.timeDay.push(buhr);
+       }
+    });
+    console.log(ko.toJSON(object.timeDay));
 }
 
 var deliveryArea =function(deliveryarea,object){
@@ -187,8 +380,7 @@ var deliveryArea =function(deliveryarea,object){
        })
     });
 }
-var selectedPayments=function(payment,object)
-{
+var selectedPayments=function(payment,object) {
     ko.utils.arrayForEach(payment, function(item) {
         object.selectedPayments.push(item.id);
     });
@@ -199,5 +391,4 @@ var cuisinesTypeSelected=function(cuisineType,object){
     ko.utils.arrayForEach(cuisineType, function(item) {
         object.cuisineTypeSelected.push(item.id);
     });
-
 }
