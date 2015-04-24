@@ -91,20 +91,23 @@ class ManageBusinessController extends BaseController
         if (empty($businessInfo)) {
             return $this->app->abort(404);
         }
-        if ($this->request->isMethod('GET')) {
+            if($this->request->ajax()){
+                if($this->request->isMethod('GET')) {
+                    $businessInfo->time = $this->manage->getAllBusinessTimes();
+                    $businessInfo->day = $this->manage->getAllWeekDays();
+                    $businessInfo->cuisines = $this->manage->getAllCuisineType();
+                    $businessInfo->paymentsType = $this->manage->getAllPayments();
+                    return $this->response->json($businessInfo);
+                }
+
+                return $this->request->json($this->manage->updateBusiness(json_decode($this->request->input('data'),true),$slug));
+            }
             $buTypes = $this->manage->getAllBusinessType();
             $payments = $this->manage->getAllPayments();
             $status = $this->manage->getAllStatusType();
             $cities = $this->manage->getAllCity();
             $cuisineType= $this->manage->getAllCuisineType();
             $time = $this->manage->getAllBusinessTimes();
-            if($this->request->ajax()){
-                $businessInfo->time=$this->manage->getAllBusinessTimes();
-                $businessInfo->day= $this->manage->getAllWeekDays();
-                $businessInfo->cuisines=$this->manage->getAllCuisineType();
-                $businessInfo->paymentsType=$this->manage->getAllPayments();
-                return $this->response->json($businessInfo);
-            }
             return $this->view->make('admin.edit_business')
                                                             ->withButypes($buTypes)
                                                             ->withPayments($payments)
@@ -112,12 +115,6 @@ class ManageBusinessController extends BaseController
                                                             ->withCities($cities)
                                                             ->withTimes($time)
                                                             ->withCusinetypes($cuisineType);
-        } else {
-            if ($this->manage->updateBusiness($this->request->all(), $slug)) {
-                return $this->redirector->back()->withMessage($this->translator->get('business.success'));
-            }
-            return $this->redirector->back()->withErrors($this->manage->errors);
-        }
     }
 
     /**

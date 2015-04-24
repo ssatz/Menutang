@@ -31,7 +31,8 @@ class Helper
             $columns = Schema::getColumnListing($table);
             foreach ($inputs as $key => $value) {
                 if (in_array($key, $columns)) {
-                    $results[$key] = $value;
+                    $i =is_numeric($value)?(float)$value:$value;
+                    $results[$key] = $i;
                 }
             }
             $columns = [];

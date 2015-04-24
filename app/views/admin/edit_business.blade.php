@@ -192,6 +192,32 @@
                             </div>
                             <!--/ko -->
                             <div class="form-group">
+                                <label for="is_halal">Halal Food</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="is_halal" value="true" tabindex="7" data-bind="radio,checked:is_halal">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="is_halal" value="false" tabindex="8" data-bind="radio,checked:is_halal">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_halal"></p>
+                            </div>
+                            <div class="form-group badge badge-info">
+                                <label class="label-checkbox inline">
+                                    <input type="checkbox" name="Ac"  tabindex="7" data-bind="checked:is_ac,value:is_ac">
+                                    <span class="custom-checkbox"></span>
+                                    A/C
+                                </label>
+                                <label class="label-checkbox inline">
+                                    <input type="checkbox" name="Ac"  tabindex="8" data-bind="checked:is_non_ac,value:is_non_ac">
+                                    <span class="custom-checkbox"></span>
+                                    Non A/C
+                                </label>
+                            </div>
+                            <div class="form-group">
                                 <label for="deliveryEnable" >Party Hall</label>
                                 <label class="label-radio inline badge badge-info">
                                     <input type="radio" tabindex="20" name="partyHall" value="1" data-bind="radio,checked:is_party_hall">
@@ -369,8 +395,10 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="logo">
-                      <!--  <div class="form-group" style="margin: 20px">
-                            <p class="validationMessage" data-bind="validationMessage: fileData().dataURL"></p>
+                        <div class="form-group" style="margin: 20px">
+                            <img src="">
+                        </div>
+                        <div class="form-group" style="margin: 20px">
                             <div data-bind="fileDrag: fileData">
                                 <div class="image-upload-preview">
                                     <img data-bind="attr: { src: fileData().dataURL }, visible: fileData().dataURL">
@@ -379,7 +407,7 @@
                                     <input type="file" data-bind="fileInput: fileData, , customFileInput: {}">
                                 </div>
                             </div>
-                        </div>-->
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="address">
                         <div style="margin: 20px;">
@@ -608,7 +636,7 @@
         });
     }
     function postAjax(data){
-        $.post('{{action('ManageBusinessController@addBusinessInfo')}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
+        $.post('{{action('ManageBusinessController@editBusinessInfo',[$slug])}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
             if(data!=true)
             {
                 var error='';

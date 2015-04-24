@@ -278,6 +278,10 @@ var viewModel=function(data){
         self.deliveryArea.remove(model);
         return true;
     };
+    self.fileData=ko.observable({
+        file: ko.observable(),
+        dataURL: ko.observable()
+    });
     self.submit= function() {
 
         if(self.errors().length === 0){
@@ -287,12 +291,12 @@ var viewModel=function(data){
             self.showAllMessages;
             notification('Error','Please fix errors before submit','gritter-danger');
         }
-    }
+    };
     self.reset =function(){
         resetViewModel(self);
         console.log(ko.toJSON(self));
 
-    }
+    };
     ko.validatedObservable(ko.mapping.fromJS(data,validationMapping,self));
     self.errors = ko.validation.group(self,{deep:true});
     self.business_type_id.subscribe(function(model){

@@ -128,9 +128,21 @@ class BusinessManager
      */
     protected $businessHours;
 
+    /**
+     * @var ITimeCategoryRepository
+     */
     protected $businessTimes;
+    /**
+     * @var IWeekdaysRepository
+     */
     protected $weekdays;
+    /**
+     * @var BusinessTypeValidator
+     */
     protected $businessTypeValidator;
+    /**
+     * @var CuisineTypeValidator
+     */
     protected $cuisineTypeValidator;
     /**
      * @param IManageBusinessRepository $manageBusiness
@@ -218,6 +230,10 @@ class BusinessManager
     {
         return $this->manageCity->getAll();
     }
+
+    /**
+     * @return mixed
+     */
     public function getAllWeekDays()
     {
         return $this->weekdays->getAll();
@@ -238,6 +254,9 @@ class BusinessManager
         return $this->businessHours->getAll();
     }
 
+    /**
+     * @return mixed
+     */
     public function getAllBusinessTimes()
     {
         return $this->businessTimes->getAll();
@@ -255,7 +274,7 @@ class BusinessManager
      */
     public function updateBusiness(array $input, $slug)
     {
-
+        $this->manageBusiness->update($input, $slug);
         $this->validations->with($input);
         if ($this->validations->passes()) {
             $this->db->beginTransaction();
@@ -287,6 +306,10 @@ class BusinessManager
     {
         return $this->menuItemrepo->getAll();
     }
+
+    /**
+     * @return mixed
+     */
     public function getBUTypeWithCuisineType()
     {
         return $this->buTyperepo->getBUTypeWithCuisineType();
@@ -395,6 +418,11 @@ class BusinessManager
     {
        return $this->deliveryArea->searchDeliveryArea($area);
     }
+
+    /**
+     * @param array $input
+     * @return array
+     */
     public function addBusinessType(array $input)
     {
         $this->businessTypeValidator->with($input);
@@ -422,6 +450,11 @@ class BusinessManager
         ];
         return $error;
     }
+
+    /**
+     * @param array $input
+     * @return array
+     */
     public function addCuisineType(array $input)
     {
         $this->cuisineTypeValidator->with($input);
@@ -449,6 +482,11 @@ class BusinessManager
         ];
         return $error;
     }
+
+    /**
+     * @param $slug
+     * @return mixed
+     */
     public function getTimeBuHr($slug)
     {
      $business= $this->manageBusiness->findBusinessBySlug($slug) ;
@@ -519,7 +557,11 @@ class BusinessManager
         return false;
     }
 
-   private function objectArray(stdClass $object)
+    /**
+     * @param stdClass $object
+     * @return array
+     */
+    private function objectArray(stdClass $object)
    {
        $time=[];
        foreach ($object->timeDay as $key=>$hr ) {
