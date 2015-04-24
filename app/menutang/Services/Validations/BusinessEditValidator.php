@@ -50,4 +50,8 @@ class BusinessEditValidator extends BaseValidator {
         'selectedPayments' => 'required',
         'timeDay'=>'required'
     ];
+
+    protected static $messages=[
+       'address.mobile' => 'The mobile number has been taken already'
+    ];
 }
