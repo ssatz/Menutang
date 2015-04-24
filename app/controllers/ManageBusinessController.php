@@ -312,7 +312,7 @@ class ManageBusinessController extends BaseController
         $buType=json_decode($this->request->get('data'));
         $data=[
           'business_code'=>trim($buType->buCode),
-          'business_type'=>strtolower(trim($buType->buDescription))
+          'business_type'=>ucfirst(trim($buType->buDescription))
         ];
         $bu =$this->manage->addBusinessType($data);
         if($bu['result'])
@@ -328,7 +328,7 @@ class ManageBusinessController extends BaseController
 
         $data=[
             'cuisine_code'=>trim($cuType->cuCode),
-            'cuisine_description'=>strtolower(trim($cuType->cuDescription)),
+            'cuisine_description'=>ucfirst(trim($cuType->cuDescription)),
             'business_type_id'=>(int)$cuType->buID
         ];
         $cu =$this->manage->addCuisineType($data);
