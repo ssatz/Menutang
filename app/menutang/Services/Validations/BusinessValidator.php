@@ -19,8 +19,8 @@ class BusinessValidator extends BaseValidator
     public static $rules = [
         'businessInfo.business_name' => 'required|max:255',
         'businessInfo.business_type_id' => 'required',
-        'businessInfo.budget' => ['required', 'Regex:/^[0-9]+(\.[0-9]{1,2})?$/'],
-        'businessInfo.parcel_charges' => ['required', 'Regex:/^[0-9]+(\.[0-9]{1,2})?$/'],
+        'businessInfo.budget' =>'required|Regex:/^[0-9]+(\.[0-9]{1,2})?$/',
+        'businessInfo.parcel_charges' => 'required|Regex:/^[0-9]+(\.[0-9]{1,2})?$/',
         'businessInfo.is_door_delivery' => 'required',
         'businessInfo.minimum_delivery_amt' => 'required_if:is_door_delivery,1|Regex:/^[0-9]+(\.[0-9]{1,2})?$/',
         'businessInfo.delivery_fee' => 'required_if:is_door_delivery,1|Regex:/^[0-9]+(\.[0-9]{1,2})?$/',
