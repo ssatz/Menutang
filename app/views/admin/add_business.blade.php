@@ -613,7 +613,7 @@
             window.location.reload();
         }, 'json');
     }
-    function addbuAjax(data){
+    function addbuAjax(data,self){
         $.post('{{action('ManageBusinessController@addBuType')}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
            if(data.result==true) {
                $('.buTypeSelect').append(
@@ -621,12 +621,13 @@
                        .attr("value", data.buType.id)
                        .text(data.buType.business_type)
                );
-               var element = $('#buType')[0];
-               ko.cleanNode(element);
-               ko.applyBindings(new addbuType(),document.getElementById("buType"));
-               notification('Success', 'Hurray!Business Type Created', 'gritter-success');
                $('.buTypeSelect').chosen().trigger("chosen:updated");
-               return;
+               notification('Success', 'Hurray!Business Type Created', 'gritter-success');
+               self.buCode(undefined);
+               self.buCode.isModified(false);
+               self.buDescription(undefined);
+               self.buDescription.isModified(false);
+               return true;
            }
             var error='';
             $.each(data.error,function(key,value)
@@ -634,18 +635,21 @@
                 error = error+'<br/>'+value
             });
             notification('Error',error,'gritter-danger');
-            return;
+            return true;
         }, 'json');
     }
-    function addcuAjax(data){
+    function addcuAjax(data,self){
         $.post('{{action('ManageBusinessController@addCuType')}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
             if(data.result==true) {
                 console.log(data.cuType);
                 businessVM.cuisines(data.cuType);
                 businessVM.businessType(undefined);
-                var element = $('#cuType')[0];
-                ko.cleanNode(element);
-                ko.applyBindings(new addcuType(),document.getElementById("cuType"));
+                self.buID(undefined);
+                self.buID.isModified(false);
+                self.cuCode(undefined);
+                self.cuCode.isModified(false);
+                self.cuDescription(undefined);
+                self.cuDescription.isModified(false);
                 $('.buTypeSelect').chosen().trigger("chosen:updated");
                 $('.cuTypeSelect').chosen().trigger("chosen:updated");
                 notification('Success', 'Hurray!Cuisine Type Created', 'gritter-success');

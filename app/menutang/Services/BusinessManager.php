@@ -204,7 +204,7 @@ class BusinessManager
         $this->weekdays = $weekdaysRepository;
         $this->businessTypeValidator = $businessTypeValidator;
         $this->cuisineTypeValidator = $cuisineTypeValidator;
-        $this->businessTypeValidator=$businessEditValidator;
+        $this->businessEditValidator=$businessEditValidator;
     }
 
     /**
@@ -279,9 +279,9 @@ class BusinessManager
     public function updateBusiness(array $input, $slug)
     {
         $address= $input['address']['id'];
-        $this->businessTypeValidator->excludeId=$address;
-        $this->businessTypeValidator->with($input);
-        if ($this->businessTypeValidator->passes()) {
+        $this->businessEditValidator->excludeId=$address;
+        $this->businessEditValidator->with($input);
+        if ($this->businessEditValidator->passes()) {
             $this->db->beginTransaction();
             try {
                 $this->manageBusiness->update($input, $slug);
@@ -292,7 +292,7 @@ class BusinessManager
             $this->db->commit();
             return true;
         }
-        $this->errors = $this->businessTypeValidator->getErrors();
+        $this->errors = $this->businessEditValidator->getErrors();
         return false;
     }
 

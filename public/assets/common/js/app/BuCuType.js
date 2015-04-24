@@ -4,43 +4,45 @@
 
 var addbuType= function()
 {
-    this.buCode=ko.observable().extend({required:true,pattern:
+    var self = this;
+    self.buCode=ko.observable().extend({required:true,pattern:
     {
         params:'^[A-Z]*$',
         message:'Should be in Capital Letter'
     }});
-    this.buDescription =ko.observable().extend({required:true});
-    this.errors= ko.validation.group(this);
-    this.submit = function()
+    self.buDescription =ko.observable().extend({required:true});
+    self.errors= ko.validation.group(self);
+    self.submit = function()
     {
         if (this.errors().length === 0) {
-            addbuAjax(ko.toJSON(this));
+            addbuAjax(ko.toJSON(self),self);
         }
         else {
             this.errors.showAllMessages();
         }
-    }.bind(this);
+    }.bind(self);
 }
 var addcuType =function()
 {
-    this.buID =ko.observable().extend({required:true});
+    var self = this;
+    self.buID =ko.observable().extend({required:true});
 
-    this.cuCode=ko.observable().extend({required:true,pattern:
+    self.cuCode=ko.observable().extend({required:true,pattern:
     {
         params:'^[A-Z]*$',
         message:'Should be in Capital Letter'
     }});
-    this.cuDescription =ko.observable().extend({required:true});
-    this.errors= ko.validation.group(this);
-    this.submit = function()
+    self.cuDescription =ko.observable().extend({required:true});
+    self.errors= ko.validation.group(self);
+    self.submit = function()
     {
-        if (this.errors().length === 0) {
-            addcuAjax(ko.toJSON(this));
+        if (self.errors().length === 0) {
+            addcuAjax(ko.toJSON(self),self);
         }
         else {
-            this.errors.showAllMessages();
+            self.errors.showAllMessages();
         }
-    }.bind(this);
+    }.bind(self);
 }
 ko.applyBindings(new addbuType(),document.getElementById("buType"));
 ko.applyBindings(new addcuType(),document.getElementById("cuType"));
