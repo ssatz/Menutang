@@ -102,7 +102,6 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
     {
         $key = md5('slug.' . $slug);
         $this->cache->remove($key);
-     //   dd($input);
         $businessInfoData = $this->helper->match($input, ['business_info']);
         $address= $this->helper->match($input['address'], ['business_address']);
         $businessInfo = $this->model->where('business_slug', '=', $slug)->first();
@@ -119,12 +118,11 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         }
         foreach($input['timeDay'] as $hr){
             if($hr['enabled'] && $hr["business_hr_id"]!=-1){
-                $hours = new BusinessHours([
-                    'time_category_id' => $hr['time_category_id'],
-                    'open_time' => $hr['open_time'],
-                    'close_time' => $hr['close_time']
-                ]);
-               $hours = BusinessHours::where('id','=',$hr["business_hr_id"])->update($hours);
+                $hours = BusinessHours::find($hr["business_hr_id"]);
+                $hours->time_category_id=$hr['time_category_id'];
+                $hours->open_time=$hr['open_time'];
+                $hours->close_time=$hr['close_time'];
+                $hours->save();
                 $hours->weekDays()->sync($hr['week_days'],false);
             }
             elseif($hr['enabled'] && $hr["business_hr_id"]==-1){

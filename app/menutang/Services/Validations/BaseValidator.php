@@ -18,6 +18,7 @@ abstract class BaseValidator
      * @var array
      */
     protected static $messages = [];
+    public  $excludeId;
     /**
      * @var
      */
@@ -54,6 +55,7 @@ abstract class BaseValidator
      */
     public function passes()
     {
+        $this->beforeValidation();
         $validation = $this->validator->make($this->input, static::$rules, static::$messages);
         if ($validation->passes()) {
             return true;
@@ -68,6 +70,22 @@ abstract class BaseValidator
     public function getErrors()
     {
         return $this->errors;
+    }
+
+    protected function beforeValidation() {
+        static::$rules = $this->replaceIdsIfExists(static::$rules);
+    }
+
+    protected function replaceIdsIfExists($rules)
+    {
+        $preparedRules = array();
+        foreach ($rules as $key => $rule) {
+            if (false !== strpos($rule, "<id>")) {
+                $rule = str_replace("<id>", $this->excludeId, $rule);
+            }
+            $preparedRules[$key] = $rule;
+        }
+        return $preparedRules;
     }
 
 }

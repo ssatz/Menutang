@@ -36,6 +36,7 @@ use Repositories\TimeCategoryRepository\ITimeCategoryRepository;
 use Repositories\WeekdaysRepository\IWeekdaysRepository;
 use Services\Validations\BusinessTypeValidator;
 use Services\Validations\CuisineTypeValidator;
+use Services\Validations\BusinessEditValidator;
 
 
 class BusinessManager
@@ -118,6 +119,7 @@ class BusinessManager
      * @var Excel
      */
     protected $excel;
+    protected $businessEditValidator;
 
     /**
      * @var MenuUploadValidator
@@ -178,6 +180,7 @@ class BusinessManager
                                 IWeekdaysRepository $weekdaysRepository,
                                 BusinessTypeValidator $businessTypeValidator,
                                 CuisineTypeValidator $cuisineTypeValidator,
+                                BusinessEditValidator $businessEditValidator,
                                 Excel $excel)
     {
         $this->manageBusiness = $manageBusiness;
@@ -201,6 +204,7 @@ class BusinessManager
         $this->weekdays = $weekdaysRepository;
         $this->businessTypeValidator = $businessTypeValidator;
         $this->cuisineTypeValidator = $cuisineTypeValidator;
+        $this->businessTypeValidator=$businessEditValidator;
     }
 
     /**
@@ -274,9 +278,10 @@ class BusinessManager
      */
     public function updateBusiness(array $input, $slug)
     {
-        $this->manageBusiness->update($input, $slug);
-        $this->validations->with($input);
-        if ($this->validations->passes()) {
+        $address= $input['address']['id'];
+        $this->businessTypeValidator->excludeId=$address;
+        $this->businessTypeValidator->with($input);
+        if ($this->businessTypeValidator->passes()) {
             $this->db->beginTransaction();
             try {
                 $this->manageBusiness->update($input, $slug);
@@ -287,7 +292,7 @@ class BusinessManager
             $this->db->commit();
             return true;
         }
-        $this->errors = $this->validations->getErrors();
+        $this->errors = $this->businessTypeValidator->getErrors();
         return false;
     }
 
