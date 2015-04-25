@@ -70,15 +70,6 @@
                                 <p class="validationMessage" data-bind="validationMessage: business_about"></p>
                             </div>
                             <div class="form-group">
-                                <label for="avgDeliveryTime">Avg Delivery Time</label>
-                                <input tabindex="45" type="text" class="form-control input-sm" data-bind="timePicker:{
-            'timeFormat': 'H:i:s',
-            'minTime': '00:10:00',
-            'maxTime': '03:00:00'
-        },value:avg_delivery_time" id="avgDeliveryTime" placeholder="00:00:00">
-                                <p class="validationMessage" data-bind="validationMessage: avg_delivery_time"></p>
-                            </div>
-                            <div class="form-group">
                                 <label for="website">Website</label>
                                 <input tabindex="46" type="text" class="form-control input-sm" data-bind="value:website" id="website" placeholder="www.example.com">
                                 <p class="validationMessage" data-bind="validationMessage: website"></p>
@@ -126,6 +117,15 @@
                                 <label for="deliveryFee">Delivery Fee</label>
                                 <input type="text" tabindex="10" class="form-control input-sm" id="deliveryFee" data-bind="value:delivery_fee" value="0"  placeholder="0">
                                 <p class="validationMessage" data-bind="validationMessage: delivery_fee"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="avgDeliveryTime">Avg Delivery Time</label>
+                                <input tabindex="45" type="text" class="form-control input-sm" data-bind="timePicker:{
+            'timeFormat': 'H:i:s',
+            'minTime': '00:10:00',
+            'maxTime': '03:00:00'
+        },value:avg_delivery_time" id="avgDeliveryTime" placeholder="00:00:00">
+                                <p class="validationMessage" data-bind="validationMessage: avg_delivery_time"></p>
                             </div>
                             <!-- /ko -->
                             <div class="form-group">
