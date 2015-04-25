@@ -14,7 +14,7 @@
                     <li><a href="#address" data-toggle="tab"><i class="fa fa-envelope"></i> Address</a></li>
                     <li><a href="#timeday" data-toggle="tab"><i class="fa fa-times-circle-o"></i>Time & Day</a></li>
                     <li><a href="#payment" data-toggle="tab"><i class="fa fa-money"></i>Payments</a></li>
-                    <li><a href="#deliveryarea" data-bind="if:is_door_delivery" data-toggle="tab"><i class="fa fa-dropbox"></i>Delivery</a></li>
+                    <li><a href="#deliveryarea" data-bind="if: is_door_delivery()==1" data-toggle="tab"><i class="fa fa-dropbox"></i>Delivery</a></li>
                 </ul>
                 <div class="tab-content" style="width: 250px;">
                     <div class="tab-pane fade in active" id="business">
