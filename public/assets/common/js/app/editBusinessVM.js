@@ -385,6 +385,8 @@ var deliveryArea =function(deliveryarea,object){
     });
 }
 var selectedPayments=function(payment,object) {
+    object.selectedPayments.removeAll();
+    console.log(payment);
     ko.utils.arrayForEach(payment, function(item) {
         object.selectedPayments.push(item.id);
     });
@@ -392,6 +394,7 @@ var selectedPayments=function(payment,object) {
 }
 
 var cuisinesTypeSelected=function(cuisineType,object){
+    object.cuisineTypeSelected.removeAll();
     ko.utils.arrayForEach(cuisineType, function(item) {
         object.cuisineTypeSelected.push(item.id);
     });

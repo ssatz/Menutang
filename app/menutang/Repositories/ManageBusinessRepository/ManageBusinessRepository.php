@@ -107,14 +107,14 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         $businessInfo = $this->model->where('business_slug', '=', $slug)->first();
         $this->model->where('business_slug', '=', $slug)->update($businessInfoData['business_info']);
         $this->model->find($businessInfo->id)->address()->update($address['business_address']);
-        $businessInfo->payment()->attach($input['selectedPayments']);
-        $businessInfo->cuisineType()->sync($input['cuisineTypeSelected'],false);
-        if(!empty($input['fileData']->dataURL)) {
+        $businessInfo->payment()->sync($input['selectedPayments']);
+        $businessInfo->cuisineType()->sync($input['cuisineTypeSelected']);
+        if(!empty($input['fileData']['dataURL'])) {
             if (!$this->fileHelper->isDirectory(public_path('uploads/' . $slug))) {
                 $this->fileHelper->makeDirectory(public_path('uploads/' . $slug), 0775);
             }
-            $this->imageHelper->make($input['fileData']->dataURL)->resize(75, 75)->save(public_path('uploads/' . $slug . '/logo75.png'));
-            $this->imageHelper->make($input['fileData']->dataURL)->resize(220, 220)->save(public_path('uploads/' . $slug . '/logo220.png'));
+            $this->imageHelper->make($input['fileData']['dataURL'])->resize(75, 75)->save(public_path('uploads/' . $slug . '/logo75.png'));
+            $this->imageHelper->make($input['fileData']['dataURL'])->resize(220, 220)->save(public_path('uploads/' . $slug . '/logo220.png'));
         }
         foreach($input['timeDay'] as $hr){
             if($hr['enabled'] && $hr["business_hr_id"]!=-1){
@@ -123,7 +123,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
                 $hours->open_time=$hr['open_time'];
                 $hours->close_time=$hr['close_time'];
                 $hours->save();
-                $hours->weekDays()->sync($hr['week_days'],false);
+                $hours->weekDays()->sync($hr['week_days']);
             }
             elseif($hr['enabled'] && $hr["business_hr_id"]==-1){
                 $hours = new BusinessHours([
@@ -140,19 +140,21 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
             }
         }
         $deliveryAreaId = [];
-        foreach ($input['delivery_area'] as $area) {
-            $deliveryArea = DeliveryArea::find($area['id']);
-            if(is_null($deliveryArea)) {
-                $deliveryArea = new DeliveryArea();
-                $deliveryArea->area =(string)$area['area'];
-                $deliveryArea->area_pincode = (int)$area['pincode'];
-                $deliveryArea->city_id = (int)$input['city_id'];;
-                $deliveryArea->save();
-            }
-            array_push($deliveryAreaId, $deliveryArea->id);
+        if (count($input['deliveryArea']) > 0) {
+            foreach ($input['deliveryArea'] as $area) {
+                $deliveryArea = DeliveryArea::where('area', $area['area'])->where('area_pincode', (int)$area['pincode'])->first();
+                if (is_null($deliveryArea)) {
+                    $deliveryArea = new DeliveryArea();
+                    $deliveryArea->area = (string)$area['area'];
+                    $deliveryArea->area_pincode = (int)$area['pincode'];
+                    $deliveryArea->city_id = (int)$area['city'];
+                    $deliveryArea->save();
+                }
+                array_push($deliveryAreaId, $deliveryArea->id);
 
+            }
+            $businessInfo->deliveryArea()->attach(array_unique($deliveryAreaId));
         }
-        $businessInfo->deliveryArea()->sync(array_unique($deliveryAreaId),false);
     }
 
     /**

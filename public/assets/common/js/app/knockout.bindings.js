@@ -347,6 +347,13 @@ ko.bindingHandlers.timePicker = {
         ko.bindingHandlers.value.update(element, valueAccessor);
     }
 };
+var reset = function ( obj, whitelist ) {
+    for ( var prop in obj ) {
+        if ( obj.hasOwnProperty( prop ) && ko.isObservable( obj[ prop ] ) && whitelist.indexOf( prop ) === -1 ) {
+            obj[ prop ]( undefined );
+        }
+    }
+};
 
 function formatDate(date) {
     var d = new Date("2000-01-01 " + date);
