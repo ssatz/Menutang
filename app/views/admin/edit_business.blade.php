@@ -679,8 +679,6 @@
     function addcuAjax(data,self){
         $.post('{{action('ManageBusinessController@addCuType')}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
             if(data.result==true) {
-                viewModel.business_type_id(undefined);
-                viewModel.cuisines(data.cuType);
                 self.buID(undefined);
                 self.buID.isModified(false);
                 self.cuCode(undefined);
@@ -690,6 +688,7 @@
                 $('.buTypeSelect').chosen().trigger("chosen:updated");
                 $('.cuTypeSelect').chosen().trigger("chosen:updated");
                 notification('Success', 'Hurray!Cuisine Type Created', 'gritter-success');
+                window.location.reload();
                 return;
             }
             var error='';
