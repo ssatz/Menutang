@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Routing\Redirector;
 use Carbon\Carbon;
+use Services\BusinessManager;
 
 class AdminAuthController extends BaseController
 {
@@ -50,6 +51,7 @@ class AdminAuthController extends BaseController
 
     protected $redirect;
     protected $dateTime;
+    protected $manage;
 
     /**
      * @param AdminAuth $adminAuth
@@ -58,6 +60,7 @@ class AdminAuthController extends BaseController
                                 Application $application,
                                 Redirector $redirector,
                                 Carbon $carbon,
+                                BusinessManager $businessManager,
                                 Request $request,
                                 Response $response)
     {
@@ -69,6 +72,7 @@ class AdminAuthController extends BaseController
         $this->response = $response;
         $this->redirect =$redirector;
         $this->dateTime = $carbon;
+        $this->manage=$businessManager;
     }
 
     /* ShowLogin
@@ -122,6 +126,15 @@ class AdminAuthController extends BaseController
      */
     public function regionalSettings()
     {
+        if($this->request->ajax()){
+            if($this->request->isMethod('GET')){
+                    $data=[
+                        'cuisineType'=>$this->manage->getAllCuisineType(),
+                        'businessType'=>$this->manage->getAllBusinessType()
+                    ];
+                    return $this->response->json($data);
+            }
+        }
         $cityDetails = $this->regionalSettings->getCityRelations();
         $states = $this->regionalSettings->getState();
         return $this->view->make('admin.regional_settings')->withCitydetails($cityDetails)

@@ -39,7 +39,7 @@
                             <div class="form-group">
                                 <label for="businessType">Cuisine Type</label>
                                 <select multiple style="width:120px"
-                                        data-bind="options:cuisineTypes,selectedOptions:cuisineTypeSelected,optionsText:'cuisine_description',optionsValue: 'id'" tabindex="3">
+                                        data-bind="options:cuisineTypes,selectedOptions:cuisineTypeSelected,optionsText:'cuisine_description',optionsValue: 'id',chosen" tabindex="3">
                                 </select>
                                 <p class="validationMessage" data-bind="validationMessage: cuisineTypeSelected"></p>
                             </div>
@@ -490,7 +490,7 @@
                     <div class="tab-pane fade" id="payment">
                         <div style="margin: 20px">
                             <label for="">Payment</label>
-                            <select class="form-control" data-bind="options: $root.paymentsType, selectedOptions: $root.selectedPayments, optionsText: 'payment_description', optionsValue: 'id'" multiple="multiple"></select>
+                            <select class="form-control" data-bind="options: $root.paymentsType, selectedOptions: $root.selectedPayments, optionsText: 'payment_description', optionsValue: 'id',chosen" multiple="multiple"></select>
                             <p class="validationMessage" data-bind="validationMessage: selectedPayments"></p>
                         </div>
                     </div>

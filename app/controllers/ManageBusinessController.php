@@ -307,6 +307,9 @@ class ManageBusinessController extends BaseController
         return $this->response->json($data);
     }
 
+    /**
+     * @return string
+     */
     public function addBuType()
     {
         $buType=json_decode($this->request->get('data'));
@@ -322,6 +325,10 @@ class ManageBusinessController extends BaseController
 
         return json_encode($bu);
     }
+
+    /**
+     * @return string
+     */
     public function addCuType()
     {
         $cuType=json_decode($this->request->get('data'));

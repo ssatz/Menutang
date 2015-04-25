@@ -38,7 +38,7 @@
                             <!-- ko ifnot: businessType()==-1-->
                         <div class="form-group">
                             <label for="businessType">Cuisine Type</label>
-                            <select multiple data-bind="options:cuisinesData,optionsText:'cuisine_description',value:'id',selectedOptions:cuisineType" tabindex="3">
+                            <select multiple data-bind="options:cuisinesData,optionsText:'cuisine_description',value:'id',selectedOptions:cuisineType,chosen" tabindex="3">
                             </select>
                             <p class="validationMessage" data-bind="validationMessage: cuisineType"></p>
                         </div>
