@@ -81,11 +81,42 @@
     </div>
     <div class="panel-body">
         <div class="row">
-            <div class="form-group">
-                <label for="businessType">Business Type</label>
-                <select  data-bind="options:businessType,optionsText:'business_type',optionsValue:'id',optionsCaption: 'Choose...',value:selectedBusinessType,chosen" tabindex="3">
-                </select>
-                <p class="validationMessage" data-bind="validationMessage: businessType"></p>
+            <div class="col-lg-8">
+                <table class="table table-responsive">
+                    <thead>
+                    <tr>
+                        <th class="badge-info">Code</th>
+                        <th class="badge-info">Description</th>
+                        <th><button class="btn btn-sm btn-success">Add Business Type</button></th>
+                    </tr>
+                    </thead>
+                    <tbody data-bind=" foreach: businessType">
+                    <tr>
+                        <td>
+                            <input class="form-control input-sm" data-bind="value:business_code,visible:isEdit()"/>
+                            <label data-bind="text:business_code,visible:!isEdit()"></label>
+                        </td>
+                        <td>
+                            <input class="form-control input-sm" data-bind="value:business_type,visible:isEdit()"/>
+                            <label data-bind="text:business_type,visible:!isEdit()"></label>
+                        </td>
+                        <td>
+                            <button class="btn btn-info" data-bind="click:$root.editItem,visible:!isEdit()">Edit</button>
+                            <button class="btn btn-success" data-bind="click:$root.applyEdit,visible:isEdit()">Apply</button>
+                            <button class="btn btn-danger" data-bind="click:$root.cancelEdit,visible:isEdit()">Cancel</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group" style="width: 200px;">
+                    <label for="businessType">Business Type</label>
+                    <select  data-bind="options:businessType,optionsText:'business_type',optionsValue:'id',optionsCaption: 'Choose...',value:selectedBusinessType,chosen" tabindex="3">
+                    </select>
+                    <p class="validationMessage" data-bind="validationMessage: businessType"></p>
+                </div>
             </div>
         </div>
     </div>
@@ -113,9 +144,9 @@
 <script>
     $(document).ready(function(){
     $.getJSON("{{action('AdminAuthController@regionalSettings')}}", null, function (data) {
-        ko.validatedObservable(ko.mapping.fromJS(data,{},settingsVM));
-       // settingsVM.businessType(data.businessType);
-        console.log(ko.toJSON(settingsVM));
+        ko.utils.arrayForEach(data.businessType,function(item){
+            viewModel.businessType.push(new businessType(item));
+        });
 
     });
     $(".table-responsive").find(".city-status").bootstrapSwitch({

@@ -347,6 +347,22 @@ ko.bindingHandlers.timePicker = {
         ko.bindingHandlers.value.update(element, valueAccessor);
     }
 };
+
+ko.numericObservable = function(initialValue) {
+    var _actual = ko.observable(initialValue);
+
+    var result = ko.dependentObservable({
+        read: function() {
+            return _actual();
+        },
+        write: function(newValue) {
+            var parsedValue = parseFloat(newValue);
+            _actual(isNaN(parsedValue ) ? newValue: parsedValue);
+        }
+    });
+
+    return result;
+};
 var reset = function ( obj, whitelist ) {
     for ( var prop in obj ) {
         if ( obj.hasOwnProperty( prop ) && ko.isObservable( obj[ prop ] ) && whitelist.indexOf( prop ) === -1 ) {
@@ -354,6 +370,48 @@ var reset = function ( obj, whitelist ) {
         }
     }
 };
+
+ko.observable.fn.beginEdit = function (transaction) {
+
+    var self = this;
+    //private variables
+    var commitSubscription,
+        rollbackSubscription;
+    self.editValue =ko.observable(self()).extend({ notify: "always" })
+
+    self.dispose = function () {
+        // kill this subscriptions
+        commitSubscription.dispose();
+        rollbackSubscription.dispose();
+    };
+
+    self.commit = function () {
+        // update the actual value with the edit value
+        self(self.editValue());
+
+        // dispose the subscriptions
+        self.dispose();
+    };
+
+    self.rollback = function () {
+        // rollback the edit value
+        self.editValue(self());
+
+        // dispose the subscriptions
+        self.dispose();
+    };
+
+    //  subscribe to the transation commit and reject calls
+    commitSubscription = transaction.subscribe(self.commit,
+        self,
+        "commit");
+
+    rollbackSubscription = transaction.subscribe(self.rollback,
+        self,
+        "rollback");
+
+    return self;
+}
 
 function formatDate(date) {
     var d = new Date("2000-01-01 " + date);
