@@ -90,7 +90,7 @@
                         <th><button class="btn btn-sm btn-success">Add Business Type</button></th>
                     </tr>
                     </thead>
-                    <tbody data-bind=" foreach: businessType">
+                    <tbody data-bind=" foreach: businessType.currentPageData">
                     <tr>
                         <td>
                             <input class="form-control input-sm" data-bind="value:business_code,visible:isEdit()"/>
@@ -106,6 +106,14 @@
                             <button class="btn btn-danger" data-bind="click:$root.cancelEdit,visible:isEdit()">Cancel</button>
                         </td>
                     </tr>
+                    <tfoot>
+                    <tr>
+                        <td>  <a href="#" class="btn btn-info" data-bind="click: businessType.moveFirst">First</a>
+                         <a href="#"  class="btn btn-info"  data-bind="click: businessType.movePrevious">Previous</a>
+                         <a href="#"  class="btn btn-info"  data-bind="click: businessType.moveNext">Next</a>
+                         <a href="#"  class="btn btn-info" data-bind="click: businessType.moveLast">Last</a></td>
+                    </tr>
+                    </tfoot>
                     </tbody>
                 </table>
 

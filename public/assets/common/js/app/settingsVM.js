@@ -1,7 +1,6 @@
 /**
  * Created by satz on 4/25/2015.
  */
-
 function businessType(data){
     var self=this;
     self.id=ko.observable(data.id);
@@ -51,7 +50,9 @@ var settingsVM=function(){
 
         return true;
     },
-    self.businessType=ko.observableArray();
+    self.businessType=ko.observableArray().extend({
+        paging: 5
+    });
     self.selectedBuItem=ko.protectedObservable();
 
     //notify subscribers to update their value with the original
