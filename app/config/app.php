@@ -126,8 +126,7 @@ return [
         'Intervention\Image\ImageServiceProvider',
         'anlutro\LaravelSettings\ServiceProvider',
         'Services\Reminders\ReminderServiceProvider',
-        'Maatwebsite\Excel\ExcelServiceProvider',
-        'Flatten\FlattenServiceProvider',
+        'Maatwebsite\Excel\ExcelServiceProvider'
     ],
 
     /*

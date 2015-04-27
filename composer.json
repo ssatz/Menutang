@@ -16,8 +16,7 @@
     "maatwebsite/excel": "1.3",
     "myclabs/php-enum": "dev-master",
     "anlutro/l4-settings": "dev-master",
-    "pda/pheanstalk": "~2.0",
-    "anahkiasen/flatten": "0.5.*"
+    "pda/pheanstalk": "~2.0"
   },
   "autoload": {
     "classmap": [
