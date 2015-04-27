@@ -110,7 +110,7 @@ class AdminAuthController extends BaseController
     public function logout()
     {
         $this->adminAuth->logout();
-        return $this->redirect->to('/')->with('message', 'You have been Logged Out');
+        return $this->redirect->to('/')->with('logout', 'You have been Logged Out');
     }
 
     /**

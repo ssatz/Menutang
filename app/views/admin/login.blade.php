@@ -32,9 +32,9 @@
 						<i class="fa fa-lock fa-lg"></i> Login
 					</div>
 				</div>
-				@if(Session::has('message'))
+				@if(Session::has('logout'))
                       <div class="alert alert-success">
-							{{ Session::get('message') }}
+							{{ Session::get('logout') }}
                        </div>
                 @endif
 
