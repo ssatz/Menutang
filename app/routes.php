@@ -49,6 +49,7 @@ Route::group(['domain' => 'admin.'.preg_replace('#^http(s)?://(www.)?#', '', Con
         Route::get('deliverysearch', ['as' => 'admin.business.deliveryAreaSearch', 'uses' => 'ManageBusinessController@deliveryAreaSearch']);
         Route::post('addbutype', ['as' => 'admin.business.addBuType', 'uses' => 'ManageBusinessController@addBuType']);
         Route::post('addcutype', ['as' => 'admin.business.addCuType', 'uses' => 'ManageBusinessController@addCuType']);
+        Route::post('addUpdateType', ['as' => 'admin.business.addUpdateType', 'uses' => 'AdminAuthController@addUpdateType']);
         Route::get('{businessName?}', ['as' => 'admin.business.dashboard', 'uses' => 'ManageBusinessController@businessDashboard']);
         Route::any('{businessName}/edit', ['as' => 'admin.business.edit', 'uses' => 'ManageBusinessController@editBusinessInfo']);
         Route::any('{businessName}/menu/add-item', ['as' => 'admin.business.additem', 'uses' => 'ManageBusinessController@addItem']);

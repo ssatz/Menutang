@@ -49,8 +49,17 @@ class AdminAuthController extends BaseController
      */
     protected $response;
 
+    /**
+     * @var Redirector
+     */
     protected $redirect;
+    /**
+     * @var Carbon
+     */
     protected $dateTime;
+    /**
+     * @var BusinessManager
+     */
     protected $manage;
 
     /**
@@ -154,6 +163,9 @@ class AdminAuthController extends BaseController
         }
     }
 
+    /**
+     * @return $this
+     */
     public function addCity()
     {
        $input = [
@@ -210,6 +222,13 @@ class AdminAuthController extends BaseController
         $city = $this->regionalSettings->getCityRelations();
         return $this->view->make('admin.delivery_area')->withDeliveryarea($deliveryArea)
                                                        ->withCities($city);
+    }
+
+    /**
+     *
+     */
+    public function addUpdateType(){
+
     }
 
 
