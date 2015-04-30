@@ -87,23 +87,23 @@
                     <tr>
                         <th class="badge-info">Code</th>
                         <th class="badge-info">Description</th>
-                        <th><button class="btn btn-sm btn-success">Add Business Type</button></th>
+                        <th><button class="btn btn-sm btn-success" data-bind="click:$root.addEdit">Add Business Type</button></th>
                     </tr>
                     </thead>
                     <tbody data-bind=" foreach: businessType.currentPageData">
                     <tr>
                         <td>
-                            <input class="form-control input-sm" data-bind="value:business_code,visible:isEdit()"/>
-                            <label data-bind="text:business_code,visible:!isEdit()"></label>
+                            <input class="form-control input-sm" data-bind="value:business_code,visible:$root.isEdit($data)"/>
+                            <label data-bind="text:business_code,visible:!$root.isEdit($data)"></label>
                         </td>
                         <td>
-                            <input class="form-control input-sm" data-bind="value:business_type,visible:isEdit()"/>
-                            <label data-bind="text:business_type,visible:!isEdit()"></label>
+                            <input class="form-control input-sm" data-bind="value:business_type,visible:$root.isEdit($data)"/>
+                            <label data-bind="text:business_type,visible:!$root.isEdit($data)"></label>
                         </td>
                         <td>
-                            <button class="btn btn-info" data-bind="click:$root.editItem,visible:!isEdit()">Edit</button>
-                            <button class="btn btn-success" data-bind="click:$root.applyEdit,visible:isEdit()">Apply</button>
-                            <button class="btn btn-danger" data-bind="click:$root.cancelEdit,visible:isEdit()">Cancel</button>
+                            <button class="btn btn-info" data-bind="click:$root.editItem,visible:!$root.isEdit($data)">Edit</button>
+                            <button class="btn btn-success" data-bind="click:$root.applyEdit,visible:$root.isEdit($data)">Apply</button>
+                            <button class="btn btn-danger" data-bind="click:$root.cancelEdit,visible:$root.isEdit($data)">Cancel</button>
                         </td>
                     </tr>
                     <tfoot>

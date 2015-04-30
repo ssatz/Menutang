@@ -1,25 +1,17 @@
 /**
  * Created by satz on 4/25/2015.
  */
-function businessType(data){
-    var self=this;
-    self.id=ko.observable(data.id);
-    self.business_type = ko.observable(data.business_type);
-    self.business_code = ko.observable(data.business_code);
-    self.isEdit=ko.observable(false);
-}
-//wrapper for an observable that protects value until committed
 ko.protectedObservable = function(initialValue) {
     //private variables
     var _temp = initialValue;
     var _actual = ko.observable(initialValue);
 
-    var result = ko.observable({
+    var result = ko.dependentObservable({
         read: _actual,
         write: function(newValue) {
             _temp = newValue;
         }
-    }).extend({ notify: "always" }); //needed in KO 3.0+ for reset, as computeds no longer notify when value is the same
+    }).extend({ notify: "always"}); //needed in KO 3.0+ for reset, as computeds no longer notify when value is the same
 
     //commit the temporary value to our observable, if it is different
     result.commit = function() {
@@ -27,6 +19,10 @@ ko.protectedObservable = function(initialValue) {
             _actual(_temp);
         }
     };
+
+    result.temp=function(){
+        return _temp;
+    }
 
     //notify subscribers to update their value with the original
     result.reset = function() {
@@ -36,6 +32,23 @@ ko.protectedObservable = function(initialValue) {
 
     return result;
 };
+
+ko.validation.init({insertMessages: false,
+    grouping: { deep: true } },true);
+function businessType(data){
+    var self=this;
+    self.id=ko.protectedObservable(data.id);
+    self.business_type = ko.protectedObservable(data.business_type);
+    self.business_code = ko.protectedObservable(data.business_code);
+}
+function businessTypeValidate(data){
+    var self=this;
+    self.id=ko.protectedObservable(data.id.temp());
+    self.business_type = ko.protectedObservable(data.business_type.temp()).extend({required:true});
+    self.business_code = ko.protectedObservable(data.business_code.temp()).extend({required:true});
+    self.error =  ko.validation.group(self);
+}
+
 var settingsVM=function(){
     var self=this;
     self.panelToggle=function(model,event){
@@ -53,30 +66,47 @@ var settingsVM=function(){
     self.businessType=ko.observableArray().extend({
         paging: 5
     });
-    self.selectedBuItem=ko.protectedObservable();
-
-    //notify subscribers to update their value with the original
-    self.selectedBuItem.reset = function() {
-        _actual.valueHasMutated();
-        _temp = _actual();
-    };
+    self.selectedBuItem=ko.observable();
     self.selectedBusinessType=ko.observable();
+    self.buTypeValidation=ko.observable();
     self.editItem = function (item) {
         self.selectedBuItem(item);
-        item.isEdit(true);
+    };
+    self.isEdit =function(item){
+        return item ==self.selectedBuItem();
+    };
+    this.addEdit = function() {
+        var newItem = new businessType('');
+        self.businessType.push(newItem);
+        self.selectedBuItem(newItem);
     };
     self.cancelEdit = function (item) {
-        item.id(ko.toJS(self.selectedBuItem().id));
-        item.business_type(ko.toJS(self.selectedBuItem().business_type));
-        item.business_code(ko.toJS(self.selectedBuItem().business_code));
-        item.isEdit(false);
+        self.selectedBuItem().business_code.reset();
+        self.selectedBuItem().business_type.reset();
+        self.selectedBuItem().id.reset();
+        self.selectedBuItem(null);
     };
     self.applyEdit = function (item) {
-        item.isEdit(false);
+        self.buTypeValidation(new businessTypeValidate(item));
+        if(self.buTypeValidation().error().length==0) {
+            self.selectedBuItem().business_code.commit();
+            self.selectedBuItem().business_type.commit();
+            self.selectedBuItem().id.commit();
+            self.selectedBuItem(null);
+        }
+        else{
+            self.buTypeValidation().showAllMessages;
+            notification('Error','Please fix errors before submit','gritter-danger');
+        }
     };
 }
 var viewModel = new settingsVM();
 ko.applyBindings(viewModel,$('#panels')[0]);
+
+
+var validation = function(item){
+
+}
 
 
 
