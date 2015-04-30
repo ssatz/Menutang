@@ -396,7 +396,8 @@
                     </div>
                     <div class="tab-pane fade" id="logo">
                         <div class="form-group" style="margin: 20px">
-                            <img src="">
+                            <?php $image='uploads/'.$slug.'/logo75.png' ?>
+                            <img src="{{asset($image)}}" width="75" height="75"  title="Logo"/>
                         </div>
                         <div class="form-group" style="margin: 20px">
                             <div data-bind="fileDrag: fileData">
@@ -648,7 +649,7 @@
                 return;
             }
             notification('Success','Hurray!Business Created','gritter-success');
-            window.location.reload();
+           // window.location.reload();
         }, 'json');
     }
     function addbuAjax(data,self){
