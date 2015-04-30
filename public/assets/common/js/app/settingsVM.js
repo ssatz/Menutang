@@ -40,12 +40,23 @@ function businessType(data){
     self.id=ko.protectedObservable(data.id);
     self.business_type = ko.protectedObservable(data.business_type);
     self.business_code = ko.protectedObservable(data.business_code);
+    self.error =  ko.validation.group(self);
 }
 function businessTypeValidate(data){
     var self=this;
     self.id=ko.protectedObservable(data.id.temp());
-    self.business_type = ko.protectedObservable(data.business_type.temp()).extend({required:true});
-    self.business_code = ko.protectedObservable(data.business_code.temp()).extend({required:true});
+    self.business_code = ko.observable(data.business_code.temp()).extend({required:{
+        params:true,
+        message:'Business Code is Required'
+    },pattern:
+    {
+        params:'^[A-Z]*$',
+        message:'Business Code Should be in Capital Letter'
+    }});
+    self.business_type = ko.observable(data.business_type.temp()).extend({required:{
+        params:true,
+        message:'Business Description is Required'
+    }});
     self.error =  ko.validation.group(self);
 }
 
@@ -95,8 +106,11 @@ var settingsVM=function(){
             self.selectedBuItem(null);
         }
         else{
-            self.buTypeValidation().showAllMessages;
-            notification('Error','Please fix errors before submit','gritter-danger');
+            var error='';
+                $.each(self.buTypeValidation().error(), function (data,msg) {
+                   error = msg + error;
+                });
+            notification('Error','Please fix errors before submit<br/>'+error,'gritter-danger');
         }
     };
 }
