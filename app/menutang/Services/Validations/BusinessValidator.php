@@ -46,7 +46,6 @@ class BusinessValidator extends BaseValidator
         'businessInfo.highway_details' => 'required_if:is_highway_res,1',
         'businessInfo.status_id' => 'required',
         'businessInfo.ischeckout_enable' => 'required',
-        'businessInfo.website' => 'url',
         'address.address_line_1' => 'required',
         'address.city_id' => 'required',
         'address.mobile' => 'required|unique:business_address,mobile',

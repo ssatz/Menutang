@@ -42,7 +42,6 @@ class BusinessEditValidator extends BaseValidator {
         'is_highway_res' => 'required',
         'status_id' => 'required',
         'ischeckout_enable' => 'required',
-        'website' => 'url',
         'address.address_line_1' => 'required',
         'address.city_id' => 'required',
         'address.mobile' => 'required|unique:business_address,mobile,<id>',

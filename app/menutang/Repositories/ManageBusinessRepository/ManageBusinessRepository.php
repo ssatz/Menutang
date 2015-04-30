@@ -269,6 +269,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function insert(array $input)
     {
+
         $businessInfo = $this->model->create($input['businessInfo']);
         $slug = $this->slug($input['businessInfo']['business_name']);
         if (!empty($this->findBusinessBySlug($slug))) {
