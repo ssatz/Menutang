@@ -536,6 +536,7 @@ class BusinessManager
                             $cell[$count]['available_breakfast'] = boolval($row['available_at_breakfast']);
                             $cell[$count]['available_lunch'] = boolval($row['available_at_lunch']);
                             $cell[$count]['available_dinner'] = boolval($row['available_at_dinner']);
+                            $cell[$count]['available_fullday'] = boolval($row['available_at_fullday']);
                             $cell[$count]['itemAddon'] = new Collection();
                         }
                         if (!is_null($row['item_addon_name'])) {
