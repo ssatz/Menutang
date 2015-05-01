@@ -21,6 +21,7 @@ use DeliveryArea;
 use BusinessAddress;
 use BusinessHours;
 use BusinessPhoto;
+use BusinessUser;
 use Intervention\Image\ImageManager;
 use Illuminate\Filesystem\Filesystem;
 use Services\SearchEnum;
@@ -268,15 +269,20 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function insert(array $input)
     {
-
         $businessInfo = $this->model->create($input['businessInfo']);
+        $user =new BusinessUser();
+        $user->first_name= $input['user']['first_name'];
+        $user->last_name = $input['user']['last_name'];
+        $user->mobile = $input['user']['mobile'];
+        $user->email = $input['user']['email'];
+        $user->save();
         $slug = $this->slug($input['businessInfo']['business_name']);
         if (!empty($this->findBusinessBySlug($slug))) {
             $slug = $slug . '-' . $businessInfo->id;
         }
         $buUniqueId = $this->dbManager->table('business_type')->where('id', (int)$input['businessInfo']['business_type_id'])->pluck('business_code');
         $buUniqueId = $buUniqueId . '00000' . $businessInfo->id;
-
+        $businessInfo->business_user_id = $user->id;
         $businessInfo->fill(['business_slug' => $slug, 'business_unique_id' => $buUniqueId]);
         $businessInfo->save();
         $businessInfo->cuisineType()->attach($input['cuisineType']);
@@ -289,6 +295,8 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         $address->gps_longitude = $input['address']['gps_longitude'];
         $address->postal_code = $input['address']['postal_code'];
         $address->mobile = $input['address']['mobile'];
+        $address->mobile2 = $input['address']['mobile2'];
+        $address->land_line = $input['address']['land_line'];
         $businessInfo->address()->save($address);
         $businessInfo->payment()->attach($input['payments']);
         foreach ($input['time'] as $key => $value) {

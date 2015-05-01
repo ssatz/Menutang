@@ -71,7 +71,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="website">Website</label>
-                                <input tabindex="46" type="text" class="form-control input-sm" data-bind="value:website" id="website" placeholder="www.example.com">
+                                <input tabindex="46" type="text" class="form-control input-sm" data-bind="value:website" id="website" placeholder="http://www.ex.com (or) http://ex.co.in">
                                 <p class="validationMessage" data-bind="validationMessage: website"></p>
                             </div>
                             <div class="form-group">
@@ -204,6 +204,20 @@
                                     No
                                 </label>
                                 <p class="validationMessage" data-bind="validationMessage: is_halal"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="is_barbecue">BBQ</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="is_barbecue" value="1" tabindex="7" data-bind="radio,checked:is_barbecue">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="is_barbecue" value="0" tabindex="8" data-bind="radio,checked:is_barbecue">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: is_barbecue"></p>
                             </div>
                             <div class="form-group badge badge-info">
                                 <label class="label-checkbox inline">
@@ -441,6 +455,16 @@
                                 <label for="businessMobile">Business Mobile</label>
                                 <input type="text" tabindex="5" class="form-control input-sm" data-bind="value:address.mobile"></textarea>
                                 <p class="validationMessage" data-bind="validationMessage: address.mobile"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="businessMobile">Business Mobile</label>
+                                <input type="text" tabindex="5" class="form-control input-sm" data-bind="value:address.mobile2"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: address.mobile2"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="businessMobile">Land Line</label>
+                                <input type="text" tabindex="5" class="form-control input-sm" data-bind="value:address.land_line"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage:address.land_line"></p>
                             </div>
                             <div class="form-group">
                                 <label for="businessMobile">Postal Code</label>

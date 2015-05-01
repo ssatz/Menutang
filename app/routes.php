@@ -23,7 +23,6 @@ App::missing(function ($exception) {
 
     
 });
-
 /**
  * Admin Routes
  */

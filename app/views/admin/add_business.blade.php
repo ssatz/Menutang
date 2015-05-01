@@ -12,6 +12,7 @@
                     <li><a href="#feature" data-toggle="tab"><i class="fa fa-home"></i>Features</a></li>
                     <li><a href="#logo" data-toggle="tab"><i class="fa fa-home"></i>Logo</a></li>
                     <li><a href="#address" data-toggle="tab"><i class="fa fa-envelope"></i> Address</a></li>
+                    <li><a href="#buadmin" data-toggle="tab"><i class="fa fa-envelope"></i> Business Admin</a></li>
                     <li><a href="#timeday" data-toggle="tab"><i class="fa fa-times-circle-o"></i>Time & Day</a></li>
                     <li><a href="#payment" data-toggle="tab"><i class="fa fa-money"></i>Payments</a></li>
                     <li><a href="#deliveryarea" data-bind="if:doorDelivery()=='true'" data-toggle="tab"><i class="fa fa-dropbox"></i>Delivery</a></li>
@@ -70,7 +71,7 @@
                         </div>
                         <div class="form-group">
                             <label for="website">Website</label>
-                            <input tabindex="46" type="text" class="form-control input-sm" data-bind="value:website" id="website" placeholder="www.example.com">
+                            <input tabindex="46" type="text" class="form-control input-sm" data-bind="value:website" id="website" placeholder="http://www.ex.com (or) http://ex.com">
                             <p class="validationMessage" data-bind="validationMessage: website"></p>
                         </div>
                         <div class="form-group">
@@ -202,6 +203,20 @@
                                     No
                                 </label>
                                 <p class="validationMessage" data-bind="validationMessage: halal"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="bbQ">BBQ</label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="bbQ" value="true" tabindex="7" data-bind="checked:bbq,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    Yes
+                                </label>
+                                <label class="label-radio inline badge badge-info">
+                                    <input type="radio" name="bbQ" value="false" tabindex="8" data-bind="checked:bbq,click:radioClick">
+                                    <span class="custom-radio"></span>
+                                    No
+                                </label>
+                                <p class="validationMessage" data-bind="validationMessage: bbq"></p>
                             </div>
                             <div class="form-group badge badge-info">
                                 <label class="label-checkbox inline">
@@ -409,37 +424,47 @@
                       <div style="margin: 20px;">
                         <div class="form-group">
                             <label for="businessAddress1">Business Address1</label>
-                            <input type="text" tabindex="1" class="form-control input-sm" data-bind="value:businessAddress1"></textarea>
+                            <input type="text" tabindex="1" class="form-control input-sm" data-bind="value:businessAddress1"/>
                             <p class="validationMessage" data-bind="validationMessage: businessAddress1"></p>
                         </div>
                         <div class="form-group">
                             <label for="businessAddress2">Business Address2</label>
-                            <input type="text" tabindex="2" class="form-control input-sm" data-bind="value:businessAddress2"></textarea>
+                            <input type="text" tabindex="2" class="form-control input-sm" data-bind="value:businessAddress2"/>
                             <p class="validationMessage" data-bind="validationMessage: businessAddress2"></p>
                         </div>
                         <div class="form-group">
                             <label for="businessLandmark">Business Landmark</label>
-                            <input type="text" tabindex="3" class="form-control input-sm" data-bind="value:businessLandmark"></textarea>
+                            <input type="text" tabindex="3" class="form-control input-sm" data-bind="value:businessLandmark"/>
                             <p class="validationMessage" data-bind="validationMessage: businessLandmark"></p>
                         </div>
                         <div class="form-group">
                             <label for="gpsLocation">GPS Latitude</label>
-                            <input type="text" tabindex="4" class="form-control input-sm" data-bind="value:gpsLatitude"></textarea>
+                            <input type="text" tabindex="4" class="form-control input-sm" data-bind="value:gpsLatitude"/>
                             <p class="validationMessage" data-bind="validationMessage: gpsLatitude"></p>
                         </div>
                           <div class="form-group">
                               <label for="gpsLocation">GPS Longitude</label>
-                              <input type="text" tabindex="4" class="form-control input-sm" data-bind="value:gpsLongitude"></textarea>
+                              <input type="text" tabindex="4" class="form-control input-sm" data-bind="value:gpsLongitude"/>
                               <p class="validationMessage" data-bind="validationMessage: gpsLongitude"></p>
                           </div>
                         <div class="form-group">
                             <label for="businessMobile">Business Mobile</label>
-                            <input type="text" tabindex="5" class="form-control input-sm" data-bind="value:businessMobile"></textarea>
+                            <input type="text" tabindex="5" class="form-control input-sm" data-bind="value:businessMobile"/>
                             <p class="validationMessage" data-bind="validationMessage: businessMobile"></p>
                         </div>
+                          <div class="form-group">
+                              <label for="businessMobile">Business Mobile2</label>
+                              <input type="text" tabindex="5" class="form-control input-sm" data-bind="value:businessMobile2"/>
+                              <p class="validationMessage" data-bind="validationMessage: businessMobile2"></p>
+                          </div>
+                          <div class="form-group">
+                              <label for="businessMobile">Land Line</label>
+                              <input type="text" tabindex="5" class="form-control input-sm" data-bind="value:landLine" placeholder="ex.044-44444444"/>
+                              <p class="validationMessage" data-bind="validationMessage: landLine"></p>
+                          </div>
                         <div class="form-group">
                             <label for="businessMobile">Postal Code</label>
-                            <input type="text" tabindex="5" class="form-control input-sm" data-bind="value:postalCode"></textarea>
+                            <input type="text" tabindex="5" class="form-control input-sm" data-bind="value:postalCode">
                             <p class="validationMessage" data-bind="validationMessage: postalCode"></p>
                         </div>
                         <div class="form-group">
@@ -453,6 +478,30 @@
                             <p class="validationMessage" data-bind="validationMessage: city"></p>
                         </div>
                     </div>
+                    </div>
+                    <div class="tab-pane fade" id="buadmin">
+                        <div style="margin: 20px;">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" class="form-control input-sm" name="firstName" data-bind="value:first_name">
+                                <p class="validationMessage" data-bind="validationMessage: first_name"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" class="form-control input-sm" name="lastName" data-bind="value:last_name">
+                                <p class="validationMessage" data-bind="validationMessage: last_name"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="text" class="form-control input-sm" name="email" data-bind="value:email">
+                                <p class="validationMessage" data-bind="validationMessage: email"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="mobile">Mobile</label>
+                                <input type="text" class="form-control input-sm" name="email" data-bind="value:mobile">
+                                <p class="validationMessage" data-bind="validationMessage: mobile"></p>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="timeday">
                          <p class="alert alert-error" data-bind="validationMessage: timeDay"></p>

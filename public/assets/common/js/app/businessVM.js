@@ -43,7 +43,7 @@ var businessVM = {
     boarding:ko.observable('').extend({required:true}),
     barAttached:ko.observable('').extend({required:true}),
     highwayRestaurant:ko.observable('').extend({required:true}),
-    website:ko.observable('').extend({ pattern: {params:'^(www.)([a-zA-Z0-9]*)(.*[a-z]*)$',message:'Invalid format'}}),
+    website:ko.observable('').extend({ pattern: {params:/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,message:'Invalid format'}}),
     aboutBusiness:ko.observable(''),
     checkOutEnable:ko.observable('').extend({required:true}),
     city:ko.observable('').extend({required:true,notEqual:-1}),
@@ -51,6 +51,7 @@ var businessVM = {
     businessAddress2:ko.observable(''),
     businessLandmark:ko.observable(''),
     halal:ko.observable('').extend({required:true}),
+    bbq:ko.observable('').extend({required:true}),
     businessAC:ko.observable(false),
     businessNonAC:ko.observable(true),
     gpsLatitude :ko.observable(''),
@@ -62,11 +63,40 @@ var businessVM = {
             params: '^([1-9])([0-9]){5}$'
         }
     }),
-    businessMobile:ko.observable().extend({
+    businessMobile:ko.observable('').extend({
         required: true,
         pattern: {
             message: 'Hey this is not a valid mobile no',
             params: '^[7-9][0-9]{9}$'
+        }
+    }),
+    mobile:ko.observable('').extend({
+        required: true,
+        pattern: {
+            message: 'Hey this is not a valid mobile no',
+            params: '^[7-9][0-9]{9}$'
+        }
+    }),
+    email:ko.observable('').extend({
+        required: true,
+        email:true
+    }),
+    first_name:ko.observable('').extend({
+        required: true
+    }),
+    last_name:ko.observable('').extend({
+        required: true
+    }),
+    businessMobile2:ko.observable('').extend({
+        pattern: {
+            message: 'Hey this is not a valid mobile no',
+            params: '^[7-9][0-9]{9}$'
+        }
+    }),
+    landLine:ko.observable('').extend({
+        pattern: {
+            message: 'Hey this is not a valid land line no',
+            params: /^[0-9]\d{2,4}-\d{6,8}$/
         }
     }),
     timeDay:ko.observableArray().extend({required:{

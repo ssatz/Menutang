@@ -631,6 +631,7 @@ class BusinessManager
             'ischeckout_enable'=> $object->checkOutEnable,
             'avg_delivery_time'=> isset($object->avgDeliveryTime)?$object->avgDeliveryTime:'',
              'is_halal'=>$object->halal=='true'?true:false,
+             'is_barbecue'=>$object->bbq=='true'?true:false,
              'is_ac'=>$object->businessAC,
              'is_non_ac'=>$object->businessNonAC
              ],
@@ -643,7 +644,15 @@ class BusinessManager
               'address_landmark'=>(string)$object->businessLandmark,
               'postal_code'=>(int)$object->postalCode,
               'mobile'=>(float)$object->businessMobile,
+              'mobile2'=>empty($object->businessMobile2)?null:(float)$object->businessMobile2,
+              'land_line'=>$object->landLine
           ],
+           'user'=>[
+               'first_name'=>$object->first_name,
+                'last_name'=>$object->last_name,
+                'email'=>$object->email,
+                'mobile'=>(float)$object->mobile
+           ],
           'payments'=>array_map(
               create_function('$value', 'return (int)$value;'),
               $object->payments
@@ -653,7 +662,6 @@ class BusinessManager
            'delivery'=>$deliveryArea,
            'fileData'=>$object->fileData
         ];
-
        return $data;
    }
 

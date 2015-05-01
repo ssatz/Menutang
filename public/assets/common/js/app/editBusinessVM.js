@@ -224,6 +224,62 @@ var validationMapping = {
         create: function (options) {
             return ko.observable(options.data).extend({required: true});
         }
+    },
+    'is_barbecue':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'website':{
+        create:function(options){
+            return ko.observable(options.data).extend({ pattern: {params:/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,message:'Invalid format'}})
+        }
+    },
+    'address_line_1':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'postal_code':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true});
+        }
+    },
+    'mobile':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required: true},{
+                    pattern: {
+                        message: 'Hey this is not a valid mobile no',
+                        params: '^[7-9][0-9]{9}$'
+                    }
+                }
+            );
+        }
+    },
+    'mobile2':{
+        create: function (options) {
+            return ko.observable(options.data).extend({
+                pattern: {
+                    message: 'Hey this is not a valid mobile no',
+                    params: '^[7-9][0-9]{9}$'
+                }
+            });
+        }
+    },
+    'land_line':{
+        create: function (options) {
+            return ko.observable(options.data).extend({
+                pattern: {
+                    message: 'Hey this is not a valid land line no',
+                    params: /^[0-9]\d{2,4}-\d{6,8}$/
+                }
+            });
+        }
+    },
+    'city_id':{
+        create: function (options) {
+            return ko.observable(options.data).extend({required:true,notEqual:-1});
+        }
     }
 
 }
