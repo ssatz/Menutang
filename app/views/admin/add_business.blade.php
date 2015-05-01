@@ -182,6 +182,13 @@
                                 </label>
                                 <p class="validationMessage" data-bind="validationMessage: outdoorCatering"></p>
                             </div>
+                            <!-- ko if: outdoorCatering()=='true' -->
+                            <div class="form-group">
+                                <label for="outdoorCateringComments">Outdoor Catering Comments</label>
+                                <textarea   tabindex="19" style="margin: 0px; width: 523px; height: 91px;" data-bind="value:outdoorCateringComments"></textarea>
+                                <p class="validationMessage" data-bind="validationMessage: outdoorCateringComments"></p>
+                            </div>
+                            <!--/ko -->
                             <div class="form-group">
                                 <label for="deliveryEnable">Halal Food</label>
                                 <label class="label-radio inline badge badge-info">
@@ -208,13 +215,6 @@
                                     Non A/C
                                 </label>
                             </div>
-                            <!-- ko if: outdoorCatering()=='true' -->
-                            <div class="form-group">
-                                <label for="outdoorCateringComments">Outdoor Catering Comments</label>
-                                <textarea   tabindex="19" style="margin: 0px; width: 523px; height: 91px;" data-bind="value:outdoorCateringComments"></textarea>
-                                <p class="validationMessage" data-bind="validationMessage: outdoorCateringComments"></p>
-                            </div>
-                            <!--/ko -->
                             <div class="form-group">
                                 <label for="deliveryEnable" >Party Hall</label>
                                 <label class="label-radio inline badge badge-info">
