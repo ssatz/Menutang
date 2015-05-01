@@ -194,12 +194,12 @@
                             <div class="form-group">
                                 <label for="is_halal">Halal Food</label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="is_halal" value="true" tabindex="7" data-bind="radio,checked:is_halal">
+                                    <input type="radio" name="is_halal" value="1" tabindex="7" data-bind="radio,checked:is_halal">
                                     <span class="custom-radio"></span>
                                     Yes
                                 </label>
                                 <label class="label-radio inline badge badge-info">
-                                    <input type="radio" name="is_halal" value="false" tabindex="8" data-bind="radio,checked:is_halal">
+                                    <input type="radio" name="is_halal" value="0" tabindex="8" data-bind="radio,checked:is_halal">
                                     <span class="custom-radio"></span>
                                     No
                                 </label>
