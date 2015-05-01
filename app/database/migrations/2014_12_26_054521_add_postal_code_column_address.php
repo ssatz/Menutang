@@ -14,7 +14,7 @@ class AddPostalCodeColumnAddress extends Migration
     public function up()
     {
         Schema::table('business_address', function (Blueprint $table) {
-            $table->bigInteger('postal_code')->after('address_gps_location')->unsigned();
+            $table->bigInteger('postal_code')->after('mobile')->unsigned();
         });
     }
 

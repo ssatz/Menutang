@@ -14,8 +14,7 @@ class AddColumnToAddress extends Migration {
 	{
 		Schema::table('business_address', function(Blueprint $table)
 		{
-			$table->dropColumn('address_gps_location');
-            $table->string('gps_latitude')->after('address_landmark	');
+            $table->string('gps_latitude')->after('address_landmark');
             $table->string('gps_longitude')->after('gps_latitude');
 		});
 	}
