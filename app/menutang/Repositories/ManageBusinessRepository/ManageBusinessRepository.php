@@ -152,7 +152,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
                 array_push($deliveryAreaId, $deliveryArea->id);
 
             }
-            $businessInfo->deliveryArea()->attach(array_unique($deliveryAreaId));
+            $businessInfo->deliveryArea()->sync(array_unique($deliveryAreaId));
         }
     }
 
