@@ -43,7 +43,7 @@ var businessVM = {
     boarding:ko.observable('').extend({required:true}),
     barAttached:ko.observable('').extend({required:true}),
     highwayRestaurant:ko.observable('').extend({required:true}),
-    website:ko.observable('').extend({ pattern: {params:'^(www.)([a-zA-Z0-9]*).([a-z]*)$',message:'Invalid format'}}),
+    website:ko.observable('').extend({ pattern: {params:'^(www.)([a-zA-Z0-9]*)(.*[a-z]*)$',message:'Invalid format'}}),
     aboutBusiness:ko.observable(''),
     checkOutEnable:ko.observable('').extend({required:true}),
     city:ko.observable('').extend({required:true,notEqual:-1}),
