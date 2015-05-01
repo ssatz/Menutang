@@ -108,8 +108,14 @@
 							   class="egg" name="item[0][is_egg]"></td>
 					<td><input type="checkbox" data-on-text="Yes" data-off-text="No"
 							   id="item_0_is_spicy" name="item[0][is_spicy]"></td>
+                    <td><input type="checkbox" data-on-text="Yes" data-off-text="No"
+                               id="item_0_is_eggless" name="item[0][is_eggless]"></td>
 					<td><input type="checkbox" data-on-text="Yes" data-off-text="No"
 							   id="item_0_is_popular" name="item[0][is_popular]"></td>
+                    <td><input type="checkbox" data-on-text="Yes" data-off-text="No"
+                               id="item_0_is_pickup" name="item[0][is_pickup]"></td>
+                    <td><input type="checkbox" data-on-text="Yes" data-off-text="No"
+                               id="item_0_is_delivery" name="item[0][is_delivery]"></td>
                     <td><select class="form-control chzn-select" name="item[0][time_category][]" id="item_0_time_category" multiple data-required="true">
                             @foreach($timecategory as $bu)
                             <option value="{{$bu->id}}">{{$bu->timeCategory->category_description}}</option>
@@ -190,8 +196,14 @@
 						   class="egg" name="item[0][is_egg]"></td>
 				<td><input type="checkbox" data-on-text="Yes" data-off-text="No"
 						   id="item_0_is_spicy" name="item[0][is_spicy]"></td>
-				<td><input type="checkbox" data-on-text="Yes" data-off-text="No"
-						   id="item_0_is_popular" name="item[0][is_popular]"></td>
+                <td><input type="checkbox" data-on-text="Yes" data-off-text="No"
+                           id="item_0_is_eggless" name="item[0][is_eggless]"></td>
+                <td><input type="checkbox" data-on-text="Yes" data-off-text="No"
+                           id="item_0_is_popular" name="item[0][is_popular]"></td>
+                <td><input type="checkbox" data-on-text="Yes" data-off-text="No"
+                           id="item_0_is_pickup" name="item[0][is_pickup]"></td>
+                <td><input type="checkbox" data-on-text="Yes" data-off-text="No"
+                           id="item_0_is_delivery" name="item[0][is_delivery]"></td>
                 <td><select class="form-control" name="item[0][time_category][]" id="item_0_time_category" multiple data-required="true">
                         @foreach($timecategory as $bu)
                             <option value="{{$bu->id}}">{{$bu->timeCategory->category_description}}</option>

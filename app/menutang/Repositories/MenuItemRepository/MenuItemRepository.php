@@ -100,6 +100,9 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
                         $menuItem->is_spicy = isset($item['is_spicy']) ? true : false;
                         $menuItem->is_popular = isset($item['is_popular']) ? true : false;
                         $menuItem->item_status = isset($item['item_status']) ? true : false;
+                        $menuItem->is_eggless = isset($item['is_eggless']) ? true : false;
+                        $menuItem->is_pickup = isset($item['is_pickup']) ? true : false;
+                        $menuItem->is_delivery = isset($item['is_delivery']) ? true : false;
                         $menuItem->save();
                         $numerickeys = array_filter(array_keys($item), 'is_int');
                         foreach ($numerickeys as $key) {
@@ -141,31 +144,37 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
         {
             foreach($menuItem as $item) {
                 $available = [];
-                if ($item['available_breakfast'])
+                if ($item['available_fullday'])
                 {
                     foreach($businessHours as $hr)
                     {
-                        if($hr['time_category_id']==TimeCategoryEnum::BREAKFAST){
+                        if($hr['time_category_id']==TimeCategoryEnum::FULLDAY){
                             array_push($available,$hr['id']);
                         }
                     }
 
                 }
-                if ($item['available_lunch'])
-                {
-                    foreach($businessHours as $hr)
-                    {
-                        if($hr['time_category_id']==TimeCategoryEnum::LUNCH){
-                            array_push($available,$hr['id']);
+                else {
+                    if ($item['available_breakfast']) {
+                        foreach ($businessHours as $hr) {
+                            if ($hr['time_category_id'] == TimeCategoryEnum::BREAKFAST) {
+                                array_push($available, $hr['id']);
+                            }
+                        }
+
+                    }
+                    if ($item['available_lunch']) {
+                        foreach ($businessHours as $hr) {
+                            if ($hr['time_category_id'] == TimeCategoryEnum::LUNCH) {
+                                array_push($available, $hr['id']);
+                            }
                         }
                     }
-                }
-                if ($item['available_dinner'])
-                {
-                    foreach($businessHours as $hr)
-                    {
-                        if($hr['time_category_id']==TimeCategoryEnum::DINNER){
-                            array_push($available,$hr['id']);
+                    if ($item['available_dinner']) {
+                        foreach ($businessHours as $hr) {
+                            if ($hr['time_category_id'] == TimeCategoryEnum::DINNER) {
+                                array_push($available, $hr['id']);
+                            }
                         }
                     }
                 }

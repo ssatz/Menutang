@@ -1929,3 +1929,6 @@
 .padR40{
     padding-right: 40px;
 }
+form{
+    overflow: auto;
+}

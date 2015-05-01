@@ -12,16 +12,19 @@ namespace Services;
 use MyCLabs\Enum\Enum;
 
 class TimeCategoryEnum  extends Enum{
+
+    const FULLDAY=1;
+
     /**
      * breakfast - should be equal to TimeCategory Table breakfast column
      */
-    const BREAKFAST=1;
+    const BREAKFAST=2;
     /**
      * lunch - should be equal to TimeCategory Table Lunch column
      */
-    const LUNCH=2;
+    const LUNCH=3;
     /**
      * Dinner - should be equal to TimeCategory Table Dinner column
      */
-    const DINNER=3;
+    const DINNER=4;
 }

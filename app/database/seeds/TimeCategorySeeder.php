@@ -14,6 +14,10 @@ public function run()
 {
     $data = [
         [
+            'category_code'=>'FULL',
+             'category_description'=>'Full Day'
+        ],
+        [
             'category_code'=>'BF',
             'category_description'=>'Break Fast'
         ],
