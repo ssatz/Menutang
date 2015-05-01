@@ -649,7 +649,7 @@
                 return;
             }
             notification('Success','Hurray!Business Created','gritter-success');
-           // window.location.reload();
+            window.location.reload();
         }, 'json');
     }
     function addbuAjax(data,self){
