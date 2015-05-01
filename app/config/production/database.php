@@ -25,7 +25,7 @@ return array(
             'host' => 'localhost',
             'database' => 'menutang',
             'username' => 'forge',
-            'password' => 'hqyU6AWab5mfihupXcSi',
+            'password' => 'GrWgR7eWkPiONKqCNtJI',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
