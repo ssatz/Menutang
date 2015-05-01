@@ -44,7 +44,7 @@ class BusinessEditValidator extends BaseValidator {
         'ischeckout_enable' => 'required',
         'address.address_line_1' => 'required',
         'address.city_id' => 'required',
-        'address.mobile' => 'required|unique:business_address,mobile,<id>',
+        'address.mobile' => 'required',
         'address.postal_code' => 'required',
         'selectedPayments' => 'required',
         'timeDay'=>'required'

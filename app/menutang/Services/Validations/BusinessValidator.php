@@ -48,7 +48,7 @@ class BusinessValidator extends BaseValidator
         'businessInfo.ischeckout_enable' => 'required',
         'address.address_line_1' => 'required',
         'address.city_id' => 'required',
-        'address.mobile' => 'required|unique:business_address,mobile',
+        'address.mobile' => 'required',
         'address.postal_code' => 'required',
         'payments' => 'required'
     ];
