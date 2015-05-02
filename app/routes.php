@@ -75,7 +75,7 @@ Route::group(['domain' => 'business.'.preg_replace('#^http(s)?://(www.)?#', '', 
  * FrontEnd Routes
  */
 Route::get('info.htm',function(){
-    echo phpinfo();
+    print phpinfo();
 });
 Route::get('about-us.htm', ['as' => 'aboutUs', 'uses' => 'GuestController@aboutUs']);
 Route::get('faq.htm', ['as' => 'faq', 'uses' => 'GuestController@faq']);
