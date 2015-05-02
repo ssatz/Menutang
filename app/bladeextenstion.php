@@ -18,7 +18,6 @@ Blade::extend(function($view, $compiler)
 {
     $pattern = $compiler->createMatcher('replacespace');
     return preg_replace($pattern, '$1<?php  echo preg_replace(\'/[^A-Za-z0-9\-]/\',\'\',strtolower(str_replace(\' \',\'-\',$2))); ?>', $view);
-
 });
 /**
 *  {? $old_section = "whatever" ?}
