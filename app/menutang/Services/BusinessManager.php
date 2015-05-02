@@ -278,7 +278,6 @@ class BusinessManager
      */
     public function updateBusiness(array $input, $slug)
     {
-        dd($input);
         $address= $input['address']['id'];
         $this->businessEditValidator->excludeId=$address;
         $this->businessEditValidator->with($input);

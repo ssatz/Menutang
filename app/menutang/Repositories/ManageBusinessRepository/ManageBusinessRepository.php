@@ -121,8 +121,8 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
             if($hr['enabled'] && $hr["business_hr_id"]!=-1){
                 $hours = BusinessHours::find($hr["business_hr_id"]);
                 $hours->time_category_id=$hr['time_category_id'];
-                $hours->open_time=$hr['open_time'];
-                $hours->close_time=$hr['close_time'];
+                $hours->open_time=$this->helper->timeConverter($hr['open_time'],'H:i:s');
+                $hours->close_time=$this->helper->timeConverter($hr['close_time'],'H:i:s');
                 $hours->save();
                 $hours->weekDays()->sync($hr['week_days']);
             }
@@ -304,8 +304,8 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
             $hours = new BusinessHours([
                 'business_info_id' => $businessInfo->id,
                 'time_category_id' => $value['time_category_id'],
-                'open_time' => $value['open_time'],
-                'close_time' => $value['close_time']
+                'open_time'=>$this->helper->timeConverter($value['open_time'],'H:i:s'),
+                'close_time'=>$this->helper->timeConverter($value['close_time'],'H:i:s')
             ]);
             $businessInfo->businessHours()->save($hours);
             $hours->weekDays()->attach($value['day']);
