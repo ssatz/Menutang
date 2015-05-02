@@ -102,7 +102,7 @@ class ManageBusinessController extends BaseController
                 if ($this->manage->updateBusiness(json_decode($this->request->input('data'), true), $slug)){
                     return $this->response->json(true);
                 }
-                return $this->response->json($this->manage->errors);
+                return $this->response->json($this->manage->errors,200, [], JSON_NUMERIC_CHECK);
 
             }
             $buTypes = $this->manage->getAllBusinessType();
