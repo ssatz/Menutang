@@ -101,6 +101,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function update(array $input, $slug)
     {
+
         $this->cache->flush(get_class($this->model));
         $businessInfoData = $this->helper->match($input, ['business_info']);
         $address= $this->helper->match($input['address'], ['business_address']);
