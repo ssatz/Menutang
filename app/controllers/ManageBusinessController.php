@@ -97,13 +97,13 @@ class ManageBusinessController extends BaseController
                     $businessInfo->day = $this->manage->getAllWeekDays();
                     $businessInfo->cuisines = $this->manage->getAllCuisineType();
                     $businessInfo->paymentsType = $this->manage->getAllPayments();
-                    return $this->response->json($businessInfo);
+                    dd($businessInfo);
+                    return $this->response->json($businessInfo,200,[], JSON_NUMERIC_CHECK);
                 }
                 if ($this->manage->updateBusiness(json_decode($this->request->input('data'), true), $slug)){
                     return $this->response->json(true);
                 }
-                dd($businessInfo);
-                return $this->response->json($this->manage->errors,200,[], JSON_NUMERIC_CHECK);
+                return $this->response->json($this->manage->errors);
 
             }
             $buTypes = $this->manage->getAllBusinessType();
