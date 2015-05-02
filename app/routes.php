@@ -17,6 +17,7 @@ Route::get('info',function(){
  * 404 Error
  *
  */
+\Illuminate\Support\Facades\Cache::flush();
 App::missing(function ($exception) {
     return View::make('error404');
 
