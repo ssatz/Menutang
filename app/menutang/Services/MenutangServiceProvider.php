@@ -17,6 +17,7 @@ use DBSettingsCommand;
 use Services\Validations\CustomValidator;
 use DatabaseCommand;
 use AdminDBSeedCommand;
+use ViewsCommand;
 
 
 class MenutangServiceProvider extends ServiceProvider
@@ -140,6 +141,13 @@ class MenutangServiceProvider extends ServiceProvider
         });
         $this->commands(
             'command.db'
+        );
+        $this->app->bindShared('command.views', function($app)
+        {
+            return new ViewsCommand();
+        });
+        $this->commands(
+            'command.views'
         );
     }
 
