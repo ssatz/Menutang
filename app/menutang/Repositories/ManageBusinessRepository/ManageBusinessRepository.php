@@ -85,12 +85,12 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function findBusinessBySlug($slug)
     {
-        //$key = md5('slug.' . $slug);
-        //if ($this->cache->has($key)) {
-        //    return $this->cache->get($key);
-        //}
+        $key = md5('slug.' . $slug);
+        if ($this->cache->has($key)) {
+            return $this->cache->get($key);
+        }
         $businessInfo = $this->model->with('address.city', 'payment','deliveryArea','cuisineType','businessHours.timeCategory','businessHours.weekDays')->where('business_slug', '=', $slug)->first();
-        //$this->cache->put($key, $businessInfo);
+        $this->cache->put($key, $businessInfo);
         return $businessInfo;
     }
 
