@@ -588,7 +588,8 @@ class BusinessManager
            if(!empty($area->area) && !empty($area->pincode) && $area->area!='' && $area->pincode!='')
            $deliveryArea[$key]=[
                'area'=>$area->area,
-               'pincode'=>(int)$area->pincode
+               'pincode'=>(int)$area->pincode,
+               'city'=>(int)$area->city
            ];
        }
        $cuisineType=[];
@@ -662,6 +663,7 @@ class BusinessManager
            'delivery'=>$deliveryArea,
            'fileData'=>$object->fileData
         ];
+
        return $data;
    }
 
