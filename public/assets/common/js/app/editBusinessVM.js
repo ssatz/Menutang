@@ -442,7 +442,6 @@ var deliveryArea =function(deliveryarea,object){
 }
 var selectedPayments=function(payment,object) {
     object.selectedPayments.removeAll();
-    console.log(payment);
     ko.utils.arrayForEach(payment, function(item) {
         object.selectedPayments.push(item.id);
     });
