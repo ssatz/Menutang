@@ -29,9 +29,6 @@ return array(
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
-            'options'   => array(
-                PDO::ATTR_EMULATE_PREPARES => false,
-            ),
         ),
 
         'pgsql' => array(
