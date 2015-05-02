@@ -304,8 +304,8 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
             $hours = new BusinessHours([
                 'business_info_id' => $businessInfo->id,
                 'time_category_id' => $value['time_category_id'],
-                'open_time'=>$this->helper->timeConverter($value['open_time'],'H:i:s'),
-                'close_time'=>$this->helper->timeConverter($value['close_time'],'H:i:s')
+                'open_time'=>$value['open_time'],
+                'close_time'=>$value['close_time'],
             ]);
             $businessInfo->businessHours()->save($hours);
             $hours->weekDays()->attach($value['day']);
