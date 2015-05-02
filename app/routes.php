@@ -1,7 +1,4 @@
 <?php
-Route::get('info',function(){
-    echo phpinfo();
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +14,6 @@ Route::get('info',function(){
  * 404 Error
  *
  */
-\Illuminate\Support\Facades\Cache::flush();
 App::missing(function ($exception) {
     return View::make('error404');
 
@@ -78,7 +74,9 @@ Route::group(['domain' => 'business.'.preg_replace('#^http(s)?://(www.)?#', '', 
 /**
  * FrontEnd Routes
  */
-
+Route::get('info.htm',function(){
+    echo phpinfo();
+});
 Route::get('about-us.htm', ['as' => 'aboutUs', 'uses' => 'GuestController@aboutUs']);
 Route::get('faq.htm', ['as' => 'faq', 'uses' => 'GuestController@faq']);
 Route::get('logout', ['as' => 'user.logout', 'uses' => 'FrontEndController@logout']);
