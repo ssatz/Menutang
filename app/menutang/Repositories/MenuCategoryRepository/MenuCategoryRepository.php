@@ -11,6 +11,7 @@
 namespace Repositories\MenuCategoryRepository;
 
 
+use Illuminate\Support\Facades\Cache;
 use Repositories\BaseRepository;
 use Services\Cache\ICacheService;
 use MenuCategory;
@@ -57,17 +58,19 @@ class MenuCategoryRepository extends BaseRepository implements IMenuCategoryRepo
      */
     public function findByProfile($businessId)
     {
-       $key = md5('buProfile'.$businessId);
+        $key = md5('buProfile'.$businessId);
         if ($this->cache->has($key)) {
             return $this->cache->get($key);
         }
         $profileDetails =$this->model->wherehas('menuItem',function($query) use($businessId) {
-            $query->where('business_info_id', '=', $businessId);
-        })->with('menuItem.businessHours')
-            ->with('menuItem.itemAddon')
-            ->with('menuItem.weekDays')
-            ->with('menuItem.optionItem')
-            ->get();
+              $query->where('business_info_id', '=',(int)$businessId);
+        })->with(['menuItem'=>function($query) use($businessId) {
+                $query->with('itemAddon')
+                     ->with('weekDays')
+                     ->with('optionItem')
+                     ->where('business_info_id', '=',(int)$businessId);
+            }])
+            ->orderBy('category_name')->get();
         $this->cache->put($key, $profileDetails);
         return $profileDetails;
     }
