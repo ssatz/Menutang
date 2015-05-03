@@ -228,7 +228,16 @@ class AdminAuthController extends BaseController
      *
      */
     public function addUpdateType(){
-
+        if($this->request->ajax()){
+            $data =json_decode($this->request->get('data'),true);
+            $id= $data['id'];
+            $types = [
+               'business_code'=> $data['business_code'],
+                'business_type'=>$data['business_type']
+            ];
+          $result=  $this->manage->addOrUpdateBusinessType($id,$types);
+          return $this->response->json($result);
+        }
     }
 
 

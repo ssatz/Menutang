@@ -13,8 +13,8 @@ namespace Services\Validations;
 
 class BusinessTypeValidator extends BaseValidator {
     protected static $rules=[
-        'business_code' => 'required|unique:business_type,business_code',
-        'business_type' => 'required|unique:business_type,business_type',
+        'business_code' => 'required|unique:business_type,business_code,<id>',
+        'business_type' => 'required|unique:business_type,business_type,<id>',
     ];
 
     protected static $messages=[

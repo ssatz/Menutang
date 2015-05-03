@@ -209,6 +209,26 @@
             return $.trim($(this).text()) == $region
         }).prop('selected', true);
     });
+
     });
+    function postTypes(data,koObject)
+    {
+        $.post('{{action('AdminAuthController@addUpdateType')}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
+        if(data!=true)
+        {
+            var error='';
+            $.each(data,function(key,value)
+            {
+                error = error+'<br/>'+value
+            });
+            notification('Error',error,'gritter-danger');
+            koObject.flag(false);
+            return;
+        }
+        notification('Success','Hurray!Business Type Created','gritter-success');
+        koObject.flag(true);
+        return;
+    }, 'json');
+    }
 </script>
 @endsection

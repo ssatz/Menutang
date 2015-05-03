@@ -18,6 +18,9 @@ abstract class BaseValidator
      * @var array
      */
     protected static $messages = [];
+    /**
+     * @var
+     */
     public  $excludeId;
     /**
      * @var
@@ -72,10 +75,17 @@ abstract class BaseValidator
         return $this->errors;
     }
 
+    /**
+     *
+     */
     protected function beforeValidation() {
         static::$rules = $this->replaceIdsIfExists(static::$rules);
     }
 
+    /**
+     * @param $rules
+     * @return array
+     */
     protected function replaceIdsIfExists($rules)
     {
         $preparedRules = array();

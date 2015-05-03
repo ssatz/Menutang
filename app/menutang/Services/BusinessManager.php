@@ -455,7 +455,18 @@ class BusinessManager
         ];
         return $error;
     }
-
+    public function addOrUpdateBusinessType($id,array $data)
+    {
+        $this->businessTypeValidator->excludeId=$id;
+        $this->businessTypeValidator->with($data);
+        if($this->businessTypeValidator->passes()) {
+            if ($id > 0) {
+                return $this->buTyperepo->update($data, $id);
+            }
+            return $this->buTyperepo->create($data);
+        }
+        return $this->businessTypeValidator->getErrors();
+    }
     /**
      * @param array $input
      * @return array

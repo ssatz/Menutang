@@ -80,6 +80,7 @@ var settingsVM=function(){
     self.selectedBuItem=ko.observable();
     self.selectedBusinessType=ko.observable();
     self.buTypeValidation=ko.observable();
+    self.flag=ko.observable(false);
     self.editItem = function (item) {
         self.selectedBuItem(item);
     };
@@ -88,9 +89,19 @@ var settingsVM=function(){
     };
     this.addEdit = function() {
         var newItem = new businessType('');
+        newItem.id(-1);
         self.businessType.push(newItem);
         self.selectedBuItem(newItem);
     };
+   self.flag.subscribe(function(model){
+      if(model) {
+          self.selectedBuItem().business_code.commit();
+          self.selectedBuItem().business_type.commit();
+          self.selectedBuItem().id.commit();
+          self.selectedBuItem(null);
+      }
+   });
+
     self.cancelEdit = function (item) {
         self.selectedBuItem().business_code.reset();
         self.selectedBuItem().business_type.reset();
@@ -100,10 +111,7 @@ var settingsVM=function(){
     self.applyEdit = function (item) {
         self.buTypeValidation(new businessTypeValidate(item));
         if(self.buTypeValidation().error().length==0) {
-            self.selectedBuItem().business_code.commit();
-            self.selectedBuItem().business_type.commit();
-            self.selectedBuItem().id.commit();
-            self.selectedBuItem(null);
+            postTypes(ko.toJSON(self.buTypeValidation()),self);
         }
         else{
             var error='';
@@ -117,10 +125,6 @@ var settingsVM=function(){
 var viewModel = new settingsVM();
 ko.applyBindings(viewModel,$('#panels')[0]);
 
-
-var validation = function(item){
-
-}
 
 
 
