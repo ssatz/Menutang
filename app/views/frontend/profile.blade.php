@@ -21,6 +21,7 @@
     <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Hind:400,300,500,600,700' rel='stylesheet' type='text/css'>
     <!-- Theme CSS -->
+    <link href={{asset('assets/common/css/bootstrap-tagsinput.css')}} rel="stylesheet">
     <link href={{asset('assets/common/css/frontend.css')}} rel="stylesheet">
     <link href={{asset('assets/common/css/chosen/chosen.min.css')}} rel="stylesheet">
     <link href={{asset('assets/common/css/jquery.bootstrap-touchspin.min.css')}} rel="stylesheet">
@@ -37,7 +38,7 @@
 <body id="top" data-spy="scroll" data-target=".side-menu">
 
 <header class="bg-light profile-header">
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -47,7 +48,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{Setting::get('site_url')}}"><a class="navbar-brand" href="{{action('FrontEndController@index')}}"><img class="img-responsive logo" src="{{asset('assets/common/img/app/Logo.png')}}"></a>
+                <a class="navbar-brand" href="{{Setting::get('site_url')}}"><a class="navbar-brand" href="{{action('FrontEndController@index')}}">
+                        <span class="img-responsive logo"></span></a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -89,12 +91,12 @@
         <!-- /.container -->
     </nav>
     <div class="container">
-        <ol class="breadcrumb hidden-xs">
+        <ul class="breadcrumb hidden-xs">
             <li>
-                <a href="#">Home</a>
+                <a href="{{action('FrontEndController@index')}}">Home</a>
             </li>
             <li>
-                <a href="#">{{$businessdetails->address->city->city_description}} Food Delivery</a>
+                <a href="{{action('FrontEndController@searchBU',[$businessdetails->address->city->city_description])}}">{{$businessdetails->address->city->city_description}} Food Delivery</a>
             </li>
             <li>
                 <div class="btn-group dropdown-breadcrumb">
@@ -115,12 +117,12 @@
                             <a href="#">Bangalore</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="#">Back to Homepage</a>
+                        <li><a href="{{action('FrontEndController@index')}}">Back to Homepage</a>
                         </li>
                     </ul>
                 </div>
             </li>
-        </ol>
+        </ul>
         <div class="well">
             <div class="row">
                 <div class="col-lg-2 col-md-3 col-sm-4">
@@ -636,6 +638,7 @@
 <!-- Theme Scripts -->
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 <script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
+<script src="{{asset('assets/common/js/bootstrap-tagsinput.min.js')}}"></script>
 <script src="{{asset('assets/common/js/jquery.bootstrap-touchspin.min.js')}}"></script>
 <script src="{{asset('assets/common/js/app/frontend.js')}}"></script>
 <script src="{{asset('assets/common/js/app/buprofile-knockout.js')}}"></script>

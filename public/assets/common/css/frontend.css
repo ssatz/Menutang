@@ -1006,4 +1006,7 @@ footer ul.list-inline {
 }
 .logo{
     margin-top: -41px !important;
+    background: url('../img/app/Logo.png') 0 0;
+    height: 87px;
+    width: 196px;
 }
