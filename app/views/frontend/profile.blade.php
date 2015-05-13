@@ -234,6 +234,9 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                   <img src="{{asset('assets/common/img/icons/halal.jpg')}}" width="32px" height="32px"/>
+            </div>
         </div>
     </div>
 </header>
@@ -333,6 +336,7 @@
                 <div id="orderSummary" class="side-menu">
                     <div class="well">
                         <h4>Order Summary:</h4>
+                        @if($businessdetails->is_door_delivery)
                         <div class="radio">
                             <!-- Delivery/Pick Up Selection -->
                             <label>
@@ -347,6 +351,8 @@
                                 @endforeach
                             </select>
                         </div>
+                        @endif
+                        @if($businessdetails->is_pickup_available)
                         <div class="radio">
                             <label>
                                 <input type="radio" name="delivery_option" data-bind="checked:deliveryPick,click:deliveryPickclick" id="optionsRadios2" value="{{DeliveryOptionEnum::PICKUP()}}"> Pick Up
@@ -354,7 +360,7 @@
                                 <input type="hidden" name="minimum_amt" value="{{$businessdetails->minimum_pickup_amt}}">
                             </label>
                         </div>
-
+                        @endif
                         <hr>
                         <span class="preload" data-bind="visible : !cart()">Loading....</span>
                         <!-- Order Items Summary -->
