@@ -57,13 +57,29 @@
                     <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search
                     </button>
                 </form>
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right borderStyle">
+                    @if(Auth::user()->check())
+                    <li class="dropdown dropdown-menutang"><a href="#" id="drop1" data-toggle="dropdown"
+                                                              class="dropdown-toggle" role="button">My Account <b
+                                class="caret"></b></a>
+                        <ul role="menu" class="dropdown-menu dropdown-menutang" aria-labelledby="drop1">
+                            <li role="presentation"><a href="#" role="menuitem">Overview</a></li>
+                            <li role="presentation"><a href="#" role="menuitem">Team Bios</a></li>
+                            <li role="presentation"><a href="#" role="menuitem">Customers</a></li>
+                            <li role="presentation"><a href="#" role="menuitem">Careers</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-menutang">
+                        <a href="{{action('FrontEndController@logout')}}">Logout</a>
+                    </li>
+                    @else
                     <li>
-                        <a href="#">Log In</a>
+                        <a href="#login" id="login-link">Log In</a>
                     </li>
                     <li>
-                        <a href="#">Sign Up</a>
+                        <a href="#sign-up" id="sign-up-link">Sign Up</a>
                     </li>
+                    @endif
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -91,7 +107,8 @@
         </div>
     </div>
 </div>
-
+<!-- Login Modal -->
+@include('frontend/_partials/loginmodal')
 <!-- Footer -->
 <footer class="text-light">
 
@@ -153,6 +170,7 @@
 <!-- Theme Scripts -->
 <script src="{{asset('assets/common/js/app/frontend.js')}}"></script>
 <script type="text/javascript">
+@yield('auth')
 @yield('scripts')
 </script>
 </body>

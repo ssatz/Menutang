@@ -452,7 +452,8 @@
         </div>
     </div>
 </div>
-
+<!-- Login Modal -->
+@include('frontend/_partials/loginmodal')
 <!-- Footer -->
 <footer class="text-light">
 
@@ -642,7 +643,8 @@
 <script src="{{asset('assets/common/js/jquery.bootstrap-touchspin.min.js')}}"></script>
 <script src="{{asset('assets/common/js/app/frontend.js')}}"></script>
 <script src="{{asset('assets/common/js/app/buprofile-knockout.js')}}"></script>
-<script>
+<script type="text/javascript">
+    @yield('auth')
     $('#menuCategory, #orderSummary').affix({
         offset: {
             top: function() {
