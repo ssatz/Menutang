@@ -270,6 +270,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function insert(array $input)
     {
+        $this->cache->flush();
         $businessInfo = $this->model->create($input['businessInfo']);
         $user =new BusinessUser();
         $user->first_name= $input['user']['first_name'];
