@@ -21,10 +21,10 @@
     <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Hind:400,300,500,600,700' rel='stylesheet' type='text/css'>
     <!-- Theme CSS -->
-    <link href={{asset('assets/common/css/bootstrap-tagsinput.css')}} rel="stylesheet">
-    <link href={{asset('assets/common/css/frontend.css')}} rel="stylesheet">
-    <link href={{asset('assets/common/css/chosen/chosen.min.css')}} rel="stylesheet">
-    <link href={{asset('assets/common/css/jquery.bootstrap-touchspin.min.css')}} rel="stylesheet">
+    <link href="{{asset('assets/common/css/bootstrap-tagsinput.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/common/css/frontend.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/common/css/chosen/chosen.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/common/css/jquery.bootstrap-touchspin.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/common/css/menutang.css')}}" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
