@@ -19,4 +19,5 @@ interface IMenuItemRepository
     public function bulkInsert($data,$buId);
     public function find($id);
     public function withAddon($menuId);
+    public function deleteByBUID($businessID);
 }

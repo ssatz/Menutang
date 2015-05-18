@@ -209,4 +209,9 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
     {
         return $this->model->with('itemAddon')->find($menuId);
     }
+
+    public function deleteByBUID($businessID)
+    {
+       return $this->model->where('business_info_id','=',$businessID)->delete();
+    }
 }

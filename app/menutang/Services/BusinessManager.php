@@ -565,6 +565,7 @@ class BusinessManager
             });
             $this->db->beginTransaction();
             try {
+                $this->menuItemrepo->deleteByBUID($budID);
                 $this->menuItemrepo->bulkInsert($collection,$budID);
             } catch (Exception $e) {
                 $this->db->rollback();
