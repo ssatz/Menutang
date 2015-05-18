@@ -13,6 +13,7 @@ namespace Repositories\ManageBusinessRepository;
 
 use BusinessInfo;
 use Illuminate\Database\DatabaseManager;
+use Illuminate\Support\Facades\Cache;
 use Repositories\BaseRepository;
 use Services\Cache\ICacheService;
 use Services\DeliveryOptionEnum;
@@ -270,7 +271,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
      */
     public function insert(array $input)
     {
-        $this->cache->flush();
+        $this->cache->flushAll();
         $businessInfo = $this->model->create($input['businessInfo']);
         $user =new BusinessUser();
         $user->first_name= $input['user']['first_name'];

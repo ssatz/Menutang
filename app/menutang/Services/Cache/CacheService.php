@@ -123,4 +123,12 @@ class CacheService implements ICacheService
     {
         $this->cache->tags($this->tag)->flush();
     }
+
+    /**
+     * Flush all Caches
+     */
+    public function flushAll()
+    {
+        $this->cache->flush();
+    }
 }

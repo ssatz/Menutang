@@ -133,7 +133,7 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
      */
     public function bulkInsert($data,$buId)
     {
-        $this->cache->flush();
+        $this->cache->flushAll();
         if(!$data instanceof Collection)
             throw new Exception("Must be a Collection");
 
