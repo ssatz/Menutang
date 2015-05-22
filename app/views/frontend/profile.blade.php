@@ -759,7 +759,7 @@
     };
     var largeContent = $('#about-us').html(),
         largeSettings = {content:largeContent,
-            width:'auto',
+            width:400,
             height:'auto',
             delay:{show:300,hide:1000},
             closeable:true
