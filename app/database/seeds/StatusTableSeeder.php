@@ -15,16 +15,14 @@ class StatusTableSeeder extends Seeder
     public function run()
     {
         $status = Status::create(array(
+            'id'=>1,
             'status_code' => 'PENDING',
             'status_description' => 'Pending'
         ));
         $status = Status::create(array(
+            'id'=>2,
             'status_code' => 'ACTIVE',
             'status_description' => 'Active'
-        ));
-        $status = Status::create(array(
-            'status_code' => 'INACTIVE',
-            'status_description' => 'InActive'
         ));
     }
 }

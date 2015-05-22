@@ -26,6 +26,7 @@ use BusinessUser;
 use Intervention\Image\ImageManager;
 use Illuminate\Filesystem\Filesystem;
 use Services\SearchEnum;
+use Services\StatusEnum;
 use Services\WeekdaysEnum;
 
 
@@ -90,7 +91,11 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         if ($this->cache->has($key)) {
             return $this->cache->get($key);
         }
-        $businessInfo = $this->model->with('address.city', 'payment','deliveryArea','cuisineType','businessHours.timeCategory','businessHours.weekDays')->where('business_slug', '=', $slug)->first();
+        $businessInfo = $this->model
+            ->with('address.city', 'payment','deliveryArea','cuisineType','businessHours.timeCategory','businessHours.weekDays')
+            ->where('business_slug', '=', $slug)
+            ->where('status_id',StatusEnum::ACTIVE)
+            ->first();
         $this->cache->put($key, $businessInfo);
         return $businessInfo;
     }
@@ -205,10 +210,14 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
            }
         });
         if(!is_null($serviceType) && DeliveryOptionEnum::DELIVERY ==ucfirst(strtolower($serviceType)) ){
-            $businessInfo = $businessInfo->where('is_door_delivery',true)->where('is_pickup_available',false);
+            $businessInfo = $businessInfo->where('is_door_delivery',true)
+                                         ->where('is_pickup_available',false)
+                                         ->where('status_id',StatusEnum::ACTIVE);
         }
         if(!is_null($serviceType) && DeliveryOptionEnum::PICKUP == ucfirst(strtolower($serviceType)) ){
-            $businessInfo = $businessInfo->where('is_door_delivery',false)->where('is_pickup_available',true);
+            $businessInfo = $businessInfo->where('is_door_delivery',false)
+                                         ->where('is_pickup_available',true)
+                                         ->where('status_id',StatusEnum::ACTIVE);
         }
         return $businessInfo->remember(10)->paginate(15);
     }
@@ -231,7 +240,8 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         })->whereHas('deliveryArea',function($q) use($area)
         {
             $q->where('area','LIKE','%'.$area[0].'%');
-        })->whereHas('business',function($q)use($business,$cuisineType)
+        })
+            ->whereHas('business',function($q)use($business,$cuisineType)
             {
                 if(is_null($business) || $business==SearchEnum::ALL()) {
                     return $q;
@@ -249,10 +259,14 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
                 }
             });
         if(!is_null($serviceType) && DeliveryOptionEnum::DELIVERY ==ucfirst(strtolower($serviceType)) ){
-            $businessInfo = $businessInfo->where('is_door_delivery',true)->where('is_pickup_available',false);
+            $businessInfo = $businessInfo->where('is_door_delivery',true)
+                               ->where('is_pickup_available',false)
+                ->where('status_id',StatusEnum::ACTIVE);
         }
         if(!is_null($serviceType) && DeliveryOptionEnum::PICKUP == ucfirst(strtolower($serviceType)) ){
-            $businessInfo = $businessInfo->where('is_door_delivery',false)->where('is_pickup_available',true);
+            $businessInfo = $businessInfo->where('is_door_delivery',false)
+                ->where('is_pickup_available',true)
+                ->where('status_id',StatusEnum::ACTIVE);
         }
         return $businessInfo->remember(10)->paginate(15);
     }

@@ -97,7 +97,7 @@
                 <a href="{{action('FrontEndController@index')}}">Home</a>
             </li>
             <li>
-                <a href="{{action('FrontEndController@searchBU',[$businessdetails->address->city->city_description])}}">{{$businessdetails->address->city->city_description}} Food Delivery</a>
+                <a href="{{action('FrontEndController@searchBU',[$locality])}}">{{ucfirst($locality)}} Food Delivery</a>
             </li>
             <li>
                 <div class="btn-group dropdown-breadcrumb">

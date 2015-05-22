@@ -37,8 +37,21 @@ class ManageDeliveryAreaRepository extends BaseRepository implements IManageDeli
         return $this->model->with('city')->paginate($pagination);
     }
 
+    /**
+     * @param $area
+     * @return mixed
+     */
     public function searchDeliveryArea($area)
     {
         return $this->model->where('area', 'LIKE', '%'.$area.'%')->select('id','area','area_pincode','city_id')->get();
+    }
+
+    /**
+     * @param $cityId
+     * @return mixed
+     */
+    public function findByCity($cityId)
+    {
+        return $this->model->where('city_id','=',(int)$cityId)->select('id','area')->get();
     }
 }
