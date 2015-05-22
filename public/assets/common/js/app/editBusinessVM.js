@@ -76,6 +76,7 @@ var validationMapping = {
                 {
                     return true;
                 }
+                options.parent.minimum_delivery_amt(0);
             } },
                 pattern:{
                     params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
@@ -91,6 +92,7 @@ var validationMapping = {
                 {
                     return true;
                 }
+                options.parent.delivery_fee(0);
             } },
                 pattern:{
                     params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
@@ -105,7 +107,7 @@ var validationMapping = {
                 if(options.parent.is_door_delivery()==1){
                     return true;
                 }
-
+                options.parent.avg_delivery_time(null);
             }
             },
                 pattern: {
@@ -127,6 +129,7 @@ var validationMapping = {
                 {
                     return true;
                 }
+                options.parent.minimum_pickup_amt(0);
             } },
                 pattern:{
                     params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
@@ -147,6 +150,7 @@ var validationMapping = {
                 {
                     return true;
                 }
+                options.parent.minimum_rail_deli_amt(0)
             } },
                 pattern:{
                     params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
