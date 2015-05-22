@@ -749,18 +749,18 @@
     var settings = {
         trigger:'hover',
         title:'About Us',
-        width:'auto',
-        height:'auto'
+        width:320,
         multi:false,
         closeable:true,
         style:'',
         delay:300,
-        padding:true
+        padding:true,
+        animation:'pop'
     };
     var largeContent = $('#about-us').html(),
         largeSettings = {content:largeContent,
-            width:400,
-            height:350,
+            width:'auto',
+            height:'auto',
             delay:{show:300,hide:1000},
             closeable:true
         };
