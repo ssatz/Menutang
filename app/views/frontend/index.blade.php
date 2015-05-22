@@ -97,8 +97,8 @@ use Illuminate\Support\Facades\Auth;
         <!-- Header Search Form -->
         <form class="form-inline" role="form">
             <div class="form-group search-form">
-                <input type="text" class="form-control input-lg bradius searchHght" id="searchbu" placeholder="City Name">
-                <button type="submit" class="btn btn-primary  bradiusbtn searchHght">Find Restaraunts!</button>
+                <input type="text" class="form-control input-lg bradius searchHght" id="searchbu"  placeholder="Find By City/ Area / Pincode / Name">
+                <button type="submit" class="btn btn-primary  bradiusbtn searchHght findRes">Find Restaraunts!</button>
             </div>
         </form>
 
@@ -470,6 +470,11 @@ use Illuminate\Support\Facades\Auth;
         });
         @yield('auth')
         @yield('script')
+      $(".findRes").click(function(e){
+          e.preventDefault();
+          $("#searchbu").focus();
+      });
+
 </script>
 </body>
 
