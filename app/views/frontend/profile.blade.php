@@ -229,7 +229,7 @@
                         <div class="col-lg-2 col-md-2">
                             <p>
                                 <!-- Profile Links -->
-                                <i class="fa fa-fw fa-info-circle"></i> <a href="#">About</a>
+                                <i class="fa fa-fw fa-info-circle"></i> <a href="#" data-toggle="popover" title="About" class="about-us"  data-content="{{$businessdetails->business_about}}">About</a>
                                 <br><i class="fa fa-fw fa-camera"></i> <a href="#">Photos (4)</a>
                             </p>
                         </div>
@@ -271,7 +271,7 @@
                         <a  class="list-group-item">
                             <input type="hidden" name="menu_item_id" value="{{$item->id}}">
                             @if($item->itemAddon->count()==0)
-                             <span class=" @if($item->optionItem->count()>0)showOptions @else addOrder @endif label label-success" role="button" data-container="body" data-toggle="popover">
+                             <span class=" @if($item->optionItem->count()>0)showOptions @else addOrder @endif label label-success" role="button" data-container="body"  data-toggle="popover">
                                 <i class="fa fa-plus"></i>
                                 Add
                             </span>
@@ -660,7 +660,7 @@
 <!-- TouchSpin jQuery -->
 <script type="text/javascript">
     $(document).ready(function (){
-        $('[data-toggle="popover"]').popover({
+        $('.addOrder').popover({
             html : true,
             content: function() {
                 return $('#popover_content_wrapper').html();
@@ -669,8 +669,6 @@
         });
         $('body').on('click', function (e) {
             $('[data-toggle="popover"]').each(function () {
-                //the 'is' for buttons that trigger popups
-                //the 'has' for icons within a button that triggers a popup
                 if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
                     $(this).popover('hide');
                 }
@@ -743,6 +741,10 @@
         }, 'json');
     }
     $(".chosen").chosen();
+    $('.about-us').popover({
+        placement : 'top',
+        trigger: 'hover'
+    });
 </script>
 
 </body>
