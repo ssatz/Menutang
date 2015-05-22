@@ -750,6 +750,7 @@
         trigger:'hover',
         title:'About Us',
         width:'auto',
+        height:'auto'
         multi:false,
         closeable:true,
         style:'',
