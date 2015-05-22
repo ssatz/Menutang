@@ -22,6 +22,7 @@
     <link href='http://fonts.googleapis.com/css?family=Hind:400,300,500,600,700' rel='stylesheet' type='text/css'>
     <!-- Theme CSS -->
     <link href="{{asset('assets/common/css/bootstrap-tagsinput.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/common/css/jquery.webui-popover.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/common/css/frontend.css')}}" rel="stylesheet">
     <link href="{{asset('assets/common/css/chosen/chosen.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/common/css/jquery.bootstrap-touchspin.min.css')}}" rel="stylesheet">
@@ -226,10 +227,13 @@
                                 </li>
                             </ul>
                         </div>
+                        <div id="about-us" class="displayNone">
+                            {{$businessdetails->business_about}}
+                        </div>
                         <div class="col-lg-2 col-md-2">
                             <p>
                                 <!-- Profile Links -->
-                                <i class="fa fa-fw fa-info-circle"></i> <a href="#" data-toggle="popover" title="About" class="about-us"  data-content="{{$businessdetails->business_about}}">About</a>
+                                <i class="fa fa-fw fa-info-circle"></i> <a href="#"  class="show-pop-large">About</a>
                                 <br><i class="fa fa-fw fa-camera"></i> <a href="#">Photos (4)</a>
                             </p>
                         </div>
@@ -403,7 +407,7 @@
                             <span class="clearfix"></span>
                         </strong>
                         <hr>
-                        <!-- Discounts -->
+                        <!-- Discounts
                         <h4>Discounts:</h4>
                         <div class="radio">
                             <label>
@@ -415,7 +419,7 @@
                                 <input type="radio" name="optionsRadiosx" id="optionsRadios2" value="option2"> Your loyalty credits (0 remaining)
                             </label>
                         </div>
-                        <hr>
+                        <hr>-->
                         <strong>
                             <span class="pull-left">Package Fee</span>
                             <span class="pull-right"><i class="fa fa-rupee"></i>{{$businessdetails->parcel_charges}}</span>
@@ -546,7 +550,7 @@
                     <span class="clearfix"></span>
                 </strong>
                 <hr>
-                <!-- Discounts -->
+                <!-- Discounts
                 <h4>Discounts:</h4>
                 <div class="radio">
                     <label>
@@ -558,7 +562,7 @@
                         <input type="radio" name="optionsRadiosx" id="optionsRadios2" value="option2"> Your loyalty credits (0 remaining)
                     </label>
                 </div>
-                <hr>
+                <hr>-->
                 <strong>
                     <span class="pull-left">Package Fee</span>
                     <span class="pull-right"><i class="fa fa-rupee"></i>{{$businessdetails->parcel_charges}}</span>
@@ -640,6 +644,7 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 <script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
 <script src="{{asset('assets/common/js/bootstrap-tagsinput.min.js')}}"></script>
+<script src="{{asset('assets/common/js/jquery.webui-popover.min.js')}}"></script>
 <script src="{{asset('assets/common/js/jquery.bootstrap-touchspin.min.js')}}"></script>
 <script src="{{asset('assets/common/js/app/frontend.js')}}"></script>
 <script src="{{asset('assets/common/js/app/buprofile-knockout.js')}}"></script>
@@ -741,10 +746,24 @@
         }, 'json');
     }
     $(".chosen").chosen();
-    $('.about-us').popover({
-        placement : 'top',
-        trigger: 'hover'
-    });
+    var settings = {
+        trigger:'hover',
+        title:'About Us',
+        width:'auto',
+        multi:false,
+        closeable:true,
+        style:'',
+        delay:300,
+        padding:true
+    };
+    var largeContent = $('#about-us').html(),
+        largeSettings = {content:largeContent,
+            width:400,
+            height:350,
+            delay:{show:300,hide:1000},
+            closeable:true
+        };
+    var popLarge = $('a.show-pop-large').webuiPopover('destroy').webuiPopover($.extend({},settings,largeSettings));
 </script>
 
 </body>
