@@ -413,6 +413,22 @@ ko.bindingHandlers.timePicker = {
         ko.bindingHandlers.value.update(element, valueAccessor);
     }
 };
+ko.bindingHandlers.datePicker = {
+    init: function(element, valueAccessor) {
+        var options = ko.unwrap(valueAccessor());
+        var nowTemp = new Date();
+        var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+         $(element).datepicker({
+             format:'yyyy-mm-dd',
+            onRender: function(date) {
+                return date.valueOf() < now.valueOf() ? 'disabled' : '';
+            }
+        });
+    },
+    update: function(element, valueAccessor, allBindings) {
+        ko.bindingHandlers.value.update(element, valueAccessor);
+    }
+};
 
 ko.numericObservable = function(initialValue) {
     var _actual = ko.observable(initialValue);
@@ -480,31 +496,27 @@ ko.observable.fn.beginEdit = function (transaction) {
 }
 
 function formatDate(date) {
-    var d = new Date("2000-01-01 " + date);
-    var hh = d.getHours();
-    var m = d.getMinutes();
-    var s = d.getSeconds();
-    var dd = "am";
-    var h = hh;
-    if (h >= 12) {
-        h = hh-12;
-        dd = "pm";
-    }
-    if (h == 0) {
-        h = 12;
-    }
-    m = m<10?"0"+m:m;
+        var d = new Date("2000-01-01 " + date);
+        var hh = d.getHours();
+        var m = d.getMinutes();
+        var s = d.getSeconds();
+        var dd = "am";
+        var h = hh;
+        if (h >= 12) {
+            h = hh - 12;
+            dd = "pm";
+        }
+        if (h == 0) {
+            h = 12;
+        }
+        m = m < 10 ? "0" + m : m;
 
-    s = s<10?"0"+s:s;
+        s = s < 10 ? "0" + s : s;
+        var pattern = new RegExp("0?" + hh + ":" + m + ":" + s);
 
-    /* if you want 2 digit hours:
-     h = h<10?"0"+h:h; */
-
-    var pattern = new RegExp("0?"+hh+":"+m+":"+s);
-
-    var replacement = h+":"+m;
-    /* if you want to add seconds
-     replacement += ":"+s;  */
-    replacement += dd;
-    return date.replace(pattern,replacement);
+        var replacement = h + ":" + m;
+        /* if you want to add seconds
+         replacement += ":"+s;  */
+        replacement += dd;
+        return date.replace(pattern, replacement);
 }

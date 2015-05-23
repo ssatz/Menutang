@@ -37,6 +37,7 @@ use Repositories\WeekdaysRepository\IWeekdaysRepository;
 use Services\Validations\BusinessTypeValidator;
 use Services\Validations\CuisineTypeValidator;
 use Services\Validations\BusinessEditValidator;
+use Repositories\ManageHolidayRepository\IManageHolidayRepository;
 
 
 class BusinessManager
@@ -119,6 +120,9 @@ class BusinessManager
      * @var Excel
      */
     protected $excel;
+    /**
+     * @var BusinessEditValidator
+     */
     protected $businessEditValidator;
 
     /**
@@ -146,6 +150,10 @@ class BusinessManager
      * @var CuisineTypeValidator
      */
     protected $cuisineTypeValidator;
+    /**
+     * @var IManageHolidayRepository
+     */
+    protected $holiday;
     /**
      * @param IManageBusinessRepository $manageBusiness
      * @param ICacheService $cacheService
@@ -181,6 +189,7 @@ class BusinessManager
                                 BusinessTypeValidator $businessTypeValidator,
                                 CuisineTypeValidator $cuisineTypeValidator,
                                 BusinessEditValidator $businessEditValidator,
+                                IManageHolidayRepository $businessHoliday,
                                 Excel $excel)
     {
         $this->manageBusiness = $manageBusiness;
@@ -205,6 +214,7 @@ class BusinessManager
         $this->businessTypeValidator = $businessTypeValidator;
         $this->cuisineTypeValidator = $cuisineTypeValidator;
         $this->businessEditValidator=$businessEditValidator;
+        $this->holiday = $businessHoliday;
     }
 
     /**
@@ -225,6 +235,16 @@ class BusinessManager
     public function editBusiness($slug)
     {
         return $this->manageBusiness->findBusinessBySlug($slug);
+    }
+
+    /**
+     * @param $slug
+     * @return mixed
+     */
+    public function findByHoliday($slug){
+
+       $buId= $this->manageBusiness->findBusinessBySlug($slug);
+        return $this->holiday->findHolidayByBUID($buId->id);
     }
 
     /**
@@ -455,6 +475,12 @@ class BusinessManager
         ];
         return $error;
     }
+
+    /**
+     * @param $id
+     * @param array $data
+     * @return mixed
+     */
     public function addOrUpdateBusinessType($id,array $data)
     {
         $this->businessTypeValidator->excludeId=$id;

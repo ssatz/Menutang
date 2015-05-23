@@ -288,10 +288,17 @@ class ManageBusinessController extends BaseController
      * @param $slug
      * @return mixed
      */
-    public function addORUpdateHolidays($slug)
+    public function addOrUpdateHolidays($slug)
     {
         $this->viewShareSlug($slug);
-        return $this->view->make('admin.holidays');
+        if($this->request->method('GET')) {
+            if($this->request->ajax()){
+                $holiday = $this->manage->findByHoliday($slug);
+                return $this->response->json($holiday);
+            }
+            return $this->view->make('admin.holidays');
+        }
+
     }
 
     /**

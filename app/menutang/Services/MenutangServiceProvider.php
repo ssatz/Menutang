@@ -124,6 +124,10 @@ class MenutangServiceProvider extends ServiceProvider
             'Repositories\WeekdaysRepository\WeekdaysRepository'
         );
         $app->bind(
+            'Repositories\ManageHolidayRepository\IManageHolidayRepository',
+            'Repositories\ManageHolidayRepository\ManageHolidayRepository'
+        );
+        $app->bind(
             'Services\Cache\ICacheService',
             'Services\Cache\CacheService'
         );
