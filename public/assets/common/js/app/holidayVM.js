@@ -3,13 +3,21 @@ ko.validation.init({insertMessages: true,
 function holiday()
 {
     var self = this;
-    self.id =ko.observable('');
-    self.business_info_id=ko.observable('');
-    self.title = ko.observable('').extend({required: true});
-    self.holiday_reason=  ko.observable('').extend({required: true});
-    self.holiday_date = ko.observable('').extend({required: true});
-    self.start_time =ko.observable('');
-    self.end_time =ko.observable('');
+    self.id =ko.observable('').extend({
+    protected: true
+    });
+    self.business_info_id=ko.observable('').extend({
+    protected: true
+    });
+    self.title = ko.observable('').extend({required: true, protected: true});
+    self.holiday_reason=  ko.observable('').extend({required: true, protected: true});
+    self.holiday_date = ko.observable('').extend({required: true, protected: true});
+    self.start_time =ko.observable('').extend({
+        protected: true
+    });
+    self.end_time =ko.observable('').extend({
+        protected: true
+    });
 }
 
 
@@ -26,14 +34,22 @@ function holidayVM(initialData,url){
     };
     ko.utils.arrayForEach(initialData, function(holiday) {
         self.list.push({
-            id:ko.observable(holiday.id),
-            business_info_id:ko.observable(holiday.business_info_id),
-            title : ko.observable(holiday.title).extend({required: true}),
-            holiday_reason:  ko.observable(holiday.holiday_reason).extend({required: true}),
-            holiday_date : ko.observable(holiday.holiday_date).extend({required: true}),
-            start_time :ko.observable(self.formatDate(holiday.start_time)),
-            end_time :ko.observable(self.formatDate(holiday.end_time))
-        })
+            id:ko.observable(holiday.id).extend({
+                protected: true
+            }),
+            business_info_id:ko.observable(holiday.business_info_id).extend({
+                protected: true
+            }),
+            title : ko.observable(holiday.title).extend({required: true,protected:true}),
+            holiday_reason:  ko.observable(holiday.holiday_reason).extend({required: true,protected:true}),
+            holiday_date : ko.observable(holiday.holiday_date).extend({required: true,protected:true}),
+            start_time :ko.observable(self.formatDate(holiday.start_time)).extend({
+                protected: true
+            }),
+            end_time :ko.observable(self.formatDate(holiday.end_time)).extend({
+                protected: true
+            })
+        });
     });
     self.pageSize = ko.observable(10);
     self.pageIndex = ko.observable(0);
@@ -46,7 +62,15 @@ function holidayVM(initialData,url){
         self.isEdit(true);
         self.selectedItem(item);
     };
-    self.cancel = function () {
+    self.cancel = function (item) {
+        item.id.reset();
+        item.title.reset();
+        item.business_info_id.reset();
+        item.title.reset();
+        item.holiday_date.reset();
+        item.holiday_reason.reset();
+        item.start_time.reset();
+        item.end_time.reset();
         self.selectedItem(null);
     };
     self.add = function () {
@@ -77,9 +101,17 @@ function holidayVM(initialData,url){
         }
     };
     self.save = function () {
-        console.log(self.errors());
         if (self.errors().length === 0) {
+            self.selectedItem().id.commit();
+            self.selectedItem().title.commit();
+            self.selectedItem().business_info_id.commit();
+            self.selectedItem().title.commit();
+            self.selectedItem().holiday_date.commit();
+            self.selectedItem().holiday_reason.commit();
+            self.selectedItem().start_time.commit();
+            self.selectedItem().end_time.commit();
             var item = self.selectedItem();
+            console.log(ko.toJS(item));
             $.post(self.saveUrl, item, function (result) {
                 self.selectedItem().id(result);
                 self.selectedItem(null);

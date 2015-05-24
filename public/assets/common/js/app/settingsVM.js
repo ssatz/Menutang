@@ -6,7 +6,7 @@ ko.protectedObservable = function(initialValue) {
     var _temp = initialValue;
     var _actual = ko.observable(initialValue);
 
-    var result = ko.dependentObservable({
+    var result = ko.computed({
         read: _actual,
         write: function(newValue) {
             _temp = newValue;
