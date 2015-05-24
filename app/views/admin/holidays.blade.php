@@ -34,8 +34,8 @@
         <td data-bind="text: title"></td>
         <td data-bind="text: holiday_reason"></td>
         <td data-bind="text: holiday_date"></td>
-        <td data-bind="text: formatDate(start_time)"></td>
-        <td data-bind="text: formatDate(end_time)"></td>
+        <td data-bind="text: start_time"></td>
+        <td data-bind="text: end_time"></td>
         <td class="buttons">
             <a class="btn btn-info" data-bind="click: $root.edit" href="#" title="edit">Edit</a>
             <a class="btn btn-danger" data-bind="click: $root.remove" href="#" title="remove">Remove</a>
@@ -45,14 +45,17 @@
 
 <script id="editTmpl" type="text/html">
     <tr>
-        <td><input class="form-control input-sm" data-bind="value: title"/></td>
+        <td>
+            <input class="form-control input-sm" data-bind="value: title"/>
+        </td>
         <td><input class="form-control input-sm" data-bind="value: holiday_reason"/></td>
         <td><input class="form-control input-sm" data-bind="datePicker,value: holiday_date"/></td>
-        <td><input class="form-control input-sm" data-bind="timePicker,value: formatDate(start_time)"/></td>
-        <td><input class="form-control input-sm" data-bind="timePicker,value: formatDate(end_time)"/></td>
+        <td><input class="form-control input-sm" data-bind="timePicker,value: start_time"/></td>
+        <td><input class="form-control input-sm" data-bind="timePicker,value: end_time"/></td>
         <td>
             <a class="btn btn-success" data-bind="click: $root.save" href="#" title="save">Save</a>
-            <a class="btn btn-warning" data-bind="click: $root.cancel" href="#" title="cancel">Cancel</a>
+            <a class="btn btn-warning" data-bind="click: $root.cancel,visible:$root.isEdit" href="#" title="cancel">Cancel</a>
+            <a class="btn btn-danger" data-bind="click: $root.remove,visible:$root.isAdd" href="#" title="remove">Remove</a>
         </td>
     </tr>
 </script>
@@ -74,7 +77,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $.getJSON("{{action('ManageBusinessController@addOrUpdateHolidays',[$slug])}}", null, function (data) {
-        ko.applyBindingsWithValidation(new holidayVM(data,"{{action('ManageBusinessController@addOrUpdateHolidays',[$slug])}}"),document.getElementById("holiday"));
+        ko.applyBindings(new holidayVM(data,"{{action('ManageBusinessController@addOrUpdateHolidays',[$slug])}}"),document.getElementById("holiday"));
     });
 });
 </script>
