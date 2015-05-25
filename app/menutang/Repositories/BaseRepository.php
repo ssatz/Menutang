@@ -71,6 +71,9 @@ abstract class BaseRepository
         return $this->model->create($data);
     }
 
+    /**
+     * @param array $data
+     */
     public function insertBulk(array $data)
     {
         DB::table($this->model->getTable())->insert($data);

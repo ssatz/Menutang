@@ -38,6 +38,7 @@ use Services\Validations\BusinessTypeValidator;
 use Services\Validations\CuisineTypeValidator;
 use Services\Validations\BusinessEditValidator;
 use Repositories\ManageHolidayRepository\IManageHolidayRepository;
+use Services\Helper;
 
 
 class BusinessManager
@@ -154,6 +155,8 @@ class BusinessManager
      * @var IManageHolidayRepository
      */
     protected $holiday;
+
+    protected $helper;
     /**
      * @param IManageBusinessRepository $manageBusiness
      * @param ICacheService $cacheService
@@ -190,6 +193,7 @@ class BusinessManager
                                 CuisineTypeValidator $cuisineTypeValidator,
                                 BusinessEditValidator $businessEditValidator,
                                 IManageHolidayRepository $businessHoliday,
+                                Helper $helper,
                                 Excel $excel)
     {
         $this->manageBusiness = $manageBusiness;
@@ -215,6 +219,7 @@ class BusinessManager
         $this->cuisineTypeValidator = $cuisineTypeValidator;
         $this->businessEditValidator=$businessEditValidator;
         $this->holiday = $businessHoliday;
+        $this->helper=$helper;
     }
 
     /**
@@ -704,5 +709,23 @@ class BusinessManager
 
        return $data;
    }
+
+    /**
+     * @param array $data
+     * @param $slug
+     */
+    public function addOrUpdateHolidays(array $data,$slug)
+    {
+        $buId= $this->manageBusiness->findBusinessBySlug($slug);
+        $data['start_time']= $this->helper->timeConverter($data['start_time'],'H:i:s');
+        $data['end_time']= $this->helper->timeConverter($data['end_time'],'H:i:s');
+        if($data['id']==-1) {
+            unset($data['id']);
+            $data['business_info_id']=$buId->id;
+            $this->holiday->create($data);
+            return;
+        }
+        $this->holiday->update($data,(int)$data['id']);
+    }
 
 }

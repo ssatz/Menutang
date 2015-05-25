@@ -13,6 +13,7 @@ class BusinessHolidays extends Eloquent{
      * @var string
      */
     protected $table = 'business_holidays';
+    protected $guarded = [];
 
     /**
      * @return mixed

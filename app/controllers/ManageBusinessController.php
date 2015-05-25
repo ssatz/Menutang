@@ -16,6 +16,7 @@ use Services\BusinessManager;
 use Services\TimeCategoryEnum;
 use Services\WeekdaysEnum;
 use Illuminate\Support\Facades\Response;
+use Services\ActionEnum;
 
 
 class ManageBusinessController extends BaseController
@@ -293,6 +294,11 @@ class ManageBusinessController extends BaseController
         $this->viewShareSlug($slug);
         if($this->request->method('GET')) {
             if($this->request->ajax()){
+                $action = $this->request->get('action');
+                if($action==ActionEnum::UPDATE){
+                    $data = json_decode($this->request->get('data'),true);
+                    $this->manage->addOrUpdateHolidays($data,$slug);
+                }
                 $holiday = $this->manage->findByHoliday($slug);
                 return $this->response->json($holiday);
             }

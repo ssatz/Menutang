@@ -17,18 +17,18 @@
     <tfoot>
         <tr>
             <td>
-                <p><a class="btn btn-primary btn-success" href="#add" data-bind="click:$root.add" title="Add"><i class="icon-plus"></i> Add Holiday</a></p>
+                <div>
+                    <ul class="pagination"><li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: previousPage">Previous</a></li></ul>
+                    <ul class="pagination" data-bind="foreach: allPages">
+                        <li data-bind="css: { active: $data.pageNumber === ($root.pageIndex() + 1) }"><a href="#" data-bind="text: $data.pageNumber, click: function() { $root.moveToPage($data.pageNumber-1); }"></a></li>
+                    </ul>
+                    <ul class="pagination"><li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: nextPage">Next</a></li></ul>
+                </div>
+                <a class="btn btn-primary btn-success" href="#add" data-bind="click:$root.add" title="Add"><i class="icon-plus"></i> Add Holiday</a>
             </td>
         </tr>
     </tfoot>
 </table>
-<div>
-    <ul class="pagination"><li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: previousPage">Previous</a></li></ul>
-    <ul class="pagination" data-bind="foreach: allPages">
-        <li data-bind="css: { active: $data.pageNumber === ($root.pageIndex() + 1) }"><a href="#" data-bind="text: $data.pageNumber, click: function() { $root.moveToPage($data.pageNumber-1); }"></a></li>
-    </ul>
-    <ul class="pagination"><li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: nextPage">Next</a></li></ul>
-</div>
 <script id="itemsTmpl" type="text/html">
     <tr>
         <td data-bind="text: title"></td>
@@ -79,6 +79,9 @@
 
 @endsection
 @section('scripts')
+<script>
+    var update = '{{\Services\ActionEnum::UPDATE}}';
+</script>
 <script src="{{asset('assets/common/js/knockout.min-3.3.0.js')}}"></script>
 <script src="{{asset('assets/common/js/knockout.validation.min.js')}}"></script>
 <script src="{{asset('assets/common/js/knockout.mapping.min.js')}}"></script>
@@ -93,5 +96,13 @@ $(document).ready(function () {
         ko.applyBindings(new HolidayVM(data),document.getElementById("holiday"));
     });
 });
+function postAjax(data,action,object){
+    $.post('{{action('ManageBusinessController@addOrUpdateHolidays',[$slug])}}',{data:data,action:action,_token: '{{Session::get('_token')}}'}, function( data ) {
+        object.holidayItems(ko.utils.arrayMap(data, function(data) {
+            return new Holiday(data);
+        }));
+        notification('Success','Hurray!Business Created','gritter-success');
+    }, 'json');
+}
 </script>
 @endsection

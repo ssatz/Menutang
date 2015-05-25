@@ -30,4 +30,5 @@ class ManageHolidayRepository extends BaseRepository implements IManageHolidayRe
                     ->get();
     }
 
+
 }

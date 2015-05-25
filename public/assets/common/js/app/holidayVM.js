@@ -20,8 +20,10 @@ var Holiday = function(data) {
 Holiday.prototype.update = function(data) {
     var self = this;
     self.formatDate =function(date){
-        if(date=='') {
-            return undefined;
+        var expression = new RegExp(/^((([1-9])|(1[0-2])):([0-5])(0|5)(a|p)m)$/);
+        var result = expression.test(date);
+        if(result || date==undefined) {
+            return date;
         }
         return formatDate(date);
     };
@@ -43,13 +45,16 @@ var HolidayVM = function(items) {
 
     //hold the currently selected item
     self.selectedItem = ko.observable();
-    self.pageSize = ko.observable(10);
+    self.pageSize = ko.observable(5);
     self.pageIndex = ko.observable(0);
     //make edits to a copy
     self.itemForEditing = ko.observable();
     self.templateToUse = function (item) {
         return self.selectedItem() === item ? 'editTmpl' : 'itemsTmpl';
     };
+    self.post =function(data){
+        postAjax(ko.toJSON(data),update,self);
+    }
     self.add =function(){
        var item=new Holiday({
            id:-1,
@@ -67,12 +72,11 @@ var HolidayVM = function(items) {
     self.remove=function(item){
         self.holidayItems.remove(item);
     }
-
     self.pagedList = ko.computed(function () {
         var size = self.pageSize();
         var start = self.pageIndex() * size;
         return self.holidayItems.slice(start, start + size);
-    }).extend({ notify: 'always' });
+    });
     self.maxPageIndex = ko.computed(function () {
         return Math.ceil(self.holidayItems().length / self.pageSize()) - 1;
     });
@@ -112,12 +116,9 @@ ko.utils.extend(HolidayVM.prototype, {
     acceptItem: function(item) {
         if(item.errors().length==0) {
             var selected = this.selectedItem(),
-                edited = ko.toJS(this.itemForEditing()); //clean copy of edited
-
-            //apply updates from the edited item to the selected item
-            selected.update(edited);
-
-            //clear selected item
+                edited = ko.toJS(this.itemForEditing());
+                selected.update(edited);
+            this.post(edited);
             this.selectedItem(null);
             this.itemForEditing(null);
         }
