@@ -1,138 +1,80 @@
 ko.validation.init({insertMessages: true,
+    parseInputAttributes: true,
     grouping: { deep: true } },true);
-function holiday()
-{
+
+var Holiday = function(data) {
     var self = this;
-    self.id =ko.observable('').extend({
-    protected: true
-    });
-    self.business_info_id=ko.observable('').extend({
-    protected: true
-    });
-    self.title = ko.observable('').extend({required: true, protected: true});
-    self.holiday_reason=  ko.observable('').extend({required: true, protected: true});
-    self.holiday_date = ko.observable('').extend({required: true, protected: true});
-    self.start_time =ko.observable('').extend({
-        protected: true
-    });
-    self.end_time =ko.observable('').extend({
-        protected: true
-    });
-}
+    self.id =ko.observable();
+    self.business_info_id=ko.observable();
+    self.title = ko.observable().extend({required:true});
+    self.holiday_reason=  ko.observable().extend({required: true});
+    self.holiday_date = ko.observable().extend({required: true});
+    self.start_time =ko.observable();
+    self.end_time =ko.observable();
+    self.errors=ko.validation.group(self);
+    //populate our model with the initial data
+    self.update(data);
+};
 
-
-function holidayVM(initialData,url){
-
+//can pass fresh data to this function at anytime to apply updates or revert to a prior version
+Holiday.prototype.update = function(data) {
     var self = this;
-    window.viewModel = self;
-    self.list = ko.observableArray();
-    self.formatDate =function(data){
-        if(ko.toJS(data)=='') {
-            return data;
+    self.formatDate =function(date){
+        if(date=='') {
+            return undefined;
         }
-        return formatDate(data);
+        return formatDate(date);
     };
-    ko.utils.arrayForEach(initialData, function(holiday) {
-        self.list.push({
-            id:ko.observable(holiday.id).extend({
-                protected: true
-            }),
-            business_info_id:ko.observable(holiday.business_info_id).extend({
-                protected: true
-            }),
-            title : ko.observable(holiday.title).extend({required: true,protected:true}),
-            holiday_reason:  ko.observable(holiday.holiday_reason).extend({required: true,protected:true}),
-            holiday_date : ko.observable(holiday.holiday_date).extend({required: true,protected:true}),
-            start_time :ko.observable(self.formatDate(holiday.start_time)).extend({
-                protected: true
-            }),
-            end_time :ko.observable(self.formatDate(holiday.end_time)).extend({
-                protected: true
-            })
-        });
-    });
+    self.id =ko.observable(data.id || -1);
+    self.business_info_id=ko.observable(data.business_info_id || -1);
+    self.title = ko.observable(data.title|| '');
+    self.holiday_reason=  ko.observable(data.holiday_reason || '');
+    self.holiday_date = ko.observable(data.holiday_date || '');
+    self.start_time =ko.observable(formatDate(data.start_time) || '');
+    self.end_time =ko.observable(formatDate(data.end_time) || '');
+};
+
+var HolidayVM = function(items) {
+    var self=this;
+    //turn the raw items into Item objects
+    self.holidayItems = ko.observableArray(ko.utils.arrayMap(items, function(data) {
+        return new Holiday(data);
+    }));
+
+    //hold the currently selected item
+    self.selectedItem = ko.observable();
     self.pageSize = ko.observable(10);
     self.pageIndex = ko.observable(0);
-    self.selectedItem = ko.observable();
-    self.isAdd =ko.observable(false);
-    self.isEdit=ko.observable(false);
-    self.saveUrl = url;
-    self.deleteUrl = url;
-    self.edit = function (item) {
-        self.isEdit(true);
-        self.selectedItem(item);
-    };
-    self.cancel = function (item) {
-        item.id.reset();
-        item.title.reset();
-        item.business_info_id.reset();
-        item.title.reset();
-        item.holiday_date.reset();
-        item.holiday_reason.reset();
-        item.start_time.reset();
-        item.end_time.reset();
-        self.selectedItem(null);
-    };
-    self.add = function () {
-        var newItem = new holiday();
-        self.isAdd(true);
-        self.isEdit(false);
-        self.list.push(newItem);
-        self.selectedItem(newItem);
-        self.moveToPage(self.maxPageIndex());
-    };
-    self.remove = function (item) {
-        self.isAdd(false);
-        if (item.id) {
-            if (confirm('Are you sure you wish to delete this item?')) {
-                $.post(self.deleteUrl, item).complete(function (result) {
-                    self.list.remove(item);
-                    if (self.pageIndex() > self.maxPageIndex()) {
-                        self.moveToPage(self.maxPageIndex());
-                    }
-                });
-            }
-        }
-        else {
-            self.list.remove(item);
-            if (self.pageIndex() > self.maxPageIndex()) {
-                self.moveToPage(self.maxPageIndex());
-            }
-        }
-    };
-    self.save = function () {
-        if (self.errors().length === 0) {
-            self.selectedItem().id.commit();
-            self.selectedItem().title.commit();
-            self.selectedItem().business_info_id.commit();
-            self.selectedItem().title.commit();
-            self.selectedItem().holiday_date.commit();
-            self.selectedItem().holiday_reason.commit();
-            self.selectedItem().start_time.commit();
-            self.selectedItem().end_time.commit();
-            var item = self.selectedItem();
-            console.log(ko.toJS(item));
-            $.post(self.saveUrl, item, function (result) {
-                self.selectedItem().id(result);
-                self.selectedItem(null);
-            });
-        }
-        else {
-            self.errors.showAllMessages();
-        }
-    };
-
+    //make edits to a copy
+    self.itemForEditing = ko.observable();
     self.templateToUse = function (item) {
         return self.selectedItem() === item ? 'editTmpl' : 'itemsTmpl';
     };
+    self.add =function(){
+       var item=new Holiday({
+           id:-1,
+           business_info_id:-1,
+           title:'',
+           holiday_reason:'',
+           holiday_date:'',
+           start_time:'',
+           end_time:''
+       });
+      self.holidayItems.push(item) ;
+        self.selectedItem(item);
+        self.itemForEditing(new Holiday(ko.toJS(item)));
+    };
+    self.remove=function(item){
+        self.holidayItems.remove(item);
+    }
 
     self.pagedList = ko.computed(function () {
         var size = self.pageSize();
         var start = self.pageIndex() * size;
-        return self.list.slice(start, start + size);
-    });
+        return self.holidayItems.slice(start, start + size);
+    }).extend({ notify: 'always' });
     self.maxPageIndex = ko.computed(function () {
-        return Math.ceil(self.list().length / self.pageSize()) - 1;
+        return Math.ceil(self.holidayItems().length / self.pageSize()) - 1;
     });
     self.previousPage = function () {
         if (self.pageIndex() > 0) {
@@ -154,5 +96,40 @@ function holidayVM(initialData,url){
     self.moveToPage = function (index) {
         self.pageIndex(index);
     };
-    self.errors = ko.validation.group(self,{deep:true});
-}
+    self.selectItem = self.selectItem.bind(self);
+    self.acceptItem = self.acceptItem.bind(self);
+    self.revertItem = self.revertItem.bind(self);
+
+};
+
+ko.utils.extend(HolidayVM.prototype, {
+    //select an item and make a copy of it for editing
+    selectItem: function(item) {
+        this.selectedItem(item);
+        this.itemForEditing(new Holiday(ko.toJS(item)));
+    },
+
+    acceptItem: function(item) {
+        if(item.errors().length==0) {
+            var selected = this.selectedItem(),
+                edited = ko.toJS(this.itemForEditing()); //clean copy of edited
+
+            //apply updates from the edited item to the selected item
+            selected.update(edited);
+
+            //clear selected item
+            this.selectedItem(null);
+            this.itemForEditing(null);
+        }
+        else{
+            item.errors.showAllMessages();
+        }
+    },
+
+    //just throw away the edited item and clear the selected observables
+    revertItem: function() {
+        this.selectedItem(null);
+        this.itemForEditing(null);
+    }
+});
+

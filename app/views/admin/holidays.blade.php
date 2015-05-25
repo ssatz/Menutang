@@ -16,11 +16,11 @@
     </tbody>
     <tfoot>
         <tr>
-            <td><p><a class="btn btn-primary btn-success" data-bind="click: $root.add" href="#add" title="Add"><i class="icon-plus"></i> Add Holiday</a></p>
+            <td>
+                <p><a class="btn btn-primary btn-success" href="#add" data-bind="click:$root.add" title="Add"><i class="icon-plus"></i> Add Holiday</a></p>
             </td>
         </tr>
     </tfoot>
-    </thead>
 </table>
 <div>
     <ul class="pagination"><li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: previousPage">Previous</a></li></ul>
@@ -37,25 +37,37 @@
         <td data-bind="text: start_time"></td>
         <td data-bind="text: end_time"></td>
         <td class="buttons">
-            <a class="btn btn-info" data-bind="click: $root.edit" href="#" title="edit">Edit</a>
-            <a class="btn btn-danger" data-bind="click: $root.remove" href="#" title="remove">Remove</a>
+            <a class="btn btn-info" data-bind="click: $root.selectItem" href="#" title="edit">Edit</a>
+            <a class="btn btn-danger"  href="#" data-bind="click:$root.remove" title="remove">Remove</a>
         </td>
     </tr>
 </script>
 
 <script id="editTmpl" type="text/html">
-    <tr>
+    <tr data-bind="with:$parent.itemForEditing">
         <td>
-            <input class="form-control input-sm" data-bind="value: title"/>
+            <input class="form-control input-sm" data-bind="value:title" pattern="^[a-zA-Z0-9_ ]*$" required/>
+            <p data-bind="validationMessage: title" class="validationMessage"></p>
         </td>
-        <td><input class="form-control input-sm" data-bind="value: holiday_reason"/></td>
-        <td><input class="form-control input-sm" data-bind="datePicker,value: holiday_date"/></td>
-        <td><input class="form-control input-sm" data-bind="timePicker,value: start_time"/></td>
-        <td><input class="form-control input-sm" data-bind="timePicker,value: end_time"/></td>
         <td>
-            <a class="btn btn-success" data-bind="click: $root.save" href="#" title="save">Save</a>
-            <a class="btn btn-warning" data-bind="click: $root.cancel,visible:$root.isEdit" href="#" title="cancel">Cancel</a>
-            <a class="btn btn-danger" data-bind="click: $root.remove,visible:$root.isAdd" href="#" title="remove">Remove</a>
+            <input class="form-control input-sm" data-bind="value:holiday_reason" pattern="^[a-zA-Z0-9_ ]*$"  required/>
+            <p data-bind="validationMessage: holiday_reason" class="validationMessage"></p>
+        </td>
+        <td>
+            <input class="form-control input-sm" data-bind="datePicker:holiday_date,value:holiday_date" pattern="^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$"  required/>
+            <p data-bind="validationMessage: holiday_date" class="validationMessage"></p>
+        </td>
+        <td>
+            <input class="form-control input-sm" data-bind="timePicker,value:start_time" pattern="^((([1-9])|(1[0-2])):([0-5])(0|5)(a|p)m)$"/>
+            <p data-bind="validationMessage: start_time" class="validationMessage"></p>
+        </td>
+        <td>
+            <input class="form-control input-sm" data-bind="timePicker,value:end_time" pattern="^((([1-9])|(1[0-2])):([0-5])(0|5)(a|p)m)$"/>
+            <p data-bind="validationMessage: end_time" class="validationMessage"></p>
+        </td>
+        <td>
+            <a class="btn btn-success" data-bind="click: $root.acceptItem" href="#" title="save">Save</a>
+            <a class="btn btn-warning" data-bind="click: $root.revertItem" href="#" title="cancel">Cancel</a>
         </td>
     </tr>
 </script>
@@ -70,6 +82,7 @@
 <script src="{{asset('assets/common/js/knockout.min-3.3.0.js')}}"></script>
 <script src="{{asset('assets/common/js/knockout.validation.min.js')}}"></script>
 <script src="{{asset('assets/common/js/knockout.mapping.min.js')}}"></script>
+<script src="{{asset('assets/common/js/jquery.gritter.min.js')}}"></script>
 <script src="{{asset('assets/common/js/bootstrap-datepicker.min.js')}}"></script>
 <script src ="{{asset('assets/common/js/jquery.timepicker.min.js')}}"></script>
 <script src="{{asset('assets/common/js/app/knockout.bindings.js')}}"></script>
@@ -77,7 +90,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $.getJSON("{{action('ManageBusinessController@addOrUpdateHolidays',[$slug])}}", null, function (data) {
-        ko.applyBindings(new holidayVM(data,"{{action('ManageBusinessController@addOrUpdateHolidays',[$slug])}}"),document.getElementById("holiday"));
+        ko.applyBindings(new HolidayVM(data),document.getElementById("holiday"));
     });
 });
 </script>
