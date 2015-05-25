@@ -81,6 +81,7 @@
 @section('scripts')
 <script>
     var update = '{{\Services\ActionEnum::UPDATE}}';
+    var deleteHoliday = '{{\Services\ActionEnum::DELETE}}';
 </script>
 <script src="{{asset('assets/common/js/knockout.min-3.3.0.js')}}"></script>
 <script src="{{asset('assets/common/js/knockout.validation.min.js')}}"></script>
@@ -101,7 +102,7 @@ function postAjax(data,action,object){
         object.holidayItems(ko.utils.arrayMap(data, function(data) {
             return new Holiday(data);
         }));
-        notification('Success','Hurray!Business Created','gritter-success');
+        notification('Success','Hurray!Holiday Created','gritter-success');
     }, 'json');
 }
 </script>

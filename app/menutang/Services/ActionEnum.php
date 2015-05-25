@@ -16,4 +16,5 @@ class ActionEnum extends Enum {
     const Add ="Add";
     const Delete="Delete";
     const UPDATE="UPDATE";
+    const DELETE="DELETE";
 }

@@ -23,11 +23,24 @@ class ManageHolidayRepository extends BaseRepository implements IManageHolidayRe
         parent::__construct($holidays, $cache);
     }
 
+    /**
+     * @param $businessId
+     * @return mixed
+     */
     public function findHolidayByBUID($businessId)
     {
         return $this->model->where('business_info_id','=',$businessId)
                     ->select('id','business_info_id','title','holiday_date','start_time','end_time','holiday_reason')
                     ->get();
+    }
+
+    /**
+     * @param $holidayId
+     * @return mixed
+     */
+    public function deleteById($holidayId)
+    {
+       return $this->model->destroy($holidayId);
     }
 
 

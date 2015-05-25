@@ -299,6 +299,10 @@ class ManageBusinessController extends BaseController
                     $data = json_decode($this->request->get('data'),true);
                     $this->manage->addOrUpdateHolidays($data,$slug);
                 }
+                elseif($action == ActionEnum::DELETE) {
+                    $data = json_decode($this->request->get('data'),true);
+                    $this->manage->deleteHolidayById((int)$data['id']);
+                }
                 $holiday = $this->manage->findByHoliday($slug);
                 return $this->response->json($holiday);
             }

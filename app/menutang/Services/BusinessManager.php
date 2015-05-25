@@ -156,6 +156,9 @@ class BusinessManager
      */
     protected $holiday;
 
+    /**
+     * @var Helper
+     */
     protected $helper;
     /**
      * @param IManageBusinessRepository $manageBusiness
@@ -726,6 +729,16 @@ class BusinessManager
             return;
         }
         $this->holiday->update($data,(int)$data['id']);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function deleteHolidayById($id){
+        if($id!=-1) {
+         return  $this->holiday->deleteById($id);
+        }
     }
 
 }

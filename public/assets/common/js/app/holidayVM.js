@@ -71,6 +71,7 @@ var HolidayVM = function(items) {
     };
     self.remove=function(item){
         self.holidayItems.remove(item);
+        postAjax(ko.toJSON(item),deleteHoliday,self);
     }
     self.pagedList = ko.computed(function () {
         var size = self.pageSize();

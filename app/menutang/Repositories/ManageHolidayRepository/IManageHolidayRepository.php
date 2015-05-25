@@ -14,4 +14,5 @@ namespace Repositories\ManageHolidayRepository;
 interface IManageHolidayRepository {
 
     public function findHolidayByBUID($businessId);
+    public function deleteById($holidayId);
 }
