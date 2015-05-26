@@ -42,6 +42,7 @@ Route::group(['domain' => 'admin.'.preg_replace('#^http(s)?://(www.)?#', '', Con
             Route::any('timeday', ['as' => 'admin.business.timeday', 'uses' => 'ManageBusinessController@timeDay']);
         });
         Route::any('{businessName}/holidays', ['as' => 'admin.business.holidays', 'uses' => 'ManageBusinessController@addOrUpdateHolidays']);
+        Route::any('{businessName}/photos', ['as' => 'admin.business.photos', 'uses' => 'ManageBusinessController@addOrUpdatePhotos']);
         Route::get('deliverysearch', ['as' => 'admin.business.deliveryAreaSearch', 'uses' => 'ManageBusinessController@deliveryAreaSearch']);
         Route::post('addbutype', ['as' => 'admin.business.addBuType', 'uses' => 'ManageBusinessController@addBuType']);
         Route::post('addcutype', ['as' => 'admin.business.addCuType', 'uses' => 'ManageBusinessController@addCuType']);

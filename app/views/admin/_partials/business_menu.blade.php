@@ -63,6 +63,17 @@
             <span class="menu-hover"></span>
         </a>
         </li>
+        <li class="{{Active::action('ManageBusinessController@addOrUpdatePhotos')}}">
+            <a href="{{  action('ManageBusinessController@addOrUpdatePhotos', [$slug])}}">
+                        		<span class="menu-icon">
+                        				<i class="fa fa-photo fa-lg"></i>
+                        		</span>
+                        		<span class="text">
+                        									Photos
+                        		</span>
+                <span class="menu-hover"></span>
+            </a>
+        </li>
 
     </ul>
 </div>

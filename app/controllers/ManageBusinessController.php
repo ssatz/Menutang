@@ -371,4 +371,16 @@ class ManageBusinessController extends BaseController
 
         return json_encode($cu);
     }
+
+    public function addOrUpdatePhotos($slug)
+    {
+        $this->viewShareSlug($slug);
+        if($this->request->method('GET')) {
+            if($this->request->ajax()){
+
+            }
+            return $this->view->make('admin.photos')
+                ->withTitle('Business Photos');
+        }
+    }
 }
