@@ -78,7 +78,9 @@ class ManageBusinessController extends BaseController
     public function showBusinesses()
     {
         $data = $this->manage->getAllBusiness();
-        return $this->view->make('admin.manage_business')->withBusiness($data);
+        return $this->view->make('admin.manage_business')
+            ->withTitle('Manage Business')
+            ->withBusiness($data);
     }
 
     /**
@@ -112,7 +114,7 @@ class ManageBusinessController extends BaseController
             $cities = $this->manage->getAllCity();
             $cuisineType= $this->manage->getAllCuisineType();
             $time = $this->manage->getAllBusinessTimes();
-            return $this->view->make('admin.edit_business')
+            return $this->view->make('admin.edit_business')->withTitle('Edit Business')
                                                             ->withButypes($buTypes)
                                                             ->withPayments($payments)
                                                             ->withStatus($status)
@@ -153,7 +155,9 @@ class ManageBusinessController extends BaseController
             return $this->app->abort(404);
         }
         $this->viewShareSlug($slug);
-        return $this->view->make('admin.dashboard')->withLayout('admin.business_layout');
+        return $this->view->make('admin.dashboard')
+            ->withTitle('Admin Dashboard')
+            ->withLayout('admin.business_layout');
     }
 
     /**
@@ -178,6 +182,7 @@ class ManageBusinessController extends BaseController
             $time =$this->manage->getTimeBuHr($slug);
             $weekdays = WeekdaysEnum::toArray();
             return $this->view->make('admin.menu_item')
+                ->withTitle('MenuItems')
                 ->withTimecategory($time)
                 ->withWeekdays($weekdays)
                 ->withCategories($this->manage->getAllMenuCategory());
@@ -219,6 +224,7 @@ class ManageBusinessController extends BaseController
             $time =$this->manage->getTimeBuHr($slug);
             $weekdays = WeekdaysEnum::toArray();
             return $this->view->make('admin.edit_menu_item')
+                ->withTitle('Edit MenuItems')
                                     ->withTimecategory($time)
                                     ->withWeekdays($weekdays)
                                     ->withCategories($this->manage->getAllMenuCategory())
@@ -249,6 +255,7 @@ class ManageBusinessController extends BaseController
             $time = $this->manage->getAllBusinessTimes();
             $deliveryArea = $this->manage->getAllDeliveryArea();
             return $this->view->make('admin.add_business')->withButypes($buTypes)
+                ->withTitle('Add Business')
                 ->withPayments($payments)
                 ->withStatus($status)
                 ->withCities($cities)
@@ -306,7 +313,8 @@ class ManageBusinessController extends BaseController
                 $holiday = $this->manage->findByHoliday($slug);
                 return $this->response->json($holiday);
             }
-            return $this->view->make('admin.holidays');
+            return $this->view->make('admin.holidays')
+                ->withTitle('Holidays');
         }
 
     }

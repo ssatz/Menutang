@@ -127,7 +127,10 @@ class AdminAuthController extends BaseController
      */
     public function dashboard()
     {
-        return $this->view->make('admin.dashboard')->withLayout('admin._layout');
+
+        return $this->view->make('admin.dashboard')
+            ->withLayout('admin._layout')
+            ->withTitle('Dashboard');
     }
 
     /**
@@ -146,8 +149,10 @@ class AdminAuthController extends BaseController
         }
         $cityDetails = $this->regionalSettings->getCityRelations();
         $states = $this->regionalSettings->getState();
-        return $this->view->make('admin.regional_settings')->withCitydetails($cityDetails)
-                           ->withStates($states);
+        return $this->view->make('admin.regional_settings')
+            ->withCitydetails($cityDetails)
+            ->withTitle('Regional Settings')
+            ->withStates($states);
     }
 
     /**
@@ -220,12 +225,15 @@ class AdminAuthController extends BaseController
         }
         $deliveryArea = $this->regionalSettings->getDeliveryArea(10);
         $city = $this->regionalSettings->getCityRelations();
-        return $this->view->make('admin.delivery_area')->withDeliveryarea($deliveryArea)
-                                                       ->withCities($city);
+        return $this->view->make('admin.delivery_area')
+            ->withDeliveryarea($deliveryArea)
+            ->withTitle('Delivery Area')
+            ->withCities($city);
     }
 
+
     /**
-     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function addUpdateType(){
         if($this->request->ajax()){
@@ -239,8 +247,6 @@ class AdminAuthController extends BaseController
           return $this->response->json($result);
         }
     }
-
-
 }
 
 

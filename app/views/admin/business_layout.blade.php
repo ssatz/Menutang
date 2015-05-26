@@ -68,7 +68,7 @@
     <!-- /sidebar-inner -->
 </aside>
 <div id="main-container">
-    @include('_commonpartials.breadcrumb')
+   {{-- @include('_commonpartials.breadcrumb') --}}
     @include('admin._partials.balanceheader')
     @yield('content')
 

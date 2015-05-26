@@ -1,6 +1,6 @@
 <div class="main-menu">
     <ul>
-        <li class="{{Active::Controller('AdminAuth')}}">
+        <li class="{{Active::action('AdminAuthController@dashboard')}}">
             <a href="{{  URL::action('AdminAuthController@dashboard')}}">
                     		    <span class="menu-icon">
                     				<i class="fa fa-desktop fa-lg"></i>
@@ -22,7 +22,7 @@
                 <span class="menu-hover"></span>
             </a>
         </li>
-        <li class="{{Active::routePattern(" *.edit");}}">
+        <li class="{{Active::action('ManageBusinessController@editBusinessInfo')}}">
         <a href="{{  action('ManageBusinessController@editBusinessInfo', [$slug])}}">
                         		<span class="menu-icon">
                         				<i class="fa fa-edit fa-lg"></i>
@@ -52,7 +52,7 @@
                         </li>
                     </ul>
          </li>
-        <li class="{{Active::routePattern(" *.addOrUpdate");}}">
+        <li class="{{Active::action('ManageBusinessController@addOrUpdateHolidays')}}">
         <a href="{{  action('ManageBusinessController@addOrUpdateHolidays', [$slug])}}">
                         		<span class="menu-icon">
                         				<i class="fa fa-edit fa-lg"></i>
