@@ -12,7 +12,7 @@
         <th></th>
     </tr>
     </thead>
-   <tbody data-bind="foreach:image,spinner:isLoading">
+   <tbody data-bind="foreach:pagedList">
     <tr>
         <td>
             <img data-bind="attr:{src: dataURI}" height="96px" width="96px"/>
@@ -24,6 +24,20 @@
         </td>
     </tr>
    </tbody>
+    <tfoot>
+    <tr>
+        <td>
+            <div>
+                <ul class="pagination"><li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: previousPage">Previous</a></li></ul>
+                <ul class="pagination" data-bind="foreach: allPages">
+                    <li data-bind="css: { active: $data.pageNumber === ($root.pageIndex() + 1) }"><a href="#" data-bind="text: $data.pageNumber, click: function() { $root.moveToPage($data.pageNumber-1); }"></a></li>
+                </ul>
+                <ul class="pagination"><li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: nextPage">Next</a></li></ul>
+            </div>
+            <a class="btn btn-primary btn-success" href="#add" data-bind="click:addPhotos" title="Add"><i class="icon-plus"></i> Add Photos</a></th>
+        </td>
+    </tr>
+    </tfoot>
 </table>
 </div>
 <!-- /Modal -->
@@ -107,7 +121,12 @@
     function postAjax(data,action){
         $.post('{{action('ManageBusinessController@addOrUpdatePhotos',[$slug])}}',{data:data,action:action,_token: '{{Session::get('_token')}}'}, function( data ) {
             photosVM.image(data);
-            notification('Success','Hurray!Photo added Successfully','gritter-success');
+            if(action ==addPhotos) {
+                notification('Success', 'Hurray!Photo added Successfully', 'gritter-success');
+            }
+            else{
+                notification('Success', 'Hurray!Photo Deleted Successfully', 'gritter-success');
+            }
         }, 'json');
     }
 

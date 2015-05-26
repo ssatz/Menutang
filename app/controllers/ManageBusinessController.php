@@ -382,6 +382,11 @@ class ManageBusinessController extends BaseController
                     $data = json_decode($this->request->get('data'),true);
                     $this->manage->addPhotos($slug,$data);
                 }
+            elseif($this->request->get('action')==ActionEnum::DELETE && $this->request->method('POST'))
+                {
+                    $data = json_decode($this->request->get('data'),true);
+                    $this->manage->deletePhoto($slug,$data);
+                }
                 $image= $this->manage->getPhotos($slug);
                 return $this->response->json($image);
         }

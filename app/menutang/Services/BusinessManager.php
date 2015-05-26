@@ -752,6 +752,11 @@ class BusinessManager
         }
     }
 
+    /**
+     * @param $slug
+     * @param $data
+     * @return bool
+     */
     public function addPhotos($slug,$data)
     {
         $date = new DateTime();
@@ -763,10 +768,25 @@ class BusinessManager
         return true;
     }
 
+    /**
+     * @param $slug
+     * @param $data
+     * @return bool
+     */
     public function deletePhoto($slug,$data)
     {
-
+        $fileName = $data['fileName'].'.'.$data['type'];
+        if($this->file->exists(public_path('uploads/' . $slug.'/photos/'.$fileName)))
+        {
+            $this->file->delete(public_path('uploads/' . $slug.'/photos/'.$fileName));
+        }
+        return true;
     }
+
+    /**
+     * @param $slug
+     * @return array
+     */
     public function getPhotos($slug)
     {
         if (!$this->file->isDirectory(public_path('uploads/' . $slug.'/photos'))) {
