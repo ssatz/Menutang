@@ -10,6 +10,7 @@
 
 namespace Services;
 
+use League\Flysystem\File;
 use stdClass;
 use Exception;
 use DateTime;
@@ -39,6 +40,8 @@ use Services\Validations\CuisineTypeValidator;
 use Services\Validations\BusinessEditValidator;
 use Repositories\ManageHolidayRepository\IManageHolidayRepository;
 use Services\Helper;
+use Illuminate\Filesystem\Filesystem;
+use Intervention\Image\ImageManager;
 
 
 class BusinessManager
@@ -155,6 +158,9 @@ class BusinessManager
      * @var IManageHolidayRepository
      */
     protected $holiday;
+    protected $imageHelper;
+
+    protected $file;
 
     /**
      * @var Helper
@@ -196,6 +202,8 @@ class BusinessManager
                                 CuisineTypeValidator $cuisineTypeValidator,
                                 BusinessEditValidator $businessEditValidator,
                                 IManageHolidayRepository $businessHoliday,
+                                Filesystem $filesystem,
+                                ImageManager $imageManager,
                                 Helper $helper,
                                 Excel $excel)
     {
@@ -223,6 +231,8 @@ class BusinessManager
         $this->businessEditValidator=$businessEditValidator;
         $this->holiday = $businessHoliday;
         $this->helper=$helper;
+        $this->file= $filesystem;
+        $this->imageHelper = $imageManager;
     }
 
     /**
@@ -735,10 +745,46 @@ class BusinessManager
      * @param $id
      * @return mixed
      */
-    public function deleteHolidayById($id){
+    public function deleteHolidayById($id)
+    {
         if($id!=-1) {
          return  $this->holiday->deleteById($id);
         }
+    }
+
+    public function addPhotos($slug,$data)
+    {
+        $date = new DateTime();
+        $this->imageHelper->make($data['dataURL'])
+            ->resize(600, 400, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();})
+            ->save(public_path('uploads/' . $slug . '/photos/'.$slug.'_'.$date->getTimestamp().'.png'));
+        return true;
+    }
+
+    public function deletePhoto($slug,$data)
+    {
+
+    }
+    public function getPhotos($slug)
+    {
+        if (!$this->file->isDirectory(public_path('uploads/' . $slug.'/photos'))) {
+            $this->file->makeDirectory(public_path('uploads/' . $slug.'/photos'), 0775);
+        }
+        $files= $this->file->allFiles(public_path('uploads/' . $slug.'/photos'));
+        $image =[];
+        $i=0;
+        foreach($files as $file)
+        {
+            $encode =$this->imageHelper->make($file->getRealPath())->encode('data-url',100);
+            $image[$i]['dataURI']=$encode->getEncoded();
+            $image[$i]['type']=$encode->extension;
+            $image[$i]['size']=$encode->filesize();
+            $image[$i]['fileName']=$encode->filename;
+            $i++;
+        }
+       return $image;
     }
 
 }
