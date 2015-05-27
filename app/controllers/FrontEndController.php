@@ -136,10 +136,12 @@ class FrontEndController extends BaseController  {
     public function restaurantsProfile($restaurantSlug)
     {
         $this->viewShareSlug($restaurantSlug);
-       list($bu,$profile,$category)=  $this->frontEndManager->restaurantProfile($restaurantSlug);
+        $images=$this->buManager->getPhotosBySlug($restaurantSlug);
+        list($bu,$profile,$category)=  $this->frontEndManager->restaurantProfile($restaurantSlug);
         return $this->view->make('frontend.profile')->withBusinessdetails($bu)
                                                     ->withMenudetails($profile)
                                                     ->withMenucategory($category)
+                                                    ->withPhotos($images)
                                                     ->withCart($this->cart->getCartItems($restaurantSlug));
     }
 

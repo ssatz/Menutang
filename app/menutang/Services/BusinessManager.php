@@ -158,8 +158,14 @@ class BusinessManager
      * @var IManageHolidayRepository
      */
     protected $holiday;
+    /**
+     * @var ImageManager
+     */
     protected $imageHelper;
 
+    /**
+     * @var Filesystem
+     */
     protected $file;
 
     /**
@@ -765,7 +771,7 @@ class BusinessManager
                 $constraint->aspectRatio();
                 $constraint->upsize();})
             ->insert(public_path('assets/common/img/app/logo.png'), 'bottom-left', -1, -30)
-            ->save(public_path('uploads/' . $slug . '/photos/'.$slug.'_'.$date->getTimestamp().'.png'));
+            ->save(public_path('uploads/' . $slug . '/photos/'.$slug.'_'.$data['picName'].'_'.$date->getTimestamp().'.png'));
         return true;
     }
 
@@ -806,6 +812,22 @@ class BusinessManager
             $i++;
         }
        return $image;
+    }
+
+    /**
+     * @param $slug
+     * @return array
+     * It will be used in restaurant profile page
+     */
+    public function getPhotosBySlug($slug){
+        $filesInFolder= $this->file->files(public_path('uploads/' . $slug.'/photos'));
+        $images=[];
+        foreach($filesInFolder as $path)
+        {
+            $images[] = pathinfo($path);
+        }
+        return $images;
+
     }
 
 }

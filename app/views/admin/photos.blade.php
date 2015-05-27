@@ -62,6 +62,10 @@
                                                                                   fileNameClass: 'disabled form-control'
                                                                         }">
                             </div>
+                            <div>
+                                <p class="validationMessage" data-bind="validationMessage: fileData().picName"></p>
+                                Name: <input type="text" class="form-control input-sm" data-bind="value:fileData().picName">
+                            </div>
                         </div>
                         <a class="btn btn-primary btn-success" href="#add" data-bind="click:submit" title="Add"><i class="icon-plus"></i> Upload</a>
                     </div>

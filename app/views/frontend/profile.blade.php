@@ -23,9 +23,10 @@
     <!-- Theme CSS -->
     <link href="{{asset('assets/common/css/bootstrap-tagsinput.css')}}" rel="stylesheet">
     <link href="{{asset('assets/common/css/jquery.webui-popover.min.css')}}" rel="stylesheet">
-    <link href="{{asset('assets/common/css/frontend.css')}}" rel="stylesheet">
     <link href="{{asset('assets/common/css/chosen/chosen.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/common/css/colorbox/colorbox.css')}}" rel="stylesheet">
     <link href="{{asset('assets/common/css/jquery.bootstrap-touchspin.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/common/css/frontend.css')}}" rel="stylesheet">
     <link href="{{asset('assets/common/css/menutang.css')}}" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -232,9 +233,16 @@
                         </div>
                         <div class="col-lg-2 col-md-2">
                             <p>
+                                 <?php $photosCount = count($photos); ?>
                                 <!-- Profile Links -->
                                 <i class="fa fa-fw fa-info-circle"></i> <a href="#"  class="show-pop-large">About</a>
-                                <br><i class="fa fa-fw fa-camera"></i> <a href="#">Photos (4)</a>
+                                <br><i class="fa fa-fw fa-camera"></i>
+                                <a class="@if($photosCount>0) photos @endif" href="@if($photosCount>0){{asset('uploads/'.$slug.'/photos/'.$photos[0]['basename'])}} @else #no-photos @endif">Photos ({{$photosCount}})</a>
+                                <?php if($photosCount>0) unset($photos[0]); ?>
+                                @foreach($photos as $photo)
+                                <a class="photos displayNone" href="{{asset('uploads/'.$slug.'/photos/'.$photo['basename'])}}">{{$photo['filename']}}</a>
+                                @endforeach
+
                             </p>
                         </div>
                     </div>
@@ -635,13 +643,13 @@
 
 <!-- Jquery -->
 <script src="{{asset('assets/common/js/jquery-1.10.2.min.js')}}"></script>
-
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 <!-- Bootstrap -->
 <script src="{{asset('assets/common/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('assets/common/js/knockout.min-3.3.0.js')}}"></script>
 <script src="{{asset('assets/common/js/knockout.validation.min.js')}}"></script>
+<script src="{{asset('assets/common/js/jquery.colorbox.min.js')}}"></script>
 <!-- Theme Scripts -->
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 <script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
 <script src="{{asset('assets/common/js/bootstrap-tagsinput.min.js')}}"></script>
 <script src="{{asset('assets/common/js/jquery.webui-popover.min.js')}}"></script>
@@ -665,6 +673,14 @@
 <!-- TouchSpin jQuery -->
 <script type="text/javascript">
     $(document).ready(function (){
+        $(function()	{
+            //Colorbox
+            $('.photos').colorbox({
+                rel:'photos',
+                maxWidth:'90%',
+                width:'800px'
+            });
+        });
         $('.addOrder').popover({
             html : true,
             content: function() {

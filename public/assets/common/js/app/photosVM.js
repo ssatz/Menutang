@@ -1,7 +1,7 @@
 /**
  * Created by Satz on 5/26/2015.
  */
-ko.validation.init({insertMessages: true,
+ko.validation.init({insertMessages: false,
     grouping: { deep: true } },true);
 var photosVM ={
     isLoading:ko.observable(true),
@@ -11,7 +11,11 @@ var photosVM ={
     image:ko.observableArray(),
     fileData:ko.observable({
         file: ko.observable().extend({required:true,imgtype:true}),
-        dataURL: ko.observable().extend({required:true})
+        dataURL: ko.observable().extend({required:true}),
+        picName:ko.observable().extend({required:true,pattern: {
+            message: 'Name should contains a valid alphabets',
+            params: '^[a-zA-Z0-9_ ]*$'
+        }})
     }),
     submit:function(item){
         console.log(photosVM.error());
@@ -21,6 +25,7 @@ var photosVM ={
            item.fileData().clear();
            return;
        }
+        photosVM.error.showAllMessages(true);
     },
     delete: function (item) {
         postAjax(ko.toJSON(item), deletePhotos);
