@@ -761,9 +761,10 @@ class BusinessManager
     {
         $date = new DateTime();
         $this->imageHelper->make($data['dataURL'])
-            ->resize(600, 400, function ($constraint) {
+            ->resize(800, 600, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();})
+            ->insert(public_path('assets/common/img/app/logo.png'), 'bottom-left', -1, -30)
             ->save(public_path('uploads/' . $slug . '/photos/'.$slug.'_'.$date->getTimestamp().'.png'));
         return true;
     }
