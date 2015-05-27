@@ -92,7 +92,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
             return $this->cache->get($key);
         }
         $businessInfo = $this->model
-            ->with('address.city', 'payment','deliveryArea','cuisineType','businessHours.timeCategory','businessHours.weekDays')
+            ->with('address.city', 'payment','deliveryArea','cuisineType','businessHours.timeCategory','businessHours.weekDays','holidays')
             ->where('business_slug', '=', $slug)
             ->where('status_id',StatusEnum::ACTIVE)
             ->first();

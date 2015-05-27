@@ -93,6 +93,16 @@ class BusinessInfo extends Eloquent
     }
 
     /**
+     * @return mixed
+     */
+    public function holidays()
+    {
+        return $this->hasMany('BusinessHolidays');
+    }
+
+
+
+    /**
      * @param $query
      * @param $slug
      * @return mixed

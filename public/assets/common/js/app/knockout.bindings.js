@@ -462,6 +462,9 @@ var reset = function ( obj, whitelist ) {
 };
 
 function formatDate(date) {
+       if(date==null){
+           return;
+       }
         var d = new Date("2000-01-01 " + date);
         var hh = d.getHours();
         var m = d.getMinutes();

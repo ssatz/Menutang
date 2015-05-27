@@ -20,6 +20,9 @@ var Holiday = function(data) {
 Holiday.prototype.update = function(data) {
     var self = this;
     self.formatDate =function(date){
+        if(date==null){
+            return '';
+        }
         var expression = new RegExp(/^((([1-9])|(1[0-2])):([0-5])(0|5)(a|p)m)$/);
         var result = expression.test(date);
         if(result || date==undefined) {

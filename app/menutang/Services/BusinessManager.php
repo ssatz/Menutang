@@ -736,8 +736,14 @@ class BusinessManager
     public function addOrUpdateHolidays(array $data,$slug)
     {
         $buId= $this->manageBusiness->findBusinessBySlug($slug);
-        $data['start_time']= $this->helper->timeConverter($data['start_time'],'H:i:s');
-        $data['end_time']= $this->helper->timeConverter($data['end_time'],'H:i:s');
+        if(empty($data['start_time']) || empty($data['end_time'])) {
+            $data['start_time']=null;
+            $data['end_time']=null;
+        }
+        else{
+            $data['start_time'] = $this->helper->timeConverter($data['start_time'], 'H:i:s');
+            $data['end_time'] = $this->helper->timeConverter($data['end_time'], 'H:i:s');
+        }
         if($data['id']==-1) {
             unset($data['id']);
             $data['business_info_id']=$buId->id;

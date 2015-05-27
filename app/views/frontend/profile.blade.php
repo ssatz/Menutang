@@ -228,21 +228,52 @@
                                 </li>
                             </ul>
                         </div>
-                        <div id="about-us" class="displayNone">
-                            {{$businessdetails->business_about}}
-                        </div>
                         <div class="col-lg-2 col-md-2">
                             <p>
                                  <?php $photosCount = count($photos); ?>
                                 <!-- Profile Links -->
                                 <i class="fa fa-fw fa-info-circle"></i> <a href="#"  class="show-pop-large">About</a>
-                                <br><i class="fa fa-fw fa-camera"></i>
+                                <span id="about-us" class="displayNone">
+                                    {{$businessdetails->business_about}}
+                                </span>
+                            </p>
+                            </p>
+                                <i class="fa fa-fw fa-camera"></i>
                                 <a class="@if($photosCount>0) photos @endif" href="@if($photosCount>0){{asset('uploads/'.$slug.'/photos/'.$photos[0]['basename'])}} @else #no-photos @endif">Photos ({{$photosCount}})</a>
                                 <?php if($photosCount>0) unset($photos[0]); ?>
                                 @foreach($photos as $photo)
                                 <a class="photos displayNone" href="{{asset('uploads/'.$slug.'/photos/'.$photo['basename'])}}">{{$photo['filename']}}</a>
                                 @endforeach
 
+                            </p>
+                            <p>
+                            <div class="displayNone" id="holidaysList">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Date</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($businessdetails->holidays as $holiday)
+                                           <tr>
+                                               <td>
+                                                   {{$holiday->title}}<br/><small>({{$holiday->holiday_reason}})</small>
+                                               </td>
+                                               <td>
+                                                   {{$holiday->holiday_date}}
+                                                 @if(!is_null($holiday->start_time) && !is_null($holiday->end_time))
+                                                   </br><small><strong>Start Time:</strong>@formattime($holiday->start_time)</small></br>
+                                                   <small><strong>End Time:</strong>@formattime($holiday->end_time)</small>
+                                                 @endif
+                                               </td>
+                                           </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                            </div>
+                                <i class="fa fa-fw fa-hand-o-down"></i> <a href="#" id="holidays">Holiday List</a>
                             </p>
                         </div>
                     </div>
@@ -781,6 +812,17 @@
             closeable:true
         };
     var popLarge = $('a.show-pop-large').webuiPopover('destroy').webuiPopover($.extend({},settings,largeSettings));
+    var holidayContent = $("#holidaysList").html();
+    var holidaySettings= {
+        title:'Holidays List',
+        width: '350',
+        height: '250',
+        closeable: true,
+        padding: false,
+        cache: false,
+        content:holidayContent
+    }
+    $('#holidays').webuiPopover('destroy').webuiPopover($.extend({},settings,holidaySettings));
 </script>
 
 </body>
