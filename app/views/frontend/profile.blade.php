@@ -264,8 +264,12 @@
                                                <td>
                                                    {{$holiday->holiday_date}}
                                                  @if(!is_null($holiday->start_time) && !is_null($holiday->end_time))
-                                                   </br><small><strong>Start Time:</strong>@formattime($holiday->start_time)</small></br>
-                                                   <small><strong>End Time:</strong>@formattime($holiday->end_time)</small>
+                                                   </br><small><strong>Start Time:</strong>
+                                                       <i class="label label-warning">@formattime($holiday->start_time)</i>
+                                                   </small></br>
+                                                   <small><strong>End Time:</strong>
+                                                       <i class="label label-warning">@formattime($holiday->end_time)</i>
+                                                   </small>
                                                  @endif
                                                </td>
                                            </tr>
