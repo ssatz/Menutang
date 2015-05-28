@@ -94,7 +94,7 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         $businessInfo = $this->model
             ->with('address.city', 'payment','deliveryArea','cuisineType','businessHours.timeCategory','businessHours.weekDays','holidays')
             ->where('business_slug', '=', $slug)
-            ->where('status_id',StatusEnum::ACTIVE)
+            //->where('status_id',StatusEnum::ACTIVE)
             ->first();
         $this->cache->put($key, $businessInfo);
         return $businessInfo;
@@ -211,15 +211,14 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         });
         if(!is_null($serviceType) && DeliveryOptionEnum::DELIVERY ==ucfirst(strtolower($serviceType)) ){
             $businessInfo = $businessInfo->where('is_door_delivery',true)
-                                         ->where('is_pickup_available',false)
-                                         ->where('status_id',StatusEnum::ACTIVE);
+                                         ->where('is_pickup_available',false);
+
         }
         if(!is_null($serviceType) && DeliveryOptionEnum::PICKUP == ucfirst(strtolower($serviceType)) ){
             $businessInfo = $businessInfo->where('is_door_delivery',false)
-                                         ->where('is_pickup_available',true)
-                                         ->where('status_id',StatusEnum::ACTIVE);
+                                         ->where('is_pickup_available',true);
         }
-        return $businessInfo->remember(10)->paginate(15);
+        return $businessInfo->where('status_id',StatusEnum::ACTIVE)->remember(10)->paginate(15);
     }
 
     /**
@@ -260,15 +259,13 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
             });
         if(!is_null($serviceType) && DeliveryOptionEnum::DELIVERY ==ucfirst(strtolower($serviceType)) ){
             $businessInfo = $businessInfo->where('is_door_delivery',true)
-                               ->where('is_pickup_available',false)
-                ->where('status_id',StatusEnum::ACTIVE);
+                               ->where('is_pickup_available',false);
         }
         if(!is_null($serviceType) && DeliveryOptionEnum::PICKUP == ucfirst(strtolower($serviceType)) ){
             $businessInfo = $businessInfo->where('is_door_delivery',false)
-                ->where('is_pickup_available',true)
-                ->where('status_id',StatusEnum::ACTIVE);
+                ->where('is_pickup_available',true);
         }
-        return $businessInfo->remember(10)->paginate(15);
+        return $businessInfo->where('status_id',StatusEnum::ACTIVE)->remember(10)->paginate(15);
     }
 
     /**
