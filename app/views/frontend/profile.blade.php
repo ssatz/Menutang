@@ -95,10 +95,20 @@
     <div class="container">
         <ul class="breadcrumb hidden-xs">
             <li>
-                <a href="{{action('FrontEndController@index')}}">Home</a>
+                 <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <a href="{{action('FrontEndController@index')}}" itemprop="url">
+                        <span itemprop="Home">Home</span>
+                    </a>
+                 </span>
             </li>
             <li>
-                <a href="{{action('FrontEndController@searchBU',[$businessdetails->address->city->city_description])}}">{{ucfirst($businessdetails->address->city->city_description)}} Food Delivery</a>
+                 <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <a href="{{action('FrontEndController@searchBU',[$businessdetails->address->city->city_description])}}">
+                        <span itemprop="{{$businessdetails->address->city->city_description}}">
+                            {{ucfirst($businessdetails->address->city->city_description)}} Food Delivery
+                        </span>
+                    </a>
+                 </span>
             </li>
             <li>
                 <div class="btn-group dropdown-breadcrumb">
@@ -150,6 +160,7 @@
                     <!-- Profile Address -->
                     <h4>{{$businessdetails->address->address_line_1}}</h4>
                     <h4>{{$businessdetails->address->address_line_2}}</h4>
+                    <h4>{{$businessdetails->address->city->city_description}}-{{$businessdetails->address->postal_code}}</h4>
                     <div class="row">
                         <div class="col-lg-4 col-md-4">
                             <p>
