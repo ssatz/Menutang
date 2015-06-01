@@ -136,14 +136,14 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
                 $hours = new BusinessHours([
                     'business_info_id' => $businessInfo->id,
                     'time_category_id' => $hr['time_category_id'],
-                    'open_time' => $hr['open_time'],
-                    'close_time' => $hr['close_time']
+                    'open_time' => $this->helper->timeConverter($hr['open_time'],'H:i:s'),
+                    'close_time' => $this->helper->timeConverter($hr['open_time'],'H:i:s'),
                 ]);
                 $businessInfo->businessHours()->save($hours);
-                $hours->weekDays()->attach($hr['week_days']);
+                $hours->weekDays()->sync($hr['week_days']);
             }
             elseif(!$hr['enabled'] && $hr["business_hr_id"]!=-1){
-                BusinessHours::delete($hr["business_hr_id"]);
+                BusinessHours::destroy($hr["business_hr_id"]);
             }
         }
         $deliveryAreaId = [];
