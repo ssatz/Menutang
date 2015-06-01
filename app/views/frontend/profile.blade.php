@@ -97,14 +97,14 @@
             <li>
                  <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
                     <a href="{{action('FrontEndController@index')}}" itemprop="url">
-                        <span itemprop="Home">Home</span>
+                        <span itemprop="title">Home</span>
                     </a>
                  </span>
             </li>
             <li>
                  <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-                    <a href="{{action('FrontEndController@searchBU',[$businessdetails->address->city->city_description])}}">
-                        <span itemprop="{{$businessdetails->address->city->city_description}}">
+                    <a href="{{action('FrontEndController@searchBU',[$businessdetails->address->city->city_description])}}" itemprop="url">
+                        <span itemprop="title">
                             {{ucfirst($businessdetails->address->city->city_description)}} Food Delivery
                         </span>
                     </a>
