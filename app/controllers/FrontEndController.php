@@ -64,8 +64,14 @@ class FrontEndController extends BaseController  {
      */
     protected $userAuth;
 
+    /**
+     * @var mixed
+     */
     protected $auth;
 
+    /**
+     * @var BusinessManager
+     */
     protected $buManager;
     /**
      * @param Request $request
@@ -196,6 +202,9 @@ class FrontEndController extends BaseController  {
         }
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function forgotPassword()
     {
         if ($this->request->ajax() && $this->request->isMethod('POST')) {
@@ -208,6 +217,11 @@ class FrontEndController extends BaseController  {
 
     }
 
+    /**
+     * @param $type
+     * @param $token
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function passwordReset($type,$token)
     {
         if($this->request->ajax()) {
@@ -220,5 +234,9 @@ class FrontEndController extends BaseController  {
         return $this->view->make('frontend.password')
             ->withType($type)
             ->withToken($token);
+    }
+
+    public function userReviews(){
+
     }
 }

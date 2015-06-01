@@ -772,6 +772,7 @@ class BusinessManager
     public function addPhotos($slug,$data)
     {
         $date = new DateTime();
+        dd($data);
         $this->imageHelper->make($data['dataURL'])
             ->resize(800, 600, function ($constraint) {
                 $constraint->aspectRatio();
