@@ -51,4 +51,13 @@ class BusinessHours extends Eloquent
     {
         return $this->belongsToMany('WeekDays', 'business_weekdays', 'business_hours_id', 'weekdays_id');
     }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeIdAscending ($query)
+    {
+        return $query->orderBy('id','ASC');
+    }
 }

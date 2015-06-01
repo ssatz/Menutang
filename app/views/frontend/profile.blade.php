@@ -158,6 +158,7 @@
                                 <strong>Open <?php echo \Services\WeekDays::getWeekDay(date('N'));  ?> between:</strong>
                                 <table class="table-responsive">
                                     <?php $flag=false; ?>
+
                                     @foreach($businessdetails->businessHours as $hour)
 
                                         @foreach($hour->weekDays as $days)

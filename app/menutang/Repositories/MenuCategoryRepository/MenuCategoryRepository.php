@@ -85,7 +85,7 @@ class MenuCategoryRepository extends BaseRepository implements IMenuCategoryRepo
                      ->with('optionItem')
                      ->where('business_info_id', '=',(int)$businessId);
             }])
-            ->orderBy('category_name')->get();
+            ->orderBy('category_name','time_category_id')->get();
         $this->cache->put($key, $profileDetails);
         return $profileDetails;
     }
