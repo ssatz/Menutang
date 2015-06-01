@@ -57,7 +57,7 @@ class MenuCategoryRepository extends BaseRepository implements IMenuCategoryRepo
      * @return mixed
      */
     public function getCategoryByBusinessId($id){
-        $key = md5('getCategoryByBusinessId'.$id);
+        $key = md5(__METHOD__.$id);
         if ($this->cache->has($key)) {
             return $this->cache->get($key);
         }
@@ -73,7 +73,7 @@ class MenuCategoryRepository extends BaseRepository implements IMenuCategoryRepo
      */
     public function findByProfile($businessId)
     {
-        $key = md5('buProfile'.$businessId);
+        $key = md5(__METHOD__.$businessId);
         if ($this->cache->has($key)) {
             return $this->cache->get($key);
         }

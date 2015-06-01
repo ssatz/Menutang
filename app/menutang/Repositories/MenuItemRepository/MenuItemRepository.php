@@ -66,7 +66,9 @@ class MenuItemRepository extends BaseRepository implements IMenuItemRepository
     public function getMenuItemAddon($slug,$categoryId)
     {
         $buID = BusinessInfo::Where('business_slug','=',$slug)->select('id')->first();
-        return $this->model->with('itemAddon','businessHours','weekDays')->where('business_info_id','=',$buID->id)->where('menu_category_id','=',$categoryId)->get();
+        return $this->model->with('itemAddon','businessHours','weekDays')
+                           ->where('business_info_id','=',$buID->id)
+                            ->where('menu_category_id','=',$categoryId)->get();
     }
     /**
      * @param array $data

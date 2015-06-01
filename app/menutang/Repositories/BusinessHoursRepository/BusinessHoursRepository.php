@@ -36,7 +36,7 @@ class BusinessHoursRepository extends BaseRepository implements IBusinessHoursRe
             return $this->cache->get($key);
         }
         $buhr= $this->model->with('timeCategory')->where('business_info_id','=',$buId)
-            ->select('id','time_category_id')
+            ->select('id','time_category_id')->orderBy('id')
             ->get();
         $this->cache->put($key, $buhr);
         return $buhr;
