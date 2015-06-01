@@ -772,12 +772,11 @@ class BusinessManager
     public function addPhotos($slug,$data)
     {
         $date = new DateTime();
-        dd($data);
-        $this->imageHelper->make($data['dataURL'])
-            ->resize(800, 600, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();})
-            ->insert(public_path('assets/common/img/app/logo.png'), 'bottom-left', -1, -30)
+        $this->imageHelper->make($data['dataURL'])->resize(500,500)
+           // ->resize(800, 600, function ($constraint) {
+           //     $constraint->aspectRatio();
+           //     $constraint->upsize();})
+           // ->insert(public_path('assets/common/img/app/logo.png'), 'bottom-left', -1, -30)
             ->save(public_path('uploads/' . $slug . '/photos/'.$slug.'_'.$data['picName'].'_'.$date->getTimestamp().'.png'));
         return true;
     }
