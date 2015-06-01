@@ -14,7 +14,7 @@ namespace Services;
 use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use Repositories\MenuCategoryRepository\IMenuCategoryRepository;
 use Repositories\BusinessTypeRepository\IBusinessTypeRepository;
-use Illuminate\Support\Facades\Input;
+use Repositories\ManageDeliveryAreaRepository\IManageDeliveryAreaRepository;
 
 
 class FrontEndManager {
@@ -33,6 +33,7 @@ class FrontEndManager {
      * @var IBusinessTypeRepository
      */
     protected $businessType;
+    protected $deliveryArea;
 
     /**
      * @param IManageBusinessRepository $buManager
@@ -41,11 +42,13 @@ class FrontEndManager {
      */
     public function __construct(IManageBusinessRepository $buManager,
                                 IMenuCategoryRepository $menuCategoryRepository,
+                                IManageDeliveryAreaRepository $deliveryArea,
                                 IBusinessTypeRepository $businessTypeRepository)
     {
         $this->buManager = $buManager;
         $this->menuCategory = $menuCategoryRepository;
         $this->businessType = $businessTypeRepository;
+        $this->deliveryArea = $deliveryArea;
     }
 
     /**
@@ -88,8 +91,9 @@ class FrontEndManager {
     {
         $bu = $this->getBusinessDetails($restaurantSlug);
         $profile = $this->getProfileDetails($bu->id);
+        $cityArea = $this->deliveryArea->findByCity($bu->address->city->id);
         $menuCategory =array_unique($profile->lists('category_name'));
-        return [$bu,$profile,$menuCategory];
+        return [$bu,$profile,$menuCategory,$cityArea];
     }
 
     /**

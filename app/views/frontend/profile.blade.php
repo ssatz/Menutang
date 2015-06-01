@@ -116,18 +116,14 @@
                         Other Locations <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
+                        @foreach($cityarea as $area)
                         <li>
-                            <a href="#">Mumbai</a>
+                            <a href="{{action('FrontEndController@searchBU',[$businessdetails->address->city->city_description,$area->area])}}">
+                                {{ucfirst($area->area)}}
+                            </a>
                         </li>
-                        <li>
-                            <a href="#">Delhi, NCR</a>
-                        </li>
-                        <li>
-                            <a href="#">Chennai</a>
-                        </li>
-                        <li>
-                            <a href="#">Bangalore</a>
-                        </li>
+                        @endforeach
+
                         <li class="divider"></li>
                         <li><a href="{{action('FrontEndController@index')}}">Back to Homepage</a>
                         </li>

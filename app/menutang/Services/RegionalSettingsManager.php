@@ -44,10 +44,19 @@ class RegionalSettingsManager
      */
     protected $deliveryArea;
 
+    /**
+     * @var IManageStateRepository
+     */
     protected $state;
 
+    /**
+     * @var CityValidator
+     */
     protected $cityValidation;
 
+    /**
+     * @var DeliveryAreaValidator
+     */
     protected $deliveryAreaValidator;
 
     /**
@@ -143,6 +152,10 @@ class RegionalSettingsManager
         return false;
     }
 
+    /**
+     * @param array $input
+     * @return bool
+     */
     public function addDeliveryArea(array $input)
     {
         $this->deliveryAreaValidator->with($input);
@@ -176,6 +189,9 @@ class RegionalSettingsManager
         return $this->deliveryArea->getAllPaginate($pagination);
     }
 
+    /**
+     * @return mixed
+     */
     public function getState()
     {
         return $this->state->getAllState();

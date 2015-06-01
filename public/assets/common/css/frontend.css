@@ -1010,3 +1010,7 @@ footer ul.list-inline {
     height: 87px;
     width: 196px;
 }
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color: #f15725;
+    color:#ffffff;
+}
