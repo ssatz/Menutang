@@ -53,6 +53,21 @@ class MenuCategoryRepository extends BaseRepository implements IMenuCategoryRepo
     }
 
     /**
+     * @param $id
+     * @return mixed
+     */
+    public function getCategoryByBusinessId($id){
+        $key = md5('getCategoryByBusinessId'.$id);
+        if ($this->cache->has($key)) {
+            return $this->cache->get($key);
+        }
+        $categoryByBuId =$this->model->wherehas('menuItem',function($query) use($id) {
+            $query->where('business_info_id', '=',(int)$id);
+        })->select('category_name','id')->orderBy('category_name')->get();
+        $this->cache->put($key, $categoryByBuId);
+        return $categoryByBuId;
+    }
+    /**
      * @param $businessId
      * @return mixed
      */

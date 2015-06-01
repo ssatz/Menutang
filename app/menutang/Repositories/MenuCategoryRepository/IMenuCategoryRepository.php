@@ -16,4 +16,5 @@ interface IMenuCategoryRepository
     public function getLastInsertedItem();
     public function findByProfile($businessId);
     public function findOrCreate($categoryName);
+    public function getCategoryByBusinessId($id);
 }

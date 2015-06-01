@@ -227,7 +227,7 @@ class ManageBusinessController extends BaseController
                 ->withTitle('Edit MenuItems')
                                     ->withTimecategory($time)
                                     ->withWeekdays($weekdays)
-                                    ->withCategories($this->manage->getAllMenuCategory())
+                                    ->withCategories($this->manage->getCategoryBySlug($slug))
                                     ->withMenus($menuItem);
         }
         $categoryId = $this->request->input('menu_category');
@@ -372,6 +372,10 @@ class ManageBusinessController extends BaseController
         return json_encode($cu);
     }
 
+    /**
+     * @param $slug
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function addOrUpdatePhotos($slug)
     {
         $this->manage->getPhotos($slug);

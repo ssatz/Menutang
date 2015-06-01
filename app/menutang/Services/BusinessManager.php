@@ -754,6 +754,14 @@ class BusinessManager
     }
 
     /**
+     * @param $slug
+     * @return mixed
+     */
+    public function getCategoryBySlug($slug){
+        $bu = $this->manageBusiness->findBusinessBySlug($slug);
+       return $this->manageCategory->getCategoryByBusinessId($bu->id);
+    }
+    /**
      * @param $id
      * @return mixed
      */
