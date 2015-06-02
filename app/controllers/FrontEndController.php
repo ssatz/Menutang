@@ -107,7 +107,9 @@ class FrontEndController extends BaseController  {
      */
     public function index()
     {
-        return $this->view->make('frontend.index');
+       $availableCities=$this->frontEndManager->getAvailableCities();
+        return $this->view->make('frontend.index')
+                            ->withAvailablecities($availableCities);
     }
 
 

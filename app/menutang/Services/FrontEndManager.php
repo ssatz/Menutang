@@ -15,6 +15,7 @@ use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use Repositories\MenuCategoryRepository\IMenuCategoryRepository;
 use Repositories\BusinessTypeRepository\IBusinessTypeRepository;
 use Repositories\ManageDeliveryAreaRepository\IManageDeliveryAreaRepository;
+use Repositories\ManageCityRepository\IManageCityRepository;
 
 
 class FrontEndManager {
@@ -33,7 +34,14 @@ class FrontEndManager {
      * @var IBusinessTypeRepository
      */
     protected $businessType;
+    /**
+     * @var IManageDeliveryAreaRepository
+     */
     protected $deliveryArea;
+    /**
+     * @var IManageCityRepository
+     */
+    protected $cityRepo;
 
     /**
      * @param IManageBusinessRepository $buManager
@@ -43,12 +51,14 @@ class FrontEndManager {
     public function __construct(IManageBusinessRepository $buManager,
                                 IMenuCategoryRepository $menuCategoryRepository,
                                 IManageDeliveryAreaRepository $deliveryArea,
+                                IManageCityRepository   $cityRepository  ,
                                 IBusinessTypeRepository $businessTypeRepository)
     {
         $this->buManager = $buManager;
         $this->menuCategory = $menuCategoryRepository;
         $this->businessType = $businessTypeRepository;
         $this->deliveryArea = $deliveryArea;
+        $this->cityRepo = $cityRepository;
     }
 
     /**
@@ -102,5 +112,12 @@ class FrontEndManager {
     public function getAllBusinessTypes()
     {
         return $this->businessType->getAllTypes();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAvailableCities(){
+        return $this->cityRepo->getAllCityWithBusiness();
     }
 }

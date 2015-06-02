@@ -296,7 +296,7 @@ use Illuminate\Support\Facades\Auth;
         <div class="row">
 
             <div class="col-lg-12 text-center">
-                <h2 class="section-header">Popular Locations</h2>
+                <h2 class="section-header">Available Locations</h2>
                 <hr class="double primary">
             </div>
 
@@ -304,66 +304,26 @@ use Illuminate\Support\Facades\Auth;
         <!-- /.row -->
 
         <div class="row text-center">
-
-            <div class="col-md-3">
-                <ul class="list-unstyled list-muted">
-                    <li>
-                        <a href="#">Connaught Place (231)</a>
-                    </li>
-                    <li>
-                        <a href="#">Vasant Kunj (187)</a>
-                    </li>
-                    <li>
-                        <a href="#">Greater Kailash (GK) 2 (87)</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="col-md-3">
-                <ul class="list-unstyled list-muted">
-                    <li>
-                        <a href="#">Hauz Khas Village (63)</a>
-                    </li>
-                    <li>
-                        <a href="#">Sector 18, Noida (113)</a>
-                    </li>
-                    <li>
-                        <a href="#">Chanakyapuri (69)</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="col-md-3">
-                <ul class="list-unstyled list-muted">
-                    <li>
-                        <a href="#">Saket (220)</a>
-                    </li>
-                    <li>
-                        <a href="#">MG Road, Gurgaon (118)</a>
-                    </li>
-                    <li>
-                        <a href="#">Greater Kailash (GK) 1 (86)</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="col-md-3">
-                <ul class="list-unstyled list-muted">
-                    <li>
-                        <a href="#">DLF Cyber City (101)</a>
-                    </li>
-                    <li>
-                        <a href="#">Dwarka (258)</a>
-                    </li>
-                    <li>
-                        <a href="#">DLF Phase 4 (104)</a>
-                    </li>
-                </ul>
-            </div>
+            {? $i = 0 ?}
+            @foreach($availablecities as $city)
+               @if($i %3 == 0)
+                <div class="col-md-3">
+                    <ul class="list-unstyled list-muted">
+                        @endif
+                        <li>
+                            <a href="{{action('FrontEndController@searchBU',[$city->city_description])}}">
+                                {{$city->city_description}} ({{$city->count}})</a>
+                        </li>
+                        @if($i %3 != 0)
+                    </ul>
+                </div>
+                @endif
+                {? $i++ ?}
+            @endforeach
 
         </div>
         <!-- /.row -->
-
+        <!--
         <div class="row">
 
             <div class="col-lg-12">
@@ -372,7 +332,7 @@ use Illuminate\Support\Facades\Auth;
                 </p>
             </div>
 
-        </div>
+        </div> -->
         <!-- /.row -->
 
     </div>

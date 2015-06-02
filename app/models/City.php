@@ -16,6 +16,9 @@ class City extends Eloquent
      * @var string
      */
     protected $table = 'city';
+    /**
+     * @var array
+     */
     protected $guarded = ['id'];
 
     /**
@@ -33,6 +36,13 @@ class City extends Eloquent
         return $this->hasMany('DeliveryArea');
     }
 
+    /**
+     * @return mixed
+     */
+    public function address()
+    {
+        return $this->hasMany('BusinessAddress');
+    }
     /*
         public function getCityStatusAttribute($value)
         {

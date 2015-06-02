@@ -12,8 +12,10 @@ namespace Repositories\ManageCityRepository;
 
 
 use City;
+use Illuminate\Support\Facades\Cache;
 use Repositories\BaseRepository;
 use Services\Cache\ICacheService;
+use Illuminate\Support\Facades\DB;
 
 class ManageCityRepository extends BaseRepository implements IManageCityRepository
 {
@@ -52,4 +54,15 @@ class ManageCityRepository extends BaseRepository implements IManageCityReposito
         return;
     }
 
+    public function getAllCityWithBusiness()
+    {
+        $key = md5(__METHOD__);
+        if ($this->cache->has($key)) {
+            return $this->cache->get($key);
+        }
+        $city = $this->model->join('business_address','city.id','=','business_address.city_id')
+                            ->select(DB::raw('count(*) as count,city.city_description'))->groupBy('city_id')->get();
+        $this->cache->put($key, $city);
+        return $city;
+    }
 }

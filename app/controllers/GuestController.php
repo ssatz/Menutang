@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Translation\Translator;
 use Services\UserAuth;
+use Services\FrontEndManager;
 
 class GuestController extends BaseController
 {
@@ -28,6 +29,7 @@ class GuestController extends BaseController
      * @var Redirector
      */
     protected $redirector;
+    protected $frontEndManager;
     /**
      * @var Translator
      */
@@ -37,6 +39,9 @@ class GuestController extends BaseController
      */
     protected $view;
 
+    /**
+     * @var UserAuth
+     */
     protected $userAuth;
 
     /**
@@ -47,6 +52,7 @@ class GuestController extends BaseController
      */
     public function __construct(Request $request,
                                 Redirector $redirector,
+                                FrontEndManager $frontEndManager,
                                 Translator $translator,
                                 UserAuth $auth,
                                 Application $app)
@@ -56,6 +62,7 @@ class GuestController extends BaseController
         $this->redirector = $redirector;
         $this->translator = $translator;
         $this->userAuth = $auth;
+        $this->frontEndManager=$frontEndManager;
         $this->view = $this->app->make('view');
     }
 
@@ -65,7 +72,9 @@ class GuestController extends BaseController
      */
     public function aboutUs()
     {
-            return $this->view->make('frontend.about');
+            $availableCities=$this->frontEndManager->getAvailableCities();
+            return $this->view->make('frontend.about')
+               ->withAvailablecities($availableCities);
     }
 
     /**
@@ -73,8 +82,9 @@ class GuestController extends BaseController
      */
     public function faq()
     {
-
-        return $this->view->make('frontend.faq');
+        $availableCities=$this->frontEndManager->getAvailableCities();
+        return $this->view->make('frontend.faq')
+            ->withAvailablecities($availableCities);
     }
 
     /**
