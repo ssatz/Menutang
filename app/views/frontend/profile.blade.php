@@ -118,7 +118,8 @@
                     <ul class="dropdown-menu" role="menu">
                         @foreach($cityarea as $area)
                         <li>
-                            <a href="{{action('FrontEndController@searchBU',[$businessdetails->address->city->city_description,replacespace($area->area)])}}">
+                            <?php $areaSlug = str_replace(' ','-',$area->area); ?>
+                            <a href="{{action('FrontEndController@searchBU',[$businessdetails->address->city->city_description,$areaSlug])}}">
                                 {{ucfirst($area->area)}}
                             </a>
                         </li>
