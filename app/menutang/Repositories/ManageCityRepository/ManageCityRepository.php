@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Cache;
 use Repositories\BaseRepository;
 use Services\Cache\ICacheService;
 use Illuminate\Support\Facades\DB;
+use Services\StatusEnum;
 
 class ManageCityRepository extends BaseRepository implements IManageCityRepository
 {
@@ -61,6 +62,8 @@ class ManageCityRepository extends BaseRepository implements IManageCityReposito
             return $this->cache->get($key);
         }
         $city = $this->model->join('business_address','city.id','=','business_address.city_id')
+                            ->join('business_info','business_address.business_info_id','=','business_info.id')
+                            ->where('business_info.status_id','=',StatusEnum::ACTIVE)
                             ->select(DB::raw('count(*) as count,city.city_description'))->groupBy('city_id')->get();
         $this->cache->put($key, $city);
         return $city;

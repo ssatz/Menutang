@@ -314,16 +314,16 @@ use Illuminate\Support\Facades\Auth;
                             <a href="{{action('FrontEndController@searchBU',[$city->city_description])}}">
                                 {{$city->city_description}} ({{$city->count}})</a>
                         </li>
-                        @if($i %3 != 0)
+                        {? $i++ ?}
+                        @if($i %3 == 0 && $i!=0)
                     </ul>
                 </div>
                 @endif
-                {? $i++ ?}
             @endforeach
 
         </div>
         <!-- /.row -->
-        <!--
+
         <div class="row">
 
             <div class="col-lg-12">
@@ -332,7 +332,7 @@ use Illuminate\Support\Facades\Auth;
                 </p>
             </div>
 
-        </div> -->
+        </div>
         <!-- /.row -->
 
     </div>
