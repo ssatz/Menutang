@@ -11,30 +11,28 @@ $all = SearchEnum::ALL();
 
                 <!-- Refine Header -->
                 <h4>Filter Results</h4>
-                <small><a href="#">Reset</a></small>
+                <small><a href="#reset" id="reset-filter">Reset</a></small>
 
                 <hr>
 
-                <!-- Search by Type -->
-                <a href="javascript:void(0)" data-toggle="collapse" data-target="#type">
-                    <h5>Search by Type</h5>
+                <!-- Filter by Cuisine -->
+                <a href="javascript:void(0)" data-toggle="collapse" data-target="#cuisine">
+                    <h5>Select Cuisine</h5>
                 </a>
-
-                <div id="type" class="collapse in">
-                    <div class="radio">
+                <div id="cuisine" class="collapse in">
+                    <div class="checkbox">
                         <label>
-                            <input type="radio" name="buType"  value="{{$all}}"
-                                   @if(Input::get('buType')== $all || !Input::get('buType')) checked @endif>All
+                            <input type="checkbox" class="all-filter" name="cuisineType" @if(preg_match('/'.$all.'/i',Input::get('cuisineType')) || !Input::get('cuisineType')) checked @endif value="{{$all}}"> All
                         </label>
                     </div>
-                    @foreach($butype as $type)
-                    <div class="radio">
+                    @foreach($cuisinetype as $type)
+                    <div class="checkbox">
                         <label>
-                            <input type="radio" name="buType" id="type1" value="{{$type->business_code}}"
-                             @if(Input::get('buType')==$type->business_code) checked @endif   > {{$type->business_type}}
+                            <input type="checkbox" name="cuisineType" @if(preg_match('/'.$type->cuisine_code.'/',Input::get('cuisineType'))) checked @endif  value="{{$type->cuisine_code}}"> {{$type->cuisine_description}}
                         </label>
                     </div>
                     @endforeach
+                    <small><a href="#">+ More</a></small>
                 </div>
 
                 <hr>
@@ -47,7 +45,7 @@ $all = SearchEnum::ALL();
                 <div id="service" class="collapse in">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="serviceType" @if(Input::get('serviceType')==$all || !Input::get('serviceType')) checked @endif  value="{{$all}}"> All
+                            <input type="radio" class="all-filter" name="serviceType" @if(Input::get('serviceType')==$all || !Input::get('serviceType')) checked @endif  value="{{$all}}"> All
                         </label>
                     </div>
                     @foreach($servicetype as $key => $type)
@@ -61,28 +59,6 @@ $all = SearchEnum::ALL();
 
                 <hr>
 
-                <!-- Filter by Cuisine -->
-                <a href="javascript:void(0)" data-toggle="collapse" data-target="#cuisine">
-                    <h5>Select Cuisine</h5>
-                </a>
-                <div id="cuisine" class="collapse in">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="cuisineType" @if(preg_match('/'.$all.'/i',Input::get('cuisineType')) || !Input::get('cuisineType')) checked @endif value="{{$all}}"> All
-                        </label>
-                    </div>
-                    @foreach($cuisinetype as $type)
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="cuisineType" @if(preg_match('/'.$type->cuisine_code.'/',Input::get('cuisineType'))) checked @endif  value="{{$type->cuisine_code}}"> {{$type->cuisine_description}}
-                        </label>
-                     </div>
-                    @endforeach
-                    <small><a href="#">+ More</a></small>
-                </div>
-
-                <hr>
-
                 <!-- Filter by Payment Method -->
                 <a href="javascript:void(0)" data-toggle="collapse" data-target="#payment">
                     <h5>Payment Method</h5>
@@ -90,7 +66,7 @@ $all = SearchEnum::ALL();
                 <div id="payment" class="collapse @if(Input::get('paymentType')) in @endif">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="paymentType" @if(preg_match('/'.$all.'/i',Input::get('paymentType')) || !Input::get('paymentType'))
+                            <input type="checkbox" class="all-filter" name="paymentType" @if(preg_match('/'.$all.'/i',Input::get('paymentType')) || !Input::get('paymentType'))
                                    checked @endif  value="{{$all}}"> All
                         </label>
                     </div>
@@ -124,6 +100,11 @@ vars[hash[0]] = hash[1];
 return vars;
 }
 $(function() {
+    $("#reset-filter").click(function(e){
+        e.preventDefault();
+        var url=window.location.href.split("?")[0];
+        window.location.href =url;
+    });
     $("input[type='radio']").change(function() {
         var url=window.location.href,
         seperator = (url.indexOf("?")===-1)?"?":"";

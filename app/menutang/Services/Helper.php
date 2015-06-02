@@ -53,9 +53,25 @@ class Helper
         return $time->format($format);
     }
 
+    /**
+     * @param $data
+     * @return mixed
+     */
     public function replaceSpace($data)
     {
         return str_replace(' ', '-',ucfirst(strtolower($data)));
+    }
+
+    /**
+     * @param $string
+     * @return array
+     */
+    public function convertStrToArray($string)
+    {
+        $string =rtrim($string,',');
+        $string =ltrim($string,',');
+        $string=explode(',',$string);
+        return (array)$string;
     }
 
 }

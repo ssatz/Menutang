@@ -192,13 +192,14 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
             {
                 $q->where('city_description','=',$locality);
             });
-       })->whereHas('business',function($q)use($business,$cuisineType)
+       })->whereHas('cuisineType',function($q)use($cuisineType)
        {
-           if(is_null($business) || $business==SearchEnum::ALL()) {
+           if(is_null($cuisineType) || $cuisineType==SearchEnum::ALL()) {
               return $q;
            }
            else{
-               $q->where('business_code','=',$business);
+               $cuisineType= $this->helper->convertStrToArray($cuisineType);
+               $q->whereIn('cuisine_code',$cuisineType);
            }
 
        })->whereHas('payment',function($q)use($paymentType){
@@ -206,7 +207,8 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
                return $q;
            }
            else{
-              $q->whereIn('payment_code',[$paymentType]);
+              $paymentType = $this->helper->convertStrToArray($paymentType);
+              $q->whereIn('payment_code',$paymentType);
            }
         });
         if(!is_null($serviceType) && DeliveryOptionEnum::DELIVERY ==ucfirst(strtolower($serviceType)) ){
@@ -240,13 +242,14 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
         {
             $q->where('area','LIKE','%'.$area[0].'%');
         })
-            ->whereHas('business',function($q)use($business,$cuisineType)
+            ->whereHas('cuisineType',function($q)use($cuisineType)
             {
-                if(is_null($business) || $business==SearchEnum::ALL()) {
+                if(is_null($cuisineType) || $cuisineType==SearchEnum::ALL()) {
                     return $q;
                 }
                 else{
-                    $q->where('business_code','=',$business);
+                    $cuisineType= $this->helper->convertStrToArray($cuisineType);
+                    $q->whereIn('cuisine_code',$cuisineType);
                 }
 
             })->whereHas('payment',function($q)use($paymentType){
@@ -254,7 +257,8 @@ class ManageBusinessRepository extends BaseRepository implements IManageBusiness
                     return $q;
                 }
                 else{
-                    $q->whereIn('payment_code',[$paymentType]);
+                    $paymentType = $this->helper->convertStrToArray($paymentType);
+                    $q->whereIn('payment_code',$paymentType);
                 }
             });
         if(!is_null($serviceType) && DeliveryOptionEnum::DELIVERY ==ucfirst(strtolower($serviceType)) ){
