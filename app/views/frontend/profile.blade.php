@@ -687,6 +687,7 @@
 
 <!-- Jquery -->
 <script src="{{asset('assets/common/js/jquery-1.10.2.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 <!-- Bootstrap -->
 <script src="{{asset('assets/common/js/bootstrap.min.js')}}"></script>
@@ -713,6 +714,17 @@
             }
         }
     })
+
+    // Backstretch Image Slideshow for Homepage Header
+    $(".navbar-static-top").backstretch([
+        "{{asset('assets/common/img/header-bg-1.jpg')}}",
+        "{{asset('assets/common/img/header-bg-2.jpg')}}",
+        "{{asset('assets/common/img/header-bg-3.jpg')}}",
+        "{{asset('assets/common/img/header-bg-4.jpg')}}",
+    ], {
+        duration: 5000,
+        fade: 750
+    });
 </script>
 <!-- TouchSpin jQuery -->
 <script type="text/javascript">
