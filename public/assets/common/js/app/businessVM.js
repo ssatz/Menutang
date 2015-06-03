@@ -182,7 +182,7 @@ businessVM.avgDeliveryTime=ko.observable('').extend({ required: { onlyIf:functio
     if(businessVM.doorDelivery()=='true'){
         return true;
     }
-    businessVM.avgDeliveryTime(null);
+    businessVM.avgDeliveryTime=undefined;
 }
 },
     pattern: {
@@ -195,7 +195,7 @@ businessVM.minimumDeliveryAmount=ko.observable(0).extend({ required: { onlyIf: f
     {
         return true;
     }
-    businessVM.minimumDeliveryAmount(0);
+    businessVM.minimumDeliveryAmount=0
 } },
     pattern:{
         params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
@@ -241,7 +241,7 @@ businessVM.minimumRailDeliveryAmount=ko.observable(0).extend({ required: { onlyI
     {
         return true;
     }
-    businessVM.minimumRailDeliveryAmount(0);
+    businessVM.minimumRailDeliveryAmount=0;
 } },
     pattern:{
         params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
@@ -253,7 +253,7 @@ businessVM.minimumPickupAmount=ko.observable(0).extend({ required: { onlyIf: fun
     {
         return true;
     }
-    businessVM.minimumPickupAmount(0);
+    businessVM.minimumPickupAmount=0;
 } },
     pattern:{
     params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',

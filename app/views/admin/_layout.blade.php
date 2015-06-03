@@ -93,7 +93,7 @@
 	<script src='{{asset('assets/common/js/jquery.sparkline.min.js')}}'></script>
 
 	<!-- Pace -->
-	<script src='{{asset('assets/common/js/uncompressed/pace.js')}}'></script>
+	<script src='{{asset('assets/common/js/pace.min.js')}}'></script>
 
 	<!-- Popup Overlay -->
 	<script src='{{asset('assets/common/js/jquery.popupoverlay.min.js')}}'></script>
