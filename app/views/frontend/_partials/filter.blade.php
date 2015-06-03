@@ -25,14 +25,16 @@ $all = SearchEnum::ALL();
                             <input type="checkbox" class="all-filter" name="cuisineType" @if(preg_match('/'.$all.'/i',Input::get('cuisineType')) || !Input::get('cuisineType')) checked @endif value="{{$all}}"> All
                         </label>
                     </div>
+                    {? $i =0 ?}
                     @foreach($cuisinetype as $type)
-                    <div class="checkbox">
+                    <div class="checkbox @if($i>=4) filter-slide displayNone @endif">
                         <label>
                             <input type="checkbox" name="cuisineType" @if(preg_match('/'.$type->cuisine_code.'/',Input::get('cuisineType'))) checked @endif  value="{{$type->cuisine_code}}"> {{$type->cuisine_description}}
                         </label>
                     </div>
+                    {? $i++ ?}
                     @endforeach
-                    <small><a href="#">+ More</a></small>
+                    <small><a href="#more" id="cuisine-more">+ More</a></small>
                 </div>
 
                 <hr>
@@ -100,6 +102,20 @@ vars[hash[0]] = hash[1];
 return vars;
 }
 $(function() {
+
+    $("#cuisine-more").click(function(e){
+        e.preventDefault();
+        var self= $(this);
+        $(this).parents("#cuisine").find(".filter-slide").stop(true).slideToggle('slow',function(){
+            if(self.parents("#cuisine").find(".filter-slide").is(':visible')){
+                self.text('- less');
+            }
+            else {
+                self.text('+ more');
+            }
+        });
+
+    });
     $("#reset-filter").click(function(e){
         e.preventDefault();
         var url=window.location.href.split("?")[0];
