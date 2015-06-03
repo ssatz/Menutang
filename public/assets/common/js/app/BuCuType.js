@@ -9,7 +9,10 @@ var addbuType= function()
     {
         params:'^[A-Z]*$',
         message:'Should be in Capital Letter'
-    }});
+    },
+     minLength: 3 ,
+     maxLength: 3
+    });
     self.buDescription =ko.observable().extend({required:true});
     self.errors= ko.validation.group(self);
     self.submit = function()
@@ -31,7 +34,10 @@ var addcuType =function()
     {
         params:'^[A-Z]*$',
         message:'Should be in Capital Letter'
-    }});
+    },
+        minLength: 3 ,
+        maxLength: 3
+    });
     self.cuDescription =ko.observable().extend({required:true});
     self.errors= ko.validation.group(self);
     self.submit = function()
