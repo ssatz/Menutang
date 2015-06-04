@@ -42,6 +42,7 @@ use Repositories\ManageHolidayRepository\IManageHolidayRepository;
 use Services\Helper;
 use Illuminate\Filesystem\Filesystem;
 use Intervention\Image\ImageManager;
+use Services\Validations\PaymentTypeValidator;
 
 
 class BusinessManager
@@ -172,6 +173,7 @@ class BusinessManager
      * @var Helper
      */
     protected $helper;
+    protected $paymentTypeValidator;
     /**
      * @param IManageBusinessRepository $manageBusiness
      * @param ICacheService $cacheService
@@ -211,6 +213,7 @@ class BusinessManager
                                 Filesystem $filesystem,
                                 ImageManager $imageManager,
                                 Helper $helper,
+                                PaymentTypeValidator $paymentTypeValidator,
                                 Excel $excel)
     {
         $this->manageBusiness = $manageBusiness;
@@ -239,6 +242,7 @@ class BusinessManager
         $this->helper=$helper;
         $this->file= $filesystem;
         $this->imageHelper = $imageManager;
+        $this->paymentTypeValidator = $paymentTypeValidator;
     }
 
     /**
@@ -534,6 +538,22 @@ class BusinessManager
             return true;
         }
         $this->errors= $this->cuisineTypeValidator->getErrors();
+        return false;
+    }
+
+    public function addOrUpdatePaymentType(array $data){
+        $this->paymentTypeValidator->excludeId=$data['id'];
+        $this->paymentTypeValidator->with($data);
+        if($this->paymentTypeValidator->passes()) {
+            if ($data['id'] > 0) {
+                $this->managePayments->update($data, $data['id']);
+                return true;
+            }
+            unset($data['id']);
+            $this->managePayments->create($data);
+            return true;
+        }
+        $this->errors= $this->paymentTypeValidator->getErrors();
         return false;
     }
 

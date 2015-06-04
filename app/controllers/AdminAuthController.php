@@ -253,6 +253,24 @@ class AdminAuthController extends BaseController
             return $this->response->json($type,200,[],JSON_NUMERIC_CHECK);
         }
     }
+
+    /**
+     * Add or Update Payments
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function paymentTypeSettings(){
+        if($this->request->ajax()){
+            if($this->request->isMethod('POST')) {
+                $data =json_decode($this->request->get('data'),true);
+                if(!$this->manage->addOrUpdatePaymentType($data)){
+                    $error['error']=$this->manage->errors;
+                    return $this->response->json($error);
+                }
+            }
+            $paymentType = $this->manage->getAllPayments();
+            return $this->response->json($paymentType,200,[],JSON_NUMERIC_CHECK);
+        }
+    }
 }
 
 

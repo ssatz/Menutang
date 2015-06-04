@@ -15,7 +15,7 @@ class Payment extends Eloquent
     /**
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = ['payment_code','payment_description'];
     /**
      * @var string
      */
