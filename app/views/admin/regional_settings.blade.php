@@ -1,134 +1,83 @@
 @extends('admin._layout')
-
 @section('content')
-<div id="panels">
-<div class="panel panel-primary panel-center">
+<div class="panel panel-primary panel-center" id="city-panel">
     <div class="panel-heading">
-        Regional Settings
+        City Settings
         <i class="fa fa-2x fa-chevron-circle-down pull-right" data-bind="click:panelToggle"></i>
     </div>
     <div class="panel-body displayNone">
-        {{ Form::open(['route' =>'admin.regionalsettings.add', 'method'
-        =>'POST','class'=>'form-horizontal']) }}
-            <div class="padding-md clearfix">
-                <div class="row">
-                    <div class="col-lg-4">
-                        @if(Session::has("message"))
-                        <div class="alert alert-success">{{Session::get("message")}}</div>
-                        @endif
-                        @if($errors->has())
-                        <div class="alert alert-danger">
-                            @foreach ($errors->all() as $error)
-                            <p>{{ $error }}</p>
-                            @endforeach
-                        </div>
-                        @endif
+        <table class="table table-responsive" id="holiday">
+            <thead>
+            <tr>
+                <th>City Description</th>
+                <th>City Code</th>
+                <th>State</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody data-bind="template:{name:templateToUse, foreach: pagedList}">
+            </tbody>
+            <tfoot>
+            <tr>
+                <td>
+                    <div>
+                        <ul class="pagination"><li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: previousPage">Previous</a></li></ul>
+                        <ul class="pagination" data-bind="foreach: allPages">
+                            <li data-bind="css: { active: $data.pageNumber === ($root.pageIndex() + 1) }"><a href="#" data-bind="text: $data.pageNumber, click: function() { $root.moveToPage($data.pageNumber-1); }"></a></li>
+                        </ul>
+                        <ul class="pagination"><li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: nextPage">Next</a></li></ul>
                     </div>
-                </div>
-                <table class="table table-responsive">
-                    <tbody>
-                   <tr>
-                        <td><input type="text" class="form-control input-sm" id="city" name="city_description" placeholder="Type City">
-                            <input type="hidden" name="city_code" value="" id="city_code">
-                        </td>
-                        <td><select class="form-control chzn-select"  name="state" id="state" data-required="true">
-                                <option value="">-- select --</option>
-                                @foreach($states as $state)
-                                <option value="{{$state->id}}">{{$state->state_description}}</option>
-                                @endforeach
-                            </select></td>
-                        <td><button class="btn btn-success"> Add</button></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        {{Form::close()}}
-        {{ Form::open(['route' =>'admin.regionalsettings', 'method'
-        =>'POST','class'=>'form-horizontal']) }}
-            <div class="padding-md clearfix">
-                <table class="table table-responsive">
-                    <thead>
-                    <th>City Code</th>
-                    <th>City Description</th>
-                    <th>State</th>
-                    <th>Country</th>
-                    <th>Status</th>
-                    </thead>
-                    <tbody>
-                    @foreach($citydetails as $city)
-                        <tr id="id-{{$city->id}}">
-                        <td>{{$city->city_code}} </td>
-                        <td>{{$city->city_description}} </td>
-                        <td>{{$city->state->state_description}} </td>
-                        <td>{{$city->state->country->country_description}} </td>
-                            <td><input type="checkbox" class="city-status" data-on-text="Active" data-off-text="InActive"
-                                       name="city_status" @if($city->city_status) checked @endif>
-                            </td>
-                    </tr>
-                    @endforeach
-                    </tbody>
+                    <a class="btn btn-primary btn-success" href="#add" data-bind="click:$root.add" title="Add"><i class="icon-plus"></i> Add City</a>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+        <script id="itemsTmpl" type="text/html">
+            <tr>
+                <td data-bind="text: city_description"></td>
+                <td data-bind="text: city_code"></td>
+                <td>
+                    <select disabled class="form-control input-sm" data-bind="options:$root.stateItems,optionsText:'state_description',optionsValue: 'id',value:state_id,chosen"   required></select>
+                </td>
+                <!--ko if:city_status()==1 -->
+                <td><span class="badge badge-success">Active</span></td>
+                <!--/ko-->
+                <!--ko if:city_status()==0 -->
+                <td><span class="badge badge-warning">InActive</span></td>
+                <!--/ko-->
+                <td class="buttons">
+                    <a class="btn btn-info" data-bind="click: $root.selectItem" href="#" title="edit">Edit</a>
+                </td>
+            </tr>
+        </script>
 
-                </table>
-          {{Form::close()}}
-
-            </div>
-        </div>
-</div>
-<div class="panel panel-primary panel-center">
-    <div class="panel-heading">
-        Business Type & Cuisine Type
-        <i class="fa fa-2x fa-chevron-circle-down pull-right" data-bind="click:panelToggle"></i>
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-lg-8">
-                <table class="table table-responsive">
-                    <thead>
-                    <tr>
-                        <th class="badge-info">Code</th>
-                        <th class="badge-info">Description</th>
-                        <th><button class="btn btn-sm btn-success" data-bind="click:$root.addEdit">Add Business Type</button></th>
-                    </tr>
-                    </thead>
-                    <tbody data-bind=" foreach: businessType.currentPageData">
-                    <tr>
-                        <td>
-                            <input class="form-control input-sm" data-bind="value:business_code,visible:$root.isEdit($data)"/>
-                            <label data-bind="text:business_code,visible:!$root.isEdit($data)"></label>
-                        </td>
-                        <td>
-                            <input class="form-control input-sm" data-bind="value:business_type,visible:$root.isEdit($data)"/>
-                            <label data-bind="text:business_type,visible:!$root.isEdit($data)"></label>
-                        </td>
-                        <td>
-                            <button class="btn btn-info" data-bind="click:$root.editItem,visible:!$root.isEdit($data)">Edit</button>
-                            <button class="btn btn-success" data-bind="click:$root.applyEdit,visible:$root.isEdit($data)">Apply</button>
-                            <button class="btn btn-danger" data-bind="click:$root.cancelEdit,visible:$root.isEdit($data)">Cancel</button>
-                        </td>
-                    </tr>
-                    <tfoot>
-                    <tr>
-                        <td>  <a href="#" class="btn btn-info" data-bind="click: businessType.moveFirst">First</a>
-                         <a href="#"  class="btn btn-info"  data-bind="click: businessType.movePrevious">Previous</a>
-                         <a href="#"  class="btn btn-info"  data-bind="click: businessType.moveNext">Next</a>
-                         <a href="#"  class="btn btn-info" data-bind="click: businessType.moveLast">Last</a></td>
-                    </tr>
-                    </tfoot>
-                    </tbody>
-                </table>
-
-            </div>
-            <div class="col-lg-4">
-                <div class="form-group" style="width: 200px;">
-                    <label for="businessType">Business Type</label>
-                    <select  data-bind="options:businessType,optionsText:'business_type',optionsValue:'id',optionsCaption: 'Choose...',value:selectedBusinessType,chosen" tabindex="3">
+        <script id="editTmpl" type="text/html">
+            <tr data-bind="with:$parent.itemForEditing">
+                <td>
+                    <input class="form-control input-sm" data-bind="placeaddressAutocomplete:city_description,states:$root.stateItems"  required/>
+                    <p data-bind="validationMessage: city_description" class="validationMessage"></p>
+                </td>
+                <td>
+                    <input class="form-control input-sm" data-bind="value:city_code"  required/>
+                    <p data-bind="validationMessage: city_code" class="validationMessage"></p>
+                </td>
+                <td>
+                    <select class="form-control input-sm" data-bind="options:$root.stateItems,value:state_id,optionsText:'state_description',optionsValue: 'id',chosen"  required>
                     </select>
-                    <p class="validationMessage" data-bind="validationMessage: businessType"></p>
-                </div>
-            </div>
-        </div>
+                    <p data-bind="validationMessage: state_id" class="validationMessage"></p>
+                </td>
+                <td>
+                    <input type="checkbox" class="form-control input-sm" data-bind="bootstrapSwitch:city_status"  required/>
+                    <p data-bind="validationMessage: city_status" class="validationMessage"></p>
+                </td>
+                <td>
+                    <a class="btn btn-success" data-bind="click: $root.acceptItem" href="#" title="save">Save</a>
+                    <a class="btn btn-warning" data-bind="click: $root.revertItem" href="#" title="cancel">Cancel</a>
+                </td>
+            </tr>
+        </script>
     </div>
-</div>
 </div>
 @endsection
 
@@ -140,6 +89,7 @@
 @endsection
 
 @section('scripts')
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places"></script>
 <script src="{{asset('assets/common/js/knockout.min-3.3.0.js')}}"></script>
 <script src="{{asset('assets/common/js/knockout.validation.min.js')}}"></script>
 <script src="{{asset('assets/common/js/knockout.mapping.min.js')}}"></script>
@@ -148,87 +98,33 @@
 <script src="{{asset('assets/common/js/jquery.gritter.min.js')}}"></script>
 <script src="{{asset('assets/common/js/app/knockout.bindings.js')}}"></script>
 <script src="{{asset('assets/common/js/app/settingsVM.js')}}"></script>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places"></script>
+<script src="{{asset('assets/common/js/app/cityVM.js')}}"></script>
 <script>
-    $(document).ready(function(){
-    $.getJSON("{{action('AdminAuthController@regionalSettings')}}", null, function (data) {
-        ko.utils.arrayForEach(data.businessType,function(item){
-            viewModel.businessType.push(new businessType(item));
+    function getCity(object){
+        $.getJSON("{{action('AdminAuthController@citySettings')}}", null, function (data) {
+            object.cityItems(ko.utils.arrayMap(data.cities, function(data) {
+                return new City(data);
+            }));
+            object.stateItems(data.states);
         });
-
-    });
-    $(".table-responsive").find(".city-status").bootstrapSwitch({
-        'onColor': 'success',
-        'offColor': 'danger',
-        'size': 'small'
-    });
-
-    $(".table-responsive").on('switchChange.bootstrapSwitch', '.city-status', function (event, state) {
-        var $data = {
-            city_status: state,
-            _token: '{{Session::get('_token')}}',
-            id: $(this).closest('tr').prop('id').split('-')[1]
-        }
-        ajax('{{action('AdminAuthController@updateCityStatus')}}', 'POST', $data, 'json', function (msg) {
-
-            if (msg == 'false') {
-                notification('Notification', msg[0].category_name, 'gritter-danger');
-
+    }
+    function postCity(data,object){
+        $.post('{{action('AdminAuthController@citySettings')}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
+            if(data.error){
+                object.isErrorAjax(true);
+                var error='';
+                $.each(data.error,function(element,item){
+                    error = error +'<br/>'+ item;
+                })
+                notification('Error',error,'gritter-success');
+                return;
             }
-            else {
-                notification('Notification', 'City Status changed successfully', 'gritter-success');
-            }
-        }
-        )
-        ;
-    });
-
-    var autocomplete = new google.maps.places.Autocomplete($("#city")[0], {
-        componentRestrictions: {country: "in"},
-         types: ['(cities)']
-    });
-
-    google.maps.event.addListener(autocomplete, 'place_changed', function() {
-        var place = autocomplete.getPlace();
-        var $token = '{{ Session::token() }}';
-        var name =  place.address_components[0].short_name;
-        var $locality ;
-        var $region;
-        var $html = $.parseHTML((place.adr_address).replace(/,/g , ""));
-        $.each( $html, function( i, el ) {
-            if($(el).hasClass('locality')){
-                $locality = $(el).html();
-            }
-            if($(el).hasClass('region')){
-                $region = $(el).html();
-            }
-        });
-        $("#city").val($locality);
-        $("#city_code").val(name);
-        $("#state option").filter(function(){
-            return $.trim($(this).text()) == $region
-        }).prop('selected', true);
-    });
-
-    });
-    function postTypes(data,koObject)
-    {
-        $.post('{{action('AdminAuthController@addUpdateType')}}',{data:data,_token: '{{Session::get('_token')}}'}, function( data ) {
-        if(data!=true)
-        {
-            var error='';
-            $.each(data,function(key,value)
-            {
-                error = error+'<br/>'+value
-            });
-            notification('Error',error,'gritter-danger');
-            koObject.flag(false);
-            return;
-        }
-        notification('Success','Hurray!Business Type Created','gritter-success');
-        koObject.flag(true);
-        return;
-    }, 'json');
+            object.cityItems(ko.utils.arrayMap(data.cities, function(data) {
+                return new City(data);
+            }));
+            object.stateItems(data.states);
+            notification('Success','Hurray!City Added','gritter-success');
+        }, 'json');
     }
 </script>
 @endsection

@@ -138,56 +138,34 @@ class AdminAuthController extends BaseController
      */
     public function regionalSettings()
     {
-        if($this->request->ajax()){
-            if($this->request->isMethod('GET')){
-                    $data=[
-                        'cuisineType'=>$this->manage->getAllCuisineType(),
-                        'businessType'=>$this->manage->getAllBusinessType()
-                    ];
-                    return $this->response->json($data);
-            }
-        }
-        $cityDetails = $this->regionalSettings->getCityRelations();
-        $states = $this->regionalSettings->getState();
         return $this->view->make('admin.regional_settings')
-            ->withCitydetails($cityDetails)
-            ->withTitle('Regional Settings')
-            ->withStates($states);
+            ->withTitle('Regional Settings');
     }
 
     /**
-     *Ajax method
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function updateCityStatus()
-    {
-        if ($this->request->ajax() && $this->request->isMethod('POST')) {
-            if ($this->regionalSettings->updateCityStatus($this->request->all())) {
-                return $this->response->json('true');
+    public function citySettings(){
+        if($this->request->ajax()){
+            if($this->request->isMethod('POST')) {
+                $data = json_decode($this->request->get('data'),true);
+                if(!$this->regionalSettings->addOrUpdateCity($data)){
+                    $error['error']=$this->regionalSettings->errors;
+                    return $this->response->json($error);
+                }
             }
-            return $this->response->json('false');
+            $state = [
+                'id'=>-1,
+                'state_description'=>'--select--'
+            ];
+            $data=[
+                'cities' => $this->regionalSettings->getCityRelations(),
+                'states' => $this->regionalSettings->getState()
+            ];
+            $data['states'][]=$state;
+            return $this->response->json($data);
         }
     }
-
-    /**
-     * @return $this
-     */
-    public function addCity()
-    {
-       $input = [
-           'state_id'=>trim($this->request->get('state')),
-           'city_code'=>trim($this->request->get('city_code')),
-           'city_description'=>trim(ucfirst($this->request->get('city_description'))),
-           'city_status'=>false,
-           'created_at'=>$this->dateTime->now(),
-           'updated_at'=>$this->dateTime->now()
-       ];
-        if($this->regionalSettings->insertCity($input))
-        {
-            return $this->redirect->back()->withMessage('City Update Successfully');
-        }
-        return $this->redirect->back()->withErrors($this->regionalSettings->errors);
-    }
-
     /**
      * @return mixed
      * @route delivery-area

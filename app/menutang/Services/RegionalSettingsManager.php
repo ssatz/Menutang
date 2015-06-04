@@ -17,6 +17,7 @@ use Services\Validations\DeliveryAreaValidator;
 use Services\Validations\CityValidator;
 use GuzzleHttp;
 use Exception;
+use Carbon\Carbon;
 
 
 class RegionalSettingsManager
@@ -49,6 +50,7 @@ class RegionalSettingsManager
      */
     protected $state;
 
+    protected $dateTime;
     /**
      * @var CityValidator
      */
@@ -69,6 +71,7 @@ class RegionalSettingsManager
                                 DeliveryAreaValidator $deliveryAreaValidator,
                                 CityValidator $cityValidator,
                                 IManageStateRepository $stateRepository,
+                                Carbon $carbon,
                                 DatabaseManager $databaseManager)
     {
         $this->errors = [];
@@ -79,16 +82,32 @@ class RegionalSettingsManager
         $this->state = $stateRepository;
         $this->cityValidation = $cityValidator;
         $this->deliveryAreaValidator = $deliveryAreaValidator;
+        $this->dateTime=$carbon;
     }
 
     /**
      * @param array $input
      */
-    public function insertCity(array $input)
+    public function addOrUpdateCity(array $input)
     {
-        $this->cityValidation->with($input);
+        $data = [
+            'id'=>(int)$input['id'],
+            'state_id'=>trim($input['state_id']),
+            'city_code'=>trim($input['city_code']),
+            'city_description'=>trim(ucfirst($input['city_description'])),
+            'city_status'=>$input['city_status'],
+            'created_at'=>$this->dateTime->now(),
+            'updated_at'=>$this->dateTime->now()
+        ];
+        $this->cityValidation->excludeId=(int)$input['id'];
+        $this->cityValidation->with($data);
         if($this->cityValidation->passes()) {
-            $this->city->create($input);
+            if($data['id']==-1) {
+                unset($data['id']);
+                $this->city->create($data);
+                return true;
+            }
+            $this->city->update($data, $data['id']);
             return true;
         }
         $this->errors = $this->cityValidation->getErrors();
@@ -109,28 +128,6 @@ class RegionalSettingsManager
     public function getCity()
     {
         return $this->country->getCity();
-    }
-
-    /**
-     * @param array $input
-     * @return bool
-     * @throws Exception
-     */
-    public function updateCityStatus(array $input)
-    {
-        $this->db->beginTransaction();
-        try {
-            $id = $input['id'];
-            $city = [];
-            $city['city_status'] = $input['city_status'] == 'true' ? 1 : 0;
-            $this->city->update($city, $id);
-
-        } catch (Exception $e) {
-            $this->db->rollback();
-            throw new Exception($e->getMessage());
-        }
-        $this->db->commit();
-        return true;
     }
 
     /**

@@ -123,7 +123,7 @@ var settingsVM=function(){
     };
 }
 var viewModel = new settingsVM();
-ko.applyBindings(viewModel,$('#panels')[0]);
+//ko.applyBindings(viewModel,$('#panels')[0]);
 
 
 

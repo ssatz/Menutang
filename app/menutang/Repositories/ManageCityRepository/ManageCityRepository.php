@@ -47,10 +47,7 @@ class ManageCityRepository extends BaseRepository implements IManageCityReposito
 
     public function create(array $input)
     {
-        $key = md5($this->getObjectName() . '.State');
-        if ($this->cache->has($key)) {
-            $this->cache->remove($key);
-        }
+        $this->cache->flush(get_class($this->model));
         $this->model->create($input);
         return;
     }

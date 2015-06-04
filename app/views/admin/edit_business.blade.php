@@ -26,7 +26,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="businessType">Business Type<i class="validationMessage">*</i></label>
-                                <select class="buTypeSelect" data-bind="chosen,value:business_type_id" tabindex="2">
+                                <select class="buTypeSelect" data-bind="chosen,value:business_type_id
+                                " tabindex="2">
                                     <option value="-1">-- select --</option>
                                     @foreach($butypes as $buType)
                                     <option value="{{$buType->id}}">{{$buType->business_type}}
