@@ -163,7 +163,7 @@ class AdminAuthController extends BaseController
                 'states' => $this->regionalSettings->getState()
             ];
             $data['states'][]=$state;
-            return $this->response->json($data);
+            return $this->response->json($data,200,[],JSON_NUMERIC_CHECK);
         }
     }
     /**
