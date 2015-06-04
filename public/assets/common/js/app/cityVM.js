@@ -63,7 +63,11 @@ var City = function(data) {
     var self = this;
     self.id =ko.observable();
     self.state_id=ko.observable().extend({required:true,notEqual:-1});
-    self.city_code = ko.observable().extend({required:true});
+    self.city_code = ko.observable().extend({required:true,pattern:
+    {
+        params:'^[A-Z]*$',
+        message:'Should be in Capital Letter'
+    }});
     self.city_description=  ko.observable().extend({required: true});
     self.city_status = ko.observable();
     self.state = ko.observable();
@@ -77,7 +81,11 @@ City.prototype.update = function(data) {
     var self = this;
     self.id =ko.observable(data.id || -1);
     self.state_id=ko.observable(data.state_id).extend({required:true,notEqual:-1});
-    self.city_code = ko.observable(data.city_code).extend({required:true});
+    self.city_code = ko.observable(data.city_code).extend({required:true,pattern:
+    {
+        params:'^[A-Z]*$',
+        message:'Should be in Capital Letter'
+    }});
     self.city_description=  ko.observable(data.city_description).extend({required:true});
     self.city_status = ko.observable(data.city_status);
     self.state=ko.observable(data.state || undefined);
