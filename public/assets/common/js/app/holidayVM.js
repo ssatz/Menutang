@@ -71,11 +71,13 @@ var HolidayVM = function(items) {
       self.holidayItems.push(item) ;
         self.selectedItem(item);
         self.itemForEditing(new Holiday(ko.toJS(item)));
+        self.moveToPage(self.lastIndex().pageNumber-1);
     };
     self.remove=function(item){
         self.holidayItems.remove(item);
         postAjax(ko.toJSON(item),deleteHoliday,self);
     }
+
     self.pagedList = ko.computed(function () {
         var size = self.pageSize();
         var start = self.pageIndex() * size;
@@ -100,6 +102,9 @@ var HolidayVM = function(items) {
             pages.push({ pageNumber: (i + 1) });
         }
         return pages;
+    });
+    self.lastIndex =ko.computed(function(){
+        return self.allPages()[self.allPages().length-1];
     });
     self.moveToPage = function (index) {
         self.pageIndex(index);

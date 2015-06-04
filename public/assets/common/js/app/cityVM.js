@@ -127,6 +127,7 @@ var CityVM = function() {
             city_description:'',
             city_status:''
         });
+        self.moveToPage(self.lastIndex().pageNumber-1);
         self.cityItems.push(item) ;
         self.selectedItem(item);
         self.itemForEditing(new City(ko.toJS(item)));
@@ -155,6 +156,9 @@ var CityVM = function() {
             pages.push({ pageNumber: (i + 1) });
         }
         return pages;
+    });
+    self.lastIndex =ko.computed(function(){
+        return self.allPages()[self.allPages().length-1];
     });
     self.moveToPage = function (index) {
         self.pageIndex(index);
