@@ -86,7 +86,6 @@
     var addPhotos = '{{\Services\ActionEnum::ADD}}';
     var deletePhotos = '{{\Services\ActionEnum::DELETE}}';
 </script>
-<script src="{{asset('assets/common/js/jquery.blockUI.min.js')}}"></script>
 <script src="{{asset('assets/common/js/knockout.min-3.3.0.js')}}"></script>
 <script src="{{asset('assets/common/js/knockout.validation.min.js')}}"></script>
 <script src="{{asset('assets/common/js/knockout.mapping.min.js')}}"></script>
@@ -106,20 +105,6 @@
         } });
         $.getJSON("{{action('ManageBusinessController@addOrUpdatePhotos',[$slug])}}", null, function (data) {
             photosVM.image(data);
-        });
-        $(document).ajaxStart(function() {
-            $.blockUI({ css: {
-                border: 'none',
-                padding: '15px',
-                backgroundColor: '#000',
-                '-webkit-border-radius': '10px',
-                '-moz-border-radius': '10px',
-                opacity: .5,
-                color: '#fff'
-            } });
-        });
-        $(document).ajaxComplete(function() {
-            $.unblockUI();
         });
     });
     function postAjax(data,action){

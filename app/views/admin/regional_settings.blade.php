@@ -207,7 +207,7 @@
 </div>
 <div class="panel panel-primary panel-center" id="paymentType-panel">
     <div class="panel-heading">
-        Cuisine Type Settings
+        Payment Type Settings
         <i class="fa fa-2x fa-chevron-circle-down pull-right" data-bind="click:panelToggle"></i>
     </div>
     <div class="panel-body displayNone">
@@ -279,7 +279,6 @@
 <script src="{{asset('assets/common/js/knockout.validation.min.js')}}"></script>
 <script src="{{asset('assets/common/js/knockout.mapping.min.js')}}"></script>
 <script src="{{asset('assets/common/js/bootstrap-switch.min.js')}}"></script>
-<script src="{{asset('assets/common/js/jquery.blockUI.min.js')}}"></script>
 <script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
 <script src="{{asset('assets/common/js/jquery.gritter.min.js')}}"></script>
 <script src="{{asset('assets/common/js/app/knockout.bindings.js')}}"></script>
@@ -289,16 +288,6 @@
 <script src="{{asset('assets/common/js/app/cuisineType.js')}}"></script>
 <script src="{{asset('assets/common/js/app/paymentType.js')}}"></script>
 <script>
-    $(document).ready(function(){
-        $(document).ajaxStart(function() {
-            $.blockUI({
-                message: '<h3><img src="{{asset('assets/common/img/app/loading.gif')}}" /> Just a moment...</h3>'
-            });
-        });
-        $(document).ajaxComplete(function() {
-            $.unblockUI();
-        });
-    });
     function getCity(object){
         $.getJSON("{{action('AdminAuthController@citySettings')}}", null, function (data) {
             object.cityItems(ko.utils.arrayMap(data.cities, function(data) {

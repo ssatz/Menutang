@@ -75,7 +75,7 @@
 
 	<!-- Jquery -->
 	<script src="{{asset('assets/common/js/jquery-1.10.2.min.js')}}"></script>
-
+    <script src="{{asset('assets/common/js/jquery.blockUI.min.js')}}"></script>
 	<!-- Bootstrap -->
     <script src="{{asset('assets/common/js/bootstrap.min.js')}}"></script>
 
@@ -109,6 +109,18 @@
 	<!-- Perfect -->
 	<!-- <script src="assets/common/js/app/app_dashboard.js"></script>-->
 	<script src="{{asset('assets/common/js/app/app.js')}}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(document).ajaxStart(function() {
+                $.blockUI({
+                    message: '<h3><img src="{{asset('assets/common/img/app/loading.gif')}}" /> Just a moment...</h3>'
+            });
+        });
+        $(document).ajaxComplete(function() {
+            $.unblockUI();
+        });
+        });
+    </script>
 	@yield('scripts')
 
   </body>
