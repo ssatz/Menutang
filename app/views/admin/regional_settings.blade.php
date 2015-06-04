@@ -114,9 +114,9 @@
                 object.isErrorAjax(true);
                 var error='';
                 $.each(data.error,function(element,item){
-                    error = error +'<br/>'+ item;
+                    error = error + item+'<br/>';
                 })
-                notification('Error',error,'gritter-success');
+                notification('Error',error,'gritter-warning');
                 return;
             }
             object.cityItems(ko.utils.arrayMap(data.cities, function(data) {
