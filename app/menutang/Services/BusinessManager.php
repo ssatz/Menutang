@@ -511,12 +511,32 @@ class BusinessManager
         $this->businessTypeValidator->with($data);
         if($this->businessTypeValidator->passes()) {
             if ($id > 0) {
-                return $this->buTyperepo->update($data, $id);
+                $this->buTyperepo->update($data, $id);
+                return true;
             }
-            return $this->buTyperepo->create($data);
+             $this->buTyperepo->create($data);
+             return true;
         }
-        return $this->businessTypeValidator->getErrors();
+        $this->errors= $this->businessTypeValidator->getErrors();
+        return false;
     }
+
+    public function addOrUpdateCuisineType(array $data){
+        $this->cuisineTypeValidator->excludeId=$data['id'];
+        $this->cuisineTypeValidator->with($data);
+        if($this->cuisineTypeValidator->passes()) {
+            if ($data['id'] > 0) {
+                $this->cuisineType->update($data, $data['id']);
+                return true;
+            }
+            unset($data['id']);
+            $this->cuisineType->create($data);
+            return true;
+        }
+        $this->errors= $this->cuisineTypeValidator->getErrors();
+        return false;
+    }
+
     /**
      * @param array $input
      * @return array

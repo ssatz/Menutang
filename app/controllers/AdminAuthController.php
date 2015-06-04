@@ -208,21 +208,49 @@ class AdminAuthController extends BaseController
             ->withTitle('Delivery Area')
             ->withCities($city);
     }
-
-
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function addUpdateType(){
+    public function businessTypeSettings(){
         if($this->request->ajax()){
-            $data =json_decode($this->request->get('data'),true);
-            $id= $data['id'];
-            $types = [
-               'business_code'=> $data['business_code'],
-                'business_type'=>$data['business_type']
+            if($this->request->isMethod('POST')){
+                $data =json_decode($this->request->get('data'),true);
+                $id= $data['id'];
+                $types = [
+                    'business_code'=> trim(ucfirst($data['business_code'])),
+                    'business_type'=> trim(strtoupper($data['business_type']))
+                ];
+                if(!$this->manage->addOrUpdateBusinessType($id,$types))
+                {
+                    $error['error']=$this->manage->errors;
+                    return $this->response->json($error);
+                }
+            }
+            $buType = $this->manage->getAllBusinessType();
+            return $this->response->json($buType,200,[],JSON_NUMERIC_CHECK);
+        }
+    }
+
+    /**
+     * Add or Update CuisineType
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function cuisineTypeSettings(){
+        if($this->request->ajax()){
+            if($this->request->isMethod('POST')) {
+                $data =json_decode($this->request->get('data'),true);
+                if(!$this->manage->addOrUpdateCuisineType($data)){
+                    $error['error']=$this->manage->errors;
+                    return $this->response->json($error);
+                }
+            }
+            $businessTypes = $this->manage->getAllBusinessType();
+            $cuisineTypes = $this->manage->getAllCuisineType();
+            $type = [
+              'businessTypes'=>$businessTypes,
+              'cuisineTypes'=>$cuisineTypes
             ];
-          $result=  $this->manage->addOrUpdateBusinessType($id,$types);
-          return $this->response->json($result);
+            return $this->response->json($type,200,[],JSON_NUMERIC_CHECK);
         }
     }
 }

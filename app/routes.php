@@ -34,7 +34,8 @@ Route::group(['domain' => 'admin.'.preg_replace('#^http(s)?://(www.)?#', '', Con
 
         Route::get('regional-settings', ['as' => 'admin.regionalsettings', 'uses' => 'AdminAuthController@regionalSettings']);
         Route::any('city', ['as' => 'admin.city', 'uses' => 'AdminAuthController@citySettings']);
-       // Route::post('regional-settings/update', ['as' => 'admin.regionalsettings.update', 'uses' => 'AdminAuthController@updateCityStatus']);
+        Route::any('butype', ['as' => 'admin.buType', 'uses' => 'AdminAuthController@businessTypeSettings']);
+        Route::any('cuisineType', ['as' => 'admin.cuisineType', 'uses' => 'AdminAuthController@cuisineTypeSettings']);
         Route::any('delivery-area', ['as' => 'admin.delivery-area', 'uses' => 'AdminAuthController@addOrUpdateDeliveryArea']);
         Route::get('manage-business', ['as' => 'admin.business', 'uses' => 'ManageBusinessController@showBusinesses']);
         Route::group(['prefix' => 'manage-business'], function () {

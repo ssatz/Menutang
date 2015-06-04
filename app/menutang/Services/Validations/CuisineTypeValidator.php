@@ -14,8 +14,8 @@ namespace Services\Validations;
 class CuisineTypeValidator extends BaseValidator {
 
     protected static $rules=[
-        'cuisine_code' => 'required|unique:cuisine_type,cuisine_code',
-        'cuisine_description' => 'required|unique:cuisine_type,cuisine_description',
+        'cuisine_code' => 'required|unique:cuisine_type,cuisine_code,<id>',
+        'cuisine_description' => 'required|unique:cuisine_type,cuisine_description,<id>',
     ];
 
     protected static $messages=[

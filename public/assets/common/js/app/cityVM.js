@@ -181,10 +181,9 @@ ko.utils.extend(CityVM.prototype, {
         if(item.errors().length==0) {
             var selected = this.selectedItem(),
                 edited = ko.toJS(this.itemForEditing());
-            selected.update(edited);
             this.post(edited);
-            console.log(this.isErrorAjax());
             if(this.isErrorAjax()) {
+                selected.update(edited);
                 this.selectedItem(null);
                 this.itemForEditing(null);
             }
