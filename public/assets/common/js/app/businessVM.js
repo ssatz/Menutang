@@ -24,11 +24,6 @@ var businessVM = {
     budget:ko.observable('').extend({required:true,number: true }),
     parcelCharges:ko.observable(0).extend({required:true,number: true }),
     doorDelivery:ko.observable('').extend({required:true}),
-    deliveryFee :ko.observable(0).extend({
-        pattern:{
-    params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
-        message:'Enter  a valid amount'
-}}),
     railDelivery:ko.observable('').extend({required:true}),
     pickupAvailable:ko.observable('').extend({required:true}),
     outdoorCatering:ko.observable('').extend({required:true}),
@@ -182,14 +177,26 @@ businessVM.avgDeliveryTime=ko.observable('').extend({ required: { onlyIf:functio
     if(businessVM.doorDelivery()=='true'){
         return true;
     }
-    businessVM.avgDeliveryTime=undefined;
+    businessVM.avgDeliveryTime='';
 }
 },
     pattern: {
         message: 'Hey this is not a valid time format, format:00:00:00',
         params: '([0-9][0-9]:[0-9][0-9]:[0-9][0-9])'
     }
-}),
+});
+businessVM.deliveryFee =ko.observable(0).extend({
+    required:{ onlyIf:function(){
+        if(businessVM.doorDelivery()=='true'){
+            return true;
+        }
+        businessVM.deliveryFee=0;
+    }
+    },
+    pattern:{
+        params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+        message:'Enter  a valid amount'
+    }}),
 businessVM.minimumDeliveryAmount=ko.observable(0).extend({ required: { onlyIf: function() {
     if(businessVM.doorDelivery()==='true' )
     {
