@@ -12,7 +12,15 @@ var CuisineType = function(data) {
         maxLength: 3
     });
     self.cuisine_description = ko.observable().extend({required:true});
+    self.cuisine_image =ko.observable().extend({required:true});
     self.errors=ko.validation.group(self);
+    self.fileData=ko.observable({
+        file: ko.observable().extend({required:true,imgtype:true}),
+        dataURL: ko.observable().extend({required:true,imgsize:[600,400]})
+    });
+    self.fileData.subscribe(function(data){
+        self.cuisine_image(data.dataURL);
+    });
     //populate our model with the initial data
     self.update(data);
 };
@@ -31,6 +39,7 @@ CuisineType.prototype.update = function(data) {
         maxLength: 3
     });
     self.cuisine_description = ko.observable(data.cuisine_description).extend({required:true});
+    self.cuisine_image =ko.observable(data.cuisine_image).extend({required:true});
 };
 
 var CuisineTypeVM = function() {
@@ -65,6 +74,7 @@ var CuisineTypeVM = function() {
         return self.selectedItem() === item ? 'editcuisineTypeTmpl' : 'cuisineTypeTmpl';
     };
     self.post =function(data){
+        console.log(ko.toJSON(data));
         postCuisineType(ko.toJSON(data),self);
     }
     self.add =function(){

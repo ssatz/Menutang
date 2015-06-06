@@ -150,6 +150,7 @@
                 <th>Cuisine Type</th>
                 <th>Cuisine Code</th>
                 <th>Business Type</th>
+                <th>Cuisine Image</th>
                 <th></th>
             </tr>
             </thead>
@@ -177,6 +178,7 @@
                 <td>
                     <select disabled class="form-control input-sm" data-bind="options:$root.businessTypes,optionsText:'business_type',optionsValue: 'id',value:business_type_id,chosen"></select>
                 </td>
+                <td><img data-bind="attr:{src: cuisine_image}" height="50px" width="50px"/></td>
                 <td class="buttons">
                     <a class="btn btn-info" data-bind="click: $root.selectItem" href="#" title="edit">Edit</a>
                 </td>
@@ -196,6 +198,16 @@
                 <td>
                     <select  class="form-control input-sm" data-bind="options:$root.businessTypes,optionsText:'business_type',optionsValue: 'id',value:business_type_id,chosen"></select>
                     <p data-bind="validationMessage: business_type_id" class="validationMessage"></p>
+                </td>
+                <td>
+                    <div data-bind="fileDrag: fileData">
+                        <div class="image-upload-preview">
+                            <img data-bind="attr: { src: fileData().dataURL }, visible: fileData().dataURL" height="50px" width="50px">
+                        </div>
+                            <input type="file" data-bind="fileInput: fileData">
+                            <p class="validationMessage" data-bind="validationMessage: fileData().file"></p>
+                            <p class="validationMessage" data-bind="validationMessage: fileData().dataURL"></p>
+                    </div>
                 </td>
                 <td>
                     <a class="btn btn-success" data-bind="click: $root.acceptItem" href="#" title="save">Save</a>

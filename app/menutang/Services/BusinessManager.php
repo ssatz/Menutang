@@ -526,10 +526,25 @@ class BusinessManager
     }
 
     public function addOrUpdateCuisineType(array $data){
+        unset($data['fileData']);
         $this->cuisineTypeValidator->excludeId=$data['id'];
         $this->cuisineTypeValidator->with($data);
         if($this->cuisineTypeValidator->passes()) {
             if ($data['id'] > 0) {
+                if($this->imageHelper->make($data['cuisine_image'])->width()==500 &&
+                    $this->imageHelper->make($data['cuisine_image'])->height()==300) {
+                    $data['cuisine_image'] = $this->imageHelper->make($data['cuisine_image'])
+
+                        ->encode('data-url')->getEncoded();
+                }
+                else {
+                    $data['cuisine_image'] = $this->imageHelper->make($data['cuisine_image'])
+                        ->resize(500, 300, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })
+                        ->encode('data-url')->getEncoded();
+                }
                 $this->cuisineType->update($data, $data['id']);
                 return true;
             }
@@ -883,5 +898,4 @@ class BusinessManager
         return $images;
 
     }
-
 }
