@@ -539,10 +539,7 @@ class BusinessManager
                 }
                 else {
                     $data['cuisine_image'] = $this->imageHelper->make($data['cuisine_image'])
-                        ->resize(500, 300, function ($constraint) {
-                            $constraint->aspectRatio();
-                            $constraint->upsize();
-                        })
+                        ->resize(500, 300)
                         ->encode('data-url')->getEncoded();
                 }
                 $this->cuisineType->update($data, $data['id']);
