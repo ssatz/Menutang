@@ -107,8 +107,10 @@ class FrontEndController extends BaseController  {
      */
     public function index()
     {
+       $cuisineTypes= $this->frontEndManager->getAllCuisinesWithBusinessCount();
        $availableCities=$this->frontEndManager->getAvailableCities();
         return $this->view->make('frontend.index')
+                            ->withCuisines($cuisineTypes)
                             ->withAvailablecities($availableCities);
     }
 

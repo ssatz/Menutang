@@ -16,6 +16,7 @@ use Repositories\MenuCategoryRepository\IMenuCategoryRepository;
 use Repositories\BusinessTypeRepository\IBusinessTypeRepository;
 use Repositories\ManageDeliveryAreaRepository\IManageDeliveryAreaRepository;
 use Repositories\ManageCityRepository\IManageCityRepository;
+use Repositories\CuisineTypeRepository\ICuisineTypeRepository;
 
 
 class FrontEndManager {
@@ -42,6 +43,7 @@ class FrontEndManager {
      * @var IManageCityRepository
      */
     protected $cityRepo;
+    protected $cuisineRepo;
 
     /**
      * @param IManageBusinessRepository $buManager
@@ -52,6 +54,7 @@ class FrontEndManager {
                                 IMenuCategoryRepository $menuCategoryRepository,
                                 IManageDeliveryAreaRepository $deliveryArea,
                                 IManageCityRepository   $cityRepository  ,
+                                ICuisineTypeRepository $cuisineTypeRepository,
                                 IBusinessTypeRepository $businessTypeRepository)
     {
         $this->buManager = $buManager;
@@ -59,6 +62,7 @@ class FrontEndManager {
         $this->businessType = $businessTypeRepository;
         $this->deliveryArea = $deliveryArea;
         $this->cityRepo = $cityRepository;
+        $this->cuisineRepo=$cuisineTypeRepository;
     }
 
     /**
@@ -112,6 +116,10 @@ class FrontEndManager {
     public function getAllBusinessTypes()
     {
         return $this->businessType->getAllTypes();
+    }
+    public function getAllCuisinesWithBusinessCount()
+    {
+        return $this->cuisineRepo->getAllCuisineWithBusiness();
     }
 
     /**

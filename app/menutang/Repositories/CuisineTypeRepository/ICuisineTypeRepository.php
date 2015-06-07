@@ -12,5 +12,6 @@ namespace Repositories\CuisineTypeRepository;
 
 
 interface ICuisineTypeRepository {
+    public function getAllCuisineWithBusiness();
 
 }

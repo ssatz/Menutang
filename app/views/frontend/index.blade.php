@@ -125,117 +125,21 @@ use Illuminate\Support\Facades\Auth;
         <div class="row">
 
             <!-- Food Category -->
+            @foreach($cuisines as $type)
             <div class="col-md-3 col-sm-6 home-category">
                 <a href="#" class="home-category-link">
                     <div class="caption">
                         <div class="caption-content">
-                            <h4>North Indian</h4>
+                            <h4>{{$type->cuisine_description}}</h4>
                             <hr>
-                            <p>30 Restaraunts</p>
+                            <p>{{$type->count}} Restaurants</p>
                         </div>
                     </div>
-                    <img class="img-responsive img-rounded" src="{{asset('assets/common/img/types/north-indian.jpg')}}" alt="">
+                    <img class="img-responsive img-rounded" src="{{$type->cuisine_image}}"
+                         alt="{{$type->cuisine_description}}" title="{{$type->cuisine_description}}">
                 </a>
             </div>
-
-            <!-- Food Category -->
-            <div class="col-md-3 col-sm-6 home-category">
-                <a href="#" class="home-category-link">
-                    <div class="caption">
-                        <div class="caption-content">
-                            <h4>Bakeries</h4>
-                            <hr>
-                            <p>15 Bakeries</p>
-                        </div>
-                    </div>
-                    <img class="img-responsive img-rounded" src="{{asset('assets/common/img/types/bakery.jpg')}}" alt="">
-                </a>
-            </div>
-
-            <!-- Food Category -->
-            <div class="col-md-3 col-sm-6 home-category">
-                <a href="#" class="home-category-link">
-                    <div class="caption">
-                        <div class="caption-content">
-                            <h4>Desserts</h4>
-                            <hr>
-                            <p>28 Shops</p>
-                        </div>
-                    </div>
-                    <img class="img-responsive img-rounded" src="{{asset('assets/common/img/types/desserts.jpg')}}" alt="">
-                </a>
-            </div>
-
-            <!-- Food Category -->
-            <div class="col-md-3 col-sm-6 home-category">
-                <a href="#" class="home-category-link">
-                    <div class="caption">
-                        <div class="caption-content">
-                            <h4>South Indian</h4>
-                            <hr>
-                            <p>42 Restaraunts</p>
-                        </div>
-                    </div>
-                    <img class="img-responsive img-rounded" src="{{asset('assets/common/img/types/south-indian.jpg')}}" alt="">
-                </a>
-            </div>
-
-            <!-- Food Category -->
-            <div class="col-md-3 col-sm-6 home-category">
-                <a href="#" class="home-category-link">
-                    <div class="caption">
-                        <div class="caption-content">
-                            <h4>Pizza</h4>
-                            <hr>
-                            <p>12 Restaraunts</p>
-                        </div>
-                    </div>
-                    <img class="img-responsive img-rounded" src="{{asset('assets/common/img/types/pizza.jpg')}}" alt="">
-                </a>
-            </div>
-
-            <!-- Food Category -->
-            <div class="col-md-3 col-sm-6 home-category">
-                <a href="#" class="home-category-link">
-                    <div class="caption">
-                        <div class="caption-content">
-                            <h4>Juice Bars</h4>
-                            <hr>
-                            <p>8 Locations</p>
-                        </div>
-                    </div>
-                    <img class="img-responsive img-rounded" src="{{asset('assets/common/img/types/juice.jpg')}}" alt="">
-                </a>
-            </div>
-
-            <!-- Food Category -->
-            <div class="col-md-3 col-sm-6 home-category">
-                <a href="#" class="home-category-link">
-                    <div class="caption">
-                        <div class="caption-content">
-                            <h4>Chinese</h4>
-                            <hr>
-                            <p>22 Restaraunts</p>
-                        </div>
-                    </div>
-                    <img class="img-responsive img-rounded" src="{{asset('assets/common/img/types/chinese.jpg')}}" alt="">
-                </a>
-            </div>
-
-            <!-- Food Category -->
-            <div class="col-md-3 col-sm-6 home-category">
-                <a href="#" class="home-category-link">
-                    <div class="caption">
-                        <div class="caption-content">
-                            <h4>Coffee Shops</h4>
-                            <hr>
-                            <p>19 Locations</p>
-                        </div>
-                    </div>
-                    <img class="img-responsive img-rounded" src="{{asset('assets/common/img/types/coffee.jpg')}}" alt="">
-                </a>
-            </div>
-
+            @endforeach
         </div>
         <!-- /.row -->
 
