@@ -16,7 +16,7 @@ var CuisineType = function(data) {
     self.errors=ko.validation.group(self);
     self.fileData=ko.observable({
         file: ko.observable().extend({required:true,imgtype:true}),
-        dataURL: ko.observable().extend({required:true,imgsize:[600,400]})
+        dataURL: ko.observable().extend({required:true,imgsize:[500,300]})
     });
     self.fileData.subscribe(function(data){
         self.cuisine_image(data.dataURL);
