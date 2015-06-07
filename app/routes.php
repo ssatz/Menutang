@@ -77,25 +77,24 @@ Route::group(['domain' => 'business.'.preg_replace('#^http(s)?://(www.)?#', '', 
 /**
  * FrontEnd Routes
  */
-Route::get('info.htm',['before' => 'cache', 'after' => 'cache'],function(){
-    print phpinfo();
+Route::group(['domain' => preg_replace('#^http(s)?://(www.)?#', '', Config::get('app.url'))], function () {
+    Route::get('about-us.htm', ['before' => 'cache', 'after' => 'cache', 'as' => 'aboutUs', 'uses' => 'GuestController@aboutUs']);
+    Route::get('faq.htm', ['as' => 'faq', 'uses' => 'GuestController@faq']);
+    Route::get('logout', ['as' => 'user.logout', 'uses' => 'FrontEndController@logout']);
+    Route::post('login', ['as' => 'user.login', 'uses' => 'FrontEndController@userLogin']);
+    Route::post('register', ['as' => 'user.register', 'uses' => 'FrontEndController@userRegistration']);
+    Route::get('/', ['before' => 'cache', 'after' => 'cache', 'as' => 'index', 'uses' => 'FrontEndController@index']);
+    Route::any('password/reset/{type}/{token}', ['as' => 'password.reset', 'uses' => 'FrontEndController@passwordReset']);
+    Route::post('forgot-password', ['as' => 'password.forgot', 'uses' => 'FrontEndController@forgotPassword']);
+    Route::any('restaurants/{query}', ['before' => 'cache', 'after' => 'cache', 'as' => 'business', 'uses' => 'FrontEndController@restaurantsProfile']);
+    Route::post('restaurants/{query}/cart', ['as' => 'business.cart', 'uses' => 'CartController@addToCart']);
+    Route::get('restaurants/{query}/getcart', ['as' => 'business.get.cart', 'uses' => 'CartController@getCart']);
+    Route::get('restaurants/{query}/getoptions', ['as' => 'business.get.options', 'uses' => 'CartController@getOptions']);
+    Route::post('restaurants/{query}/addoptions', ['as' => 'business.add.options', 'uses' => 'CartController@addToCartOptions']);
+    Route::post('restaurants/{query}/cart/update', ['as' => 'business.update.cart', 'uses' => 'CartController@updateCartItem']);
+    Route::get('{locality}/{query}', ['as' => 'locality.area', 'uses' => 'FrontEndController@searchBU']);
+    Route::get('{locality}', ['as' => 'locality', 'uses' => 'FrontEndController@searchBU']);
 });
-Route::get('about-us.htm', ['before' => 'cache', 'after' => 'cache','as' => 'aboutUs', 'uses' => 'GuestController@aboutUs']);
-Route::get('faq.htm', ['as' => 'faq', 'uses' => 'GuestController@faq']);
-Route::get('logout', ['as' => 'user.logout', 'uses' => 'FrontEndController@logout']);
-Route::post('login', ['as' => 'user.login', 'uses' => 'FrontEndController@userLogin']);
-Route::post('register', ['as' => 'user.register', 'uses' => 'FrontEndController@userRegistration']);
-Route::get('/',['before' => 'cache', 'after' => 'cache','as'=>'index','uses'=>'FrontEndController@index']);
-Route::any('password/reset/{type}/{token}', ['as'=>'password.reset','uses'=>'FrontEndController@passwordReset']);
-Route::post('forgot-password', ['as'=>'password.forgot','uses'=>'FrontEndController@forgotPassword']);
-Route::any('restaurants/{query}',['before' => 'cache', 'after' => 'cache','as'=>'business','uses'=>'FrontEndController@restaurantsProfile']);
-Route::post('restaurants/{query}/cart',['as'=>'business.cart','uses'=>'CartController@addToCart']);
-Route::get('restaurants/{query}/getcart',['as'=>'business.get.cart','uses'=>'CartController@getCart']);
-Route::get('restaurants/{query}/getoptions',['as'=>'business.get.options','uses'=>'CartController@getOptions']);
-Route::post('restaurants/{query}/addoptions',['as'=>'business.add.options','uses'=>'CartController@addToCartOptions']);
-Route::post('restaurants/{query}/cart/update',['as'=>'business.update.cart','uses'=>'CartController@updateCartItem']);
-Route::get('{locality}/{query}',['as'=>'locality.area','uses'=>'FrontEndController@searchBU']);
-Route::get('{locality}',['as'=>'locality','uses'=>'FrontEndController@searchBU']);
 
 
 
