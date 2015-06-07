@@ -135,7 +135,7 @@ use Illuminate\Support\Facades\Auth;
                             <p>{{$type->count}} Restaurants</p>
                         </div>
                     </div>
-                    <img class="img-responsive img-rounded" src="{{$type->cuisine_image}}"
+                    <img class="img-responsive img-rounded" src="{{$type->cuisine_image}}" width="500px" height="300px"
                          alt="{{$type->cuisine_description}}" title="{{$type->cuisine_description}}">
                 </a>
             </div>
