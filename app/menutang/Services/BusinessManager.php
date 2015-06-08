@@ -173,6 +173,9 @@ class BusinessManager
      * @var Helper
      */
     protected $helper;
+    /**
+     * @var PaymentTypeValidator
+     */
     protected $paymentTypeValidator;
     /**
      * @param IManageBusinessRepository $manageBusiness
@@ -525,23 +528,24 @@ class BusinessManager
         return false;
     }
 
+    /**
+     * @param array $data
+     * @return bool
+     */
     public function addOrUpdateCuisineType(array $data){
-        unset($data['fileData']);
         $this->cuisineTypeValidator->excludeId=$data['id'];
         $this->cuisineTypeValidator->with($data);
         if($this->cuisineTypeValidator->passes()) {
+            $name =strtolower(str_replace(' ', '-', $data['cuisine_description']));
+            if($this->file->exists(public_path('assets/common/img/types/'.$name.'.png')))
+            {
+                $this->file->delete(public_path('assets/common/img/types/'.$name.'.png'));
+            }
+            $this->imageHelper->make($data['fileData']['dataURL'])
+                ->resize(500, 300)
+                ->save(public_path('assets/common/img/types/'.$name.'.png'));
+            unset($data['fileData']);
             if ($data['id'] > 0) {
-                if($this->imageHelper->make($data['cuisine_image'])->width()==500 &&
-                    $this->imageHelper->make($data['cuisine_image'])->height()==300) {
-                    $data['cuisine_image'] = $this->imageHelper->make($data['cuisine_image'])
-
-                        ->encode('data-url')->getEncoded();
-                }
-                else {
-                    $data['cuisine_image'] = $this->imageHelper->make($data['cuisine_image'])
-                        ->resize(500, 300)
-                        ->encode('data-url')->getEncoded();
-                }
                 $this->cuisineType->update($data, $data['id']);
                 return true;
             }
@@ -553,6 +557,10 @@ class BusinessManager
         return false;
     }
 
+    /**
+     * @param array $data
+     * @return bool
+     */
     public function addOrUpdatePaymentType(array $data){
         $this->paymentTypeValidator->excludeId=$data['id'];
         $this->paymentTypeValidator->with($data);
@@ -855,6 +863,7 @@ class BusinessManager
         }
         return true;
     }
+
 
     /**
      * @param $slug

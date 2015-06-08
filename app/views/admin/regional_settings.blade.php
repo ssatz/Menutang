@@ -178,7 +178,7 @@
                 <td>
                     <select disabled class="form-control input-sm" data-bind="options:$root.businessTypes,optionsText:'business_type',optionsValue: 'id',value:business_type_id,chosen"></select>
                 </td>
-                <td><img data-bind="attr:{src: cuisine_image}" height="50px" width="50px"/></td>
+                <td><img data-bind="attr:{src: $root.imagePath(cuisine_description)}" height="50px" width="50px"/></td>
                 <td class="buttons">
                     <a class="btn btn-info" data-bind="click: $root.selectItem" href="#" title="edit">Edit</a>
                 </td>
