@@ -73,7 +73,9 @@ class GuestController extends BaseController
     public function aboutUs()
     {
             $availableCities=$this->frontEndManager->getAvailableCities();
+            $cuisineTypes= $this->frontEndManager->getAllCuisinesWithBusinessCount();
             return $this->view->make('frontend.about')
+                ->withCuisines($cuisineTypes)
                ->withAvailablecities($availableCities);
     }
 
@@ -83,7 +85,9 @@ class GuestController extends BaseController
     public function faq()
     {
         $availableCities=$this->frontEndManager->getAvailableCities();
+        $cuisineTypes= $this->frontEndManager->getAllCuisinesWithBusinessCount();
         return $this->view->make('frontend.faq')
+            ->withCuisines($cuisineTypes)
             ->withAvailablecities($availableCities);
     }
 
