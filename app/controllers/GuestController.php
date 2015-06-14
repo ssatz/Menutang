@@ -29,6 +29,9 @@ class GuestController extends BaseController
      * @var Redirector
      */
     protected $redirector;
+    /**
+     * @var FrontEndManager
+     */
     protected $frontEndManager;
     /**
      * @var Translator

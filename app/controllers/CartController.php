@@ -92,7 +92,7 @@ class CartController extends BaseController  {
        $quantity = $this->request->get('quantity');
        $deliveryOption = $this->request->get('delivery_option');
        $itemAddon = $this->request->get('item_addon_id');
-       $this->cartManager->addItemToCart($menuItemId,$deliveryOption,$slug,$quantity,$itemAddon);
+        $this->cartManager->addItemToCart($menuItemId,$deliveryOption,$slug,$quantity,$itemAddon);
         $cartItem = $this->cartManager->getCartItems($slug);
         if(!is_null($cartItem)) {
             return $cartItem->toJson();
