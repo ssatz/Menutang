@@ -22,7 +22,7 @@ class Cart extends Eloquent {
     /**
      * @var array
      */
-    protected $fillable =['uid'];
+    protected $fillable =['uid','user_id','delivery_options'];
 
     /**
      * @return mixed

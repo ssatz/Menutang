@@ -241,4 +241,8 @@ class FrontEndController extends BaseController  {
     public function userReviews(){
 
     }
+
+    public function userProfile(){
+        return $this->view->make('frontend.userprofile');
+    }
 }

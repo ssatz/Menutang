@@ -18,7 +18,8 @@
     "anlutro/l4-settings": "dev-master",
     "pda/pheanstalk": "~2.0",
     "heybigname/backup-manager": "0.3.*",
-    "league/flysystem-sftp": "~1.0"
+    "league/flysystem-sftp": "~1.0",
+    "hashids/hashids": "1.0.5"
   },
   "autoload": {
     "classmap": [

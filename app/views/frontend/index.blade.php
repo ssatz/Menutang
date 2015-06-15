@@ -37,52 +37,50 @@ use Illuminate\Support\Facades\Auth;
 
 <body id="top">
 
-<!-- Navigation -->
-<nav class="navbar navbar-inverse navbar-static-top header static-top header--fixed" role="navigation">
-    <div class="nav-wrapper">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header ">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{{Setting::get('site_url')}}"><a class="navbar-brand" href="{{action('FrontEndController@index')}}">
-                    <span class="img-responsive logo"></span></a>
-        </div>
+<header class="bg-light search-header">
+    <nav class="navbar navbar-inverse navbar-static-top header static-top header--fixed" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{Setting::get('site_url')}}"><a class="navbar-brand" href="{{action('FrontEndController@index')}}">
+                        <span class="img-responsive logo"></span></a>
+            </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right borderStyle">
-                @if(Auth::user()->check())
-                <li class="dropdown dropdown-menutang"><a href="#" id="drop1" data-toggle="dropdown"
-                                                          class="dropdown-toggle" role="button">My Account <b
-                            class="caret"></b></a>
-                    <ul role="menu" class="dropdown-menu dropdown-menutang" aria-labelledby="drop1">
-                        <li role="presentation"><a href="#" role="menuitem">Overview</a></li>
-                        <li role="presentation"><a href="#" role="menuitem">Team Bios</a></li>
-                        <li role="presentation"><a href="#" role="menuitem">Customers</a></li>
-                        <li role="presentation"><a href="#" role="menuitem">Careers</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown-menutang">
-                    <a href="{{action('FrontEndController@logout')}}">Logout</a>
-                </li>
-                @else
-                <li>
-                    <a href="#login" id="login-link">Log In</a>
-                </li>
-                <li>
-                    <a href="#sign-up" id="sign-up-link">Sign Up</a>
-                </li>
-                @endif
-            </ul>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right borderStyle">
+                    @if(Auth::user()->check())
+                    <li class="dropdown dropdown-menutang"><a href="#" id="drop1" data-toggle="dropdown"
+                                                              class="dropdown-toggle" role="button">My Account <b
+                                class="caret"></b></a>
+                        <ul role="menu" class="dropdown-menu dropdown-menutang" aria-labelledby="drop1">
+                            <li role="presentation"><a href="#" role="menuitem">Overview</a></li>
+                            <li role="presentation"><a href="#" role="menuitem">Team Bios</a></li>
+                            <li role="presentation"><a href="#" role="menuitem">Customers</a></li>
+                            <li role="presentation"><a href="#" role="menuitem">Careers</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-menutang">
+                        <a href="{{action('FrontEndController@logout')}}">Logout</a>
+                    </li>
+                    @else
+                    <li>
+                        <a href="#login" id="login-link">Log In</a>
+                    </li>
+                    <li>
+                        <a href="#sign-up" id="sign-up-link">Sign Up</a>
+                    </li>
+                    @endif
+                </ul>
+            </div>
         </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>
+    </nav>
+</header>
 
 @section('content')
 <!-- Header -->

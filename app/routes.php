@@ -82,6 +82,7 @@ Route::group(['domain' => preg_replace('#^http(s)?://(www.)?#', '', Config::get(
     Route::get('faq.htm', ['as' => 'faq', 'uses' => 'GuestController@faq']);
     Route::get('logout', ['as' => 'user.logout', 'uses' => 'FrontEndController@logout']);
     Route::post('login', ['as' => 'user.login', 'uses' => 'FrontEndController@userLogin']);
+    Route::any('profile',['as'=>'user.profile','before'=>'auth.user','uses'=>'FrontEndController@userProfile']);
     Route::post('register', ['as' => 'user.register', 'uses' => 'FrontEndController@userRegistration']);
     Route::get('/', ['before' => 'cache', 'after' => 'cache', 'as' => 'index', 'uses' => 'FrontEndController@index']);
     Route::any('password/reset/{type}/{token}', ['as' => 'password.reset', 'uses' => 'FrontEndController@passwordReset']);

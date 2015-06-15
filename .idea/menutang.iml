@@ -13,6 +13,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/guzzle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/ringphp" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/streams" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/hashids/hashids" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/heybigname/backup-manager" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hieu-le/active" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/intervention/image" />
@@ -71,6 +72,7 @@
           <root url="file://$MODULE_DIR$/vendor/guzzlehttp/guzzle" />
           <root url="file://$MODULE_DIR$/vendor/symfony/dom-crawler" />
           <root url="file://$MODULE_DIR$/vendor/swiftmailer/swiftmailer" />
+          <root url="file://$MODULE_DIR$/vendor/hashids/hashids" />
           <root url="file://$MODULE_DIR$/vendor/ollieread/multiauth" />
           <root url="file://$MODULE_DIR$/vendor/predis/predis" />
           <root url="file://$MODULE_DIR$/vendor/league/flysystem-sftp" />
@@ -120,6 +122,7 @@
           <root url="file://$MODULE_DIR$/vendor/guzzlehttp/guzzle" />
           <root url="file://$MODULE_DIR$/vendor/symfony/dom-crawler" />
           <root url="file://$MODULE_DIR$/vendor/swiftmailer/swiftmailer" />
+          <root url="file://$MODULE_DIR$/vendor/hashids/hashids" />
           <root url="file://$MODULE_DIR$/vendor/ollieread/multiauth" />
           <root url="file://$MODULE_DIR$/vendor/predis/predis" />
           <root url="file://$MODULE_DIR$/vendor/league/flysystem-sftp" />

@@ -22,6 +22,7 @@ use Illuminate\Foundation\Application;
 use Repositories\MenuAddonRepository\IMenuAddonRepository;
 use Repositories\MenuItemRepository\IMenuItemRepository;
 use Services\DeliveryOptionEnum;
+use Illuminate\Http\Request;
 use Repositories\ManageBusinessRepository\IManageBusinessRepository;
 use Repositories\OptionsCategoryRepository\IOptionsCategoryRepository;
 use Repositories\CartOptionRepository\ICartOptionRepository;
@@ -107,8 +108,8 @@ class CartManager {
         IOptionsCategoryRepository $optionsCategoryRepository,
         ICartOptionRepository $cartOptionRepository,
         DatabaseManager $databaseManager,
-        IOptionItemRepository $optionItemRepository
-
+        IOptionItemRepository $optionItemRepository,
+        Request $request
 
     ) {
         $this->app = $app;
@@ -119,12 +120,12 @@ class CartManager {
         $this->auth = $this->app->make('auth');
         $this->cookie = $this->app->make('cookie');
         $this->hash = $this->app->make('hash');
-        $this->request = $this->app->make('request');
         $this->itemAddonRepo=$addonRepository;
         $this->optionsRepo = $optionsCategoryRepository;
         $this->cartOptionRepo = $cartOptionRepository;
         $this->db = $databaseManager;
         $this->optionItemRepo = $optionItemRepository;
+        $this->request= $request;
     }
 
     /**
@@ -133,24 +134,24 @@ class CartManager {
     public function create($deliveryOption)
     {
 
-        $uid = $this->request->cookie('laravel_session');
-
+        $uid = $this->request->cookie('menutang_cart');
+        $data=[];
         if(!DeliveryOptionEnum::isValid($deliveryOption))
         {
             throw new EnumExceptions("Provide Valid Enum Value");
         }
-        $data = [
-            'uid' => $uid,
-            'delivery_options'=>DeliveryOptionEnum::search($deliveryOption)
-        ];
-        if ($user = $this->auth->user()->check()) {
-            $data['user_id'] = $user->id;
-            $cookieValue = null;
+        if ($this->auth->user()->check()) {
+            $data = [
+                'user_id' => (int)$this->auth->user()->get()->id,
+                'delivery_options'=>DeliveryOptionEnum::search($deliveryOption)
+            ];
         } else {
-            $cookieValue = $uid;
+            $data = [
+                'uid' => $uid,
+                'delivery_options'=>DeliveryOptionEnum::search($deliveryOption)
+            ];
         }
         $cart = $this->cartRepo->create($data);
-        //$this->setCookie($cookieValue);
         return $cart;
     }
 
@@ -159,10 +160,10 @@ class CartManager {
      */
     public function get()
     {
-            if ($user = $this->auth->user()->check()) {
-                $cart = $this->cartRepo->findByUserId($user->id);
+            if ($this->auth->user()->check()) {
+                $cart = $this->cartRepo->findByUserId($this->auth->user()->get()->id);
             } else {
-                $uid = $this->request->cookie('laravel_session');
+                $uid = $this->request->cookie('menutang_cart');
                 $cart = $this->cartRepo->findByUid($uid);
             }
         return $cart;
@@ -321,7 +322,8 @@ class CartManager {
      */
     protected function generateUid()
     {
-        return $this->hash->make(uniqid());
+        $ip= $this->request->getClientIp();
+        return $this->hash->make($ip);
     }
 
     /**
@@ -330,7 +332,7 @@ class CartManager {
     protected function setCookie($uid)
     {
         $lifetime = 60*60*24*60;
-        $this->cookie->queue('menutang_cart_uid', $uid, $lifetime);
+        $this->cookie->queue('menutang_cart', $uid, $lifetime);
     }
 
     /**
@@ -363,10 +365,15 @@ class CartManager {
      */
     public function getCartItems($slug)
     {
-        if ($user = $this->auth->user()->check()) {
-            $cart = $this->cartRepo->findByUserId($user->id);
+        if(is_null($this->request->cookie('menutang_cart')))
+        {
+            $uid = $this->generateUid();
+            $this->setCookie($uid);
+        }
+        if ($this->auth->user()->check()) {
+            $cart = $this->cartRepo->findByUserId($this->auth->user()->get()->id);
         } else {
-            $uid = $this->request->cookie('laravel_session');
+            $uid = $this->request->cookie('menutang_cart');
             $cart = $this->cartRepo->findByUid($uid);
         }
         $buRepo = $this->buRepo->findBusinessBySlug($slug);

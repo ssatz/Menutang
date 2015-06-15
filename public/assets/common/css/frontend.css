@@ -743,7 +743,7 @@ footer ul.list-inline {
 }
 .header {
     zoom: 1;
-    height: 55px;
+   /* height: 55px;*/
     background: #f15725 !important;
     background-color: #2d2d2d;
     background-color: #000;
@@ -1013,4 +1013,8 @@ footer ul.list-inline {
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
     background-color: #f15725;
     color:#ffffff;
+}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    color: #FFFFFF;
+    background-color: #f15725;
 }

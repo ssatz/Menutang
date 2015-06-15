@@ -1,12 +1,6 @@
-@extends('frontend.index')
+@extends('frontend._authlayout')
 
 @section('content')
-
-<header class="home">
-</header>
-<div class="content bg-light">
-    <div class="container">
-
         <div class="row">
 
             <ul id="myTab" class="nav nav-tabs">
@@ -202,13 +196,8 @@
 
         </div>
 
+    @endsection
 
-    </div>
-
-
-
-
-    @overwrite
     @section('script')
     jQuery('.accordionMod').each(function (index) {
     var thisBox = jQuery(this).children(),
@@ -241,4 +230,4 @@
     jQuery(this).parent().parent().siblings().find('.accordion-toggle > .icon').removeClass('iconActive');
     });
     });
-    @endsection
+   @endsection
