@@ -17,6 +17,7 @@ use Repositories\BusinessTypeRepository\IBusinessTypeRepository;
 use Repositories\ManageDeliveryAreaRepository\IManageDeliveryAreaRepository;
 use Repositories\ManageCityRepository\IManageCityRepository;
 use Repositories\CuisineTypeRepository\ICuisineTypeRepository;
+use Illuminate\Foundation\Application;
 
 
 class FrontEndManager {
@@ -44,6 +45,7 @@ class FrontEndManager {
      */
     protected $cityRepo;
     protected $cuisineRepo;
+    protected $app;
 
     /**
      * @param IManageBusinessRepository $buManager
@@ -55,6 +57,7 @@ class FrontEndManager {
                                 IManageDeliveryAreaRepository $deliveryArea,
                                 IManageCityRepository   $cityRepository  ,
                                 ICuisineTypeRepository $cuisineTypeRepository,
+                                Application $application,
                                 IBusinessTypeRepository $businessTypeRepository)
     {
         $this->buManager = $buManager;
@@ -63,6 +66,7 @@ class FrontEndManager {
         $this->deliveryArea = $deliveryArea;
         $this->cityRepo = $cityRepository;
         $this->cuisineRepo=$cuisineTypeRepository;
+        $this->app=$application;
     }
 
     /**
@@ -104,6 +108,9 @@ class FrontEndManager {
     public function restaurantProfile($restaurantSlug)
     {
         $bu = $this->getBusinessDetails($restaurantSlug);
+        if(is_null($bu)){
+            $this->app->abort(404);
+        }
         $profile = $this->getProfileDetails($bu->id);
         $cityArea = $this->deliveryArea->findByCity($bu->address->city->id);
         $menuCategory =array_unique($profile->lists('category_name'));
