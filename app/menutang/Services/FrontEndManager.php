@@ -45,6 +45,9 @@ class FrontEndManager {
      */
     protected $cityRepo;
     protected $cuisineRepo;
+    /**
+     * @var Application
+     */
     protected $app;
 
     /**
@@ -124,6 +127,10 @@ class FrontEndManager {
     {
         return $this->businessType->getAllTypes();
     }
+
+    /**
+     * @return mixed
+     */
     public function getAllCuisinesWithBusinessCount()
     {
         return $this->cuisineRepo->getAllCuisineWithBusiness();

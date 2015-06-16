@@ -293,7 +293,14 @@
                 </div>
             </div>
             <div class="row">
-                   <img src="{{asset('assets/common/img/icons/halal.jpg')}}" width="32px" height="32px"/>
+                   <img src="{{asset('assets/common/img/icons/Cash.png')}}" width="32px" height="32px"/>
+                   <img src="{{asset('assets/common/img/icons/Cash_Black.png')}}" width="32px" height="32px"/>
+                   <img src="{{asset('assets/common/img/icons/Egg.png')}}" width="32px" height="32px"/>
+                  <img src="{{asset('assets/common/img/icons/Egg_Black.png')}}" width="32px" height="32px"/>
+                <img src="{{asset('assets/common/img/icons/Eggless.png')}}" width="32px" height="32px"/>
+                <img src="{{asset('assets/common/img/icons/Eggless_Black.png')}}" width="32px" height="32px"/>
+                <img src="{{asset('assets/common/img/icons/Spicy.png')}}" width="32px" height="32px"/>
+                <img src="{{asset('assets/common/img/icons/Spicy_Black.png')}}" width="32px" height="32px"/>
             </div>
         </div>
     </div>
