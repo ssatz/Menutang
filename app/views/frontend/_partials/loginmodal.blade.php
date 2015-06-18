@@ -11,7 +11,7 @@
                 <div class="clearfix"></div>
                 <div id='social-icons-conatainer' class="login">
                     <div class='modal-body-left'>
-                        <div class="error alert alert-danger match-error displayNone" role="alert"></div>
+                        <div class="error alert alert-danger login-match-error displayNone" role="alert"></div>
                         <div class="form-group">
                             <input type="text" id="login-email" name="email" placeholder="Enter your email" value=""
                                    class="form-control login-field">
@@ -162,11 +162,13 @@ $("#login").click(function(e){
         _token: '{{Session::get('_token')}}'
         }
         ajax('{{action('FrontEndController@userLogin')}}', 'POST', $data, 'json', function (msg) {
+        console.log(msg);
        if(typeof msg =='string'){
             if($.parseJSON(msg)===true){
             return window.location.replace('{{Setting::get('site_url')}}');
             }
         }
+        $(".match-error").hide();
         $(".error").each(function(){
         $(this).hide().parents('.form-group').find('input').removeClass('fieldHighlight');
         });

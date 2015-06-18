@@ -1,8 +1,6 @@
 @extends('frontend._authlayout')
-
 @section('content')
         <div class="row">
-
             <ul id="myTab" class="nav nav-tabs">
                 <li class="active">
                     <a href="#profileTab" data-toggle="tab">
@@ -36,7 +34,7 @@
                         <div class="form-group">
 
                             <div class="col-sm-5">
-                                <input type="email" name="mail" id="mail" placeholder="Email" class="form-control">
+                                <input type="email" name="mail" id="mail" placeholder="Email" class="form-control input-sm">
                             </div>
                         </div>
 
@@ -45,7 +43,7 @@
 
                             <div class="col-sm-5">
                                 <input type="text" name="name" id="name" placeholder="First Name"
-                                       class="form-control">
+                                       class="form-control input-sm">
                             </div>
                         </div>
 
@@ -53,7 +51,7 @@
 
                             <div class="col-sm-5">
                                 <input type="text" name="lname" id="lname" placeholder="Last Name"
-                                       class="form-control">
+                                       class="form-control input-sm">
                             </div>
                         </div>
 
@@ -63,7 +61,7 @@
                                 <div class="input-group">
                                     <div class="input-group-addon">+91</div>
                                     <input type="text" name="mobno" id="mobno" placeholder="Mobile Number"
-                                           class="form-control">
+                                           class="form-control input-sm">
                                 </div>
                             </div>
                         </div>
@@ -71,13 +69,13 @@
                         <div class="form-group">
 
                             <div class="col-sm-2">
-                                <input type="button" name="cancel" class="btn btn-block btn-success form-control"
+                                <input type="button" name="cancel" class="btn btn-primary mb15 form-control"
 
                                        value="Cancel">
                             </div>
 
                             <div class="col-sm-2">
-                                <input type="button" name="save" class="btn btn-block btn-success form-control"
+                                <input type="button" name="save" class="btn btn-primary mb15 form-control"
 
                                        value="Save">
                             </div>
@@ -101,7 +99,7 @@
 
                             <div class="col-sm-5">
                                 <input type="text" name="currpass" id="currpass" placeholder="Current Password"
-                                       class="form-control">
+                                       class="form-control input-sm">
                             </div>
                         </div>
 
@@ -109,7 +107,7 @@
 
                             <div class="col-sm-5">
                                 <input type="text" name="npass" id="name" placeholder="New Password"
-                                       class="form-control">
+                                       class="form-control input-sm">
                             </div>
                         </div>
 
@@ -117,20 +115,20 @@
 
                             <div class="col-sm-5">
                                 <input type="text" name="ncpass" id="ncpass" placeholder="Confirm New Password"
-                                       class="form-control">
+                                       class="form-control input-sm">
                             </div>
                         </div>
 
                         <div class="form-group">
 
                             <div class="col-sm-2">
-                                <input type="button" name="passCancel" id="passCancel" class="btn btn-block btn-success form-control"
+                                <input type="button" name="passCancel" id="passCancel" class="btn btn-primary mb15 form-control"
 
                                        value="Cancel">
                             </div>
 
                             <div class="col-sm-2">
-                                <input type="button" name="passSave" id="passSave" class="btn btn-block btn-success form-control"
+                                <input type="button" name="passSave" id="passSave" class="btn btn-primary mb15 form-control"
 
                                        value="Save">
                             </div>
@@ -197,37 +195,3 @@
         </div>
 
     @endsection
-
-    @section('script')
-    jQuery('.accordionMod').each(function (index) {
-    var thisBox = jQuery(this).children(),
-    thisMainIndex = index + 1;
-    jQuery(this).attr('id', 'accordion' + thisMainIndex);
-    thisBox.each(function (i) {
-    var thisIndex = i + 1,
-    thisParentIndex = thisMainIndex,
-    thisMain = jQuery(this).parent().attr('id'),
-    thisTriggers = jQuery(this).find('.accordion-toggle'),
-    thisBoxes = jQuery(this).find('.accordion-inner');
-    jQuery(this).addClass('panel');
-    thisBoxes.wrap('<div id=\"collapseBox' + thisParentIndex + '_' + thisIndex + '\" class=\"panel-collapse collapse\" />');
-    thisTriggers.wrap('<div class=\"panel-heading\" />');
-    thisTriggers.attr('data-toggle', 'collapse').attr('data-parent', '#' + thisMain).attr('data-target', '#collapseBox' + thisParentIndex + '_' + thisIndex);
-    });
-    jQuery('.accordion-toggle').prepend('<span class=\"icon\" />');
-    jQuery("div.accordion-item:first-child .accordion-toggle").addClass("current");
-    jQuery("div.accordion-item:first-child .icon").addClass("iconActive");
-    jQuery("div.accordion-item:first-child .panel-collapse").addClass("in");
-    jQuery('.accordionMod .accordion-toggle').click(function () {
-    if (jQuery(this).parent().parent().find('.panel-collapse').is('.in')) {
-    jQuery(this).removeClass('current');
-    jQuery(this).find('.icon').removeClass('iconActive');
-    } else {
-    jQuery(this).addClass('current');
-    jQuery(this).find('.icon').addClass('iconActive');
-    }
-    jQuery(this).parent().parent().siblings().find('.accordion-toggle').removeClass('current');
-    jQuery(this).parent().parent().siblings().find('.accordion-toggle > .icon').removeClass('iconActive');
-    });
-    });
-   @endsection
