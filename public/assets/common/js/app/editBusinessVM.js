@@ -1,5 +1,5 @@
 /**
- * Created by Admin on 4/18/2015.
+ * Created by sathish on 4/18/2015.
  */
 ko.validation.init({insertMessages: false,
     grouping: { deep: true } },true);

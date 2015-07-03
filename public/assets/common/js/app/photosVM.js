@@ -46,7 +46,7 @@ photosVM.pagedList = ko.computed(function () {
 photosVM.maxPageIndex = ko.computed(function () {
     return Math.ceil(photosVM.image().length / photosVM.pageSize()) - 1;
 });
-    photosVM.previousPage = function () {
+photosVM.previousPage = function () {
     if (photosVM.pageIndex() > 0) {
         photosVM.pageIndex(pageIndex() - 1);
     }

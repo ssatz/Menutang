@@ -14,13 +14,11 @@
     <link rel="icon" href="{{asset('assets/common/img/app/favicon.ico')}}" type="image/x-icon">
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('assets/common/css/bootstrap.min.css')}}" rel="stylesheet">
-
-
-    <!-- Fonts -->
+      <!-- Fonts -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Hind:400,300,500,600,700' rel='stylesheet' type='text/css'>
-
+    @yield('css')
     <!-- Theme CSS -->
     <link href={{asset('assets/common/css/frontend.css')}} rel="stylesheet">
 
@@ -56,10 +54,9 @@
                                                               class="dropdown-toggle" role="button">My Account <b
                                 class="caret"></b></a>
                         <ul role="menu" class="dropdown-menu dropdown-menutang" aria-labelledby="drop1">
-                            <li role="presentation"><a href="#" role="menuitem">Overview</a></li>
-                            <li role="presentation"><a href="#" role="menuitem">Team Bios</a></li>
-                            <li role="presentation"><a href="#" role="menuitem">Customers</a></li>
-                            <li role="presentation"><a href="#" role="menuitem">Careers</a></li>
+                            <li role="presentation"><a href="{{action('FrontEndController@userProfile')}}" role="menuitem">My Profile</a></li>
+                            <li role="presentation"><a href="#" role="menuitem">My Order</a></li>
+                            <li role="presentation"><a href="#" role="menuitem">Help Desk</a></li>
                         </ul>
                     </li>
                     <li class="dropdown-menutang">
@@ -185,6 +182,7 @@
 
 <!-- Theme Scripts -->
 <script src="{{asset('assets/common/js/app/frontend.js')}}"></script>
+@yield('scriptTag')
 <script type="text/javascript">
     @yield('auth')
     @yield('scripts')

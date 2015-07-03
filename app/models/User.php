@@ -22,7 +22,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface
      *
      * @var array
      */
-    protected $hidden = array('password', 'remember_token');
+    protected $hidden = ['password', 'remember_token'];
 
     /**
      * @return mixed
@@ -31,4 +31,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface
     {
         return $this->hasOne('PasswordReset');
     }
+
+    /**
+     * @return mixed
+     */
+    public function userDeliveryAddress()
+   {
+       return $this->hasMany('UserDeliveryAddress');
+   }
+
 }

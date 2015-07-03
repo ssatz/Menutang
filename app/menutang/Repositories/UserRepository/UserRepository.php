@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository extends BaseRepository implements IUserRepository
 {
+    /**
+     * @var Carbon
+     */
     protected $dateTime;
     /**
      * @param User $user
@@ -60,11 +63,18 @@ class UserRepository extends BaseRepository implements IUserRepository
         return $this->model->findOrFail($id);
     }
 
+    /**
+     * @param $id
+     * @param array $data
+     */
     public function updateDetails($id, array $data)
     {
         $this->model->where('id','=',$id)->update($data);
     }
 
+    /**
+     * @param $id
+     */
     public function updateLastLogin($id)
     {
         $data =[
@@ -82,5 +92,16 @@ class UserRepository extends BaseRepository implements IUserRepository
         $value = str_shuffle(sha1($email.spl_object_hash($this).microtime(true)));
 
         return hash_hmac('sha1', $value, Config::get('app.key'));
+    }
+
+    /**
+     * @param $userId
+     * @return mixed
+     */
+    public function getUserDetails($userId){
+        return $this->model->with(array('userDeliveryAddress'=>function($query){
+            $query->select('user_id','id','landmark','address_1','address_2','postcode');
+        }))->select('id','first_name','last_name','password','mobile','email')->first();
+
     }
 }

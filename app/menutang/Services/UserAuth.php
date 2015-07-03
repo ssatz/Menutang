@@ -12,6 +12,7 @@ namespace Services;
 
 
 use Illuminate\Foundation\Application;
+use League\Flysystem\Exception;
 use Repositories\UserRepository\IUserRepository;
 use Services\Validations\EmailValidator;
 use Services\Validations\LoginValidation;
@@ -21,6 +22,8 @@ use Illuminate\Translation\Translator;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Hashing\HasherInterface;
 use Services\Validations\PasswordResetValidator;
+use Exceptions\SecurityExceptions;
+use Exceptions;
 
 
 
@@ -31,6 +34,9 @@ use Services\Validations\PasswordResetValidator;
 class UserAuth
 {
 
+    /**
+     * @var
+     */
     public $userDetails;
     /**
      * @var
@@ -48,14 +54,41 @@ class UserAuth
      * @var DatabaseManager
      */
     protected $db;
+    /**
+     * @var Dispatcher
+     */
     protected $event;
+    /**
+     * @var LoginValidation
+     */
     protected $loginValidation;
+    /**
+     * @var Application
+     */
     protected $app;
+    /**
+     * @var mixed
+     */
     protected $auth;
+    /**
+     * @var mixed
+     */
     protected $password;
+    /**
+     * @var Translator
+     */
     protected $lang;
+    /**
+     * @var EmailValidator
+     */
     protected $emailValidator;
+    /**
+     * @var HasherInterface
+     */
     protected  $passwordHash;
+    /**
+     * @var PasswordResetValidator
+     */
     protected $passwordValidator;
 
     /**
@@ -133,6 +166,10 @@ class UserAuth
         return false;
     }
 
+    /**
+     * @param array $credentials
+     * @return array|mixed
+     */
     public function sendPasswordToken(array $credentials)
     {
         $this->emailValidator->with($credentials);
@@ -145,6 +182,10 @@ class UserAuth
         return $this->errors;
     }
 
+    /**
+     * @param array $credentials
+     * @return bool
+     */
     public function passwordReset(array $credentials)
     {
        $this->passwordValidator->with($credentials);
@@ -156,5 +197,21 @@ class UserAuth
        }
         $this->errors=$this->passwordValidator->getErrors();
       return false;
+    }
+
+    /**
+     * @param $userId
+     * @return mixed
+     */
+    public function getUserDetails()
+    {
+        try {
+            if ($this->auth->user()->check()) {
+                $userId = $this->auth->user()->get()->id;
+                return $this->userRepository->getUserDetails((int)$userId);
+            }
+        } catch (Exception $e) {
+            throw new SecurityExceptions($e->getMessage());
+        }
     }
 }

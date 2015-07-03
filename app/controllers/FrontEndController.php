@@ -243,6 +243,12 @@ class FrontEndController extends BaseController  {
     }
 
     public function userProfile(){
+        if ($this->request->ajax() && $this->request->isMethod('GET')) {
+            $cities = $this->buManager->getAllCity();
+            $userDetails=$this->userAuth->getUserDetails();
+            array_add($userDetails,'cities',$cities);
+            return  $this->response->json($userDetails,200,[], JSON_NUMERIC_CHECK);
+        }
         return $this->view->make('frontend.userprofile');
     }
 }

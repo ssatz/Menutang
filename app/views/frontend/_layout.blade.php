@@ -63,10 +63,9 @@
                                                               class="dropdown-toggle" role="button">My Account <b
                                 class="caret"></b></a>
                         <ul role="menu" class="dropdown-menu dropdown-menutang" aria-labelledby="drop1">
-                            <li role="presentation"><a href="#" role="menuitem">Overview</a></li>
-                            <li role="presentation"><a href="#" role="menuitem">Team Bios</a></li>
-                            <li role="presentation"><a href="#" role="menuitem">Customers</a></li>
-                            <li role="presentation"><a href="#" role="menuitem">Careers</a></li>
+                            <li role="presentation"><a href="{{action('FrontEndController@userProfile')}}" role="menuitem">My Profile</a></li>
+                            <li role="presentation"><a href="#" role="menuitem">My Order</a></li>
+                            <li role="presentation"><a href="#" role="menuitem">Help Desk</a></li>
                         </ul>
                     </li>
                     <li class="dropdown-menutang">

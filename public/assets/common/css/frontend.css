@@ -43,9 +43,17 @@ aside {
 }
 .bg-light {
     background-color: white;
+    -moz-transition-duration: .4s;
+    -o-transition-duration: .4s;
+    -webkit-transition-duration: .4s;
+    transition-duration: .4s;
 }
 .bg-gray {
     background-color: #fafafa;
+    -moz-transition-duration: .4s;
+    -o-transition-duration: .4s;
+    -webkit-transition-duration: .4s;
+    transition-duration: .4s;
 }
 .text-light {
     color: white;
