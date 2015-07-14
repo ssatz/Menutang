@@ -94,7 +94,7 @@
                                     <div class="col-sm-2">
                                         <input type="button" name="passCancel" id="passCancel" class="btn btn-primary mb15 form-control"
 
-                                               value="Cancel">
+                                               value="Cancel" data-bind="click:cancelPassword">
                                     </div>
 
                                     <div class="col-sm-2">
@@ -157,7 +157,7 @@
                                 <div class="form-group">
 
                                     <div class="col-sm-5">
-                                        <select data-placeholder="Choose a City..."  data-bind="options:$root.cities,optionsText:'city_description',value:'id',selectedOptions:city_id,chosen">
+                                        <select data-placeholder="Choose a City..."  data-bind="options:$root.cities,optionsText:'city_description',value:'id',selectedOptions:city_id,chosen,optionsCaption: 'Choose a city..'">
                                         </select>
                                         <p class="validationMessage" data-bind="validationMessage: city_id"></p>
                                     </div>

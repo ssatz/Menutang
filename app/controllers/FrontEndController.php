@@ -248,6 +248,9 @@ class FrontEndController extends BaseController  {
             $userDetails=$this->userAuth->getUserDetails();
             array_add($userDetails,'cities',$cities);
             return  $this->response->json($userDetails,200,[], JSON_NUMERIC_CHECK);
+            if($this->request->isMethod('POST')){
+
+            }
         }
         return $this->view->make('frontend.userprofile');
     }

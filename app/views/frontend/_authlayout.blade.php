@@ -109,7 +109,7 @@
                 </div>
             </li>
         </ol>
-        <h1 class="page-header">Blank Page</h1>
+        <h1 class="page-header">User Profile</h1>
     </div>
 </header>
 

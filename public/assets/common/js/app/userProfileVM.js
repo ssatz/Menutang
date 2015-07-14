@@ -25,7 +25,7 @@ var addressVM = function(data){
     var self=this;
     self.user_id=ko.observable(data.user_id || -1);
     self.city_id =ko.observable(data.city_id || -1);
-    self.address_1=ko.observable(data.address_1 || null);
+    self.address_1=ko.observable(data.address_1 || null).extend({required:true});
     self.address_2=ko.observable(data.address_2 || null);
     self.landmark=ko.observable(data.landmark || null);
     self.postcode=ko.observable(data.postcode || null).extend({required: true,pattern:{
@@ -53,8 +53,16 @@ var userProfileVM = function(data){
     self.newPassword=ko.observable().extend({required:true}),
     self.conNewPassword=ko.observable().extend({areSame: { params:self.newPassword, message: "Confirm password must match password" }}),
     self.errors=ko.validation.group(self)
-    self.screateNewAddress=function(){
+    self.createNewAddress=function(){
 
+    }
+    self.cancelPassword =function(){
+        self.currentPassword(null);
+        self.currentPassword.clearError();
+        self.newPassword(null);
+        self.newPassword.clearError();
+        self.conNewPassword(null);
+        self.conNewPassword.clearError();
     }
     self.address= ko.observable(function () {
         return new addressVM(data.user_delivery_address);
