@@ -50,13 +50,13 @@
                                     <div class="col-sm-2">
                                         <input type="button" name="cancel" class="btn btn-primary mb15 form-control"
 
-                                               value="Cancel">
+                                               value="Cancel" data-bind="click:$root.cancelUser">
                                     </div>
 
                                     <div class="col-sm-2">
                                         <input type="button" name="save" class="btn btn-primary mb15 form-control"
 
-                                               value="Save">
+                                               value="Save" data-bind="click:$root.saveUser">
                                     </div>
                                 </div>
                                 </form>
@@ -214,5 +214,10 @@
             ko.applyBindings(new userProfileVM(data),document.getElementById("user-profile"));
         });
     });
+    function postAction(actionName,data,object){
+        $.post('{{action('FrontEndController@userProfile')}}',{action:actionName,data:data,_token: '{{Session::get('_token')}}'}, function (data) {
+       // object.user(new userData(data));
+        });
+    }
 </script>
 @endsection

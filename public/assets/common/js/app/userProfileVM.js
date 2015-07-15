@@ -6,19 +6,23 @@ ko.validation.init({insertMessages: true,
 
 var userData = function(data){
     var self=this;
-    self.email = ko.observable(data.email).extend({
+    self.email = ko.observable(data.email|| null).extend({
         required:true,
         email:true
     })
-    self.mobile=ko.observable(data.mobile).extend({
+    self.email.isModified(false);
+    self.mobile=ko.observable(data.mobile|| null).extend({
         required:true,
         pattern: {
             message: 'Hey this is not a valid mobile no',
             params: '^[7-9][0-9]{9}$'
         }
     }),
-    self.first_name=ko.observable(data.first_name).extend({required:true});
-    self.last_name=ko.observable(data.last_name).extend({required:true});
+        self.mobile.isModified(false);
+    self.first_name=ko.observable(data.first_name || null).extend({required:true});
+    self.first_name.isModified(false);
+    self.last_name=ko.observable(data.last_name || null).extend({required:true});
+    self.last_name.isModified(false);
     self.errors=ko.validation.group(self);
 }
 var addressVM = function(data){
@@ -45,9 +49,7 @@ var addressVM = function(data){
 
 var userProfileVM = function(data){
     var self=this;
-    self.user=ko.observable(function(){
-        return new userData(data);
-    });
+    self.user=ko.observable(new userData(data));
     self.cities =ko.observableArray(data.cities);
     self.currentPassword=ko.observable().extend({required:true}),
     self.newPassword=ko.observable().extend({required:true}),
@@ -64,8 +66,16 @@ var userProfileVM = function(data){
         self.conNewPassword(null);
         self.conNewPassword.clearError();
     }
+    self.cancelUser = function () {
+        $.getJSON('profile',function(data){
+            self.user(new userData(data));
+        })
+    }
     self.address= ko.observable(function () {
         return new addressVM(data.user_delivery_address);
     });
 
+    self.saveUser =function(){
+        postAction('userDetails',ko.toJSON(self.user()),self);
+    }
 }

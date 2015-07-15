@@ -243,13 +243,21 @@ class FrontEndController extends BaseController  {
     }
 
     public function userProfile(){
-        if ($this->request->ajax() && $this->request->isMethod('GET')) {
-            $cities = $this->buManager->getAllCity();
-            $userDetails=$this->userAuth->getUserDetails();
-            array_add($userDetails,'cities',$cities);
-            return  $this->response->json($userDetails,200,[], JSON_NUMERIC_CHECK);
+        if ($this->request->ajax()){
+            if($this->request->isMethod('GET')) {
+                $cities = $this->buManager->getAllCity();
+                $userDetails = $this->userAuth->getUserDetails();
+                array_add($userDetails, 'cities', $cities);
+                return $this->response->json($userDetails, 200, [], JSON_NUMERIC_CHECK);
+            }
             if($this->request->isMethod('POST')){
-
+                $action = $this->request->get('action');
+                $details =json_decode($this->request->get('data'),true);
+                switch($action){
+                    case 'userDetails':
+                        $this->userAuth->updateUserDetails($details);
+                        break;
+                }
             }
         }
         return $this->view->make('frontend.userprofile');

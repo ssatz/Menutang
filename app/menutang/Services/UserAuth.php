@@ -22,9 +22,9 @@ use Illuminate\Translation\Translator;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Hashing\HasherInterface;
 use Services\Validations\PasswordResetValidator;
+use Services\Validations\UserUpdateValidator;
 use Exceptions\SecurityExceptions;
 use Exceptions;
-
 
 
 /**
@@ -50,6 +50,7 @@ class UserAuth
      * @var UserCreateValidator
      */
     protected $userCreateValidator;
+    protected  $userUpdateValidator;
     /**
      * @var DatabaseManager
      */
@@ -104,6 +105,7 @@ class UserAuth
                                 EmailValidator $emailValidator,
                                 HasherInterface $hasherInterface,
                                 PasswordResetValidator $passwordResetValidator,
+                                UserUpdateValidator $userUpdateValidator,
                                 UserCreateValidator $userCreateValidator)
     {
         $this->userRepository = $userRepository;
@@ -118,6 +120,7 @@ class UserAuth
         $this->auth = $this->app->make('auth');
         $this->passwordHash = $hasherInterface;
         $this->passwordValidator = $passwordResetValidator;
+        $this->userUpdateValidator = $userUpdateValidator;
 
     }
 
@@ -213,5 +216,16 @@ class UserAuth
         } catch (Exception $e) {
             throw new SecurityExceptions($e->getMessage());
         }
+    }
+
+    public function updateUserDetails(array $input){
+        $userId = $this->auth->user()->get()->id;
+        $this->userUpdateValidator->excludeId=$userId;
+        $this->userUpdateValidator->with($input);
+        if($this->userUpdateValidator->passes()){
+           return $this->userRepository->updateDetails($userId,$input);
+        }
+        $this->errors = $this->userUpdateValidator->getErrors();
+        return false;
     }
 }
