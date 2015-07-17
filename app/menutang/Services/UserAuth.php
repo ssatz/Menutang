@@ -238,16 +238,20 @@ class UserAuth
      * @return bool
      */
     public function profilePasswordReset(array $passwords){
-        if($this->passwordHash->check($passwords['currentPass'],$this->auth->user()->get()->password)){
+        if($this->passwordHash->check(base64_decode($passwords['currentPass']),$this->auth->user()->get()->password)){
             $credentials = [
-                'email'=>$this->auth->user()->get()->email,
-                'password'=>$passwords['newPass']
+                'password'=>$this->passwordHash->make(base64_decode($passwords['newPass'])),
             ];
-            return $this->password->user()->reset($credentials, function ($user, $password) {
-                $user->password = $this->passwordHash->make($password);
-                $user->save();
-                $this->event->fire('user.password.changed',$user);
-            });
+            $userId = $this->auth->user()->get()->id;
+            try {
+                $this->userRepository->updateDetails($userId, $credentials);
+                $this->event->fire('user.password.changed',$this->auth->user());
+                return;
+            }
+            catch (Exception $e) {
+                throw new SecurityExceptions($e->getMessage());
+            }
+
         }
         $this->errors= $this->lang->get('profilepasschange.currentPassword');
         return false;
