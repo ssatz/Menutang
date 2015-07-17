@@ -11,7 +11,7 @@
                     <div id="myTabContent-3" class="tab-content">
                         <div class="tab-pane fade in active" id="profile" data-bind="with:user">
                             <p>
-                            <div class="alert alert-success fade in">
+                            <div class="alert alert-success fade in displayNone usr-profile">
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                 <strong>Success!</strong> Your Profile saved.
                             </div>
@@ -28,6 +28,7 @@
                                         <input type="text"  data-bind="value:first_name" placeholder="First Name"
                                                class="form-control">
                                     </div>
+                                    <p class="error" data-bind="validationMessage:first_name"></p>
                                 </div>
 
                                 <div class="form-group">
@@ -36,6 +37,7 @@
                                         <input type="text" data-bind="value:last_name" placeholder="Last Name"
                                                class="form-control">
                                     </div>
+                                    <p class="error" data-bind="validationMessage:last_name"></p>
                                 </div>
 
                                 <div class="form-group">
@@ -46,6 +48,7 @@
                                             <input type="text" data-bind="value:mobile"  placeholder="Mobile Number"
                                                    class="form-control">
                                         </div>
+                                        <p class="error mobile" data-bind="validationMessage:mobile"></p>
                                     </div>
                                 </div>
 
@@ -67,7 +70,7 @@
                             </p>
                         </div>
                         <div class="tab-pane fade" id="password">
-                            <div class="alert alert-success fade in">
+                            <div class="alert alert-success fade in pass-profile displayNone">
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                 <strong>Success!</strong> Your Password Changed.
                             </div>
@@ -79,6 +82,7 @@
                                         <input type="password"  placeholder="Current Password" data-bind="value:currentPassword"
                                                class="form-control ">
                                     </div>
+                                    <p class="error currentPassword" data-bind="validationMessage:currentPassword"></p>
                                 </div>
 
                                 <div class="form-group">
@@ -87,6 +91,7 @@
                                         <input type="password" placeholder="New Password" data-bind="value:newPassword"
                                                class="form-control ">
                                     </div>
+                                    <p class="error newPassword" data-bind="validationMessage:newPassword"></p>
                                 </div>
 
                                 <div class="form-group">
@@ -95,6 +100,7 @@
                                         <input type="password" placeholder="Confirm New Password" data-bind="value:conNewPassword"
                                                class="form-control">
                                     </div>
+                                    <p class="error conNewPassword" data-bind="validationMessage:conNewPassword"></p>
                                 </div>
 
                                 <div class="form-group">
@@ -227,8 +233,23 @@
         $.post('{{action('FrontEndController@userProfile')}}',{action:actionName,data:data,_token: '{{Session::get('_token')}}'}, function (data) {
          switch (actionName) {
              case 'userDetails':
-             object.user(new userData(data));
-             break;
+                 if(data.error){
+                     $.each(data.error,function(key,value){
+                         $(".error."+key).text(value).show('slow');
+                     });
+                    return;
+                 }
+                object.user(new userData(data));
+                $(".usr-profile").show('slow');
+                break;
+             case 'pass':
+                 if(data.error){
+                     $(".error.currentPassword").text(data.error).show('slow');
+                     return;
+                 }
+                 object.cancelPassword();
+                 $(".pass-profile").show('slow');
+                 break;
          }
 
         });

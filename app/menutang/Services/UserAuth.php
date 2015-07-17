@@ -246,12 +246,11 @@ class UserAuth
             try {
                 $this->userRepository->updateDetails($userId, $credentials);
                 $this->event->fire('user.password.changed',$this->auth->user());
-                return;
+                return true;
             }
             catch (Exception $e) {
                 throw new SecurityExceptions($e->getMessage());
             }
-
         }
         $this->errors= $this->lang->get('profilepasschange.currentPassword');
         return false;

@@ -238,10 +238,17 @@ class FrontEndController extends BaseController  {
             ->withToken($token);
     }
 
+    /**
+     *
+     */
     public function userReviews(){
 
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exceptions\SecurityExceptions
+     */
     public function userProfile(){
         if ($this->request->ajax()){
             if($this->request->isMethod('POST')){
@@ -257,7 +264,10 @@ class FrontEndController extends BaseController  {
                 }
                 if(!empty($this->userAuth->errors))
                 {
-                    return $this->response->json($this->userAuth->errors);
+                    $error =[
+                      'error'  =>$this->userAuth->errors
+                    ];
+                    return $this->response->json($error);
                 }
             }
             $cities = $this->buManager->getAllCity();
