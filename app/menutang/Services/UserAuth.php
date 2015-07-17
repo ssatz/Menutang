@@ -218,6 +218,10 @@ class UserAuth
         }
     }
 
+    /**
+     * @param array $input
+     * @return bool
+     */
     public function updateUserDetails(array $input){
         $userId = $this->auth->user()->get()->id;
         $this->userUpdateValidator->excludeId=$userId;
@@ -227,5 +231,26 @@ class UserAuth
         }
         $this->errors = $this->userUpdateValidator->getErrors();
         return false;
+    }
+
+    /**
+     * @param array $passwords
+     * @return bool
+     */
+    public function profilePasswordReset(array $passwords){
+        if($this->passwordHash->check($passwords['currentPass'],$this->auth->user()->get()->password)){
+            $credentials = [
+                'email'=>$this->auth->user()->get()->email,
+                'password'=>$passwords['newPass']
+            ];
+            return $this->password->user()->reset($credentials, function ($user, $password) {
+                $user->password = $this->passwordHash->make($password);
+                $user->save();
+                $this->event->fire('user.password.changed',$user);
+            });
+        }
+        $this->errors= $this->lang->get('profilepasschange.currentPassword');
+        return false;
+
     }
 }

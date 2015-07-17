@@ -11,10 +11,14 @@
                     <div id="myTabContent-3" class="tab-content">
                         <div class="tab-pane fade in active" id="profile" data-bind="with:user">
                             <p>
+                            <div class="alert alert-success fade in">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>Success!</strong> Your Profile saved.
+                            </div>
                             <form class="form-horizontal" role="form">
                                 <div class="form-group">
                                     <div class="col-sm-5">
-                                        <input type="email" data-bind="value:email" placeholder="Email" class="form-control">
+                                        <input type="email" data-bind="value:email" placeholder="Email" class="form-control" disabled>
                                     </div>
                                 </div>
 
@@ -54,7 +58,7 @@
                                     </div>
 
                                     <div class="col-sm-2">
-                                        <input type="button" name="save" class="btn btn-primary mb15 form-control"
+                                        <input type="button" name="cancel" class="btn btn-primary mb15 form-control"
 
                                                value="Save" data-bind="click:$root.saveUser">
                                     </div>
@@ -63,6 +67,10 @@
                             </p>
                         </div>
                         <div class="tab-pane fade" id="password">
+                            <div class="alert alert-success fade in">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>Success!</strong> Your Password Changed.
+                            </div>
                             <form class="form-horizontal" role="form">
 
                                 <div class="form-group">
@@ -100,7 +108,7 @@
                                     <div class="col-sm-2">
                                         <input type="button" name="passSave" id="passSave" class="btn btn-primary mb15 form-control"
 
-                                               value="Save">
+                                               value="Save" data-bind="click:$root.changePassword">
                                     </div>
                                 </div>
 
@@ -206,6 +214,7 @@
 <script src="{{asset('assets/common/js/knockout.mapping.min.js')}}"></script>
 <script src="{{asset('assets/common/js/chosen.jquery.min.js')}}"></script>
 <script src="{{asset('assets/common/js/app/knockout.bindings.js')}}"></script>
+<script src="{{asset('assets/common/js/app/base64.js')}}"></script>
 <script src="{{asset('assets/common/js/app/userProfileVM.js')}}"></script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -216,7 +225,12 @@
     });
     function postAction(actionName,data,object){
         $.post('{{action('FrontEndController@userProfile')}}',{action:actionName,data:data,_token: '{{Session::get('_token')}}'}, function (data) {
-       // object.user(new userData(data));
+         switch (actionName) {
+             case 'userDetails':
+             object.user(new userData(data));
+             break;
+         }
+
         });
     }
 </script>

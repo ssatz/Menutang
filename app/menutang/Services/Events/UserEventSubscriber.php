@@ -49,6 +49,10 @@ class UserEventSubscriber {
         });
     }
 
+    public function onProfilePasswordChanged($event){
+
+    }
+
     /**
      * @param $events
      */
@@ -56,6 +60,7 @@ class UserEventSubscriber {
     {
         $events->listen('user.created', 'Services\Events\UserEventSubscriber@onCreated');
         $events->listen('user.password.token', 'Services\Events\UserEventSubscriber@onPasswordTokenCreated');
+        $events->listen('user.password.changed','Services\Events\UserEventSubscriber@onProfilePasswordChanged');
 
     }
 }

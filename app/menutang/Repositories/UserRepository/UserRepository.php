@@ -101,7 +101,7 @@ class UserRepository extends BaseRepository implements IUserRepository
     public function getUserDetails($userId){
         return $this->model->with(array('userDeliveryAddress'=>function($query){
             $query->select('user_id','id','landmark','address_1','address_2','postcode');
-        }))->select('id','first_name','last_name','password','mobile','email')->first();
+        }))->select('id','first_name','last_name','password','mobile','email')->where('id','=',$userId)->first();
 
     }
 }

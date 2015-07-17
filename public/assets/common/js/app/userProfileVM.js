@@ -78,4 +78,13 @@ var userProfileVM = function(data){
     self.saveUser =function(){
         postAction('userDetails',ko.toJSON(self.user()),self);
     }
+
+    self.changePassword= function(){
+        pass ={
+            currentPass :Base64.encode(ko.toJS(self.currentPassword())),
+            newPass :Base64.encode(ko.toJS(self.conNewPassword()))
+
+        }
+        postAction('pass',ko.toJSON(pass),self);
+    }
 }
