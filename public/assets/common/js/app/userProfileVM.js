@@ -76,15 +76,19 @@ var userProfileVM = function(data){
     });
 
     self.saveUser =function(){
-        postAction('userDetails',ko.toJSON(self.user()),self);
+        if(self.errors().length==0) {
+            postAction('userDetails', ko.toJSON(self.user()), self);
+        }
     }
 
     self.changePassword= function(){
-        pass ={
-            currentPass :Base64.encode(ko.toJS(self.currentPassword())),
-            newPass :Base64.encode(ko.toJS(self.conNewPassword()))
+        if(self.errors().length==0) {
+            pass = {
+                currentPass: Base64.encode(ko.toJS(self.currentPassword())),
+                newPass: Base64.encode(ko.toJS(self.conNewPassword()))
 
+            }
+            postAction('pass', ko.toJSON(pass), self);
         }
-        postAction('pass',ko.toJSON(pass),self);
     }
 }
