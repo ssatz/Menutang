@@ -261,6 +261,9 @@ class FrontEndController extends BaseController  {
                     case 'pass':
                          $this->userAuth->profilePasswordReset($details);
                         break;
+                    case 'address':
+                        $this->userAuth->profileAddressAU($details);
+                        break;
                 }
                 if(!empty($this->userAuth->errors))
                 {

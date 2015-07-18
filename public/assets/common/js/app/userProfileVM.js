@@ -27,8 +27,9 @@ var userData = function(data){
 }
 var addressVM = function(data){
     var self=this;
+    self.id=ko.observable(data.id||-1);
     self.user_id=ko.observable(data.user_id || -1);
-    self.city_id =ko.observable(data.city_id || -1).extend({required:true});
+    self.city_id =ko.observable(data.city_id || -1).extend({required:true,notEqual: -1});
     self.address_1=ko.observable(data.address_1 || null).extend({required:true});
     self.address_2=ko.observable(data.address_2 || null);
     self.landmark=ko.observable(data.landmark || null);
@@ -87,10 +88,15 @@ var userProfileVM = function(data){
             self.user().errors.showAllMessages();
         }
     }
-
+    self.saveAddress = function () {
+        console.log(ko.toJSON(self.address().errors()));
+        if(self.address().errors().length==0) {
+            postAction('address', ko.toJSON(self.address()), self);
+        } else{
+            self.address().errors.showAllMessages();
+        }
+    }
     self.changePassword= function(){
-
-        console.log(ko.toJSON(self.errors()))
         if(self.errors().length==0) {
             pass = {
                 currentPass: Base64.encode(ko.toJS(self.currentPassword())),

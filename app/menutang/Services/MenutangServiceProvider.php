@@ -128,6 +128,10 @@ class MenutangServiceProvider extends ServiceProvider
             'Repositories\ManageHolidayRepository\ManageHolidayRepository'
         );
         $app->bind(
+            'Repositories\UserDeliveryAddress\IUserDeliveryAddress',
+            'Repositories\UserDeliveryAddress\UserDeliveryAddress'
+        );
+        $app->bind(
             'Services\Cache\ICacheService',
             'Services\Cache\CacheService'
         );

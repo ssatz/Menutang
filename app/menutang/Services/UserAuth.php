@@ -24,6 +24,7 @@ use Illuminate\Hashing\HasherInterface;
 use Services\Validations\PasswordResetValidator;
 use Services\Validations\UserUpdateValidator;
 use Exceptions\SecurityExceptions;
+use Repositories\UserDeliveryAddress\IUserDeliveryAddress;
 use Exceptions;
 
 
@@ -50,7 +51,14 @@ class UserAuth
      * @var UserCreateValidator
      */
     protected $userCreateValidator;
+    /**
+     * @var UserUpdateValidator
+     */
     protected  $userUpdateValidator;
+    /**
+     * @var IUserDeliveryAddress
+     */
+    protected  $userDeliveryAddressRepo;
     /**
      * @var DatabaseManager
      */
@@ -105,6 +113,7 @@ class UserAuth
                                 EmailValidator $emailValidator,
                                 HasherInterface $hasherInterface,
                                 PasswordResetValidator $passwordResetValidator,
+                                IUserDeliveryAddress $deliveryAddress,
                                 UserUpdateValidator $userUpdateValidator,
                                 UserCreateValidator $userCreateValidator)
     {
@@ -121,6 +130,7 @@ class UserAuth
         $this->passwordHash = $hasherInterface;
         $this->passwordValidator = $passwordResetValidator;
         $this->userUpdateValidator = $userUpdateValidator;
+        $this->userDeliveryAddressRepo = $deliveryAddress;
 
     }
 
@@ -255,5 +265,28 @@ class UserAuth
         $this->errors= $this->lang->get('profilepasschange.currentPassword');
         return false;
 
+    }
+
+    /**
+     * @param array $address
+     * @return bool
+     * @throws Exception
+     */
+    public function profileAddressAU(array $address){
+        $address['user_id']=$this->auth->user()->get()->id;
+        $this->db->beginTransaction();
+        try {
+            if ($address['id'] == -1) {
+                unset($address['id']);
+                $this->userDeliveryAddressRepo->create($address);
+            }
+            $this->userDeliveryAddressRepo->update($address['id'], $address);
+        }
+        catch (Exception $e) {
+            $this->db->rollback();
+                throw new Exception($e->getMessage());
+        }
+        $this->db->commit();
+        return true;
     }
 }

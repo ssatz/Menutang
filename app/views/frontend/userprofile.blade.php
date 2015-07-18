@@ -183,7 +183,7 @@
                                 <div class="form-group">
 
                                     <div class="col-sm-5">
-                                        <select data-placeholder="Choose a City..."  data-bind="options:$root.cities,optionsText:'city_description',value:'id',selectedOptions:city_id,chosen,optionsCaption: 'Choose a city..'">
+                                        <select  data-bind="options:$root.cities,optionsText:'city_description',value:city_id,chosen,optionsCaption: 'Choose a city..'">
                                         </select>
                                         <p class="error city_id" data-bind="validationMessage: city_id"></p>
                                     </div>
@@ -193,7 +193,7 @@
                                     <div class="col-sm-5">
 
                                         <label class="label-checkbox">
-                                            <input type="checkbox">
+                                            <input type="checkbox" data-bind="checked:active">
                                             <span class="custom-checkbox"></span>
                                             Make Default
                                         </label>
@@ -210,7 +210,7 @@
                                     </div>
 
                                     <div class="col-sm-2">
-                                        <input type="button" name="addSave" id="addSave"
+                                        <input type="button" name="addSave" id="addSave" data-bind="click:$root.saveAddress"
                                                class="btn btn-primary mb15 form-control"
                                                value="Save">
                                     </div>

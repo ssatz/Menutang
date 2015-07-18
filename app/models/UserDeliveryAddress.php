@@ -22,6 +22,10 @@ class UserDeliveryAddress extends Eloquent {
      * @var array
      */
     protected $hidden = [];
+    /**
+     * @var array
+     */
+    protected $guarded = [];
 
     /**
      * @return mixed
