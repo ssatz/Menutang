@@ -27,8 +27,8 @@
                                     <div class="col-sm-5">
                                         <input type="text"  data-bind="value:first_name" placeholder="First Name"
                                                class="form-control">
+                                        <p class="error" data-bind="validationMessage:first_name"></p>
                                     </div>
-                                    <p class="error" data-bind="validationMessage:first_name"></p>
                                 </div>
 
                                 <div class="form-group">
@@ -36,8 +36,9 @@
                                     <div class="col-sm-5">
                                         <input type="text" data-bind="value:last_name" placeholder="Last Name"
                                                class="form-control">
+                                        <p class="error" data-bind="validationMessage:last_name"></p>
                                     </div>
-                                    <p class="error" data-bind="validationMessage:last_name"></p>
+
                                 </div>
 
                                 <div class="form-group">
@@ -47,8 +48,10 @@
                                             <div class="input-group-addon">+91</div>
                                             <input type="text" data-bind="value:mobile"  placeholder="Mobile Number"
                                                    class="form-control">
+
                                         </div>
                                         <p class="error mobile" data-bind="validationMessage:mobile"></p>
+
                                     </div>
                                 </div>
 
@@ -81,8 +84,9 @@
                                     <div class="col-sm-5">
                                         <input type="password"  placeholder="Current Password" data-bind="value:currentPassword"
                                                class="form-control ">
+                                        <p class="error currentPassword" data-bind="validationMessage:currentPassword"></p>
                                     </div>
-                                    <p class="error currentPassword" data-bind="validationMessage:currentPassword"></p>
+
                                 </div>
 
                                 <div class="form-group">
@@ -90,8 +94,9 @@
                                     <div class="col-sm-5">
                                         <input type="password" placeholder="New Password" data-bind="value:newPassword"
                                                class="form-control ">
+                                        <p class="error newPassword" data-bind="validationMessage:newPassword"></p>
                                     </div>
-                                    <p class="error newPassword" data-bind="validationMessage:newPassword"></p>
+
                                 </div>
 
                                 <div class="form-group">
@@ -99,8 +104,9 @@
                                     <div class="col-sm-5">
                                         <input type="password" placeholder="Confirm New Password" data-bind="value:conNewPassword"
                                                class="form-control">
+                                        <p class="error conNewPassword" data-bind="validationMessage:conNewPassword"></p>
                                     </div>
-                                    <p class="error conNewPassword" data-bind="validationMessage:conNewPassword"></p>
+
                                 </div>
 
                                 <div class="form-group">
@@ -129,7 +135,9 @@
 
                                         <input type="text" name="address1" data-bind="value:address_1" placeholder="Address Line 1"
                                                class="form-control">
+                                        <p class="error address_1" data-bind="validationMessage:address_1"></p>
                                     </div>
+
                                 </div>
 
                                 <div class="form-group">
@@ -138,8 +146,9 @@
 
                                         <input type="text" name="address2" data-bind="value:address_2" placeholder="Address Line 2"
                                                class="form-control">
-
+                                        <p class="error address_2" data-bind="validationMessage:address_2"></p>
                                     </div>
+
                                 </div>
                                 <div class="form-group">
 
@@ -147,8 +156,9 @@
 
                                         <input type="text" name="landmark" data-bind="value:landmark" placeholder="LandMark"
                                                class="form-control">
-
+                                        <p class="error landmark" data-bind="validationMessage:landmark"></p>
                                     </div>
+
                                 </div>
                                 <div class="form-group">
 
@@ -156,8 +166,9 @@
 
                                         <input type="text" name="addName" data-bind="value:postcode" placeholder="Pincode"
                                                class="form-control">
-
+                                        <p class="error postcode" data-bind="validationMessage:postcode"></p>
                                     </div>
+
                                 </div>
                                 <div class="form-group">
 
@@ -165,15 +176,16 @@
 
                                         <input type="text" name="addName" data-bind="value:mobile" placeholder="mobile no"
                                                class="form-control">
-
+                                        <p class="error add-mobile" data-bind="validationMessage:mobile"></p>
                                     </div>
+
                                 </div>
                                 <div class="form-group">
 
                                     <div class="col-sm-5">
                                         <select data-placeholder="Choose a City..."  data-bind="options:$root.cities,optionsText:'city_description',value:'id',selectedOptions:city_id,chosen,optionsCaption: 'Choose a city..'">
                                         </select>
-                                        <p class="validationMessage" data-bind="validationMessage: city_id"></p>
+                                        <p class="error city_id" data-bind="validationMessage: city_id"></p>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -192,7 +204,7 @@
                                 <div class="form-group">
 
                                     <div class="col-sm-2">
-                                        <input type="button" name="addCancel" id="addCancel"
+                                        <input type="button" name="addCancel" id="addCancel" data-bind="click:$root.cancelAddress"
                                                class="btn btn-primary mb15 form-control"
                                                value="Cancel">
                                     </div>
