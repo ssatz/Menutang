@@ -106,6 +106,12 @@ var userProfileVM = function(data){
             self.address().errors.showAllMessages();
         }
     }
+    self.isActive =function(data){
+        if(ko.toJS(data.active)==1){
+            self.address(new addressVM(data));
+            return  "in";
+        }
+    }
     self.changePassword= function(){
         if(self.errors().length==0) {
             pass = {

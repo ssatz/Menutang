@@ -129,6 +129,10 @@
                         </div>
 
                         <div class="tab-pane fade" id="address">
+                            <div class="alert alert-success fade in displayNone usr-address">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>Success!</strong> Address saved.
+                            </div>
                             <!--ko if: addresses().length==0-->
                                 <!--ko template :{name:'form-template',data:$root.address} -->
                                 <!--/ko-->
@@ -136,10 +140,10 @@
                             <!--ko if:addresses().length>=1 -->
                             <!--ko foreach:addresses() -->
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                <a class="btn btn-primary" role="button" data-toggle="collapse" data-bind="attr: { href: '#'+$root.replaceSplChar(address_1) },click:$root.newAddress" aria-expanded="false" aria-controls="collapseExample">
+                                <a class="btn btn-primary" role="button"  data-toggle="collapse" data-bind="attr: { href: '#'+$root.replaceSplChar(address_1) },click:$root.newAddress" aria-expanded="false" aria-controls="collapseExample">
                                     <i class="icon-chevron-right"></i> <!--ko text:address_1 --> <!--/ko-->&nbsp;<span class="badge badge-info pull-right">X</span>
                                 </a>
-                                <div class="collapse" data-bind="attr:{id:$parent.replaceSplChar(address_1)}">
+                                <div class="collapse" data-bind="attr:{id:$parent.replaceSplChar(address_1)},css:$root.isActive($data)">
                                     <div class="well">
                                         <!--ko template :{name:'form-template',data:$root.address} --> <!--/ko-->
                                     </div>
@@ -291,6 +295,7 @@
                      return;
                  }
                  object.addresses(data.user_delivery_address);
+                 $(".usr-address").show('slow');
                  break;
          }
 
