@@ -6,7 +6,7 @@
                     <ul id="myTab-3" class="nav nav-tabs" role="tablist">
                         <li class="active"><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
                         <li><a href="#password" role="tab-kv" data-toggle="tab">Password</a></li>
-                        <li><a href="#dddress" role="tab-kv" data-toggle="tab">Address</a></li>
+                        <li><a href="#address" role="tab-kv" data-toggle="tab">Address</a></li>
                     </ul>
                     <div id="myTabContent-3" class="tab-content">
                         <div class="tab-pane fade in active" id="profile" data-bind="with:user">
@@ -128,19 +128,21 @@
 
                         </div>
 
-                        <div class="tab-pane fade" id="dddress">
+                        <div class="tab-pane fade" id="address">
                             <!--ko if: addresses().length==0-->
                                 <!--ko template :{name:'form-template',data:$root.address} -->
                                 <!--/ko-->
                             <!--/ko-->
                             <!--ko if:addresses().length>=1 -->
                             <!--ko foreach:addresses() -->
-                            <a class="btn btn-primary" role="button" data-toggle="collapse" data-bind="attr: { href: '#'+$root.replaceSplChar(address_1) },click:$root.newAddress" aria-expanded="false" aria-controls="collapseExample">
-                                <!--ko text:address_1 --> <!--/ko-->
-                            </a>
-                            <div class="collapse" data-bind="attr:{id:$parent.replaceSplChar(address_1)}">
-                                <div class="well">
-                                    <!--ko template :{name:'form-template',data:$root.address} --> <!--/ko-->
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <a class="btn btn-primary" role="button" data-toggle="collapse" data-bind="attr: { href: '#'+$root.replaceSplChar(address_1) },click:$root.newAddress" aria-expanded="false" aria-controls="collapseExample">
+                                    <i class="icon-chevron-right"></i> <!--ko text:address_1 --> <!--/ko-->&nbsp;<span class="badge badge-info pull-right">X</span>
+                                </a>
+                                <div class="collapse" data-bind="attr:{id:$parent.replaceSplChar(address_1)}">
+                                    <div class="well">
+                                        <!--ko template :{name:'form-template',data:$root.address} --> <!--/ko-->
+                                    </div>
                                 </div>
                             </div>
                             <!--/ko -->
@@ -257,7 +259,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $.getJSON("{{action('FrontEndController@userProfile')}}", null, function (data) {
-            console.log(data);
             ko.applyBindings(new userProfileVM(data),document.getElementById("user-profile"));
         });
     });
