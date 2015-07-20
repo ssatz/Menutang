@@ -127,100 +127,120 @@
                             </form>
 
                         </div>
-                        <div class="tab-pane fade" id="dddress" data-bind="with:address">
-                            <form class="form-horizontal" role="form">
-                                <div class="form-group">
 
-                                    <div class="col-sm-5">
-
-                                        <input type="text" name="address1" data-bind="value:address_1" placeholder="Address Line 1"
-                                               class="form-control">
-                                        <p class="error address_1" data-bind="validationMessage:address_1"></p>
-                                    </div>
-
+                        <div class="tab-pane fade" id="dddress">
+                            <!--ko if: addresses().length==0-->
+                                <!--ko template :{name:'form-template',data:$root.address} -->
+                                <!--/ko-->
+                            <!--/ko-->
+                            <!--ko if:addresses().length>=1 -->
+                            <!--ko foreach:addresses() -->
+                            <a class="btn btn-primary" role="button" data-toggle="collapse" data-bind="attr: { href: '#'+$root.replaceSplChar(address_1) },click:$root.newAddress" aria-expanded="false" aria-controls="collapseExample">
+                                <!--ko text:address_1 --> <!--/ko-->
+                            </a>
+                            <div class="collapse" data-bind="attr:{id:$parent.replaceSplChar(address_1)}">
+                                <div class="well">
+                                    <!--ko template :{name:'form-template',data:$root.address} --> <!--/ko-->
                                 </div>
-
-                                <div class="form-group">
-
-                                    <div class="col-sm-5">
-
-                                        <input type="text" name="address2" data-bind="value:address_2" placeholder="Address Line 2"
-                                               class="form-control">
-                                        <p class="error address_2" data-bind="validationMessage:address_2"></p>
-                                    </div>
-
-                                </div>
-                                <div class="form-group">
-
-                                    <div class="col-sm-5">
-
-                                        <input type="text" name="landmark" data-bind="value:landmark" placeholder="LandMark"
-                                               class="form-control">
-                                        <p class="error landmark" data-bind="validationMessage:landmark"></p>
-                                    </div>
-
-                                </div>
-                                <div class="form-group">
-
-                                    <div class="col-sm-5">
-
-                                        <input type="text" name="addName" data-bind="value:postcode" placeholder="Pincode"
-                                               class="form-control">
-                                        <p class="error postcode" data-bind="validationMessage:postcode"></p>
-                                    </div>
-
-                                </div>
-                                <div class="form-group">
-
-                                    <div class="col-sm-5">
-
-                                        <input type="text" name="addName" data-bind="value:mobile" placeholder="mobile no"
-                                               class="form-control">
-                                        <p class="error add-mobile" data-bind="validationMessage:mobile"></p>
-                                    </div>
-
-                                </div>
-                                <div class="form-group">
-
-                                    <div class="col-sm-5">
-                                        <select  data-bind="options:$root.cities,optionsText:'city_description',value:city_id,chosen,optionsCaption: 'Choose a city..'">
-                                        </select>
-                                        <p class="error city_id" data-bind="validationMessage: city_id"></p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-
-                                    <div class="col-sm-5">
-
-                                        <label class="label-checkbox">
-                                            <input type="checkbox" data-bind="checked:active">
-                                            <span class="custom-checkbox"></span>
-                                            Make Default
-                                        </label>
-
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-
-                                    <div class="col-sm-2">
-                                        <input type="button" name="addCancel" id="addCancel" data-bind="click:$root.cancelAddress"
-                                               class="btn btn-primary mb15 form-control"
-                                               value="Cancel">
-                                    </div>
-
-                                    <div class="col-sm-2">
-                                        <input type="button" name="addSave" id="addSave" data-bind="click:$root.saveAddress"
-                                               class="btn btn-primary mb15 form-control"
-                                               value="Save">
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
+                            <!--/ko -->
+                            <!--/ko -->
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
+<script type="text/html" id="form-template">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+
+            <div class="col-sm-5">
+
+                <input type="text" name="address1" data-bind="value:address_1" placeholder="Address Line 1"
+                       class="form-control">
+                <p class="error address_1" data-bind="validationMessage:address_1"></p>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <div class="col-sm-5">
+
+                <input type="text" name="address2" data-bind="value:address_2" placeholder="Address Line 2"
+                       class="form-control">
+                <p class="error address_2" data-bind="validationMessage:address_2"></p>
+            </div>
+
+        </div>
+        <div class="form-group">
+
+            <div class="col-sm-5">
+
+                <input type="text" name="landmark" data-bind="value:landmark" placeholder="LandMark"
+                       class="form-control">
+                <p class="error landmark" data-bind="validationMessage:landmark"></p>
+            </div>
+
+        </div>
+        <div class="form-group">
+
+            <div class="col-sm-5">
+
+                <input type="text" name="addName" data-bind="value:postcode" placeholder="Pincode"
+                       class="form-control">
+                <p class="error postcode" data-bind="validationMessage:postcode"></p>
+            </div>
+
+        </div>
+        <div class="form-group">
+
+            <div class="col-sm-5">
+
+                <input type="text" name="addName" data-bind="value:mobile" placeholder="mobile no"
+                       class="form-control">
+                <p class="error add-mobile" data-bind="validationMessage:mobile"></p>
+            </div>
+
+        </div>
+        <div class="form-group">
+
+            <div class="col-sm-5">
+                <select  data-bind="options:$root.cities,optionsText:'city_description',optionsValue:'id',selectedOptions:city_id,value:city_id,optionsCaption: 'Choose a city..',chosen">
+                </select>
+                <p class="error city_id" data-bind="validationMessage:city_id"></p>
+            </div>
+        </div>
+        <div class="form-group">
+
+            <div class="col-sm-5">
+
+                <label class="label-checkbox">
+                    <input type="checkbox" data-bind="checked:active">
+                    <span class="custom-checkbox"></span>
+                    Make Default
+                </label>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="col-sm-2">
+                <input type="button" name="addCancel" id="addCancel" data-bind="click:$root.cancelAddress"
+                       class="btn btn-primary mb15 form-control"
+                       value="Cancel">
+            </div>
+
+            <div class="col-sm-2">
+                <input type="button" name="addSave" id="addSave" data-bind="click:$root.saveAddress"
+                       class="btn btn-primary mb15 form-control"
+                       value="Save">
+            </div>
+        </div>
+    </form>
+</script>
 @endsection
 @section('css')
 <link href="{{asset('assets/common/css/chosen/chosen.min.css')}}" rel="stylesheet">
@@ -261,6 +281,15 @@
                  }
                  object.cancelPassword();
                  $(".pass-profile").show('slow');
+                 break;
+             case 'address':
+                 if(data.error){
+                     $.each(data.error,function(key,value){
+                         $(".error."+key).text(value).show('slow');
+                     });
+                     return;
+                 }
+                 object.addresses(data.user_delivery_address);
                  break;
          }
 

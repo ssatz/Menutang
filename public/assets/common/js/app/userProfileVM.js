@@ -44,7 +44,7 @@ var addressVM = function(data){
             }
         }
     );
-    self.active =ko.observable(data.active || null);
+    self.active =ko.observable(data.active || 0);
     self.errors=ko.validation.group(self);
 }
 
@@ -73,11 +73,21 @@ var userProfileVM = function(data){
         });
     }
     self.address= ko.observable(new addressVM(data.user_delivery_address));
-
+    self.addresses = ko.observableArray(data.user_delivery_address);
+   /* ko.utils.arrayForEach(data.user_delivery_address, function(data) {
+       self.addresses.push(new addressVM(data));
+    });*/
+    self.replaceSplChar = function (string){
+         data=ko.toJS(string).replace(/[^A-Z0-9]+/ig,'-');
+        return data;
+    }
     self.cancelAddress = function(){
         $.getJSON('profile',function(data){
             self.address(new addressVM(data.user_delivery_address));
         });
+    }
+    self.newAddress = function (data) {
+        self.address(new addressVM(data));
     }
 
     self.saveUser =function(){

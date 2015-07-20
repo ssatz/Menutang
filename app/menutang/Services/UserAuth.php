@@ -279,14 +279,17 @@ class UserAuth
             if ($address['id'] == -1) {
                 unset($address['id']);
                 $this->userDeliveryAddressRepo->create($address);
+                $this->db->commit();
+                return true;
             }
-            $this->userDeliveryAddressRepo->update($address['id'], $address);
+            $this->userDeliveryAddressRepo->update($address,$address['id']);
+            $this->db->commit();
+            return true;
         }
         catch (Exception $e) {
             $this->db->rollback();
                 throw new Exception($e->getMessage());
         }
-        $this->db->commit();
         return true;
     }
 }

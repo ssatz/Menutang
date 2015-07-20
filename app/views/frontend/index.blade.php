@@ -58,10 +58,10 @@ use Illuminate\Support\Facades\Auth;
                     <li class="dropdown dropdown-menutang"><a href="#" id="drop1" data-toggle="dropdown"
                                                               class="dropdown-toggle" role="button">My Account <b
                                 class="caret"></b></a>
-                        <ul role="menu" class="dropdown-menu dropdown-menutang" aria-labelledby="drop1">
-                            <li role="presentation"><a href="{{action('FrontEndController@userProfile')}}" role="menuitem">My Profile</a></li>
-                            <li role="presentation"><a href="#" role="menuitem">My Order</a></li>
-                            <li role="presentation"><a href="#" role="menuitem">Help Desk</a></li>
+                        <ul  class="dropdown-menu dropdown-menutang" aria-labelledby="drop1">
+                            <li><a href="{{action('FrontEndController@userProfile')}}">My Profile</a></li>
+                            <li><a href="#" role="menuitem">My Order</a></li>
+                            <li><a href="#" role="menuitem">Help Desk</a></li>
                         </ul>
                     </li>
                     <li class="dropdown-menutang">
