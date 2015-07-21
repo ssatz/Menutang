@@ -233,7 +233,11 @@ class FrontEndController extends BaseController  {
              }
              return $this->userAuth->errors;
         }
+        $availableCities=$this->frontEndManager->getAvailableCities();
+        $cuisineTypes= $this->frontEndManager->getAllCuisinesWithBusinessCount();
         return $this->view->make('frontend.password')
+            ->withCuisines($cuisineTypes)
+            ->withAvailablecities($availableCities)
             ->withType($type)
             ->withToken($token);
     }
