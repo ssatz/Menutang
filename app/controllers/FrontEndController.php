@@ -264,6 +264,9 @@ class FrontEndController extends BaseController  {
                     case 'address':
                         $this->userAuth->profileAddressAU($details);
                         break;
+                    case 'removeAddress':
+                        $this->userAuth->profileRemoveAddress($details);
+                        break;
                 }
                 if(!empty($this->userAuth->errors))
                 {

@@ -13,4 +13,7 @@ namespace Repositories\UserDeliveryAddress;
 
 interface IUserDeliveryAddress {
 
+    public function makeDefault($userId,$deliveryId);
+    public function profileRemoveAddress($userId,$deliveryId);
+
 }

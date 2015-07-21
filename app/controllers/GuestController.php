@@ -99,7 +99,11 @@ class GuestController extends BaseController
      */
     public function contactUs()
     {
-
+        $availableCities=$this->frontEndManager->getAvailableCities();
+        $cuisineTypes= $this->frontEndManager->getAllCuisinesWithBusinessCount();
+        return $this->view->make('frontend.contact')
+            ->withCuisines($cuisineTypes)
+            ->withAvailablecities($availableCities);
     }
 
 

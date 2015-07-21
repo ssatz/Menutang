@@ -129,34 +129,52 @@
                         </div>
 
                         <div class="tab-pane fade" id="address">
-                            <div class="alert alert-success fade in displayNone usr-address">
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                <strong>Success!</strong> Address saved.
-                            </div>
-                            <!--ko if: addresses().length==0-->
+                            <div class="row">
+                                <div class="alert alert-success fade in usr-address displayNone">
+                                    <span class="usAdd"><strong>Success!</strong> Address saved.</span>
+                                </div>
+                                <!--ko if: addresses().length==0-->
                                 <!--ko template :{name:'form-template',data:$root.address} -->
                                 <!--/ko-->
-                            <!--/ko-->
-                            <!--ko if:addresses().length>=1 -->
-                            <!--ko foreach:addresses() -->
-                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                <a class="btn btn-primary" role="button"  data-toggle="collapse" data-bind="attr: { href: '#'+$root.replaceSplChar(address_1) },click:$root.newAddress" aria-expanded="false" aria-controls="collapseExample">
-                                    <i class="icon-chevron-right"></i> <!--ko text:address_1 --> <!--/ko-->&nbsp;<span class="badge badge-info pull-right">X</span>
-                                </a>
-                                <div class="collapse" data-bind="attr:{id:$parent.replaceSplChar(address_1)},css:$root.isActive($data)">
-                                    <div class="well">
-                                        <!--ko template :{name:'form-template',data:$root.address} --> <!--/ko-->
+                                <!--/ko-->
+                                <!--ko if:addresses().length>=1 -->
+                                <!--ko foreach:addresses() -->
+                                <div class="col-xs-5">
+                                    <div class="offer offer-success">
+                                        <div class="text-float">
+                                            <a href="#add-address" data-bind="click:$root.newAddress($data)"  data-toggle="modal" data-target="#edit-address"> <i class="fa fa-edit"></i></a>
+                                            <a href="#"  data-bind="click:$root.removeAdd($data)"><i class="fa fa-remove"></i></a>
+                                        </div>
+                                        <div class="offer-content">
+                                                <!--ko text:address_1 --> <!--/ko--></br>
+                                                <!--ko text:postcode --> <!--/ko-->
+                                            <br/><small>Mobile:<!--ko text:mobile --><!--/ko--></small>
+                                        </div>
                                     </div>
                                 </div>
+                                <!--/ko -->
+                                <!--/ko -->
                             </div>
-                            <!--/ko -->
-                            <!--/ko -->
                         </div>
-
                     </div>
                 </div>
             </div>
+           <div class="modal fade" id="edit-address" tabindex="-1" role="dialog" aria-hidden="true">
+               <div class="modal-dialog">
+                   <div class="modal-content">
+                       <div class="modal-header">
+                           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                           </button>
+                           <h4 class="modal-title">Edit Address Details</h4>
+                       </div>
+                       <div class="modal-body">
+                           <!--ko template :{name:'form-template',data:$root.address} --> <!--/ko-->
+                       </div>
+                   </div>
+               </div>
+           </div>
         </div>
+
 <script type="text/html" id="form-template">
     <form class="form-horizontal" role="form">
         <div class="form-group">
@@ -295,10 +313,17 @@
                      return;
                  }
                  object.addresses(data.user_delivery_address);
+                 $('.usr-address .usAdd').html("<strong>Success!</strong> Address saved.")
+                 $(".usr-address").show('slow');
+                 break;
+             case 'removeAddress':
+                 object.addresses(data.user_delivery_address);
+                 object.address(new addressVM(data.user_delivery_address));
+                 $('.usr-address .usAdd').html("<strong>Success!</strong> Address Deleted.")
                  $(".usr-address").show('slow');
                  break;
          }
-
+            setTimeout(function(){$(".alert").hide('slow');},3000);
         });
     }
 </script>

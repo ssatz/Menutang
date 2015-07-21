@@ -276,6 +276,9 @@ class UserAuth
         $address['user_id']=$this->auth->user()->get()->id;
         $this->db->beginTransaction();
         try {
+            if($address['active']){
+                $this->userDeliveryAddressRepo->makeDefault($address['user_id'],$address['id']);
+            }
             if ($address['id'] == -1) {
                 unset($address['id']);
                 $this->userDeliveryAddressRepo->create($address);
@@ -289,6 +292,23 @@ class UserAuth
         catch (Exception $e) {
             $this->db->rollback();
                 throw new Exception($e->getMessage());
+        }
+        return true;
+    }
+
+    /**
+     * @param array $address
+     * @throws Exception
+     */
+    public function profileRemoveAddress(array $address){
+        $this->db->beginTransaction();
+        try {
+          $this->userDeliveryAddressRepo->profileRemoveAddress($address['user_id'],$address['id']);
+            $this->db->commit();
+        }
+        catch (Exception $e) {
+            $this->db->rollback();
+            throw new Exception($e->getMessage());
         }
         return true;
     }

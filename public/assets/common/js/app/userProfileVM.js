@@ -89,7 +89,6 @@ var userProfileVM = function(data){
     self.newAddress = function (data) {
         self.address(new addressVM(data));
     }
-
     self.saveUser =function(){
         if(self.user().errors().length==0) {
             postAction('userDetails', ko.toJSON(self.user()), self);
@@ -99,7 +98,6 @@ var userProfileVM = function(data){
         }
     }
     self.saveAddress = function () {
-        console.log(ko.toJSON(self.address().errors()));
         if(self.address().errors().length==0) {
             postAction('address', ko.toJSON(self.address()), self);
         } else{
@@ -109,7 +107,10 @@ var userProfileVM = function(data){
     self.isActive =function(data){
         if(ko.toJS(data.active)==1){
             self.address(new addressVM(data));
-            return  "in";
+            return  '<span class="fa fa-check"></span>';
+        }
+        else{
+            return '<span class="fa fa-thumbs-down"></span>'
         }
     }
     self.changePassword= function(){
@@ -123,6 +124,11 @@ var userProfileVM = function(data){
         }
         else{
             self.errors.showAllMessages();
+        }
+    }
+    self.removeAdd = function(data) {
+        return function(data) {
+            postAction('removeAddress', ko.toJSON(data), self);
         }
     }
 }

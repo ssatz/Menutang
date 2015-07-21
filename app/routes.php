@@ -80,6 +80,7 @@ Route::group(['domain' => 'business.'.preg_replace('#^http(s)?://(www.)?#', '', 
 Route::group(['domain' => preg_replace('#^http(s)?://(www.)?#', '', Config::get('app.url'))], function () {
     Route::get('about-us.htm', ['before' => 'cache', 'after' => 'cache', 'as' => 'aboutUs', 'uses' => 'GuestController@aboutUs']);
     Route::get('faq.htm', ['as' => 'faq', 'uses' => 'GuestController@faq']);
+    Route::get('contact-us.htm', ['as' => 'contact-us', 'uses' => 'GuestController@contactUs']);
     Route::get('logout', ['as' => 'user.logout', 'uses' => 'FrontEndController@logout']);
     Route::post('login', ['as' => 'user.login', 'uses' => 'FrontEndController@userLogin']);
     Route::any('profile',['as'=>'user.profile','before'=>'auth.user','uses'=>'FrontEndController@userProfile']);

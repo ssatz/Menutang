@@ -16,6 +16,10 @@ use Services\Cache\ICacheService;
 
 class UserDeliveryAddress extends BaseRepository implements IUserDeliveryAddress {
 
+    /**
+     * @param DeliveryAddress $deliveryAddress
+     * @param ICacheService $cache
+     */
     public function __construct(DeliveryAddress $deliveryAddress, ICacheService $cache)
     {
         $cache->tag(get_class($deliveryAddress));
@@ -23,4 +27,20 @@ class UserDeliveryAddress extends BaseRepository implements IUserDeliveryAddress
 
     }
 
+    /**
+     * @param $userId
+     * @param $deliveryId
+     */
+    public function makeDefault($userId, $deliveryId)
+    {
+       $this->model->where('user_id','=',$userId)->where('id','!=',$deliveryId)->update(['active'=>false]);
+    }
+
+    /**
+     * @param $userId
+     * @param $deliveryId
+     */
+    public function profileRemoveAddress($userId,$deliveryId){
+        $this->model->where('user_id','=',$userId)->where('id','=',$deliveryId)->delete();
+    }
 }
