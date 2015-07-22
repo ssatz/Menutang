@@ -42,7 +42,7 @@ use Illuminate\Support\Facades\Auth;
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -55,10 +55,10 @@ use Illuminate\Support\Facades\Auth;
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right borderStyle">
                     @if(Auth::user()->check())
-                    <li class="dropdown dropdown-menutang"><a href="#" id="drop1" data-toggle="dropdown"
-                                                              class="dropdown-toggle" role="button">My Account <b
-                                class="caret"></b></a>
-                        <ul  class="dropdown-menu dropdown-menutang" aria-labelledby="drop1">
+                    <li class="dropdown dropdown-menutang"><a href="#"  data-toggle="dropdown"
+                                                              class="dropdown-toggle" role="button">My Account
+                            <span><i class="fa fa-chevron-down"></i></span></a>
+                        <ul  class="dropdown-menu dropdown-menutang"  role="menu">
                             <li><a href="{{action('FrontEndController@userProfile')}}">My Profile</a></li>
                             <li><a href="#" role="menuitem">My Order</a></li>
                             <li><a href="#" role="menuitem">Help Desk</a></li>

@@ -104,4 +104,13 @@ class UserRepository extends BaseRepository implements IUserRepository
         }))->select('id','first_name','last_name','password','mobile','email')->where('id','=',$userId)->first();
 
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUserCount()
+    {
+        return $this->model->count();
+    }
+
 }

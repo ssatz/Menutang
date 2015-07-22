@@ -139,18 +139,18 @@
                                 <!--/ko-->
                                 <!--ko if:addresses().length>=1 -->
                                 <!--ko foreach:addresses() -->
-                                <div class="col-xs-5">
-                                    <div class="offer offer-success">
+                                <div class="col-sm-6 col-md-5">
+                                    <div class="panel-stat3 bg-info offer offer-radius">
                                         <div class="text-float">
                                             <a href="#add-address" data-bind="click:$root.newAddress($data)"  data-toggle="modal" data-target="#edit-address"> <i class="fa fa-edit"></i></a>
                                             <a href="#"  data-bind="click:$root.removeAdd($data)"><i class="fa fa-remove"></i></a>
                                         </div>
                                         <div class="offer-content">
-                                                <!--ko text:address_1 --> <!--/ko--></br>
-                                                <!--ko text:postcode --> <!--/ko-->
+                                            <!--ko text:address_1 --> <!--/ko--></br>
+                                            <!--ko text:postcode --> <!--/ko-->
                                             <br/><small>Mobile:<!--ko text:mobile --><!--/ko--></small>
                                         </div>
-                                    </div>
+                                        </div>
                                 </div>
                                 <!--/ko -->
                                 <!--/ko -->

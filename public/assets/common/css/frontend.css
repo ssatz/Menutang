@@ -1034,7 +1034,7 @@ footer ul.list-inline {
     transform:rotate(360deg);
 }
 .offer{
-    background:#fff; border:1px solid #ddd; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); margin: 15px 0; overflow:hidden;
+     border:1px solid #ddd; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); margin: 15px 0; overflow:hidden;
 }
 .offer-radius{
     border-radius:7px;
