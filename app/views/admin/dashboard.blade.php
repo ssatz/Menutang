@@ -49,7 +49,7 @@
 <div class="row">
     <div class="col-sm-6 col-md-3">
         <div class="panel-stat3 bg-danger">
-            <h2 class="m-top-none" id="userCount">362</h2>
+            <h2 class="m-top-none" id="userCount">{{$usercount}}</h2>
             <h5>Registered users</h5>
             <i class="fa fa-arrow-circle-o-up fa-lg"></i><span class="m-left-xs">5% Higher than last week</span>
             <div class="stat-icon">

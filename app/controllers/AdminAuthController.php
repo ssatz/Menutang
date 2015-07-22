@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Routing\Redirector;
 use Carbon\Carbon;
 use Services\BusinessManager;
+use Repositories\UserRepository\IUserRepository;
 
 class AdminAuthController extends BaseController
 {
@@ -61,6 +62,7 @@ class AdminAuthController extends BaseController
      * @var BusinessManager
      */
     protected $manage;
+    protected $userDeliveryRepo;
 
     /**
      * @param AdminAuth $adminAuth
@@ -71,6 +73,7 @@ class AdminAuthController extends BaseController
                                 Carbon $carbon,
                                 BusinessManager $businessManager,
                                 Request $request,
+                                IUserRepository $iUserRepository,
                                 Response $response)
     {
         $this->adminAuth = $adminAuth;
@@ -82,6 +85,7 @@ class AdminAuthController extends BaseController
         $this->redirect =$redirector;
         $this->dateTime = $carbon;
         $this->manage=$businessManager;
+        $this->userDeliveryRepo = $iUserRepository;
     }
 
     /* ShowLogin
@@ -127,10 +131,11 @@ class AdminAuthController extends BaseController
      */
     public function dashboard()
     {
-
+        $userCount = $this->userDeliveryRepo->getUserCount();
         return $this->view->make('admin.dashboard')
             ->withLayout('admin._layout')
-            ->withTitle('Dashboard');
+            ->withTitle('Dashboard')
+            ->withUsercount($userCount);
     }
 
     /**
