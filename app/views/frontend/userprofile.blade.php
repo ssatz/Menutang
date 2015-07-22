@@ -168,7 +168,10 @@
                            <h4 class="modal-title">Edit Address Details</h4>
                        </div>
                        <div class="modal-body">
+                           <div style="padding-left: 90px">
                            <!--ko template :{name:'form-template',data:$root.address} --> <!--/ko-->
+                           </div>
+
                        </div>
                    </div>
                </div>
@@ -251,11 +254,11 @@
 
         <div class="form-group">
 
-            <div class="col-sm-2">
+            <!--<div class="col-sm-2">
                 <input type="button" name="addCancel" id="addCancel" data-bind="click:$root.cancelAddress"
                        class="btn btn-primary mb15 form-control"
                        value="Cancel">
-            </div>
+            </div>-->
 
             <div class="col-sm-2">
                 <input type="button" name="addSave" id="addSave" data-bind="click:$root.saveAddress"
@@ -306,6 +309,7 @@
                  $(".pass-profile").show('slow');
                  break;
              case 'address':
+                 $('#edit-address').modal('hide');
                  if(data.error){
                      $.each(data.error,function(key,value){
                          $(".error."+key).text(value).show('slow');
