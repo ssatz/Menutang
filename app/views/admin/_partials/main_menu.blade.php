@@ -31,6 +31,17 @@
                 </li>
             </ul>
         </li>
+        <li class="{{Active::action('AdminAuthController@userProfile')}}">
+            <a href="{{  URL::action('AdminAuthController@userProfile')}}">
+								<span class="menu-icon">
+									<i class="fa fa-user fa-lg"></i>
+								</span>
+								<span class="text">
+									User
+								</span>
+                <span class="menu-hover"></span>
+            </a>
+        </li>
 		<li class="{{Active::action('AdminAuthController@regionalSettings')}}">
 			<a href="{{  URL::action('AdminAuthController@regionalSettings')}}">
 								<span class="menu-icon">

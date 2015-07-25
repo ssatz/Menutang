@@ -18,5 +18,6 @@ interface IUserRepository
     public function updateDetails($id,array $data);
     public function updateLastLogin($id);
     public function getUserDetails($userId);
+    public function getAllUserDetails();
     public function getUserCount();
 }

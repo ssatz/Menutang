@@ -31,7 +31,7 @@ Route::group(['domain' => 'admin.'.preg_replace('#^http(s)?://(www.)?#', '', Con
 
     Route::group(['before' => 'auth.admin'], function () {
         Route::get('dashboard', ['as' => 'admin.dashboard', 'uses' => 'AdminAuthController@dashboard']);
-
+        Route::get('user', ['as' => 'admin.userProfile', 'uses' => 'AdminAuthController@userProfile']);
         Route::get('regional-settings', ['as' => 'admin.regionalsettings', 'uses' => 'AdminAuthController@regionalSettings']);
         Route::any('city', ['as' => 'admin.city', 'uses' => 'AdminAuthController@citySettings']);
         Route::any('businessType', ['as' => 'admin.businessType', 'uses' => 'AdminAuthController@businessTypeSettings']);

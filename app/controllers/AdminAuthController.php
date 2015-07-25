@@ -276,6 +276,14 @@ class AdminAuthController extends BaseController
             return $this->response->json($paymentType,200,[],JSON_NUMERIC_CHECK);
         }
     }
+
+    public function userProfile(){
+        if($this->request->ajax()) {
+            return $this->response->json($this->userDeliveryRepo->getAllUserDetails(), 200, [], JSON_NUMERIC_CHECK);
+        }
+        return $this->view->make('admin.user_profile')
+            ->withTitle('User Details');
+    }
 }
 
 
