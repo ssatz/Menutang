@@ -496,6 +496,10 @@
                             <span class="small text-primary" style="padding-left: 10px" data-bind="if:display"><span class="badge"><i class="fa fa-inr"></i><!-- ko text:remainingAmount --> <!--/ko --></span> remaining</span>
                             <span class="clearfix"></span>
                         </script>
+                        <!-- Tax input hidden variables -->
+                        <input id="vatTax" type="hidden" value="0">
+                        <input id="serviceTax" type="hidden" value="0">
+                        <input id="serviceCharge" type="hidden" value="0">
                         @if($businessdetails->VAT_tax!=0)
                         <hr>
                         <input id="vatTax" type="hidden" value="{{$businessdetails->VAT_tax}}">
