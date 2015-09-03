@@ -409,7 +409,7 @@
                                 <input type="hidden" name="delivery_fee" value="{{$businessdetails->delivery_fee}}">
                                 <input type="hidden" name="minimum_amt" value="{{$businessdetails->minimum_delivery_amt}}">
                             </label>
-                            <select class="form-control chosen"   style="margin-top: 5px;">
+                            <select class="form-control chosen" name="delivery_area"  style="margin-top: 5px;">
                                 <option selected disabled>Select Your Area:</option>
                                 @foreach($businessdetails->deliveryArea as $area)
                                     <option value="{{$area->id}}">{{$area->area}}</option>
