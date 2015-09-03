@@ -284,7 +284,34 @@ var validationMapping = {
         create: function (options) {
             return ko.observable(options.data).extend({required:true,notEqual:-1});
         }
+    },
+    'VAT_tax':{
+        create: function (options) {
+            return ko.observable(options.data).extend({
+                pattern:{
+                    params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+                    message:'Enter  a valid amount'
+                }});
+        }
+    },
+    'service_charge':{
+        create: function (options) {
+            return ko.observable(options.data).extend({
+                pattern:{
+                    params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+                    message:'Enter  a valid amount'
+                }});
+        }
+    },
+    'service_tax':{
+    create: function (options) {
+        return ko.observable(options.data).extend({
+            pattern:{
+                params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+                message:'Enter  a valid amount'
+            }});
     }
+}
 
 }
 

@@ -756,7 +756,10 @@ class BusinessManager
              'is_halal'=>$object->halal=='true'?true:false,
              'is_barbecue'=>$object->bbq=='true'?true:false,
              'is_ac'=>$object->businessAC,
-             'is_non_ac'=>$object->businessNonAC
+             'is_non_ac'=>$object->businessNonAC,
+             'VAT_tax'=>(float)$object->VATtax,
+             'service_tax'=>(float)$object->service_tax,
+             'service_charge'=>(float)$object->service_charge
              ],
           'address'=>[
               'city_id'=>(int)$object->city,

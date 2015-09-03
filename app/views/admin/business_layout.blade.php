@@ -22,7 +22,7 @@
     <!-- Morris -->
     <link href="{{asset('assets/common/css/morris.css')}}" rel="stylesheet"/>
     <!-- Datatable -->
-    <link href="{{asset('assets/common/css/jquery.dataTables_themeroller.css')}}" rel="stylesheet"
+    <link href="{{asset('assets/common/css/jquery.dataTables_themeroller.css')}}" rel="stylesheet">
     <!-- Perfect -->
     <link href="{{asset('assets/common/css/app.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/common/css/app-skin.css')}}" rel="stylesheet">

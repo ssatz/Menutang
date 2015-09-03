@@ -496,6 +496,24 @@
                             <span class="small text-primary" style="padding-left: 10px" data-bind="if:display"><span class="badge"><i class="fa fa-inr"></i><!-- ko text:remainingAmount --> <!--/ko --></span> remaining</span>
                             <span class="clearfix"></span>
                         </script>
+                        @if($businessdetails->VAT_tax!=0)
+                        <hr>
+                        <input id="vatTax" type="hidden" value="{{$businessdetails->VAT_tax}}">
+                        <span class="pull-left small">VAT TAX(+ {{$businessdetails->VAT_tax}}%)</span>
+                        <span class="pull-right small"><i class="fa fa-rupee"></i><!--ko text:VATTax--><!--/ko--></span><span class="clearfix"></span>
+                        @endif
+                        @if($businessdetails->service_tax!=0)
+                            <hr>
+                            <input id="serviceTax" type="hidden" value="{{$businessdetails->service_tax}}">
+                            <span class="pull-left small">Service TAX(+ {{$businessdetails->service_tax}}%)</span>
+                            <span class="pull-right small"><i class="fa fa-rupee"></i><!--ko text:serviceTax--><!--/ko--></span><span class="clearfix"></span>
+                        @endif
+                        @if($businessdetails->service_tax!=0)
+                            <hr>
+                            <input id="serviceCharge" type="hidden" value="{{$businessdetails->service_charge}}">
+                            <span class="pull-left small">Service Charge(+ {{$businessdetails->service_charge}}%)</span>
+                            <span class="pull-right small"><i class="fa fa-rupee"></i><!--ko text:serviceCharge--><!--/ko--></span><span class="clearfix"></span>
+                        @endif
                         <hr>
                         <!-- Total Order Amount -->
                         <h4 class="text-primary">
@@ -507,7 +525,7 @@
                         <hr>
                         <!-- Place Order Button -->
                         @if($businessdetails->ischeckout_enable)
-                        <a href="#" class="btn btn-primary btn-block" data-bind="attr: { 'disabled': orderButton() }">Place Your Order!</a>
+                        <a href="#place-order" id="order-btn" class="btn btn-primary btn-block" data-bind="attr: { 'disabled': orderButton() }">Place Your Order!</a>
                         @endif
                     </div>
                 </div>
@@ -631,6 +649,24 @@
                 <!--ko if:display --><hr> <!--/ko-->
                 <!-- Taxes and Fees -->
                 <strong data-bind="template:{name:'fee-template'}"> </strong>
+                @if($businessdetails->VAT_tax!=0)
+                    <hr>
+                    <input id="vatTax" type="hidden" value="{{$businessdetails->VAT_tax}}">
+                    <span class="pull-left small">VAT TAX(+ {{$businessdetails->VAT_tax}}%)</span>
+                    <span class="pull-right small"><i class="fa fa-rupee"></i><!--ko text:VATTax--><!--/ko--></span><span class="clearfix"></span>
+                @endif
+                @if($businessdetails->service_tax!=0)
+                    <hr>
+                    <input id="serviceTax" type="hidden" value="{{$businessdetails->service_tax}}">
+                    <span class="pull-left small">Service TAX(+ {{$businessdetails->service_tax}}%)</span>
+                    <span class="pull-right small"><i class="fa fa-rupee"></i><!--ko text:serviceTax--><!--/ko--></span><span class="clearfix"></span>
+                @endif
+                @if($businessdetails->service_tax!=0)
+                    <hr>
+                    <input id="serviceCharge" type="hidden" value="{{$businessdetails->service_charge}}">
+                    <span class="pull-left small">Service Charge(+ {{$businessdetails->service_charge}}%)</span>
+                    <span class="pull-right small"><i class="fa fa-rupee"></i><!--ko text:serviceCharge--><!--/ko--></span><span class="clearfix"></span>
+                @endif
                 <div style="height: 300px;">
                     <h4 class="text-primary">
                         <span class="pull-left">Total:</span>

@@ -10,7 +10,7 @@
                 <ul class="tab-bar">
                     <li class="active"><a href="#business" data-toggle="tab"><i class="fa fa-home"></i>Business Details</a></li>
                     <li><a href="#feature" data-toggle="tab"><i class="fa fa-home"></i>Features</a></li>
-                    <li><a href="#logo" data-toggle="tab"><i class="fa fa-home"></i>Logo</a></li>
+                    <li><a href="#logo" data-toggle="tab"><i class="fa fa-home"></i>Logo & TAX Details</a></li>
                     <li><a href="#address" data-toggle="tab"><i class="fa fa-envelope"></i> Address</a></li>
                     <li><a href="#timeday" data-toggle="tab"><i class="fa fa-times-circle-o"></i>Time & Day</a></li>
                     <li><a href="#payment" data-toggle="tab"><i class="fa fa-money"></i>Payments</a></li>
@@ -422,6 +422,26 @@
                                 <div class="image-upload-input">
                                     <input type="file" data-bind="fileInput: fileData, , customFileInput: {}">
                                 </div>
+                            </div>
+                        </div>
+                        <hr>
+                        TAX Details
+                        <hr>
+                        <div class="form-group" style="margin: 20px">
+                            <div class="form-group">
+                                <label>VAT Tax</label>
+                                <input type="text" class="form-control input-sm" data-bind="value:VAT_tax">
+                                <p class="validationMessage" data-bind="validationMessage: VAT_tax"></p>
+                            </div>
+                            <div class="form-group">
+                                <label>Service Tax</label>
+                                <input type="text" class="form-control input-sm" data-bind="value:service_tax">
+                                <p class="validationMessage" data-bind="validationMessage: service_tax"></p>
+                            </div>
+                            <div class="form-group">
+                                <label>ServiceCharge</label>
+                                <input type="text" class="form-control input-sm" data-bind="value:service_charge">
+                                <p class="validationMessage" data-bind="validationMessage: service_charge"></p>
                             </div>
                         </div>
                     </div>

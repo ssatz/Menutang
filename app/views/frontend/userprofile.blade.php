@@ -134,8 +134,7 @@
                                     <span class="usAdd"><strong>Success!</strong> Address saved.</span>
                                 </div>
                                 <!--ko if: addresses().length==0-->
-                                <!--ko template :{name:'form-template',data:$root.address} -->
-                                <!--/ko-->
+                                     <span>No Address!!</span>
                                 <!--/ko-->
                                 <!--ko if:addresses().length>=1 -->
                                 <!--ko foreach:addresses() -->

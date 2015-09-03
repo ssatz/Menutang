@@ -45,6 +45,21 @@ var businessVM = {
     businessAddress1:ko.observable('').extend({required:true}),
     businessAddress2:ko.observable(''),
     businessLandmark:ko.observable(''),
+    VATtax:ko.observable(0).extend({
+        pattern:{
+        params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+        message:'Enter  a valid amount'
+        }}),
+    serviceTax:ko.observable(0).extend({
+        pattern:{
+            params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+            message:'Enter  a valid amount'
+        }}),
+    serviceCharge:ko.observable(0).extend({
+        pattern:{
+            params:'^([0-9]+)|([0-9]+.[0-9]{1,2}|(.[0-9]{1,2}))$',
+            message:'Enter  a valid amount'
+        }}),
     halal:ko.observable('').extend({required:true}),
     bbq:ko.observable('').extend({required:true}),
     businessAC:ko.observable(false),

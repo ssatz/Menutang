@@ -76,9 +76,31 @@ cartModel.parcelFee = ko.pureComputed(function() {
     return total;
 }, cartModel);
 
+cartModel.VATTax = ko.pureComputed(function(){
+    var tax=0;
+    var percent=0;
+    tax = parseFloat($("#vatTax").val());
+    percent =parseFloat((tax / 100)*this.subTotal());
+    return percent;
+},cartModel);
+cartModel.serviceTax = ko.pureComputed(function(){
+    var tax=0;
+    var percent=0;
+    tax = parseFloat($("#serviceTax").val());
+    percent =parseFloat((tax / 100)*this.subTotal());
+    return percent;
+},cartModel);
+cartModel.serviceCharge = ko.pureComputed(function(){
+    var tax=0;
+    var percent=0;
+    tax = parseFloat($("#serviceCharge").val());
+    percent = parseFloat((tax / 100)*this.subTotal());
+    return percent;
+},cartModel);
+
 cartModel.grandTotal = ko.pureComputed(function() {
     var total = this.subTotal()+ parseFloat(this.deliveryPickFee()!=undefined?this.deliveryPickFee():0);
-    total = total + this.parcelFee();
+    total = total + this.parcelFee()+this.VATTax() + this.serviceCharge() + this.serviceTax();
     var remaining=0;
     remaining =this.deliveryPickMinimum() - total;
     if(remaining<0) {
@@ -89,7 +111,6 @@ cartModel.grandTotal = ko.pureComputed(function() {
     }
     return total;
 }, cartModel);
-
 //Components
 
 ko.components.register('checkbox-template', {
