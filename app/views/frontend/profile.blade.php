@@ -497,26 +497,29 @@
                             <span class="clearfix"></span>
                         </script>
                         <!-- Tax input hidden variables -->
-                        <input id="vatTax" type="hidden" value="0">
-                        <input id="serviceTax" type="hidden" value="0">
-                        <input id="serviceCharge" type="hidden" value="0">
                         @if($businessdetails->VAT_tax!=0)
                         <hr>
                         <input id="vatTax" type="hidden" value="{{$businessdetails->VAT_tax}}">
                         <span class="pull-left small">VAT TAX(+ {{$businessdetails->VAT_tax}}%)</span>
                         <span class="pull-right small"><i class="fa fa-rupee"></i><!--ko text:VATTax--><!--/ko--></span><span class="clearfix"></span>
+                        @else
+                            <input id="vatTax" type="hidden" value="0">
                         @endif
                         @if($businessdetails->service_tax!=0)
                             <hr>
                             <input id="serviceTax" type="hidden" value="{{$businessdetails->service_tax}}">
                             <span class="pull-left small">Service TAX(+ {{$businessdetails->service_tax}}%)</span>
                             <span class="pull-right small"><i class="fa fa-rupee"></i><!--ko text:serviceTax--><!--/ko--></span><span class="clearfix"></span>
+                       @else
+                            <input id="serviceTax" type="hidden" value="0">
                         @endif
                         @if($businessdetails->service_tax!=0)
                             <hr>
                             <input id="serviceCharge" type="hidden" value="{{$businessdetails->service_charge}}">
                             <span class="pull-left small">Service Charge(+ {{$businessdetails->service_charge}}%)</span>
                             <span class="pull-right small"><i class="fa fa-rupee"></i><!--ko text:serviceCharge--><!--/ko--></span><span class="clearfix"></span>
+                        @else
+                            <input id="serviceCharge" type="hidden" value="0">
                         @endif
                         <hr>
                         <!-- Total Order Amount -->
@@ -653,23 +656,30 @@
                 <!--ko if:display --><hr> <!--/ko-->
                 <!-- Taxes and Fees -->
                 <strong data-bind="template:{name:'fee-template'}"> </strong>
+                <!-- Tax input hidden variables -->
                 @if($businessdetails->VAT_tax!=0)
                     <hr>
                     <input id="vatTax" type="hidden" value="{{$businessdetails->VAT_tax}}">
                     <span class="pull-left small">VAT TAX(+ {{$businessdetails->VAT_tax}}%)</span>
                     <span class="pull-right small"><i class="fa fa-rupee"></i><!--ko text:VATTax--><!--/ko--></span><span class="clearfix"></span>
+                @else
+                    <input id="vatTax" type="hidden" value="0">
                 @endif
                 @if($businessdetails->service_tax!=0)
                     <hr>
                     <input id="serviceTax" type="hidden" value="{{$businessdetails->service_tax}}">
                     <span class="pull-left small">Service TAX(+ {{$businessdetails->service_tax}}%)</span>
                     <span class="pull-right small"><i class="fa fa-rupee"></i><!--ko text:serviceTax--><!--/ko--></span><span class="clearfix"></span>
+                @else
+                    <input id="serviceTax" type="hidden" value="0">
                 @endif
                 @if($businessdetails->service_tax!=0)
                     <hr>
                     <input id="serviceCharge" type="hidden" value="{{$businessdetails->service_charge}}">
                     <span class="pull-left small">Service Charge(+ {{$businessdetails->service_charge}}%)</span>
                     <span class="pull-right small"><i class="fa fa-rupee"></i><!--ko text:serviceCharge--><!--/ko--></span><span class="clearfix"></span>
+                @else
+                    <input id="serviceCharge" type="hidden" value="0">
                 @endif
                 <div style="height: 300px;">
                     <h4 class="text-primary">
