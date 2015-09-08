@@ -151,7 +151,7 @@
                             <i class="fa fa-star-half-o"></i>
                             <i class="fa fa-star-o"></i>
                             <!-- Number of Reviews / Link to Reviews -->
-                            <a href="#" class="review">18 Reviews</a>
+                            <a href="{{action('FrontEndController@restaurantReviews',[$slug])}}" class="review">18 Reviews</a>
                         </small>
                     </h2>
                     <!-- Profile Address -->

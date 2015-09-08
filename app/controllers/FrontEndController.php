@@ -287,4 +287,15 @@ class FrontEndController extends BaseController  {
         }
         return $this->view->make('frontend.userprofile');
     }
+
+    public function restaurantReviews($restaurantSlug)
+    {
+        $this->viewShareSlug($restaurantSlug);
+        list($bu,$profile,$category,$areaByCity)=  $this->frontEndManager->restaurantProfile($restaurantSlug);
+        $images=$this->buManager->getPhotosBySlug($restaurantSlug);
+        return $this->view->make('frontend.review')
+            ->withBusinessdetails($bu)
+            ->withPhotos($images)
+            ->withCityarea($areaByCity);
+    }
 }

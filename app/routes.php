@@ -89,6 +89,7 @@ Route::group(['domain' => preg_replace('#^http(s)?://(www.)?#', '', Config::get(
     Route::any('password/reset/{type}/{token}', ['as' => 'password.reset', 'uses' => 'FrontEndController@passwordReset']);
     Route::post('forgot-password', ['as' => 'password.forgot', 'uses' => 'FrontEndController@forgotPassword']);
     Route::any('restaurants/{query}', ['before' => 'cache', 'after' => 'cache', 'as' => 'business', 'uses' => 'FrontEndController@restaurantsProfile']);
+    Route::any('restaurants/{query}/reviews', ['before' => 'cache', 'after' => 'cache', 'as' => 'business', 'uses' => 'FrontEndController@restaurantReviews']);
     Route::post('restaurants/{query}/cart', ['as' => 'business.cart', 'uses' => 'CartController@addToCart']);
     Route::get('restaurants/{query}/getcart', ['as' => 'business.get.cart', 'uses' => 'CartController@getCart']);
     Route::get('restaurants/{query}/getoptions', ['as' => 'business.get.options', 'uses' => 'CartController@getOptions']);
