@@ -289,18 +289,24 @@
                                 <i class="fa fa-fw fa-hand-o-down"></i> <a href="#" id="holidays">Holiday List</a>
                             </p>
                         </div>
+                        <div class="col-md-12">
+                            <p>
+                                <span class="padR10"> <img data-toggle="tooltip" @if($businessdetails->is_halal) title="Halal" @else class="bw" title="Non-Halal" @endif  src="{{asset('assets/common/img/icons/Halal.png')}}" width="32px" height="32px"/></span>
+                                <span class="padR10"> <img data-toggle="tooltip" @if($businessdetails->is_door_delivery) title="Door Delivery Available" @else class="bw" title="Door Delivery Not Available" @endif  src="{{asset('assets/common/img/icons/Delivery.png')}}" width="32px" height="32px"/></span>
+                                <span class="padR10"> <img data-toggle="tooltip" @if($businessdetails->is_rail_delivery) title="Rail Delivery Available" @else class="bw" title="Rail Delivery Not Available" @endif  src="{{asset('assets/common/img/icons/Raildelivery.png')}}" width="32px" height="32px"/></span>
+                                <span class="padR10"> <img data-toggle="tooltip" @if($businessdetails->is_buffet) title="Buffet Available" @else class="bw" title="Buffet Not Available" @endif  src="{{asset('assets/common/img/icons/Buffet.png')}}" width="32px" height="32px"/></span>
+                                <span class="padR10"> <img data-toggle="tooltip" @if($businessdetails->is_wifi_available) title="Wifi Available" @else class="bw" title="Wifi Not Available" @endif  src="{{asset('assets/common/img/icons/Wifi.png')}}" width="32px" height="32px"/></span>
+                                <span class="padR10"> <img data-toggle="tooltip" @if($businessdetails->is_children_play_area) title="Children Play Area Available" @else class="bw" title="Children Play Area Not Available" @endif  src="{{asset('assets/common/img/icons/Children-playarea.png')}}" width="32px" height="32px"/></span>
+                                <span class="padR10"> <img data-toggle="tooltip" @if($businessdetails->is_garden_resturant) title="Garden Resturant" @else class="bw" title="This is not Garden Resturant" @endif  src="{{asset('assets/common/img/icons/Gardern-restaurant.png')}}" width="32px" height="32px"/></span>
+                                <span class="padR10"> <img data-toggle="tooltip" @if($businessdetails->is_valet_parking) title="Valet Parking Available" @else class="bw" title="Valet Parking Not Available" @endif  src="{{asset('assets/common/img/icons/Valvet-park.png')}}" width="32px" height="32px"/></span>
+                                <span class="padR10"> <img data-toggle="tooltip" @if($businessdetails->is_boarding) title="{{$businessdetails->boarding_comments}}" @else class="bw" title="Boarding Not Available" @endif  src="{{asset('assets/common/img/icons/Boarding.png')}}" width="32px" height="32px"/></span>
+                                <span class="padR10"> <img data-toggle="tooltip" @if($businessdetails->is_bar_attached) title="Bar Attached" @else class="bw" title="Bar Available" @endif  src="{{asset('assets/common/img/icons/Bar.png')}}" width="32px" height="32px"/></span>
+                                <span class="padR10"> <img data-toggle="tooltip" @if($businessdetails->is_highway_res) title="{{$businessdetails->highway_details}}" @else class="bw" title="This is not an Highway Resturant" @endif  src="{{asset('assets/common/img/icons/Highway-restaurant.png')}}" width="32px" height="32px"/></span>
+                                <span class="padR10"> <img data-toggle="tooltip" @if($businessdetails->is_party_hall) title="Party Hall Available" @else class="bw" title="Party Hall Not Available" @endif  src="{{asset('assets/common/img/icons/Party-hall.png')}}" width="32px" height="32px"/></span>
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                   <img src="{{asset('assets/common/img/icons/Cash.png')}}" width="32px" height="32px"/>
-                   <img src="{{asset('assets/common/img/icons/Cash_Black.png')}}" width="32px" height="32px"/>
-                   <img src="{{asset('assets/common/img/icons/Egg.png')}}" width="32px" height="32px"/>
-                  <img src="{{asset('assets/common/img/icons/Egg_Black.png')}}" width="32px" height="32px"/>
-                <img src="{{asset('assets/common/img/icons/Eggless.png')}}" width="32px" height="32px"/>
-                <img src="{{asset('assets/common/img/icons/Eggless_Black.png')}}" width="32px" height="32px"/>
-                <img src="{{asset('assets/common/img/icons/Spicy.png')}}" width="32px" height="32px"/>
-                <img src="{{asset('assets/common/img/icons/Spicy_Black.png')}}" width="32px" height="32px"/>
             </div>
         </div>
     </div>
@@ -905,6 +911,7 @@
         content:holidayContent
     }
     $('#holidays').webuiPopover('destroy').webuiPopover($.extend({},settings,holidaySettings));
+    $('[data-toggle="tooltip"]').tooltip();
 </script>
 
 </body>
